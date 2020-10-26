@@ -1,4 +1,4 @@
-#Extensible Clinical Imaging QC Tool
+# Extensible Clinical Imaging QC Tool
 
 This is a repository for the SABS-R3 year-long software project with GE. 
 
