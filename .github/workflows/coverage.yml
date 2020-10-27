@@ -56,5 +56,5 @@ jobs:
           lcov --list coverage.info
           bash <(curl https://codecov.io/bash) -f coverage.info
         env:
-          CODECOV_TOKEN: ${{ secrets.Code_Cov_Token }}
+          CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN}}
         working-directory: build_dir
