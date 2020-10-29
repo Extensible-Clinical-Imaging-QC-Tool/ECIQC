@@ -49,10 +49,15 @@ else()
     add_compile_options(-Wall -pedantic)
 endif()
 
+set(JSON_BuildTests OFF CACHE INTERNAL "")
+add_subdirectory(libs/nlohmann_json)
+
+
 add_library(mylib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp)
 target_include_directories(mylib PUBLIC src)
+target_link_libraries(mylib PRIVATE nlohmann_json::nlohmann_json)
 
 enable_testing()
 
