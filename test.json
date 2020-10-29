@@ -1,0 +1,28 @@
+
+{   
+
+    "date":2020,
+    "servers": {
+        "quarantine": "192.168.0:1025",
+        "storage": "192.168.0.1:1025",
+        "place": "London"
+   },
+   "required_tags": [
+         {
+            "tag": "0000-0001",
+            "type": "int",
+            "range": "0 > x > 100"
+          },
+         {
+            "tag": "0000-0002",
+            "type": "str",
+            "format": "%06d_test"
+          }
+    ],
+    "tag_updates": [
+          { 
+            "tag": "0000-0002",
+            "new_value": "${0000-0002}_${0000-0005}"
+          }
+     ]
+}
