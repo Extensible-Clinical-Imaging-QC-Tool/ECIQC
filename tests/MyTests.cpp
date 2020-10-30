@@ -38,8 +38,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <limits>
 #include <type_traits>
 
-#include "Exception.hpp"
+#include "../src/Exception.hpp"
 #include "MyLibrary.hpp"
+#include <iostream>
+#include <dcmtk/dcmpstat.h>
 
 using namespace cpp_template;
 
@@ -49,10 +51,10 @@ TEST_CASE("correct primes are returned", "[primes]") {
   CHECK(get_nth_prime(1) == 3);
   CHECK(get_nth_prime(2) == 5);
   CHECK(get_nth_prime(854) == 6619);
+
+  std::cout << "I work"; 
+
+  
 }
 
-// This tests the correct out_of_range exceptions are generated
-TEST_CASE("correct out of range exceptions", "[primes]") {
-  CHECK_THROWS_AS(get_nth_prime(-1), Exception);
-  CHECK_THROWS_AS(get_nth_prime(std::numeric_limits<int>::max()), Exception);
-}
+
