@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../src/Exception.hpp"
 #include "MyLibrary.hpp"
 #include <iostream>
-#include <dcmtk/dcmpstat.h>
+#include <dcmtk/dcmpstat/dcmpstat.h>
 
 using namespace cpp_template;
 
