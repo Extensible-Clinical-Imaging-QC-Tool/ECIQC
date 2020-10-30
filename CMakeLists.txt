@@ -50,18 +50,18 @@ else()
 endif()
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
-add_subdirectory(libs/nlohmann_json)
+add_subdirectory(libs/nlohmann_json/)
 
 
 add_library(mylib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp)
 target_include_directories(mylib PUBLIC src)
-target_link_libraries(mylib PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(mylib PUBLIC nlohmann_json::nlohmann_json)
 
 enable_testing()
 
-add_executable(mytest tests/MyTests.cpp)
+add_executable(mytest tests/MyTests.cpp tests/jsontest.cpp)
 target_include_directories(mylib PRIVATE tests)
 target_link_libraries(mytest PRIVATE mylib)
 add_test(test1 mytest)
