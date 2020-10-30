@@ -54,9 +54,15 @@ add_library(mylib src/MyLibrary.cpp
                   src/Exception.hpp)
 target_include_directories(mylib PUBLIC src)
 
+# dcmtk as a required dependency for mylib
+find_package(DCMTK REQUIRED)
+target_link_libraries(mylib PUBLIC "${DCMTK_LIBRARIES}")
+target_include_directories(mylib PUBLIC "${DCMTK_INCLUDE_DIRS}")
+
 enable_testing()
 
-add_executable(mytest tests/MyTests.cpp)
+add_executable(mytest tests/MyTests.cpp
+                      tests/dcmtkplay.cpp)
 target_include_directories(mylib PRIVATE tests)
 target_link_libraries(mytest PRIVATE mylib)
 add_test(test1 mytest)
@@ -65,6 +71,9 @@ add_test(test1 mytest)
 find_package(Boost REQUIRED)
 target_link_libraries(mylib PRIVATE "${Boost_LIBRARIES}")
 target_include_directories(mylib PRIVATE "${Boost_INCLUDE_DIR}")
+
+
+
 
 # Clang tidy as optional static analyzer
 option(Template_USE_CLANG_TIDY "Use clang tidy for static analysis" OFF)
