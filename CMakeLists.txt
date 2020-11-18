@@ -61,8 +61,10 @@ target_include_directories(mylib PRIVATE tests)
 target_link_libraries(mytest PRIVATE mylib)
 add_test(test1 mytest)
 
+add_executable(clitest tests/CliTest.cpp)
+
 # boost as a required dependency for mylib
-find_package(Boost REQUIRED)
+find_package(Boost COMPONENTS program_options REQUIRED)
 target_link_libraries(mylib PRIVATE "${Boost_LIBRARIES}")
 target_include_directories(mylib PRIVATE "${Boost_INCLUDE_DIR}")
 
