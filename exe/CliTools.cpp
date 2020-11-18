@@ -7,7 +7,7 @@ int main(int ac, char* av[])
 {
     po::options_description desc("Allowed options");
     desc.add_options()
-        ("help", "produce help message")
+        ("help,h", "using --help or -H produces this help message.")
     ;
 
     po::variables_map vm;
