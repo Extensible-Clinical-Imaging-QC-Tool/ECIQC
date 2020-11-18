@@ -1,16 +1,16 @@
-#include <boost/program_options.hpp> //include boost progam option to use flags
+#include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
 #include <iostream>
 
 int main(int ac, char* av[])
 {
-    po::options_description desc("Allowed options"); // create container for options
+    po::options_description desc("Allowed options");
     desc.add_options()
         ("help,h", "using --help or -H produces this help message.");
 
-    po::variables_map vm; //create variable_maps class vm to store command line flags 
-    po::store(po::parse_command_line(ac, av, desc), vm); // parse the command line put and store flags in vm 
+    po::variables_map vm; 
+    po::store(po::parse_command_line(ac, av, desc), vm);
     po::notify(vm);
 
     if (vm.count("help")) {
