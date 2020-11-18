@@ -41,6 +41,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "Exception.hpp"
 #include "MyLibrary.hpp"
 
+#include "../parser.cpp"
+
 using namespace cpp_template;
 
 // This tests the output of the `get_nth_prime` function
@@ -55,4 +57,9 @@ TEST_CASE("correct primes are returned", "[primes]") {
 TEST_CASE("correct out of range exceptions", "[primes]") {
   CHECK_THROWS_AS(get_nth_prime(-1), Exception);
   CHECK_THROWS_AS(get_nth_prime(std::numeric_limits<int>::max()), Exception);
+}
+// This tests the size of the tags array generated 
+TEST_CASE("test the function extractor of the Instances Class") {
+  //Instances object;
+  //CHECK(object.function_extractor().tags.size() == 20);
 }
