@@ -42,7 +42,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //#include "../src/MyLibrary.hpp"
 #include <iostream>
 #include <dcmtk/dcmpstat/dcmpstat.h>
+<<<<<<< HEAD
 //#include <dcmtk/dcmdata/dcmfil
+=======
+>>>>>>> bb8920c3b13975cb84312fdc24908377c2dfb8c9
 
 using namespace cpp_template;
 
