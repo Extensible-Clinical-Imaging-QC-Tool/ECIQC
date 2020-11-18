@@ -39,22 +39,32 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <type_traits>
 
 #include "../src/Exception.hpp"
-#include "MyLibrary.hpp"
+//#include "../src/MyLibrary.hpp"
 #include <iostream>
-#include <dcmtk/dcmpstat.h>
+#include <dcmtk/dcmpstat/dcmpstat.h>
+//#include <dcmtk/dcmdata/dcmfil
 
 using namespace cpp_template;
 
 // This tests the output of the `get_nth_prime` function
 TEST_CASE("correct primes are returned", "[primes]") {
-  CHECK(get_nth_prime(0) == 2);
-  CHECK(get_nth_prime(1) == 3);
-  CHECK(get_nth_prime(2) == 5);
-  CHECK(get_nth_prime(854) == 6619);
 
-  std::cout << "I work"; 
+  std::cout << "I work now"; 
 
+  DcmFileFormat image;
+  OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
   
+if (status.good())
+{
+  OFString patientName;
+  if (image.getDataset()->findAndGetOFString(DCM_PatientName, patientName).good())
+  {
+    std::cout << "Patient's Name: " << patientName << std::endl;
+  } else
+    std::cerr << "Error: cannot access Patient's Name!" << std::endl;
+} else
+  std::cerr << "Error: cannot read DICOM file (" << status.text() << ")" << std::endl;
+
 }
 
 
