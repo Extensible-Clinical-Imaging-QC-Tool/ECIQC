@@ -62,7 +62,7 @@ target_include_directories(mylib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 enable_testing()
 
 add_executable(mytest tests/MyTests.cpp
-                      tests/dcmtkplay.cpp)
+                      )
 target_include_directories(mylib PRIVATE tests)
 target_link_libraries(mytest PRIVATE mylib)
 add_test(test1 mytest)
