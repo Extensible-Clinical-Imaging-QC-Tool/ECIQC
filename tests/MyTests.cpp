@@ -50,8 +50,6 @@ using namespace cpp_template;
 // This tests the output of the `get_nth_prime` function
 TEST_CASE("correct primes are returned", "[primes]") {
 
-  std::cout << "I work now"; 
-
   DcmFileFormat image;
   OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
   
@@ -68,10 +66,10 @@ if (status.good())
 
 }
 
-TEST_CASE("A metadata editing class") {
+TEST_CASE("Testing the metadata editing class") {
+  std::cout << "## Metadata editing class ## \n";
   int hh = 3;
-
-  metadataEditor obj;
+  metadataEditor obj{hh};
 
   obj.print();
 }
