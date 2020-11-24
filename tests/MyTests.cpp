@@ -42,7 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //#include "../src/MyLibrary.hpp"
 #include <iostream>
 #include <dcmtk/dcmpstat/dcmpstat.h>
-//#include <dcmtk/dcmdata/dcmfil
+#include "../src/metadataEditor.cpp"
+#include "../src/metadataEditor.hpp"
 
 using namespace cpp_template;
 
@@ -65,6 +66,14 @@ if (status.good())
 } else
   std::cerr << "Error: cannot read DICOM file (" << status.text() << ")" << std::endl;
 
+}
+
+TEST_CASE("A metadata editing class") {
+  int hh = 3;
+
+  metadataEditor obj;
+
+  obj.print();
 }
 
 
