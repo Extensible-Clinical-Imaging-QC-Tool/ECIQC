@@ -49,10 +49,16 @@ else()
     add_compile_options(-Wall -pedantic)
 endif()
 
+
+
 add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp)
 target_include_directories(qctool_lib PUBLIC src)
+
+find_package(Boost REQUIRED)
+target_include_directories(qctool_lib PRIVATE "${Boost_INCLUDE_DIR}")
+target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}")
 
 enable_testing()
 
