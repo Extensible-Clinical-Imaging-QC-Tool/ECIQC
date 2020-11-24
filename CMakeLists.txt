@@ -49,17 +49,17 @@ else()
     add_compile_options(-Wall -pedantic)
 endif()
 
-add_library(mylib src/MyLibrary.cpp 
+add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp)
-target_include_directories(mylib PUBLIC src)
+target_include_directories(qctool_lib PUBLIC src)
 
 enable_testing()
 
-add_executable(mytest tests/MyTests.cpp)
-target_include_directories(mylib PRIVATE tests)
-target_link_libraries(mytest PRIVATE mylib)
-add_test(test1 mytest)
+add_executable(unit_tests tests/MyTests.cpp)
+target_include_directories(unit_tests PRIVATE tests)
+target_link_libraries(unit_tests PRIVATE qctool_lib)
+add_test(run_unit_tests unit_tests)
 
 add_subdirectory(exe)
 
