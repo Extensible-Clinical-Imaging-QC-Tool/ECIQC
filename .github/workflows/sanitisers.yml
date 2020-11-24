@@ -35,7 +35,7 @@ jobs:
           mkdir memory_san_dir
       - name: address sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_ADDRESS=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_ADDRESS=ON
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: address_san_dir
@@ -44,7 +44,7 @@ jobs:
 
       - name: leak sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_LEAK=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_LEAK=ON
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: leak_san_dir
@@ -53,7 +53,7 @@ jobs:
 
       - name: undefined behaviour sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_UNDEFINED_BEHAVIOUR=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_UNDEFINED_BEHAVIOUR=ON
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: ub_san_dir
@@ -62,7 +62,7 @@ jobs:
 
       - name: thread sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_THREAD=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_THREAD=ON
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: thread_san_dir
@@ -71,7 +71,7 @@ jobs:
 
 #      - name: memory sanitiser
 #        run: |
-#          cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_MEMORY=ON
+#          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_MEMORY=ON
 #          cmake --build . --parallel 2 --target unit_tests
 #          ./unit_tests
 #        working-directory: memory_san_dir

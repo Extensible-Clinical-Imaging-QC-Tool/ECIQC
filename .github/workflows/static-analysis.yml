@@ -32,7 +32,7 @@ jobs:
           mkdir clang_tidy_dir
       - name: compile with cppcheck
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_CPPCHECK=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_CPPCHECK=ON
           cmake --build . --parallel 2 --target qctool
         working-directory: cppcheck_dir
         env:
@@ -40,7 +40,7 @@ jobs:
 
       - name: compile with clang tidy
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANG_TIDY=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_CLANG_TIDY=ON
           cmake --build . --parallel 2 --target qctool
         working-directory: clang_tidy_dir
         env:
