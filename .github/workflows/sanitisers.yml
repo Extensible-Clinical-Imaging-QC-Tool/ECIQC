@@ -37,7 +37,7 @@ jobs:
         run: |
           cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_ADDRESS=ON
           cmake --build . --parallel 2 --target unit_tests
-          ./test/unit_tests
+          ./unit_tests
         working-directory: address_san_dir
         env:
           CXX: clang++-10
@@ -46,7 +46,7 @@ jobs:
         run: |
           cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_LEAK=ON
           cmake --build . --parallel 2 --target unit_tests
-          ./test/unit_tests
+          ./unit_tests
         working-directory: leak_san_dir
         env:
           CXX: clang++-10
@@ -55,7 +55,7 @@ jobs:
         run: |
           cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_UNDEFINED_BEHAVIOUR=ON
           cmake --build . --parallel 2 --target unit_tests
-          ./test/unit_tests
+          ./unit_tests
         working-directory: ub_san_dir
         env:
           CXX: clang++-10
@@ -64,7 +64,7 @@ jobs:
         run: |
           cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_THREAD=ON
           cmake --build . --parallel 2 --target unit_tests
-          ./test/unit_tests
+          ./unit_tests
         working-directory: thread_san_dir
         env:
           CXX: clang++-10
@@ -73,7 +73,7 @@ jobs:
 #        run: |
 #          cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_SANITISER_MEMORY=ON
 #          cmake --build . --parallel 2 --target unit_tests
-#          ./test/unit_tests
+#          ./unit_tests
 #        working-directory: memory_san_dir
 #        env:
 #          CXX: clang++-10

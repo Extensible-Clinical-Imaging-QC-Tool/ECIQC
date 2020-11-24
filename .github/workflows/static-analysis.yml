@@ -33,7 +33,7 @@ jobs:
       - name: compile with cppcheck
         run: |
           cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_CPPCHECK=ON
-          cmake --build . --parallel 2 --target prepare_decoding_lib prepare_decoding_exe
+          cmake --build . --parallel 2 --target qctool
         working-directory: cppcheck_dir
         env:
           CXX: clang++-10
@@ -41,7 +41,7 @@ jobs:
       - name: compile with clang tidy
         run: |
           cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANG_TIDY=ON
-          cmake --build . --parallel 2 --target prepare_decoding_lib prepare_decoding_exe
+          cmake --build . --parallel 2 --target qctool
         working-directory: clang_tidy_dir
         env:
           CXX: clang++-10
