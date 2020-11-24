@@ -21,7 +21,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          sudo apt install build-essential cmake libboost-program-options-dev
+          bash scripts/install_dependencies.sh
 
       - name: make build directory
         run: mkdir build_dir
