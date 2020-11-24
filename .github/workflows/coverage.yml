@@ -32,7 +32,7 @@ jobs:
 
       - name: run unit tests with coverage
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DENABLE_COVERAGE=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_COVERAGE=ON
           cmake --build . --parallel 2 --target unit_tests
           ctest -j2 --output-on-failure
         working-directory: build_dir
