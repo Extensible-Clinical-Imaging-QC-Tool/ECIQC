@@ -22,7 +22,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          brew install boost cmake
+          brew install boost cmake dcmtk
 
       - name: make build directory
         run: mkdir build_dir
