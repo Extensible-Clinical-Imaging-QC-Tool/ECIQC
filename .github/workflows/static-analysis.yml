@@ -16,22 +16,12 @@ jobs:
 
     steps:
 
-      - name: checkout repo & vcpkg submodule
+      - name: checkout repo
         uses: actions/checkout@v2
-        with:
-          submodules: true
-
-      - name: cache vcpkg installed packages
-        uses: actions/cache@v2
-        id: cache
-        with:
-          path: vcpkg/installed
-          key: ${{ runner.os }}-${{ hashFiles('scripts/vcpkg_dependencies') }}
 
       - name: install dependencies
         run: |
           bash scripts/install_dependencies.sh
-        if: steps.cache.outputs.cache-hit != 'true'
 
       - name: install analysers
         run: sudo apt install cppcheck clang-tidy-10
@@ -42,16 +32,16 @@ jobs:
           mkdir clang_tidy_dir
       - name: compile with cppcheck
         run: |
-          cmake .. -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_CPPCHECK=ON
-          cmake --build . --parallel 2 --target prepare_decoding_lib prepare_decoding_exe
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_CPPCHECK=ON
+          cmake --build . --parallel 2 --target qctool
         working-directory: cppcheck_dir
         env:
           CXX: clang++-10
 
       - name: compile with clang tidy
         run: |
-          cmake .. -DCMAKE_TOOLCHAIN_FILE=../vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_BUILD_TYPE=Debug -DENABLE_CLANG_TIDY=ON
-          cmake --build . --parallel 2 --target prepare_decoding_lib prepare_decoding_exe
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_CLANG_TIDY=ON
+          cmake --build . --parallel 2 --target qctool
         working-directory: clang_tidy_dir
         env:
           CXX: clang++-10
