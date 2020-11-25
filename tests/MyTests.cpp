@@ -33,45 +33,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // This tells Catch to provide a main() - only do this in one cpp file
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
-
 #include <limits>
 #include <type_traits>
-
-#include "../src/Exception.hpp"
-//#include "../src/MyLibrary.hpp"
 #include <iostream>
 #include <dcmtk/dcmpstat/dcmpstat.h>
+#include "catch.hpp"
+#include "../src/Exception.hpp"
 #include "../src/MetadataEditor.cpp"
 #include "../src/MetadataEditor.hpp"
 
 using namespace cpp_template;
 
 // This tests the output of the `get_nth_prime` function
-TEST_CASE("correct primes are returned", "[primes]") {
-
+TEST_CASE("Test for reading in a known DICOM image file") {
   DcmFileFormat image;
-  OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
-  
-if (status.good())
-{
   OFString patientName;
-  if (image.getDataset()->findAndGetOFString(DCM_PatientName, patientName).good())
-  {
-    std::cout << "Patient's Name: " << patientName << std::endl;
-  } else
-    std::cerr << "Error: cannot access Patient's Name!" << std::endl;
-} else
-  std::cerr << "Error: cannot read DICOM file (" << status.text() << ")" << std::endl;
+  OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
 
+  CHECK(status.good() == 1);
+  CHECK(image.getDataset()->findAndGetOFString(DCM_PatientName, patientName).good() == true);
+  CHECK(patientName == "COVID-19-AR-16406488");
 }
 
 TEST_CASE("Testing the metadata editing class") {
-  std::cout << "## Metadata editing class ## \n";
   int hh = 3;
-  MetadataEditor obj{hh};
+  MetadataEditor obj1;
+  MetadataEditor obj2{hh};
 
-  obj.print();
+  // Test instantiation with 0 arguments
+  CHECK(obj1.x == 23);
+  // Instantiation with 1 argument
+  CHECK(obj2.x == hh);
 }
 
 
