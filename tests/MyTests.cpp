@@ -33,41 +33,116 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // This tells Catch to provide a main() - only do this in one cpp file
 #define CATCH_CONFIG_MAIN
+#include "dcmtk/config/osconfig.h"
+#include <dcmtk/dcmdata/dcdatset.h> 
+#include <dcmtk/dcmdata/dcdict.h>
 #include "catch.hpp"
 
 #include <limits>
 #include <type_traits>
 
 #include "../src/Exception.hpp"
-//#include "../src/MyLibrary.hpp"
+#include "../src/MyLibrary.hpp"
+
+#include "../src/draft_receiver.hpp"
+#include "../src/draft_receiver.cpp"
 #include <iostream>
+
+  /* make sure OS specific configuration is included first */
+
+#ifdef WITH_THREADS
+
+#include <dcmtk/ofstd/oftest.h>
 #include <dcmtk/dcmpstat/dcmpstat.h>
-<<<<<<< HEAD
-//#include <dcmtk/dcmdata/dcmfil
-=======
->>>>>>> bb8920c3b13975cb84312fdc24908377c2dfb8c9
+#include <dcmtk/dcmnet/scppool.h>
+#include <dcmtk/dcmnet/scu.h>
 
 using namespace cpp_template;
+
 
 // This tests the output of the `get_nth_prime` function
 TEST_CASE("correct primes are returned", "[primes]") {
 
-  std::cout << "I work now"; 
+  //GlobalDcmDataDictionary dcmDataDict(OFTrue /*load builtin*/, OFFalse);
 
-  DcmFileFormat image;
-  OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
+  std::cout << "I work now"<<'\n'; 
+  DcmDataDictionary& dict = dcmDataDict.wrlock();
+  //dict.reloadDictionaries(OFTrue, OFTrue);
+  //dict.loadDictionary("/home/sabsr3/dcmtk-3.6.5-install/usr/local/share/dcmtk/dicom.dic");
+  std::cout << dcmDataDict.isDictionaryLoaded()<<'\n';
+  dcmDataDict.wrunlock();
   
-if (status.good())
+
+struct TestSCU : DcmSCU, OFThread
 {
-  OFString patientName;
-  if (image.getDataset()->findAndGetOFString(DCM_PatientName, patientName).good())
-  {
-    std::cout << "Patient's Name: " << patientName << std::endl;
-  } else
-    std::cerr << "Error: cannot access Patient's Name!" << std::endl;
-} else
-  std::cerr << "Error: cannot read DICOM file (" << status.text() << ")" << std::endl;
+    OFCondition result;
+protected:
+    void run()
+    {
+        negotiateAssociation();
+        result = sendECHORequest(0);
+        releaseAssociation();
+    }
+};
+
+StorageServer pool;
+DcmSCPConfig& config = pool.getConfig();
+
+//config.setAETitle("PoolTestSCP");
+//config.setPort(11112);
+//config.setConnectionBlockingMode(DUL_NOBLOCK);
+
+std::cout<<"port is "<<config.getPort()<<'\n';
+std::cout<<"name is "<<config.getAETitle()<<'\n';
+std::cout<<"name is "<<config.getConnectionTimeout()<<'\n';
+//config.setConnectionBlockingMode(DUL_NOBLOCK);
+
+//config.setConnectionTimeout(1);
+
+//pool.setMaxThreads(2);
+
+/*OFList<OFString> xfers;
+xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+    
+config.addPresentationContext(UID_VerificationSOPClass, xfers); */
+pool.start();
+/*OFVector<TestSCU*> scus(2);
+for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
+    {
+        *it1 = new TestSCU;
+        (*it1)->setAETitle("PoolTestSCU");
+        (*it1)->setPeerAETitle("TestSCP");
+        (*it1)->setPeerHostName("localhost");
+        (*it1)->setPeerPort(11112);
+        (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
+        (*it1)->initNetwork();
+        std::cout<<"something happened"<<'\n';
+    }
+
+
+  OFStandard::sleep(5); 
+  
+
+
+  for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+      (*it2)->start();
+
+
+  for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+    {
+      (*it3)->join();
+      if(!(*it3)->result.good()){
+        std::cout<<"Something failed"<<'\n';
+      }
+      delete *it3;
+    };
+    // Request shutdown. */
+  pool.request_stop();
+  pool.join();
 
 }
+  
 
+#endif
 
