@@ -1,3 +1,7 @@
+# build files
+Testing/
+build/
+
 # Prerequisites
 *.d
 
@@ -34,3 +38,4 @@
 # Visual studio specific files
 .vs
 CMakeSettings.json
+.vscode
