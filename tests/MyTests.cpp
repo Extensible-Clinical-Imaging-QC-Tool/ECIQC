@@ -42,8 +42,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //#include "../src/MyLibrary.hpp"
 #include <iostream>
 #include <dcmtk/dcmpstat/dcmpstat.h>
-#include "../src/metadataEditor.cpp"
-#include "../src/metadataEditor.hpp"
+#include "../src/MetadataEditor.cpp"
+#include "../src/MetadataEditor.hpp"
 
 using namespace cpp_template;
 
@@ -69,7 +69,7 @@ if (status.good())
 TEST_CASE("Testing the metadata editing class") {
   std::cout << "## Metadata editing class ## \n";
   int hh = 3;
-  metadataEditor obj{hh};
+  MetadataEditor obj{hh};
 
   obj.print();
 }

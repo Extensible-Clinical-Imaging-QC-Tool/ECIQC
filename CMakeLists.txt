@@ -30,7 +30,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 cmake_minimum_required(VERSION 3.6)
-project(Template)
+project(QCTool)
 
 # ensure C++14
 set(CMAKE_CXX_STANDARD 14)
