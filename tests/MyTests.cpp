@@ -33,26 +33,37 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // This tells Catch to provide a main() - only do this in one cpp file
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
-
 #include <limits>
 #include <type_traits>
-
-#include "Exception.hpp"
-#include "MyLibrary.hpp"
+#include <iostream>
+#include <dcmtk/dcmpstat/dcmpstat.h>
+#include "catch.hpp"
+#include "../src/Exception.hpp"
+#include "../src/MetadataEditor.cpp"
+#include "../src/MetadataEditor.hpp"
 
 using namespace cpp_template;
 
 // This tests the output of the `get_nth_prime` function
-TEST_CASE("correct primes are returned", "[primes]") {
-  CHECK(get_nth_prime(0) == 2);
-  CHECK(get_nth_prime(1) == 3);
-  CHECK(get_nth_prime(2) == 5);
-  CHECK(get_nth_prime(854) == 6619);
+TEST_CASE("Test for reading in a known DICOM image file") {
+  DcmFileFormat image;
+  OFString patientName;
+  OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
+
+  CHECK(status.good() == 1);
+  CHECK(image.getDataset()->findAndGetOFString(DCM_PatientName, patientName).good() == true);
+  CHECK(patientName == "COVID-19-AR-16406488");
 }
 
-// This tests the correct out_of_range exceptions are generated
-TEST_CASE("correct out of range exceptions", "[primes]") {
-  CHECK_THROWS_AS(get_nth_prime(-1), Exception);
-  CHECK_THROWS_AS(get_nth_prime(std::numeric_limits<int>::max()), Exception);
+TEST_CASE("Testing the metadata editing class") {
+  int hh = 3;
+  MetadataEditor obj1;
+  MetadataEditor obj2{hh};
+
+  // Test instantiation with 0 arguments
+  CHECK(obj1.x == 23);
+  // Instantiation with 1 argument
+  CHECK(obj2.x == hh);
 }
+
+

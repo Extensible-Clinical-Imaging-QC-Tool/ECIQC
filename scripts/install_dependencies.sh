@@ -1,1 +1,1 @@
-sudo apt install build-essential cmake libboost-program-options-dev
+sudo apt install build-essential cmake libboost-program-options-dev libdcmtk-dev

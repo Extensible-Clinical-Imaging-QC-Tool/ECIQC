@@ -60,6 +60,11 @@ find_package(Boost REQUIRED)
 target_include_directories(qctool_lib PRIVATE "${Boost_INCLUDE_DIR}")
 target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}")
 
+# dcmtk as a required dependency for mylib
+find_package(DCMTK REQUIRED)
+target_link_libraries(qctool_lib PUBLIC "${DCMTK_LIBRARIES}")
+target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
+
 enable_testing()
 
 add_executable(unit_tests tests/MyTests.cpp)
@@ -68,6 +73,7 @@ target_link_libraries(unit_tests PRIVATE qctool_lib)
 add_test(run_unit_tests unit_tests)
 
 add_subdirectory(exe)
+
 
 # Clang tidy as optional static analyzer
 option(QCTool_ENABLE_CLANG_TIDY "Use clang tidy for static analysis" OFF)
