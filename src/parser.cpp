@@ -28,7 +28,7 @@ void Instances::initial_settings(){
     //std:: cout << js << '\n';
 
     // Check user settings 
-    if (js.at("include_private_tags")= true){
+    if (js.at("include_private_tags")== true){
         std:: cout << "Proceed including private tags" << '\n';
     }
     else {
@@ -78,7 +78,6 @@ void Instances::function_extractor()
     file <<tags;
     std::ofstream file_values("output/values.json");
     file_values << values;
-    return;
-              
+    return;            
 }
     
