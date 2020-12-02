@@ -33,112 +33,174 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // This tells Catch to provide a main() - only do this in one cpp file
 #define CATCH_CONFIG_MAIN
-#include "dcmtk/config/osconfig.h"
-#include <dcmtk/dcmdata/dcdatset.h> 
-#include <dcmtk/dcmdata/dcdict.h>
-#include "catch.hpp"
-
 #include <limits>
 #include <type_traits>
+#include <iostream>
+#include "catch.hpp"
+
+
+#include <dcmtk/config/osconfig.h>
+
+#ifdef WITH_THREADS
+
+#include <dcmtk/dcmpstat/dcmpstat.h>
+#include <dcmtk/dcmnet/scu.h>
+#include <dcmtk/dcmnet/dstorscu.h>
+
+
 
 #include "../src/Exception.hpp"
 #include "../src/MyLibrary.hpp"
 
 #include "../src/draft_receiver.hpp"
-#include "../src/draft_receiver.cpp"
-#include <iostream>
 
-  /* make sure OS specific configuration is included first */
 
-#ifdef WITH_THREADS
-
-#include <dcmtk/ofstd/oftest.h>
-#include <dcmtk/dcmpstat/dcmpstat.h>
-#include <dcmtk/dcmnet/scppool.h>
-#include <dcmtk/dcmnet/scu.h>
+#include "../src/MetadataEditor.cpp"
+#include "../src/MetadataEditor.hpp"
 
 using namespace cpp_template;
 
+TEST_CASE("Test for reading in a known DICOM image file") {
+  DcmFileFormat image;
+  OFString patientName;
+  OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
 
-// This tests the output of the `get_nth_prime` function
-TEST_CASE("correct primes are returned", "[primes]") {
+  CHECK(status.good() == 1);
+  CHECK(image.getDataset()->findAndGetOFString(DCM_PatientName, patientName).good() == true);
+  CHECK(patientName == "COVID-19-AR-16406488");
+}
 
-  //GlobalDcmDataDictionary dcmDataDict(OFTrue /*load builtin*/, OFFalse);
+TEST_CASE("Testing the metadata editing class") {
+  int hh = 3;
+  MetadataEditor obj1;
+  MetadataEditor obj2{hh};
 
-  std::cout << "I work now"<<'\n'; 
-  
+  // Test instantiation with 0 arguments
+  CHECK(obj1.x == 23);
+  // Instantiation with 1 argument
+  CHECK(obj2.x == hh);
+}
 
-struct TestSCU : DcmSCU, OFThread
-{
-    OFCondition result;
-protected:
-    void run()
-    {
+// Testing Receiver Class
+
+TEST_CASE("Test C-ECHO Assosciation"){
+
+  struct TestSCU : DcmSCU, OFThread {
+      OFCondition result;
+    protected:
+      void run(){
         negotiateAssociation();
         result = sendECHORequest(0);
         releaseAssociation();
-    }
-};
+        }
+    };
+  
+  Receiver pool;
 
-StorageServer pool;
-DcmSCPConfig& config = pool.getConfig();
+  OFList<OFString> xfers;
+  xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+  xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
 
-//config.setAETitle("PoolTestSCP");
-//config.setPort(11112);
-//config.setConnectionBlockingMode(DUL_NOBLOCK);
+  pool.start();
 
-std::cout<<"port is "<<config.getPort()<<'\n';
-std::cout<<"name is "<<config.getAETitle()<<'\n';
-std::cout<<"name is "<<config.getConnectionTimeout()<<'\n';
-//config.setConnectionBlockingMode(DUL_NOBLOCK);
-
-//config.setConnectionTimeout(1);
-
-//pool.setMaxThreads(2);
-
-/*OFList<OFString> xfers;
-xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
-xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
-    
-config.addPresentationContext(UID_VerificationSOPClass, xfers); */
-pool.start();
-OFStandard::sleep(10);
-/*OFVector<TestSCU*> scus(2);
-for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
-    {
-        *it1 = new TestSCU;
-        (*it1)->setAETitle("PoolTestSCU");
-        (*it1)->setPeerAETitle("TestSCP");
-        (*it1)->setPeerHostName("localhost");
-        (*it1)->setPeerPort(11112);
-        (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
-        (*it1)->initNetwork();
-        std::cout<<"something happened"<<'\n';
-    }
+  OFVector<TestSCU*> scus(2);
+  for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
+      {
+          *it1 = new TestSCU;
+          (*it1)->setAETitle("PoolTestSCU");
+          (*it1)->setPeerAETitle("TestSCP");
+          (*it1)->setPeerHostName("localhost");
+          (*it1)->setPeerPort(11112);
+          (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
+          (*it1)->initNetwork();
+      }
 
 
-  OFStandard::sleep(5); 
+    OFStandard::sleep(5); 
   
 
 
-  for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
-      (*it2)->start();
+    for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+        (*it2)->start();
 
 
-  for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
-    {
-      (*it3)->join();
-      if(!(*it3)->result.good()){
-        std::cout<<"Something failed"<<'\n';
-      }
-      delete *it3;
+    for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+      {
+        (*it3)->join();
+        CHECK((*it3)->result.good());
+        delete *it3;
+      };
+    // Request shutdown.
+    pool.request_stop();
+    pool.join();
+
+}
+
+TEST_CASE("Test C-STORE Assosciation"){
+
+  struct TestSCU : DcmStorageSCU, OFThread {
+      OFCondition result;
+    protected:
+      void run(){
+        negotiateAssociation();
+        DcmDataset * rspCommandSet = NULL;
+        DcmDataset * rspStatusDetail = NULL;
+        Uint16 rspStatusCode = 0;
+
+        result = sendSTORERequest(0, "../DICOM_Images/1-01.dcm", 0, rspStatusCode);
+        releaseAssociation();
+        }
     };
-    // Request shutdown. */
-  pool.request_stop();
-  pool.join();
+
+  Receiver pool;
+
+  OFList<OFString> xfers;
+  xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+  xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+  //xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+  xfers.push_back(UID_JPEGProcess14SV1TransferSyntax);
+  xfers.push_back(UID_JPEGProcess1TransferSyntax);
+
+  pool.start();
+
+  OFVector<TestSCU*> scus(2);
+  for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
+      {
+          *it1 = new TestSCU;
+          (*it1)->setAETitle("EchoTestSCU");
+          (*it1)->setPeerAETitle("TestSCP");
+          (*it1)->setPeerHostName("localhost");
+          (*it1)->setPeerPort(11112);
+          (*it1)->addPresentationContext(UID_DigitalXRayImageStorageForPresentation, xfers);
+          for (size_t n = 0; n < numberOfDcmLongSCUStorageSOPClassUIDs; n++)
+        {
+            (*it1)->addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], xfers);
+        }
+          (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
+          (*it1)->initNetwork();
+      }
+
+
+    OFStandard::sleep(5); 
+  
+
+
+    for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+        (*it2)->start();
+
+
+    for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+      {
+        (*it3)->join();
+        CHECK((*it3)->result.good());
+        delete *it3;
+      };
+    // Request shutdown.
+    pool.request_stop();
+    pool.join();
 
 }
   
-
+// TODO: c-store with the x-ray image doesn't work :(
 #endif
 
