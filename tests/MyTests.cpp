@@ -44,7 +44,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using namespace cpp_template;
 
-// This tests the output of the `get_nth_prime` function
+// Metadata editing tests
 TEST_CASE("Test for reading in a known DICOM image file") {
   DcmFileFormat image;
   OFString patientName;
@@ -66,4 +66,13 @@ TEST_CASE("Testing the metadata editing class") {
   CHECK(obj2.x == hh);
 }
 
+// Receiver class tests
 
+
+// Parser class tests
+
+
+// Validation class tests
+
+
+// Class interaction tests
