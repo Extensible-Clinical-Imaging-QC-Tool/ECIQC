@@ -42,7 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "MyLibrary.hpp"
 #include "../metadataEditor.hpp"
 #include "../metadataEditor.cpp"
-#include "../parser.cpp"
+#include "../src/parser.cpp"
 
 #include "../dcmtk/dcmpstat/include/dcmtk/dcmpstat/dcmpstat.h"
 
@@ -58,10 +58,13 @@ TEST_CASE("test the metadataEditor class") {
 
   DcmFileFormat image;
   OFString patientName;
+  OFString option_value, tag_path, tag_value;
   OFCondition status = image.loadFile("../1-1copy.dcm");
+
   
   if(status.good()){
     cout << "File loaded" << endl;
+   
   }
   else{
       cerr << "Error: cannot read DICOM file (" << status.text() << ")" << endl;
@@ -70,6 +73,7 @@ TEST_CASE("test the metadataEditor class") {
   if (image.getDataset()->findAndGetOFStringArray(DCM_PatientID, patientName).good())
   {
     cout << "Patient ID: " << patientName << OFendl;
+    
   }
   else {
     cerr << "This tag is not available in the Image Dataset." << OFendl;
