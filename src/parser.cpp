@@ -20,8 +20,16 @@ class Instances {
 void Instances::initial_settings(){
 
     //open json config file 
-    std::ifstream file1("/home/sabsr3/ECIQC/src/draft_user_config.json");
-    json js = json::parse(file1);
+    //std::ifstream file1("/home/sabsr3/ECIQC/src/draft_user_config.json");
+    auto js = R"({"GCC_compiler_version":"9.3.0",
+    "warn_return_any":"True",
+    "warn_unused_configs":"True",
+    "ignore_missing_imports":"True",
+    "include_private_tags":"True"})"_json;
+
+    //json js = json::parse(file1);
+
+
     //print parsed file
     //std:: cout << js << '\n';
 
@@ -42,8 +50,12 @@ void Instances::initial_settings(){
 void Instances::function_extractor()
 {
     //open json metadata file, declare json object and stream from file
-    std::ifstream file("/home/sabsr3/ECIQC/src/metadata.json");
-    json j = json::parse(file);
+    //std::ifstream file("/home/sabsr3/ECIQC/src/metadata.json");
+    //json j = json::parse(file);
+    auto j = R"("00080005"
+    )"_json;
+
+
     //print parsed file
     //std:: cout << j << '\n';
     
