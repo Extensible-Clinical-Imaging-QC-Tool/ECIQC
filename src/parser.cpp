@@ -4,60 +4,44 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <dcmtk/dcmpstat/dcmpstat.h>
+#include "Parser.hpp"
 
 using json = nlohmann::json;
 
 using namespace std;
 
 
-class Instances {
+/*! \The Parser class parses the configuration file with the user settings. 
+    \It includes basic functionalities for the moment. 
+*/
+void Parser::initial_settings(){
 
-    public:
-        void initial_settings();
-        void function_extractor(); 
-};
-
-void Instances::initial_settings(){
-
-    //open json config file 
-    //std::ifstream file1("/home/sabsr3/ECIQC/src/draft_user_config.json");
+    
     auto js = R"({"GCC_compiler_version":"9.3.0",
     "warn_return_any":"True",
     "warn_unused_configs":"True",
     "ignore_missing_imports":"True",
-    "include_private_tags":"True"})"_json;
-
-    //json js = json::parse(file1);
+    "include_private_tags":"True"})"_json; /**< create a string containing configuration files and convert it to a json object */
 
 
-    //print parsed file
-    //std:: cout << js << '\n';
-
-    // Check user settings 
     if (js.at("include_private_tags")== true){
         std:: cout << "Proceed including private tags" << '\n';
     }
     else {
         std:: cout << "Proceed removing private tags" << '\n';
-        //j.erase();
-        // call dcmtk editing function
+    
     }
-    return;
+    return;/**< process user settings ie whether to include or not private tags*/
 }
 
 
 
-void Instances::function_extractor()
+void Parser::function_extractor()
 {
-    //open json metadata file, declare json object and stream from file
-    //std::ifstream file("/home/sabsr3/ECIQC/src/metadata.json");
-    //json j = json::parse(file);
+
     auto j = R"("00080005"
     )"_json;
 
-
-    //print parsed file
-    //std:: cout << j << '\n';
     
     vector <json> tags;
     vector <json> values;
@@ -68,15 +52,13 @@ void Instances::function_extractor()
     {
 
         std::string t = item.key();
-        //store the tags 
-        tags.push_back(t);
+        tags.push_back(t); /**< store the tags*/
         
     
         for (const auto& val : item.value().items())
         {
             std::cout << "  " << val.key() << ": " << val.value() << "\n";
-            // store the tags values
-            values.push_back(val.value());
+            values.push_back(val.value());/**< store the tags values*/
         }
 
         

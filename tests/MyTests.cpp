@@ -42,6 +42,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../src/MetadataEditor.cpp"
 #include "../src/MetadataEditor.hpp"
 #include "../src/parser.cpp"
+#include "../src/Parser.hpp"
 
 using namespace cpp_template;
 
@@ -66,13 +67,13 @@ TEST_CASE("Testing the metadata editing class") {
   // Instantiation with 1 argument
   CHECK(obj2.x == hh);
 }
-TEST_CASE("test the Instances class") {
+TEST_CASE("test the Parser class") {
 
-    Instances obj2;
+    Parser obj2;
     obj2.initial_settings();
  
 
-    Instances obj;
+    Parser obj;
     obj.function_extractor();
 
 }
