@@ -40,26 +40,48 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "Exception.hpp"
 #include "MyLibrary.hpp"
-
+#include "../metadataEditor.hpp"
+#include "../metadataEditor.cpp"
 #include "../parser.cpp"
+
+#include "../dcmtk/dcmpstat/include/dcmtk/dcmpstat/dcmpstat.h"
 
 using namespace cpp_template;
 
-// This tests the output of the `get_nth_prime` function
-TEST_CASE("correct primes are returned", "[primes]") {
-  CHECK(get_nth_prime(0) == 2);
-  CHECK(get_nth_prime(1) == 3);
-  CHECK(get_nth_prime(2) == 5);
-  CHECK(get_nth_prime(854) == 6619);
-}
 
-// This tests the correct out_of_range exceptions are generated
-TEST_CASE("correct out of range exceptions", "[primes]") {
-  CHECK_THROWS_AS(get_nth_prime(-1), Exception);
-  CHECK_THROWS_AS(get_nth_prime(std::numeric_limits<int>::max()), Exception);
+TEST_CASE("test the metadataEditor class") {
+
+  int hh = 3;
+  metadataEditor obj{hh};
+  obj.print();
+
+
+  DcmFileFormat image;
+  OFString patientName;
+  OFCondition status = image.loadFile("../1-1copy.dcm");
+  
+  if(status.good()){
+    cout << "File loaded" << endl;
+  }
+  else{
+      cerr << "Error: cannot read DICOM file (" << status.text() << ")" << endl;
+    }
+  
+  if (image.getDataset()->findAndGetOFStringArray(DCM_PatientID, patientName).good())
+  {
+    cout << "Patient ID: " << patientName << OFendl;
+  }
+  else {
+    cerr << "This tag is not available in the Image Dataset." << OFendl;
+  }  
 }
-// This tests the size of the tags array generated 
-TEST_CASE("test the function extractor of the Instances Class") {
-  //Instances object;
-  //CHECK(object.function_extractor().tags.size() == 20);
+TEST_CASE("test the Instances class") {
+
+    Instances obj2;
+    obj2.initial_settings();
+ 
+
+    Instances obj;
+    obj.function_extractor();
+
 }

@@ -71,6 +71,13 @@ find_package(Boost REQUIRED)
 target_link_libraries(mylib PRIVATE "${Boost_LIBRARIES}")
 target_include_directories(mylib PRIVATE "${Boost_INCLUDE_DIR}")
 
+
+# dcmtk as a required dependency for mylib
+find_package(DCMTK REQUIRED)
+target_link_libraries(mylib PUBLIC "${DCMTK_LIBRARIES}")
+target_include_directories(mylib PUBLIC "${DCMTK_INCLUDE_DIRS}")
+
+
 # Clang tidy as optional static analyzer
 option(Template_USE_CLANG_TIDY "Use clang tidy for static analysis" OFF)
 if (Template_USE_CLANG_TIDY)
