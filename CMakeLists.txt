@@ -5,7 +5,7 @@
 # University of Oxford, having an administrative office at Wellington
 # Square, Oxford OX1 2JD, UK.
 #
-# This file is part of the Oxford RSE C++ Template project.
+# This file is part of the Oxford RSE C++ QCTool project.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
@@ -30,7 +30,7 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 cmake_minimum_required(VERSION 3.6)
-project(Template)
+project(QCTool)
 
 # ensure C++14
 set(CMAKE_CXX_STANDARD 14)
@@ -50,37 +50,35 @@ else()
 endif()
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
+
 add_subdirectory(libs/nlohmann_json/)
-
-
-add_library(mylib src/MyLibrary.cpp 
+add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp)
-target_include_directories(mylib PUBLIC src)
-target_link_libraries(mylib PUBLIC nlohmann_json::nlohmann_json)
+target_include_directories(qctool_lib PUBLIC src)
 
-enable_testing()
-
-add_executable(mytest tests/MyTests.cpp tests/jsontest.cpp)
-target_include_directories(mylib PRIVATE tests)
-target_link_libraries(mytest PRIVATE mylib)
-add_test(test1 mytest)
-
-# boost as a required dependency for mylib
 find_package(Boost REQUIRED)
-target_link_libraries(mylib PRIVATE "${Boost_LIBRARIES}")
-target_include_directories(mylib PRIVATE "${Boost_INCLUDE_DIR}")
-
+target_include_directories(qctool_lib PRIVATE "${Boost_INCLUDE_DIR}")
+target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}" PUBLIC nlohmann_json::nlohmann_json)
 
 # dcmtk as a required dependency for mylib
 find_package(DCMTK REQUIRED)
-target_link_libraries(mylib PUBLIC "${DCMTK_LIBRARIES}")
-target_include_directories(mylib PUBLIC "${DCMTK_INCLUDE_DIRS}")
+target_link_libraries(qctool_lib PUBLIC "${DCMTK_LIBRARIES}")
+target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
+
+enable_testing()
+
+add_executable(unit_tests tests/MyTests.cpp)
+target_include_directories(unit_tests PRIVATE tests)
+target_link_libraries(unit_tests PRIVATE qctool_lib)
+add_test(run_unit_tests unit_tests)
+
+add_subdirectory(exe)
 
 
 # Clang tidy as optional static analyzer
-option(Template_USE_CLANG_TIDY "Use clang tidy for static analysis" OFF)
-if (Template_USE_CLANG_TIDY)
+option(QCTool_ENABLE_CLANG_TIDY "Use clang tidy for static analysis" OFF)
+if (QCTool_ENABLE_CLANG_TIDY)
     find_program(CLANG_TIDY_EXE NAMES "clang-tidy" "clang-tidy-6.0" "clang-tidy-5.0" "clang-tidy-4.0"
                  DOC "Path to clang-tidy executable")
     if(NOT CLANG_TIDY_EXE)
@@ -94,29 +92,29 @@ endif()
 # LLVM AddressSanitizer to detecting memory errors
 # Note that there are many other sanitizers in LLVM to help detect errors, see
 # http://travistoptips.blogspot.co.uk/2015/11/sanitize-all-things.html
-option(Template_MEMCHECK "Use LLVM AddressSanitizer to detecting memory errors" OFF)
-if (Template_MEMCHECK)
+option(QCTool_ENABLE_MEMCHECK "Use LLVM AddressSanitizer to detecting memory errors" OFF)
+if (QCTool_ENABLE_MEMCHECK)
     if (CMAKE_CXX_COMPILER_ID MATCHES "Clang")
         message(STATUS "Configuring with LLVM AddressSanitizer")
-        set(Template_MEMCHECK_FLAGS -fno-optimize-sibling-calls 
+        set(QCTool_MEMCHECK_FLAGS -fno-optimize-sibling-calls 
                                     -fsanitize=address 
                                     -fsanitize-address-use-after-scope
                                     )
-        target_compile_options(mylib PUBLIC -O1 -g -fno-omit-frame-pointer ${Template_MEMCHECK_FLAGS})
-        target_link_libraries(mylib PUBLIC -g ${Template_MEMCHECK_FLAGS})
+        target_compile_options(mylib PUBLIC -O1 -g -fno-omit-frame-pointer ${QCTool_MEMCHECK_FLAGS})
+        target_link_libraries(mylib PUBLIC -g ${QCTool_MEMCHECK_FLAGS})
     else()
-        message(FATAL_ERROR "clang compiler required with Template_MEMCHECK: found ${CMAKE_CXX_COMPILER_ID}")
+        message(FATAL_ERROR "clang compiler required with QCTool_MEMCHECK: found ${CMAKE_CXX_COMPILER_ID}")
     endif()
 endif()
 
 # Setup coverage testing for GCC or Clang
-option(Template_ENABLE_COVERAGE "Enable coverage reporting for GCC or Clang" FALSE)
-if (Template_ENABLE_COVERAGE)
+option(QCTool_ENABLE_COVERAGE "Enable coverage reporting for GCC or Clang" FALSE)
+if (QCTool_ENABLE_COVERAGE)
     if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
         message(STATUS "Configuring with coverage")
-        target_compile_options(mylib PUBLIC --coverage -O0)
-        target_link_libraries(mylib PUBLIC --coverage)
+        target_compile_options(qctool_lib PUBLIC --coverage -O0)
+        target_link_libraries(qctool_lib PUBLIC --coverage)
     else()
-        message(FATAL_ERROR "GCC or Clang required with Template_ENABLE_COVERAGE: found ${CMAKE_CXX_COMPILER_ID}")
+        message(FATAL_ERROR "GCC or Clang required with QCTool_ENABLE_COVERAGE: found ${CMAKE_CXX_COMPILER_ID}")
     endif()
 endif()

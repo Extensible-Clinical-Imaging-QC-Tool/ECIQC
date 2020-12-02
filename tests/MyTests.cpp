@@ -33,47 +33,38 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // This tells Catch to provide a main() - only do this in one cpp file
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
-
 #include <limits>
 #include <type_traits>
-
-#include "Exception.hpp"
-#include "MyLibrary.hpp"
-#include "../metadataEditor.hpp"
-#include "../metadataEditor.cpp"
+#include <iostream>
+#include <dcmtk/dcmpstat/dcmpstat.h>
+#include "catch.hpp"
+#include "../src/Exception.hpp"
+#include "../src/MetadataEditor.cpp"
+#include "../src/MetadataEditor.hpp"
 #include "../parser.cpp"
-
-#include "../dcmtk/dcmpstat/include/dcmtk/dcmpstat/dcmpstat.h"
 
 using namespace cpp_template;
 
-
-TEST_CASE("test the metadataEditor class") {
-
-  int hh = 3;
-  metadataEditor obj{hh};
-  obj.print();
-
-
+// This tests the output of the `get_nth_prime` function
+TEST_CASE("Test for reading in a known DICOM image file") {
   DcmFileFormat image;
   OFString patientName;
-  OFCondition status = image.loadFile("../1-1copy.dcm");
-  
-  if(status.good()){
-    cout << "File loaded" << endl;
-  }
-  else{
-      cerr << "Error: cannot read DICOM file (" << status.text() << ")" << endl;
-    }
-  
-  if (image.getDataset()->findAndGetOFStringArray(DCM_PatientID, patientName).good())
-  {
-    cout << "Patient ID: " << patientName << OFendl;
-  }
-  else {
-    cerr << "This tag is not available in the Image Dataset." << OFendl;
-  }  
+  OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
+
+  CHECK(status.good() == 1);
+  CHECK(image.getDataset()->findAndGetOFString(DCM_PatientName, patientName).good() == true);
+  CHECK(patientName == "COVID-19-AR-16406488");
+}
+
+TEST_CASE("Testing the metadata editing class") {
+  int hh = 3;
+  MetadataEditor obj1;
+  MetadataEditor obj2{hh};
+
+  // Test instantiation with 0 arguments
+  CHECK(obj1.x == 23);
+  // Instantiation with 1 argument
+  CHECK(obj2.x == hh);
 }
 TEST_CASE("test the Instances class") {
 
@@ -85,3 +76,5 @@ TEST_CASE("test the Instances class") {
     obj.function_extractor();
 
 }
+
+
