@@ -66,11 +66,6 @@ TEST_CASE("correct primes are returned", "[primes]") {
   //GlobalDcmDataDictionary dcmDataDict(OFTrue /*load builtin*/, OFFalse);
 
   std::cout << "I work now"<<'\n'; 
-  DcmDataDictionary& dict = dcmDataDict.wrlock();
-  //dict.reloadDictionaries(OFTrue, OFTrue);
-  //dict.loadDictionary("/home/sabsr3/dcmtk-3.6.5-install/usr/local/share/dcmtk/dicom.dic");
-  std::cout << dcmDataDict.isDictionaryLoaded()<<'\n';
-  dcmDataDict.wrunlock();
   
 
 struct TestSCU : DcmSCU, OFThread
@@ -107,6 +102,7 @@ xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
     
 config.addPresentationContext(UID_VerificationSOPClass, xfers); */
 pool.start();
+OFStandard::sleep(10);
 /*OFVector<TestSCU*> scus(2);
 for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
     {
