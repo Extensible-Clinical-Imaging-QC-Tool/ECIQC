@@ -76,6 +76,7 @@ add_test(run_unit_tests unit_tests)
 add_subdirectory(exe)
 
 
+
 # Clang tidy as optional static analyzer
 option(QCTool_ENABLE_CLANG_TIDY "Use clang tidy for static analysis" OFF)
 if (QCTool_ENABLE_CLANG_TIDY)
