@@ -61,7 +61,7 @@ target_link_libraries(mylib PUBLIC nlohmann_json::nlohmann_json)
 
 enable_testing()
 
-add_executable(mytest tests/MyTests.cpp tests/jsontest.cpp)
+add_executable(mytest tests/MyTests.cpp)
 target_include_directories(mylib PRIVATE tests)
 target_link_libraries(mytest PRIVATE mylib)
 add_test(test1 mytest)

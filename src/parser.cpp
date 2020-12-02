@@ -82,14 +82,14 @@ void Instances::function_extractor()
               
 }
     
-//int main()
-//{
+int main()
+{
 
-    //Instances obj2;
-    //obj2.initial_settings();
+    Instances obj2;
+    obj2.initial_settings();
  
 
-    //Instances obj;
-    //obj.function_extractor();
-    //return 0; 
-//}
+    Instances obj;
+    obj.function_extractor();
+    return 0; 
+}
