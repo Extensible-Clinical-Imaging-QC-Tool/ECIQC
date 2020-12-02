@@ -76,8 +76,3 @@ TEST_CASE("test the Instances class") {
     obj.function_extractor();
 
 }
-<<<<<<< HEAD
-
-
-=======
->>>>>>> 7a6e83130f9c46c312394ad0b991a3f8389746cc
