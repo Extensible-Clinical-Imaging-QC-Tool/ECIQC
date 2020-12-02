@@ -2,7 +2,7 @@
 #define RECEIVER_H
 
 #include <iostream>
-#include "dcmtk/config/osconfig.h"
+#include <dcmtk/config/osconfig.h>
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include <dcmtk/dcmnet/scppool.h>
 #include <dcmtk/dcmnet/scpthrd.h>
@@ -31,21 +31,19 @@ protected:
     } */
 };
 
-class StorageServer : public DcmSCPPool<ReceiverThread>, public OFThread
+class Receiver : public DcmSCPPool<ReceiverThread>, public OFThread
 {
 
 public:
     OFCondition result;
-    StorageServer();
+    Receiver();
 
-    virtual ~StorageServer();
+    virtual ~Receiver();
 
     virtual void request_stop();
 
 protected:
-    void run(){
-        result = DcmSCPPool :: listen();
-    };
+    void run();
 };
  
 

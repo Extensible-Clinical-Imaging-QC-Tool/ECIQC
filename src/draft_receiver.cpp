@@ -16,9 +16,22 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
         if (incomingMsg->CommandField == DIMSE_C_STORE_RQ)
         {
             // handle incoming C-STORE request
+            
             DcmDataset* dset = NULL;
             return DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, dset);
         }
+        /* 
+        // save to file code
++            DcmFileFormat fileformat;
++            DcmDataset* reqDataset = fileformat.getDataset();
++            OFCondition result = DcmSCP::receiveSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, reqDataset);
++                   if (result.good())
++                   {
++                       result = fileformat.saveFile("/home/sabsr3/filetest.dcm");
++                   }
++            return result;
+
+        */
         else
         {
             return DcmSCP::handleIncomingCommand(incomingMsg, presInfo);
@@ -26,7 +39,7 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
     };
 
 // constructor part 2
-StorageServer::StorageServer()
+Receiver::Receiver()
 {
         // Configure SCP, only port is required
         getConfig().setPort(11112);
@@ -34,7 +47,7 @@ StorageServer::StorageServer()
         //getConfig().setRespondWithCalledAETitle(OFTrue);
         setMaxThreads(2);
         getConfig().setConnectionBlockingMode(DUL_NOBLOCK);
-        getConfig().setConnectionTimeout(120);
+        getConfig().setConnectionTimeout(20);
 
         // Add presentation context to be handled
         OFList<OFString> ts;
@@ -48,8 +61,13 @@ StorageServer::StorageServer()
             getConfig().addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], ts);
         }
         getConfig().addPresentationContext(UID_VerificationSOPClass, ts);
+        getConfig().addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
     };
 
-StorageServer::~StorageServer() {};
+Receiver::~Receiver() {};
 
-void StorageServer::request_stop(){ DcmBaseSCPPool::stopAfterCurrentAssociations(); };
+void Receiver::request_stop(){ DcmBaseSCPPool::stopAfterCurrentAssociations(); };
+
+void Receiver::run(){
+        result = DcmSCPPool :: listen();
+    };
