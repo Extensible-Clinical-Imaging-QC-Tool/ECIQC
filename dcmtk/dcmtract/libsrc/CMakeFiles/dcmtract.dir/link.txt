@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libdcmtract.a  CMakeFiles/dcmtract.dir/trctypes.cc.o CMakeFiles/dcmtract.dir/trctrackset.cc.o CMakeFiles/dcmtract.dir/trctrack.cc.o CMakeFiles/dcmtract.dir/trcmeasurement.cc.o CMakeFiles/dcmtract.dir/trcstatistic.cc.o CMakeFiles/dcmtract.dir/trcmodtractresults.cc.o CMakeFiles/dcmtract.dir/trctractographyresults.cc.o
+/usr/bin/ranlib ../../lib/libdcmtract.a

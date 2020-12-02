@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libdcmpmap.a  CMakeFiles/dcmpmap.dir/dpmtypes.cc.o CMakeFiles/dcmpmap.dir/dpmmodparametricmapseries.cc.o CMakeFiles/dcmpmap.dir/dpmmodparametricmapimage.cc.o CMakeFiles/dcmpmap.dir/dpmparametricmapbase.cc.o CMakeFiles/dcmpmap.dir/dpmparametricmapiod.cc.o
+/usr/bin/ranlib ../../lib/libdcmpmap.a

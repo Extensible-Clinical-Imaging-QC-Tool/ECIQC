@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libcharls.a  CMakeFiles/charls.dir/header.cc.o CMakeFiles/charls.dir/intrface.cc.o CMakeFiles/charls.dir/jpegls.cc.o
+/usr/bin/ranlib ../../lib/libcharls.a

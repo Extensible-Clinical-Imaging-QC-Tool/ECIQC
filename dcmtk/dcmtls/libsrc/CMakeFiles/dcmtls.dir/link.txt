@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libdcmtls.a  CMakeFiles/dcmtls.dir/tlslayer.cc.o CMakeFiles/dcmtls.dir/tlstrans.cc.o CMakeFiles/dcmtls.dir/tlsscu.cc.o
+/usr/bin/ranlib ../../lib/libdcmtls.a

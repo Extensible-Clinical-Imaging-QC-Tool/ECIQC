@@ -5,8 +5,7 @@
     "warn_return_any":"True",
     "warn_unused_configs":"True",
     "ignore_missing_imports":"True",
-    "include_private_tags":"True"
-
- 
+    "include_private_tags":"True",
+    "generate_new_UIDs":"True"
 
 }

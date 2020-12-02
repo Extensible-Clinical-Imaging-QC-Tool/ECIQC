@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libdcmjpls.a  CMakeFiles/dcmjpls.dir/djcparam.cc.o CMakeFiles/dcmjpls.dir/djdecode.cc.o CMakeFiles/dcmjpls.dir/djencode.cc.o CMakeFiles/dcmjpls.dir/djrparam.cc.o CMakeFiles/dcmjpls.dir/djcodecd.cc.o CMakeFiles/dcmjpls.dir/djutils.cc.o CMakeFiles/dcmjpls.dir/djcodece.cc.o
+/usr/bin/ranlib ../../lib/libdcmjpls.a

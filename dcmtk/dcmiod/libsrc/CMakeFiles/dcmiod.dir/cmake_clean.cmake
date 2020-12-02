@@ -1,0 +1,40 @@
+file(REMOVE_RECURSE
+  "../../lib/libdcmiod.a"
+  "../../lib/libdcmiod.pdb"
+  "CMakeFiles/dcmiod.dir/cielabutil.cc.o"
+  "CMakeFiles/dcmiod.dir/iodcommn.cc.o"
+  "CMakeFiles/dcmiod.dir/iodcontentitemmacro.cc.o"
+  "CMakeFiles/dcmiod.dir/iodmacro.cc.o"
+  "CMakeFiles/dcmiod.dir/iodreferences.cc.o"
+  "CMakeFiles/dcmiod.dir/iodrules.cc.o"
+  "CMakeFiles/dcmiod.dir/iodtypes.cc.o"
+  "CMakeFiles/dcmiod.dir/iodutil.cc.o"
+  "CMakeFiles/dcmiod.dir/modacquisitioncontext.cc.o"
+  "CMakeFiles/dcmiod.dir/modbase.cc.o"
+  "CMakeFiles/dcmiod.dir/modcommoninstanceref.cc.o"
+  "CMakeFiles/dcmiod.dir/modenhequipment.cc.o"
+  "CMakeFiles/dcmiod.dir/modenhusimage.cc.o"
+  "CMakeFiles/dcmiod.dir/modenhusseries.cc.o"
+  "CMakeFiles/dcmiod.dir/modequipment.cc.o"
+  "CMakeFiles/dcmiod.dir/modfloatingpointimagepixel.cc.o"
+  "CMakeFiles/dcmiod.dir/modfor.cc.o"
+  "CMakeFiles/dcmiod.dir/modgeneralimage.cc.o"
+  "CMakeFiles/dcmiod.dir/modgeneralseries.cc.o"
+  "CMakeFiles/dcmiod.dir/modgeneralstudy.cc.o"
+  "CMakeFiles/dcmiod.dir/modhelp.cc.o"
+  "CMakeFiles/dcmiod.dir/modimagepixel.cc.o"
+  "CMakeFiles/dcmiod.dir/modimagepixelbase.cc.o"
+  "CMakeFiles/dcmiod.dir/modmultiframedimension.cc.o"
+  "CMakeFiles/dcmiod.dir/modmultiframefg.cc.o"
+  "CMakeFiles/dcmiod.dir/modpatient.cc.o"
+  "CMakeFiles/dcmiod.dir/modpatientstudy.cc.o"
+  "CMakeFiles/dcmiod.dir/modsegmentationseries.cc.o"
+  "CMakeFiles/dcmiod.dir/modsopcommon.cc.o"
+  "CMakeFiles/dcmiod.dir/modsynchronization.cc.o"
+  "CMakeFiles/dcmiod.dir/modusfor.cc.o"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/dcmiod.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

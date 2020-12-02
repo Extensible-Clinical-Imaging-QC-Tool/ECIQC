@@ -1,0 +1,1332 @@
+Performing C++ SOURCE FILE Test LIBICONV_SECOND_ARGUMENT_CONST failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_4f0e4/fast && /usr/bin/make -f CMakeFiles/cmTC_4f0e4.dir/build.make CMakeFiles/cmTC_4f0e4.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4f0e4.dir/src.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DLIBICONV_SECOND_ARGUMENT_CONST   -o CMakeFiles/cmTC_4f0e4.dir/src.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:6:15: error: invalid conversion from ‘const char**’ to ‘char**’ [-fpermissive]
+    6 |     iconv(cd, &in, 0, 0, 0);
+      |               ^~~
+      |               |
+      |               const char**
+In file included from /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:2:
+/usr/include/iconv.h:42:54: note:   initializing argument 2 of ‘size_t iconv(iconv_t, char**, size_t*, char**, size_t*)’
+   42 | extern size_t iconv (iconv_t __cd, char **__restrict __inbuf,
+      |                                    ~~~~~~~~~~~~~~~~~~^~~~~~~
+make[1]: *** [CMakeFiles/cmTC_4f0e4.dir/build.make:66: CMakeFiles/cmTC_4f0e4.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_4f0e4/fast] Error 2
+
+
+Source file was:
+
+  #include <iconv.h>
+  int main() {
+    iconv_t cd = 0;
+    const char *in = 0;
+    iconv(cd, &in, 0, 0, 0);
+    return 0;
+  }
+Determining if the include file fstream.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ce9f3/fast && /usr/bin/make -f CMakeFiles/cmTC_ce9f3.dir/build.make CMakeFiles/cmTC_ce9f3.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ce9f3.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_ce9f3.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: fstream.h: No such file or directory
+    1 | #include <fstream.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_ce9f3.dir/build.make:66: CMakeFiles/cmTC_ce9f3.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_ce9f3/fast] Error 2
+
+
+
+Determining if the include file ieeefp.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_52420/fast && /usr/bin/make -f CMakeFiles/cmTC_52420.dir/build.make CMakeFiles/cmTC_52420.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_52420.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_52420.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: ieeefp.h: No such file or directory
+    1 | #include <ieeefp.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_52420.dir/build.make:66: CMakeFiles/cmTC_52420.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_52420/fast] Error 2
+
+
+
+Determining if the include file iomanip.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c8a47/fast && /usr/bin/make -f CMakeFiles/cmTC_c8a47.dir/build.make CMakeFiles/cmTC_c8a47.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_c8a47.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_c8a47.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: iomanip.h: No such file or directory
+    1 | #include <iomanip.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_c8a47.dir/build.make:66: CMakeFiles/cmTC_c8a47.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_c8a47/fast] Error 2
+
+
+
+Determining if the include file iostream.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_cf4ce/fast && /usr/bin/make -f CMakeFiles/cmTC_cf4ce.dir/build.make CMakeFiles/cmTC_cf4ce.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_cf4ce.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_cf4ce.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: iostream.h: No such file or directory
+    1 | #include <iostream.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_cf4ce.dir/build.make:66: CMakeFiles/cmTC_cf4ce.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_cf4ce/fast] Error 2
+
+
+
+Determining if the include file io.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_8fa30/fast && /usr/bin/make -f CMakeFiles/cmTC_8fa30.dir/build.make CMakeFiles/cmTC_8fa30.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_8fa30.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_8fa30.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: io.h: No such file or directory
+    1 | #include <io.h>
+      |          ^~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_8fa30.dir/build.make:66: CMakeFiles/cmTC_8fa30.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_8fa30/fast] Error 2
+
+
+
+Determining if the include file ndir.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_54ab5/fast && /usr/bin/make -f CMakeFiles/cmTC_54ab5.dir/build.make CMakeFiles/cmTC_54ab5.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_54ab5.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_54ab5.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: ndir.h: No such file or directory
+    1 | #include <ndir.h>
+      |          ^~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_54ab5.dir/build.make:66: CMakeFiles/cmTC_54ab5.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_54ab5/fast] Error 2
+
+
+
+Determining if the include file new.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_6b906/fast && /usr/bin/make -f CMakeFiles/cmTC_6b906.dir/build.make CMakeFiles/cmTC_6b906.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_6b906.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_6b906.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: new.h: No such file or directory
+    1 | #include <new.h>
+      |          ^~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_6b906.dir/build.make:66: CMakeFiles/cmTC_6b906.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_6b906/fast] Error 2
+
+
+
+Determining if the include file sstream.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_f564d/fast && /usr/bin/make -f CMakeFiles/cmTC_f564d.dir/build.make CMakeFiles/cmTC_f564d.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_f564d.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_f564d.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: sstream.h: No such file or directory
+    1 | #include <sstream.h>
+      |          ^~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_f564d.dir/build.make:66: CMakeFiles/cmTC_f564d.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_f564d/fast] Error 2
+
+
+
+Determining if the include file stat.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_116f5/fast && /usr/bin/make -f CMakeFiles/cmTC_116f5.dir/build.make CMakeFiles/cmTC_116f5.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_116f5.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_116f5.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: stat.h: No such file or directory
+    1 | #include <stat.h>
+      |          ^~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_116f5.dir/build.make:66: CMakeFiles/cmTC_116f5.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_116f5/fast] Error 2
+
+
+
+Determining if the include file strstream.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ed5bb/fast && /usr/bin/make -f CMakeFiles/cmTC_ed5bb.dir/build.make CMakeFiles/cmTC_ed5bb.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ed5bb.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_ed5bb.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: strstream.h: No such file or directory
+    1 | #include <strstream.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_ed5bb.dir/build.make:66: CMakeFiles/cmTC_ed5bb.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_ed5bb/fast] Error 2
+
+
+
+Determining if the include file strstrea.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_cbeb5/fast && /usr/bin/make -f CMakeFiles/cmTC_cbeb5.dir/build.make CMakeFiles/cmTC_cbeb5.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_cbeb5.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_cbeb5.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: strstrea.h: No such file or directory
+    1 | #include <strstrea.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_cbeb5.dir/build.make:66: CMakeFiles/cmTC_cbeb5.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_cbeb5/fast] Error 2
+
+
+
+Determining if the include file synch.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_38a43/fast && /usr/bin/make -f CMakeFiles/cmTC_38a43.dir/build.make CMakeFiles/cmTC_38a43.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_38a43.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_38a43.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: synch.h: No such file or directory
+    1 | #include <synch.h>
+      |          ^~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_38a43.dir/build.make:66: CMakeFiles/cmTC_38a43.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_38a43/fast] Error 2
+
+
+
+Determining if the include file sys/ndir.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_e6445/fast && /usr/bin/make -f CMakeFiles/cmTC_e6445.dir/build.make CMakeFiles/cmTC_e6445.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e6445.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_e6445.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: sys/ndir.h: No such file or directory
+    1 | #include <sys/ndir.h>
+      |          ^~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_e6445.dir/build.make:66: CMakeFiles/cmTC_e6445.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_e6445/fast] Error 2
+
+
+
+Determining if the include file sys/systeminfo.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_0ef06/fast && /usr/bin/make -f CMakeFiles/cmTC_0ef06.dir/build.make CMakeFiles/cmTC_0ef06.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_0ef06.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_0ef06.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: sys/systeminfo.h: No such file or directory
+    1 | #include <sys/systeminfo.h>
+      |          ^~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_0ef06.dir/build.make:66: CMakeFiles/cmTC_0ef06.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_0ef06/fast] Error 2
+
+
+
+Determining if the include file sys/utime.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_24fad/fast && /usr/bin/make -f CMakeFiles/cmTC_24fad.dir/build.make CMakeFiles/cmTC_24fad.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_24fad.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_24fad.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: sys/utime.h: No such file or directory
+    1 | #include <sys/utime.h>
+      |          ^~~~~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_24fad.dir/build.make:66: CMakeFiles/cmTC_24fad.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_24fad/fast] Error 2
+
+
+
+Determining if the include file thread.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_549e4/fast && /usr/bin/make -f CMakeFiles/cmTC_549e4.dir/build.make CMakeFiles/cmTC_549e4.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_549e4.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_549e4.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: thread.h: No such file or directory
+    1 | #include <thread.h>
+      |          ^~~~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_549e4.dir/build.make:66: CMakeFiles/cmTC_549e4.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_549e4/fast] Error 2
+
+
+
+Determining if the include file unix.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_2d9c5/fast && /usr/bin/make -f CMakeFiles/cmTC_2d9c5.dir/build.make CMakeFiles/cmTC_2d9c5.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_2d9c5.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_2d9c5.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: unix.h: No such file or directory
+    1 | #include <unix.h>
+      |          ^~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_2d9c5.dir/build.make:66: CMakeFiles/cmTC_2d9c5.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_2d9c5/fast] Error 2
+
+
+
+Determining if the include file libc.h exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d5445/fast && /usr/bin/make -f CMakeFiles/cmTC_d5445.dir/build.make CMakeFiles/cmTC_d5445.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_d5445.dir/CheckIncludeFile.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_d5445.dir/CheckIncludeFile.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/CheckIncludeFile.cxx:1:10: fatal error: libc.h: No such file or directory
+    1 | #include <libc.h>
+      |          ^~~~~~~~
+compilation terminated.
+make[1]: *** [CMakeFiles/cmTC_d5445.dir/build.make:66: CMakeFiles/cmTC_d5445.dir/CheckIncludeFile.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_d5445/fast] Error 2
+
+
+
+Determining if the function _doprnt exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_b87b1/fast && /usr/bin/make -f CMakeFiles/cmTC_b87b1.dir/build.make CMakeFiles/cmTC_b87b1.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b87b1.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=_doprnt   -o CMakeFiles/cmTC_b87b1.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_b87b1
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b87b1.dir/link.txt --verbose=1
+/usr/bin/cc  -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=_doprnt    -rdynamic CMakeFiles/cmTC_b87b1.dir/CheckFunctionExists.c.o  -o cmTC_b87b1 
+/usr/bin/ld: CMakeFiles/cmTC_b87b1.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x14): undefined reference to `_doprnt'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_b87b1.dir/build.make:87: cmTC_b87b1] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_b87b1/fast] Error 2
+
+
+
+Determining if the function itoa exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_29713/fast && /usr/bin/make -f CMakeFiles/cmTC_29713.dir/build.make CMakeFiles/cmTC_29713.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_29713.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=itoa   -o CMakeFiles/cmTC_29713.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_29713
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_29713.dir/link.txt --verbose=1
+/usr/bin/cc  -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=itoa    -rdynamic CMakeFiles/cmTC_29713.dir/CheckFunctionExists.c.o  -o cmTC_29713 
+/usr/bin/ld: CMakeFiles/cmTC_29713.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x14): undefined reference to `itoa'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_29713.dir/build.make:87: cmTC_29713] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_29713/fast] Error 2
+
+
+
+Determining if the function malloc_debug exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_8cd89/fast && /usr/bin/make -f CMakeFiles/cmTC_8cd89.dir/build.make CMakeFiles/cmTC_8cd89.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_8cd89.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=malloc_debug   -o CMakeFiles/cmTC_8cd89.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_8cd89
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8cd89.dir/link.txt --verbose=1
+/usr/bin/cc  -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=malloc_debug    -rdynamic CMakeFiles/cmTC_8cd89.dir/CheckFunctionExists.c.o  -o cmTC_8cd89 
+/usr/bin/ld: CMakeFiles/cmTC_8cd89.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x14): undefined reference to `malloc_debug'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_8cd89.dir/build.make:87: cmTC_8cd89] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_8cd89/fast] Error 2
+
+
+
+Determining if the function strlcat exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_12a95/fast && /usr/bin/make -f CMakeFiles/cmTC_12a95.dir/build.make CMakeFiles/cmTC_12a95.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_12a95.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=strlcat   -o CMakeFiles/cmTC_12a95.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_12a95
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_12a95.dir/link.txt --verbose=1
+/usr/bin/cc  -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=strlcat    -rdynamic CMakeFiles/cmTC_12a95.dir/CheckFunctionExists.c.o  -o cmTC_12a95 
+/usr/bin/ld: CMakeFiles/cmTC_12a95.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x14): undefined reference to `strlcat'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_12a95.dir/build.make:87: cmTC_12a95] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_12a95/fast] Error 2
+
+
+
+Determining if the function strlcpy exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_334ef/fast && /usr/bin/make -f CMakeFiles/cmTC_334ef.dir/build.make CMakeFiles/cmTC_334ef.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_334ef.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=strlcpy   -o CMakeFiles/cmTC_334ef.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_334ef
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_334ef.dir/link.txt --verbose=1
+/usr/bin/cc  -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=strlcpy    -rdynamic CMakeFiles/cmTC_334ef.dir/CheckFunctionExists.c.o  -o cmTC_334ef 
+/usr/bin/ld: CMakeFiles/cmTC_334ef.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x14): undefined reference to `strlcpy'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_334ef.dir/build.make:87: cmTC_334ef] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_334ef/fast] Error 2
+
+
+
+Determining if the function _findfirst exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_0f2e9/fast && /usr/bin/make -f CMakeFiles/cmTC_0f2e9.dir/build.make CMakeFiles/cmTC_0f2e9.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0f2e9.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=_findfirst   -o CMakeFiles/cmTC_0f2e9.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_0f2e9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0f2e9.dir/link.txt --verbose=1
+/usr/bin/cc  -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=_findfirst    -rdynamic CMakeFiles/cmTC_0f2e9.dir/CheckFunctionExists.c.o  -o cmTC_0f2e9 
+/usr/bin/ld: CMakeFiles/cmTC_0f2e9.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x14): undefined reference to `_findfirst'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_0f2e9.dir/build.make:87: cmTC_0f2e9] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_0f2e9/fast] Error 2
+
+
+
+Determining if the isinf exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_9e25c/fast && /usr/bin/make -f CMakeFiles/cmTC_9e25c.dir/build.make CMakeFiles/cmTC_9e25c.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_9e25c.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_9e25c.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:6: error: statement cannot resolve address of overloaded function
+   26 | isinf;return 0;
+      |      ^
+make[1]: *** [CMakeFiles/cmTC_9e25c.dir/build.make:66: CMakeFiles/cmTC_9e25c.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_9e25c/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+isinf;return 0;
+}
+
+Determining if the isnan exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_95306/fast && /usr/bin/make -f CMakeFiles/cmTC_95306.dir/build.make CMakeFiles/cmTC_95306.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_95306.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_95306.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:6: error: statement cannot resolve address of overloaded function
+   26 | isnan;return 0;
+      |      ^
+make[1]: *** [CMakeFiles/cmTC_95306.dir/build.make:66: CMakeFiles/cmTC_95306.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_95306/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+isnan;return 0;
+}
+
+Determining if the std::isinf exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_4a951/fast && /usr/bin/make -f CMakeFiles/cmTC_4a951.dir/build.make CMakeFiles/cmTC_4a951.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4a951.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_4a951.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:11: error: statement cannot resolve address of overloaded function
+   26 | std::isinf;return 0;
+      |           ^
+make[1]: *** [CMakeFiles/cmTC_4a951.dir/build.make:66: CMakeFiles/cmTC_4a951.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_4a951/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+std::isinf;return 0;
+}
+
+Determining if the std::isnan exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_9ebdc/fast && /usr/bin/make -f CMakeFiles/cmTC_9ebdc.dir/build.make CMakeFiles/cmTC_9ebdc.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_9ebdc.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_9ebdc.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:11: error: statement cannot resolve address of overloaded function
+   26 | std::isnan;return 0;
+      |           ^
+make[1]: *** [CMakeFiles/cmTC_9ebdc.dir/build.make:66: CMakeFiles/cmTC_9ebdc.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_9ebdc/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+std::isnan;return 0;
+}
+
+Determining if the std::finite exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_1498e/fast && /usr/bin/make -f CMakeFiles/cmTC_1498e.dir/build.make CMakeFiles/cmTC_1498e.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_1498e.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_1498e.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:6: error: ‘finite’ is not a member of ‘std’; did you mean ‘isfinite’?
+   26 | std::finite;return 0;
+      |      ^~~~~~
+      |      isfinite
+make[1]: *** [CMakeFiles/cmTC_1498e.dir/build.make:66: CMakeFiles/cmTC_1498e.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_1498e/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+std::finite;return 0;
+}
+
+Determining if the _vsnprintf_s exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_da1c9/fast && /usr/bin/make -f CMakeFiles/cmTC_da1c9.dir/build.make CMakeFiles/cmTC_da1c9.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_da1c9.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_da1c9.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘_vsnprintf_s’ was not declared in this scope; did you mean ‘vsnprintf’?
+   26 | _vsnprintf_s;return 0;
+      | ^~~~~~~~~~~~
+      | vsnprintf
+make[1]: *** [CMakeFiles/cmTC_da1c9.dir/build.make:66: CMakeFiles/cmTC_da1c9.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_da1c9/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+_vsnprintf_s;return 0;
+}
+
+Determining if the vfprintf_s exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_e96cb/fast && /usr/bin/make -f CMakeFiles/cmTC_e96cb.dir/build.make CMakeFiles/cmTC_e96cb.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_e96cb.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_e96cb.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘vfprintf_s’ was not declared in this scope; did you mean ‘vfprintf’?
+   26 | vfprintf_s;return 0;
+      | ^~~~~~~~~~
+      | vfprintf
+make[1]: *** [CMakeFiles/cmTC_e96cb.dir/build.make:66: CMakeFiles/cmTC_e96cb.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_e96cb/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+vfprintf_s;return 0;
+}
+
+Determining if the vsprintf_s exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_29479/fast && /usr/bin/make -f CMakeFiles/cmTC_29479.dir/build.make CMakeFiles/cmTC_29479.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_29479.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_29479.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘vsprintf_s’ was not declared in this scope; did you mean ‘vsprintf’?
+   26 | vsprintf_s;return 0;
+      | ^~~~~~~~~~
+      | vsprintf
+make[1]: *** [CMakeFiles/cmTC_29479.dir/build.make:66: CMakeFiles/cmTC_29479.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_29479/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+vsprintf_s;return 0;
+}
+
+Determining if the _stricmp exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_a74cb/fast && /usr/bin/make -f CMakeFiles/cmTC_a74cb.dir/build.make CMakeFiles/cmTC_a74cb.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_a74cb.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_a74cb.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘_stricmp’ was not declared in this scope; did you mean ‘strncmp’?
+   26 | _stricmp;return 0;
+      | ^~~~~~~~
+      | strncmp
+make[1]: *** [CMakeFiles/cmTC_a74cb.dir/build.make:66: CMakeFiles/cmTC_a74cb.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_a74cb/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+_stricmp;return 0;
+}
+
+Determining if the std::ios_base::openmode definition exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_fff8a/fast && /usr/bin/make -f CMakeFiles/cmTC_fff8a.dir/build.make CMakeFiles/cmTC_fff8a.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_fff8a.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_fff8a.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:6: error: ‘std::ios_base’ has not been declared
+   26 | std::ios_base::openmode definition;return 0;
+      |      ^~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_fff8a.dir/build.make:66: CMakeFiles/cmTC_fff8a.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_fff8a/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+std::ios_base::openmode definition;return 0;
+}
+
+Determining if the InterlockedIncrement((long*)0) exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_bf27a/fast && /usr/bin/make -f CMakeFiles/cmTC_bf27a.dir/build.make CMakeFiles/cmTC_bf27a.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_bf27a.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_bf27a.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘InterlockedIncrement’ was not declared in this scope
+   26 | InterlockedIncrement((long*)0);return 0;
+      | ^~~~~~~~~~~~~~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_bf27a.dir/build.make:66: CMakeFiles/cmTC_bf27a.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_bf27a/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+InterlockedIncrement((long*)0);return 0;
+}
+
+Determining if the InterlockedDecrement((long*)0) exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_9ea3f/fast && /usr/bin/make -f CMakeFiles/cmTC_9ea3f.dir/build.make CMakeFiles/cmTC_9ea3f.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_9ea3f.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_9ea3f.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘InterlockedDecrement’ was not declared in this scope
+   26 | InterlockedDecrement((long*)0);return 0;
+      | ^~~~~~~~~~~~~~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_9ea3f.dir/build.make:66: CMakeFiles/cmTC_9ea3f.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_9ea3f/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+InterlockedDecrement((long*)0);return 0;
+}
+
+Determining if the _fpclassf(0.0f) exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_7eeef/fast && /usr/bin/make -f CMakeFiles/cmTC_7eeef.dir/build.make CMakeFiles/cmTC_7eeef.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_7eeef.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_7eeef.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘_fpclassf’ was not declared in this scope; did you mean ‘__fpclassify’?
+   26 | _fpclassf(0.0f);return 0;
+      | ^~~~~~~~~
+      | __fpclassify
+make[1]: *** [CMakeFiles/cmTC_7eeef.dir/build.make:66: CMakeFiles/cmTC_7eeef.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_7eeef/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+_fpclassf(0.0f);return 0;
+}
+
+Determining if the uchar definition exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_80cae/fast && /usr/bin/make -f CMakeFiles/cmTC_80cae.dir/build.make CMakeFiles/cmTC_80cae.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_80cae.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_80cae.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘uchar’ was not declared in this scope; did you mean ‘u_char’?
+   26 | uchar definition;return 0;
+      | ^~~~~
+      | u_char
+make[1]: *** [CMakeFiles/cmTC_80cae.dir/build.make:66: CMakeFiles/cmTC_80cae.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_80cae/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+uchar definition;return 0;
+}
+
+Determining if the longlong definition exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_8baac/fast && /usr/bin/make -f CMakeFiles/cmTC_8baac.dir/build.make CMakeFiles/cmTC_8baac.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_8baac.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_8baac.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘longlong’ was not declared in this scope
+   26 | longlong definition;return 0;
+      | ^~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_8baac.dir/build.make:66: CMakeFiles/cmTC_8baac.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_8baac/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+longlong definition;return 0;
+}
+
+Determining if the ulonglong definition exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_a62ed/fast && /usr/bin/make -f CMakeFiles/cmTC_a62ed.dir/build.make CMakeFiles/cmTC_a62ed.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_a62ed.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_a62ed.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:26:1: error: ‘ulonglong’ was not declared in this scope
+   26 | ulonglong definition;return 0;
+      | ^~~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_a62ed.dir/build.make:66: CMakeFiles/cmTC_a62ed.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_a62ed/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <math.h>
+#include <cmath>
+#include <pthread.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <stddef.h>
+#include <netdb.h>
+#include <sys/file.h>
+#include <string.h>
+#include <strings.h>
+#include <sys/wait.h>
+#include <sys/time.h>
+#include <sys/resource.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <sys/select.h>
+#include <pwd.h>
+#include <sys/syscall.h>
+
+int main()
+{
+ulonglong definition;return 0;
+}
+
+Determining if the RAND_egd exist failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_805f6/fast && /usr/bin/make -f CMakeFiles/cmTC_805f6.dir/build.make CMakeFiles/cmTC_805f6.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_805f6.dir/CheckSymbolExists.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_805f6.dir/CheckSymbolExists.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:6:1: error: ‘RAND_egd’ was not declared in this scope; did you mean ‘RAND_add’?
+    6 | RAND_egd;return 0;
+      | ^~~~~~~~
+      | RAND_add
+make[1]: *** [CMakeFiles/cmTC_805f6.dir/build.make:66: CMakeFiles/cmTC_805f6.dir/CheckSymbolExists.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_805f6/fast] Error 2
+
+
+File /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeTmp/CheckSymbolExists.cxx:
+/* */
+#include <openssl/rand.h>
+
+int main()
+{
+RAND_egd;return 0;
+}
+
+strerror_r returns an int failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_4ad27/fast && /usr/bin/make -f CMakeFiles/cmTC_4ad27.dir/build.make CMakeFiles/cmTC_4ad27.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_4ad27.dir/src.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_4ad27.dir/src.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:6:23: error: invalid conversion from ‘char*’ to ‘int’ [-fpermissive]
+    6 |     int i = strerror_r(0, buf, 100);
+      |             ~~~~~~~~~~^~~~~~~~~~~~~
+      |                       |
+      |                       char*
+make[1]: *** [CMakeFiles/cmTC_4ad27.dir/build.make:66: CMakeFiles/cmTC_4ad27.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_4ad27/fast] Error 2
+
+
+std::ios::nocreate exists failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_2aecd/fast && /usr/bin/make -f CMakeFiles/cmTC_2aecd.dir/build.make CMakeFiles/cmTC_2aecd.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_2aecd.dir/src.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_2aecd.dir/src.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:7:40: error: ‘nocreate’ is not a member of ‘std::ios’ {aka ‘std::basic_ios<char>’}
+    7 |   std::ifstream file("name", std::ios::nocreate);
+      |                                        ^~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_2aecd.dir/build.make:66: CMakeFiles/cmTC_2aecd.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_2aecd/fast] Error 2
+
+
+socket functions accept an int* argument failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_ddbc5/fast && /usr/bin/make -f CMakeFiles/cmTC_ddbc5.dir/build.make CMakeFiles/cmTC_ddbc5.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ddbc5.dir/src.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_ddbc5.dir/src.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:22:25: error: invalid conversion from ‘int*’ to ‘socklen_t*’ {aka ‘unsigned int*’} [-fpermissive]
+   22 |     i = accept(1, addr, &addrlen);
+      |                         ^~~~~~~~
+      |                         |
+      |                         int*
+In file included from /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:9:
+/usr/include/x86_64-linux-gnu/sys/socket.h:233:28: note:   initializing argument 3 of ‘int accept(int, sockaddr*, socklen_t*)’
+  233 |      socklen_t *__restrict __addr_len);
+      |      ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:23:32: error: invalid conversion from ‘int*’ to ‘socklen_t*’ {aka ‘unsigned int*’} [-fpermissive]
+   23 |     i = getsockopt(0, 0, 0, 0, &optlen);
+      |                                ^~~~~~~
+      |                                |
+      |                                int*
+In file included from /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:9:
+/usr/include/x86_64-linux-gnu/sys/socket.h:210:32: note:   initializing argument 5 of ‘int getsockopt(int, int, int, void*, socklen_t*)’
+  210 |          socklen_t *__restrict __optlen) __THROW;
+      |          ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_ddbc5.dir/build.make:66: CMakeFiles/cmTC_ddbc5.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_ddbc5/fast] Error 2
+
+
+select() accepts an int* argument failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_acd61/fast && /usr/bin/make -f CMakeFiles/cmTC_acd61.dir/build.make CMakeFiles/cmTC_acd61.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_acd61.dir/src.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_acd61.dir/src.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:20:19: error: cannot convert ‘int*’ to ‘fd_set*’
+   20 |     i = select(1, &fds, &fds, &fds, 0);
+      |                   ^~~~
+      |                   |
+      |                   int*
+In file included from /usr/include/x86_64-linux-gnu/sys/types.h:179,
+                 from /usr/include/x86_64-linux-gnu/bits/socket.h:29,
+                 from /usr/include/x86_64-linux-gnu/sys/socket.h:33,
+                 from /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:9:
+/usr/include/x86_64-linux-gnu/sys/select.h:101:51: note:   initializing argument 2 of ‘int select(int, fd_set*, fd_set*, fd_set*, timeval*)’
+  101 | extern int select (int __nfds, fd_set *__restrict __readfds,
+      |                                ~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_acd61.dir/build.make:66: CMakeFiles/cmTC_acd61.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_acd61/fast] Error 2
+
+
+__declspec(align) is supported failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_04705/fast && /usr/bin/make -f CMakeFiles/cmTC_04705.dir/build.make CMakeFiles/cmTC_04705.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_04705.dir/src.cxx.o
+/usr/bin/c++    -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L    -o CMakeFiles/cmTC_04705.dir/src.cxx.o -c /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx: In function ‘int main()’:
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:3:16: error: ‘align’ was not declared in this scope
+    3 |     __declspec(align(4)) char c[16];
+      |                ^~~~~
+/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp/src.cxx:3:5: error: ‘__declspec’ was not declared in this scope
+    3 |     __declspec(align(4)) char c[16];
+      |     ^~~~~~~~~~
+make[1]: *** [CMakeFiles/cmTC_04705.dir/build.make:66: CMakeFiles/cmTC_04705.dir/src.cxx.o] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_04705/fast] Error 2
+
+
+Determining if the function sem_init exists in the rt failed with the following output:
+Change Dir: /home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_e10d4/fast && /usr/bin/make -f CMakeFiles/cmTC_e10d4.dir/build.make CMakeFiles/cmTC_e10d4.dir/build
+make[1]: Entering directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_e10d4.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=sem_init   -o CMakeFiles/cmTC_e10d4.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_e10d4
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e10d4.dir/link.txt --verbose=1
+/usr/bin/cc  -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -DCHECK_FUNCTION_EXISTS=sem_init    -rdynamic CMakeFiles/cmTC_e10d4.dir/CheckFunctionExists.c.o  -o cmTC_e10d4  -lrt 
+/usr/bin/ld: CMakeFiles/cmTC_e10d4.dir/CheckFunctionExists.c.o: in function `main':
+CheckFunctionExists.c:(.text+0x14): undefined reference to `sem_init'
+collect2: error: ld returned 1 exit status
+make[1]: *** [CMakeFiles/cmTC_e10d4.dir/build.make:87: cmTC_e10d4] Error 1
+make[1]: Leaving directory '/home/sabsr3/ECIQC/dcmtk-3.6.1_20170228/CMakeFiles/CMakeTmp'
+make: *** [Makefile:121: cmTC_e10d4/fast] Error 2
+
+
+

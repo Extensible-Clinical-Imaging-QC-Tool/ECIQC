@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libi2d.a  CMakeFiles/i2d.dir/i2d.cc.o CMakeFiles/i2d.dir/i2dplvlp.cc.o CMakeFiles/i2d.dir/i2djpgs.cc.o CMakeFiles/i2d.dir/i2dbmps.cc.o CMakeFiles/i2d.dir/i2dplsc.cc.o CMakeFiles/i2d.dir/i2dplnsc.cc.o
+/usr/bin/ranlib ../../lib/libi2d.a

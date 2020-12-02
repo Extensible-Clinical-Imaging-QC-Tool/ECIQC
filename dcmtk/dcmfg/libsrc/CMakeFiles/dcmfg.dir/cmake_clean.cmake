@@ -1,0 +1,31 @@
+file(REMOVE_RECURSE
+  "../../lib/libdcmfg.a"
+  "../../lib/libdcmfg.pdb"
+  "CMakeFiles/dcmfg.dir/fg.cc.o"
+  "CMakeFiles/dcmfg.dir/fgbase.cc.o"
+  "CMakeFiles/dcmfg.dir/fgderimg.cc.o"
+  "CMakeFiles/dcmfg.dir/fgfact.cc.o"
+  "CMakeFiles/dcmfg.dir/fgfracon.cc.o"
+  "CMakeFiles/dcmfg.dir/fgframeanatomy.cc.o"
+  "CMakeFiles/dcmfg.dir/fgframevoilut.cc.o"
+  "CMakeFiles/dcmfg.dir/fgidentpixeltransform.cc.o"
+  "CMakeFiles/dcmfg.dir/fgimagedatatype.cc.o"
+  "CMakeFiles/dcmfg.dir/fginterface.cc.o"
+  "CMakeFiles/dcmfg.dir/fgparametricmapframetype.cc.o"
+  "CMakeFiles/dcmfg.dir/fgpixmsr.cc.o"
+  "CMakeFiles/dcmfg.dir/fgplanor.cc.o"
+  "CMakeFiles/dcmfg.dir/fgplanorvol.cc.o"
+  "CMakeFiles/dcmfg.dir/fgplanpo.cc.o"
+  "CMakeFiles/dcmfg.dir/fgplanposvol.cc.o"
+  "CMakeFiles/dcmfg.dir/fgrealworldvaluemapping.cc.o"
+  "CMakeFiles/dcmfg.dir/fgseg.cc.o"
+  "CMakeFiles/dcmfg.dir/fgtypes.cc.o"
+  "CMakeFiles/dcmfg.dir/fgusimagedescription.cc.o"
+  "CMakeFiles/dcmfg.dir/stack.cc.o"
+  "CMakeFiles/dcmfg.dir/stackinterface.cc.o"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/dcmfg.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

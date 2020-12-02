@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../../lib/libdcmwlm.a  CMakeFiles/dcmwlm.dir/wlds.cc.o CMakeFiles/dcmwlm.dir/wldsfs.cc.o CMakeFiles/dcmwlm.dir/wlfsim.cc.o CMakeFiles/dcmwlm.dir/wlmactmg.cc.o
+/usr/bin/ranlib ../../lib/libdcmwlm.a

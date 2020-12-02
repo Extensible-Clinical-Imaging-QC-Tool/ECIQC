@@ -1,0 +1,1 @@
+/usr/bin/c++   -D_XOPEN_SOURCE_EXTENDED -D_XOPEN_SOURCE=500 -D_BSD_SOURCE -D_DEFAULT_SOURCE -D_BSD_COMPAT -D_OSF_SOURCE -D_POSIX_C_SOURCE=199506L -O3 -DNDEBUG  -rdynamic CMakeFiles/dcmftest.dir/dcmftest.cc.o  -o ../../bin/dcmftest  ../../lib/libofstd.a -licuuc -lpthread 

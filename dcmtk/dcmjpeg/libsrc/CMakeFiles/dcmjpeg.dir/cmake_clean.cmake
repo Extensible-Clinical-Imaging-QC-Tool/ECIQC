@@ -1,0 +1,37 @@
+file(REMOVE_RECURSE
+  "../../lib/libdcmjpeg.a"
+  "../../lib/libdcmjpeg.pdb"
+  "CMakeFiles/dcmjpeg.dir/ddpiimpl.cc.o"
+  "CMakeFiles/dcmjpeg.dir/dipijpeg.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djcodecd.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djcodece.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djcparam.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdecbas.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdecext.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdeclol.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdecode.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdecpro.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdecsps.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdecsv1.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdijg12.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdijg16.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djdijg8.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djeijg12.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djeijg16.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djeijg8.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djencbas.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djencext.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djenclol.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djencode.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djencpro.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djencsps.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djencsv1.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djrplol.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djrploss.cc.o"
+  "CMakeFiles/dcmjpeg.dir/djutils.cc.o"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/dcmjpeg.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()
