@@ -20,10 +20,8 @@ class Instances {
 void Instances::initial_settings(){
 
     //open json config file 
-    ifstream ifstr("draft_user_config.json");
-    //declare json object and stream from file
-    json js;
-    ifstr >> js;
+    std::ifstream file1("/home/sabsr3/ECIQC/src/draft_user_config.json");
+    json js = json::parse(file1);
     //print parsed file
     //std:: cout << js << '\n';
 
@@ -43,12 +41,9 @@ void Instances::initial_settings(){
 
 void Instances::function_extractor()
 {
-    //open json metadata file 
-    ifstream ifs("metadata.json");
-    //declare json object and stream from file
-    json j;
-    ifs >> j;
-
+    //open json metadata file, declare json object and stream from file
+    std::ifstream file("/home/sabsr3/ECIQC/src/metadata.json");
+    json j = json::parse(file);
     //print parsed file
     //std:: cout << j << '\n';
     
@@ -74,10 +69,9 @@ void Instances::function_extractor()
 
         
     }
-    std::ofstream file("output/tags.json");
-    file <<tags;
+    std::ofstream f("output/tags.json");
+    f << tags;
     std::ofstream file_values("output/values.json");
     file_values << values;
     return;            
 }
-    
