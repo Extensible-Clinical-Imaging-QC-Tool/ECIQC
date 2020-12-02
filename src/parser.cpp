@@ -3,7 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <nlohmann/json.hpp>
-#include "../dcmtk/dcmpstat/include/dcmtk/dcmpstat/dcmpstat.h"
+#include <dcmtk/dcmpstat/dcmpstat.h>
 
 using json = nlohmann::json;
 

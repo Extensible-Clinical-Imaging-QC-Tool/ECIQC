@@ -41,7 +41,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../src/Exception.hpp"
 #include "../src/MetadataEditor.cpp"
 #include "../src/MetadataEditor.hpp"
-#include "../parser.cpp"
+#include "../src/parser.cpp"
 
 using namespace cpp_template;
 
