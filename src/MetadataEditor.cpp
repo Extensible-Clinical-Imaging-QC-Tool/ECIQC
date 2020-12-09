@@ -1,13 +1,16 @@
 #include <iostream>
+#include <dcmtk/dcmpstat/dcmpstat.h>
 #include "MetadataEditor.hpp"
 
-// Constructor
-MetadataEditor::MetadataEditor(OFString file_path, int xx) {
-    x = xx;
+// Constructors
+MetadataEditor::MetadataEditor(OFString file_path) {
     OFString fpath = file_path;
-
-
 }
+
+MetadataEditor::MetadataEditor() {
+    x = 23;
+}
+
 
 // Print function
 void MetadataEditor::print() {
@@ -17,5 +20,5 @@ void MetadataEditor::print() {
 // Load the file to be edited
 void MetadataEditor::readFile() {
     DcmFileFormat image;
-    OFCondition status = image.loadFile(fpath);
+    image.loadFile(fpath);
 }

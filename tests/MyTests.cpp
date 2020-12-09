@@ -56,14 +56,15 @@ TEST_CASE("Test for reading in a known DICOM image file") {
 }
 
 TEST_CASE("Testing the metadata editing class") {
-  int hh = 3;
+  OFString testPath = "../DICOM_Images/1-1copy.dcm";
   MetadataEditor obj1;
-  MetadataEditor obj2{hh};
+  MetadataEditor obj2{testPath};
 
   // Test instantiation with 0 arguments
   CHECK(obj1.x == 23);
+
   // Instantiation with 1 argument
-  CHECK(obj2.x == hh);
+
 }
 
 // Receiver class tests

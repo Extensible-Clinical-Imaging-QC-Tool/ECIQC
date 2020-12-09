@@ -9,7 +9,8 @@ OFString fpath;
 public:
     int x;
     
-    MetadataEditor(OFString file_path, int xx = 23);
+    MetadataEditor(OFString file_path);
+    MetadataEditor();
 
     void print();
 
