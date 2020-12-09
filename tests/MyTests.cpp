@@ -138,8 +138,10 @@ TEST_CASE("Test C-ECHO Assosciation"){
 
 TEST_CASE("Test C-STORE Assosciation"){
 
+
   struct TestSCU : DcmStorageSCU, OFThread {
       OFCondition result;
+      OFCondition result2;
     protected:
       void run(){
         negotiateAssociation();
@@ -147,36 +149,44 @@ TEST_CASE("Test C-STORE Assosciation"){
         DcmDataset * rspStatusDetail = NULL;
         Uint16 rspStatusCode = 0;
 
-        result = sendSTORERequest(0, "../DICOM_Images/1-01.dcm", 0, rspStatusCode);
+        result = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
+        result2 = sendSTORERequest(0, "../DICOM_Images/1-01.dcm", 0, rspStatusCode);
         releaseAssociation();
         }
     };
-
+  std::cout<<"Test STORE"<<'\n';
+  //OFLog::configure(OFLogger::DEBUG_LOG_LEVEL);
   Receiver pool;
 
   OFList<OFString> xfers;
   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
   xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
-  //xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
-  xfers.push_back(UID_JPEGProcess14SV1TransferSyntax);
-  xfers.push_back(UID_JPEGProcess1TransferSyntax);
 
+  OFList<OFString> ts;
+  ts.push_back(UID_LittleEndianImplicitTransferSyntax);
+  
   pool.start();
 
-  OFVector<TestSCU*> scus(2);
+  //using namespace std;
+  //freopen( "output.txt", "w", stdout );
+  //freopen( "error.txt", "w", stderr );
+
+  OFVector<TestSCU*> scus(1);
   for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
       {
           *it1 = new TestSCU;
-          (*it1)->setAETitle("EchoTestSCU");
+          (*it1)->setAETitle("StoreTestSCU");
           (*it1)->setPeerAETitle("TestSCP");
           (*it1)->setPeerHostName("localhost");
           (*it1)->setPeerPort(11112);
-          (*it1)->addPresentationContext(UID_DigitalXRayImageStorageForPresentation, xfers);
+          (*it1)->setVerbosePCMode(OFTrue);
+          //std::cout << numberOfDcmLongSCUStorageSOPClassUIDs <<'\n';
+          (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
+          (*it1)->addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
           for (size_t n = 0; n < numberOfDcmLongSCUStorageSOPClassUIDs; n++)
         {
             (*it1)->addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], xfers);
         }
-          (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
           (*it1)->initNetwork();
       }
 
@@ -193,6 +203,7 @@ TEST_CASE("Test C-STORE Assosciation"){
       {
         (*it3)->join();
         CHECK((*it3)->result.good());
+        CHECK((*it3)->result2.good());
         delete *it3;
       };
     // Request shutdown.

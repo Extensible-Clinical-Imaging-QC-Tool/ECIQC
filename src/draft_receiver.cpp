@@ -48,6 +48,7 @@ Receiver::Receiver()
         setMaxThreads(2);
         getConfig().setConnectionBlockingMode(DUL_NOBLOCK);
         getConfig().setConnectionTimeout(20);
+        getConfig().setVerbosePCMode(OFTrue);
 
         // Add presentation context to be handled
         OFList<OFString> ts;
