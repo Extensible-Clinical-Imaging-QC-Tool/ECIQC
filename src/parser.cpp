@@ -12,26 +12,44 @@ using namespace std;
 
 
 /*! \The Parser class parses the configuration file with the user settings. 
-    \It includes basic functionalities for the moment. 
 */
 void Parser::initial_settings(){
 
-    
-    auto js = R"({"GCC_compiler_version":"9.3.0",
-    "warn_return_any":"True",
-    "warn_unused_configs":"True",
-    "ignore_missing_imports":"True",
-    "include_private_tags":"True"})"_json; /**< create a string containing configuration files and convert it to a json object */
+    std::ifstream ifs("metadata.json");
+    json j = json::parse(ifs);
 
+    // update data
+    j.at("00080005") += {"actions", "update"};
+    std:: cout << j.at("00080005") << '\n';
 
-    if (js.at("include_private_tags")== true){
-        std:: cout << "Proceed including private tags" << '\n';
-    }
-    else {
-        std:: cout << "Proceed removing private tags" << '\n';
+    // remove data 
+    j.at("00080020") += {"actions", "remove"};
+    std:: cout << j.at("00080020") << '\n';
+
+    //clear
+    j.at("00080030") += {"actions", "clear"};
+    std:: cout << j.at("00080030") << '\n';
+
+    //prepend
+    j.at("00080050") += {"actions", "prepend"};
+    std:: cout << j.at("00080050") << '\n';
     
-    }
-    return;/**< process user settings ie whether to include or not private tags*/
+    //append
+    j.at("00080056") += {"actions", "append"};
+    std:: cout << j.at("00080056") << '\n';
+    
+    //insert 
+    j.at("00080061") += {"actions", "insert"};
+    std:: cout << j.at("00080061") << '\n';
+    
+    //overwrite
+    j.at("00080090") += {"actions", "overwrite"};
+    std:: cout << j.at("00080090") << '\n';
+
+    std::ofstream file("metadata_modify.json");
+    file << j;
+
+    return;/**< process user settings in order to modify data*/
 }
 
 
@@ -68,4 +86,14 @@ void Parser::function_extractor()
     std::ofstream file_values("output/values.json");
     file_values << values;
     return;            
+}
+
+int main(){
+    Parser obj2;
+    obj2.initial_settings();
+ 
+
+    Parser obj;
+    obj.function_extractor();
+
 }
