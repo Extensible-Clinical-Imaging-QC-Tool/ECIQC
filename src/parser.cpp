@@ -16,8 +16,10 @@ using namespace std;
 void Parser::initial_settings(){
 
     std::ifstream ifs("1-1copy.json");
-    //std::istringstream ifs("res/date.json");
-    json j = json::parse(ifs);
+    std::stringstream file_content;
+    file_content << ifs.rdbuf();
+
+    json j = json::parse(file_content);
 
     // update data
     j.at("00080008") += {"actions", "update"};
