@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <dcmtk/dcmnet/scu.h>
 #include <dcmtk/dcmnet/dstorscu.h>
 
-
+#include <nlohmann/json.hpp>
 
 #include "../src/Exception.hpp"
 #include "../src/MyLibrary.hpp"
@@ -85,13 +85,9 @@ TEST_CASE("Testing the metadata editing class") {
   CHECK(obj2.x == hh);
 }
 TEST_CASE("test the Parser class") {
-
-
-    Parser obj2;
-    obj2.initial_settings();
-  
+   
     Parser obj;
-    obj.function_extractor();
+    obj.initial_settings();
 
 }
 
