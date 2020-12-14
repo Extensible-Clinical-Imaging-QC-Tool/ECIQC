@@ -54,7 +54,9 @@ set(JSON_BuildTests OFF CACHE INTERNAL "")
 add_subdirectory(libs/nlohmann_json/)
 add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
-                  src/Exception.hpp)
+                  src/Exception.hpp
+                  src/draft_receiver.cpp
+                  src/draft_receiver.hpp)
 target_include_directories(qctool_lib PUBLIC src)
 
 find_package(Boost REQUIRED)
