@@ -69,18 +69,14 @@ TEST_CASE("Testing the metadata editing class") {
 }
 TEST_CASE("test the Parser class") {
 
-  // Convert DICOM file and data set to JSON 
-  // dcm2json cmd line tools
+    Parser obj2;
+    obj2.initial_settings();
+ 
 
-  Parser obj; 
-  obj.initial_settings(); /**< include user modification in _modify.json*/
-
-
-  Parser obj2;
-  obj2.function_extractor();
+    Parser obj;
+    obj.function_extractor();
 
 }
-
 // Receiver class tests
 
 
@@ -91,4 +87,3 @@ TEST_CASE("test the Parser class") {
 
 
 // Class interaction tests
-
