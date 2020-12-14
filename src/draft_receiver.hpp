@@ -1,52 +1,50 @@
 #ifndef RECEIVER_H
 #define RECEIVER_H
 
-#include <iostream>
-#include <dcmtk/config/osconfig.h>
-#include <dcmtk/dcmpstat/dcmpstat.h>
 #include <dcmtk/dcmnet/scppool.h>
 #include <dcmtk/dcmnet/scpthrd.h>
 
+/**
+ * A worker thread in a multithreaded Service Class Provider. 
+ * Runs an association from an already accepted connection.
+ */
 class ReceiverThread : public DcmThreadSCP
 {
 
 public:
+    /**  Constructor. */
     ReceiverThread();
 
+    /** Destructor. */
     virtual ~ReceiverThread();
 
-    // overwrite method of DcmSCP to disable DcmSCP's standard handler
+    /** Overwrite method of DcmSCP to enable handling of C-STORE requests. */
     OFCondition handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo);
 
-protected:
-    /** Handle incoming storage request.
-     
-    virtual OFCondition
-    handleSTORERequest(T_DIMSE_C_StoreRQ& reqMessage, const T_ASC_PresentationContextID presID, DcmDataset*& reqDataset)
-    {
-        OFCondition result = receiveSTORERequest(reqMessage, presID, reqDataset);
-        // Do whatever you like with dataset, e.g. store to disk to the desired directory
-        // ...
-        return result;
-    } */
 };
 
+/**
+ * A multithreaded Service Class Provider.
+ */
 class Receiver : public DcmSCPPool<ReceiverThread>, public OFThread
 {
 
 public:
     OFCondition result;
+    
+    /** Constructor. */
     Receiver();
 
+    /** Destructor. */
     virtual ~Receiver();
 
+    /** Stop listening after current association. */
     virtual void request_stop();
 
 protected:
+    /** Overwrite OFThread's run() method. */
     void run();
 };
  
-
-
 
 #endif

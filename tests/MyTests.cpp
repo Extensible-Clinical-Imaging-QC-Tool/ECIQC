@@ -83,8 +83,9 @@ TEST_CASE("Testing the metadata editing class") {
 
 // Testing Receiver Class
 
-TEST_CASE("Test C-ECHO Assosciation"){
+TEST_CASE("Test C-ECHO Association"){
 
+  // Create a test SCU to send C-ECHO request
   struct TestSCU : DcmSCU, OFThread {
       OFCondition result;
     protected:
@@ -97,12 +98,15 @@ TEST_CASE("Test C-ECHO Assosciation"){
   
   Receiver pool;
 
+  // Define presentation contexts for SCU
   OFList<OFString> xfers;
   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
   xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
 
+  // Start listening
   pool.start();
 
+  // Configure SCU and initialize
   OFVector<TestSCU*> scus(2);
   for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
       {
@@ -115,63 +119,61 @@ TEST_CASE("Test C-ECHO Assosciation"){
           (*it1)->initNetwork();
       }
 
-
-    OFStandard::sleep(5); 
   
 
-
-    for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+  // Start SCUs
+  for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
         (*it2)->start();
 
 
-    for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+  // Check the association.
+  for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
       {
         (*it3)->join();
         CHECK((*it3)->result.good());
         delete *it3;
       };
-    // Request shutdown.
-    pool.request_stop();
-    pool.join();
+  
+  // Request shutdown.
+  pool.request_stop();
+  pool.join();
 
 }
 
-TEST_CASE("Test C-STORE Assosciation"){
 
+TEST_CASE("Test C-STORE Association"){
 
+  // Create test SCU that can send C-STORE requests.
   struct TestSCU : DcmStorageSCU, OFThread {
       OFCondition result;
       OFCondition result2;
     protected:
       void run(){
         negotiateAssociation();
-        DcmDataset * rspCommandSet = NULL;
-        DcmDataset * rspStatusDetail = NULL;
         Uint16 rspStatusCode = 0;
 
+        // Images to be sent
         result = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
         result2 = sendSTORERequest(0, "../DICOM_Images/1-01.dcm", 0, rspStatusCode);
         releaseAssociation();
         }
     };
-  std::cout<<"Test STORE"<<'\n';
-  //OFLog::configure(OFLogger::DEBUG_LOG_LEVEL);
+
   Receiver pool;
 
+  // Define presentation contexts
   OFList<OFString> xfers;
   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
   xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
 
+  // Define a separate transfer syntax needed for the X-ray image
   OFList<OFString> ts;
   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
   
   pool.start();
 
-  //using namespace std;
-  //freopen( "output.txt", "w", stdout );
-  //freopen( "error.txt", "w", stderr );
-
-  OFVector<TestSCU*> scus(1);
+  // Configure SCUs.
+  OFVector<TestSCU*> scus(2);
   for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
       {
           *it1 = new TestSCU;
@@ -180,38 +182,31 @@ TEST_CASE("Test C-STORE Assosciation"){
           (*it1)->setPeerHostName("localhost");
           (*it1)->setPeerPort(11112);
           (*it1)->setVerbosePCMode(OFTrue);
-          //std::cout << numberOfDcmLongSCUStorageSOPClassUIDs <<'\n';
           (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
+          (*it1)->addPresentationContext(UID_CTImageStorage, xfers);
           (*it1)->addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
-          for (size_t n = 0; n < numberOfDcmLongSCUStorageSOPClassUIDs; n++)
-        {
-            (*it1)->addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], xfers);
-        }
           (*it1)->initNetwork();
       }
-
-
-    OFStandard::sleep(5); 
   
 
-
-    for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+  // Start SCUs
+  for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
         (*it2)->start();
 
-
-    for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+  // Check if C-STORE was successful
+  for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
       {
         (*it3)->join();
         CHECK((*it3)->result.good());
         CHECK((*it3)->result2.good());
         delete *it3;
       };
-    // Request shutdown.
-    pool.request_stop();
-    pool.join();
+  
+  // Request shutdown.
+  pool.request_stop();
+  pool.join();
 
 }
-  
-// TODO: c-store with the x-ray image doesn't work :(
+
 #endif
 

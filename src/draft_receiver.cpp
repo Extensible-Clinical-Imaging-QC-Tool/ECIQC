@@ -1,13 +1,15 @@
 #include <iostream>
+#include <dcmtk/config/osconfig.h>
+#include <dcmtk/dcmpstat/dcmpstat.h>
+
 #include "draft_receiver.hpp"
 
-// constructor
+
 ReceiverThread::ReceiverThread():DcmThreadSCP()
 {
 
 };
 
-// destructor
 ReceiverThread::~ReceiverThread() {};
 
 OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo)
@@ -15,39 +17,32 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
 
         if (incomingMsg->CommandField == DIMSE_C_STORE_RQ)
         {
-            // handle incoming C-STORE request
+            // Enable handling of C-STORE requests.
             
             DcmDataset* dset = NULL;
             return DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, dset);
         }
-        /* 
-        // save to file code
-+            DcmFileFormat fileformat;
-+            DcmDataset* reqDataset = fileformat.getDataset();
-+            OFCondition result = DcmSCP::receiveSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, reqDataset);
-+                   if (result.good())
-+                   {
-+                       result = fileformat.saveFile("/home/sabsr3/filetest.dcm");
-+                   }
-+            return result;
 
-        */
         else
         {
             return DcmSCP::handleIncomingCommand(incomingMsg, presInfo);
         }
     };
 
-// constructor part 2
+
 Receiver::Receiver()
 {
-        // Configure SCP, only port is required
+        // Configure SCP port
         getConfig().setPort(11112);
+        // Configure SCP name
         getConfig().setAETitle("TestSCP");
-        //getConfig().setRespondWithCalledAETitle(OFTrue);
+        // Set numbers of threads
         setMaxThreads(2);
         getConfig().setConnectionBlockingMode(DUL_NOBLOCK);
+
+        // Set time to wait for the next association (in seconds)
         getConfig().setConnectionTimeout(20);
+        // Set verbose mode
         getConfig().setVerbosePCMode(OFTrue);
 
         // Add presentation context to be handled
@@ -62,7 +57,6 @@ Receiver::Receiver()
             getConfig().addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], ts);
         }
         getConfig().addPresentationContext(UID_VerificationSOPClass, ts);
-        getConfig().addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
     };
 
 Receiver::~Receiver() {};
