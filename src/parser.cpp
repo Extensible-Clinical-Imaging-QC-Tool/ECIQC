@@ -18,8 +18,8 @@ void Parser::initial_settings(){
     std::ifstream ifs("1-1copy.json");
     std::stringstream file_content;
     file_content << ifs.rdbuf();
-
-    json j = json::parse(file_content);
+    json j;
+    std::stringstream(file_content.str()) >> j;
 
     // update data
     j.at("00080008") += {"actions", "update"};
