@@ -15,36 +15,35 @@ using namespace std;
 */
 void Parser::initial_settings(){
 
-    std::ifstream ifs("metadata.json");
+    std::ifstream ifs("1-1copy.json");
     //std::istringstream ifs("res/date.json");
     json j = json::parse(ifs);
 
     // update data
-    j.at("00080005") += {"actions", "update"};
-    std:: cout << j.at("00080005") << '\n';
+    j.at("00080008") += {"actions", "update"};
 
     // remove data 
-    j.at("00080020") += {"actions", "remove"};
+    j.at("00080016") += {"actions", "remove"};
    
     //clear
-    j.at("00080030") += {"actions", "clear"};
+    j.at("00080018") += {"actions", "clear"};
     
     //prepend
-    j.at("00080050") += {"actions", "prepend"};
+    j.at("00080020") += {"actions", "prepend"};
     
     //append
-    j.at("00080056") += {"actions", "append"};
+    j.at("00080021") += {"actions", "append"};
     
     
     //insert 
-    j.at("00080061") += {"actions", "insert"};
+    j.at("00080022") += {"actions", "insert"};
     
     
     //overwrite
-    j.at("00080090") += {"actions", "overwrite"};
+    j.at("00080023") += {"actions", "overwrite"};
    
 
-    std::ofstream file("metadata_modify.json");
+    std::ofstream file("1-1copy_modify.json");
     file << j;
 
     return;/**< process user settings in order to modify data*/
@@ -55,7 +54,7 @@ void Parser::initial_settings(){
 void Parser::function_extractor()
 {
 
-    auto j = R"("00080005"
+    auto js = R"("00080005"
     )"_json;
 
     
@@ -64,7 +63,7 @@ void Parser::function_extractor()
     vector <json> er;
   
 
-    for (const auto& item : j.items())
+    for (const auto& item : js.items())
     {
 
         std::string t = item.key();
@@ -84,13 +83,4 @@ void Parser::function_extractor()
     std::ofstream file_values("output/values.json");
     file_values << values;
     return;            
-}
-
-int main(){
-    Parser obj2;
-    obj2.initial_settings();
- 
-
-    Parser obj;
-    obj.function_extractor();
 }

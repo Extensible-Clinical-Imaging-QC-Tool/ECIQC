@@ -73,7 +73,7 @@ TEST_CASE("test the Parser class") {
   // dcm2json cmd line tools
 
   Parser obj; 
-  obj.initial_settings(); /**< include user modification in metadata_modify.json*/
+  obj.initial_settings(); /**< include user modification in _modify.json*/
 
 
   Parser obj2;
