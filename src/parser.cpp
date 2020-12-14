@@ -16,6 +16,7 @@ using namespace std;
 void Parser::initial_settings(){
 
     std::ifstream ifs("metadata.json");
+    //std::istringstream ifs("res/date.json");
     json j = json::parse(ifs);
 
     // update data
@@ -24,27 +25,24 @@ void Parser::initial_settings(){
 
     // remove data 
     j.at("00080020") += {"actions", "remove"};
-    std:: cout << j.at("00080020") << '\n';
-
+   
     //clear
     j.at("00080030") += {"actions", "clear"};
-    std:: cout << j.at("00080030") << '\n';
-
+    
     //prepend
     j.at("00080050") += {"actions", "prepend"};
-    std:: cout << j.at("00080050") << '\n';
     
     //append
     j.at("00080056") += {"actions", "append"};
-    std:: cout << j.at("00080056") << '\n';
+    
     
     //insert 
     j.at("00080061") += {"actions", "insert"};
-    std:: cout << j.at("00080061") << '\n';
+    
     
     //overwrite
     j.at("00080090") += {"actions", "overwrite"};
-    std:: cout << j.at("00080090") << '\n';
+   
 
     std::ofstream file("metadata_modify.json");
     file << j;
@@ -86,4 +84,13 @@ void Parser::function_extractor()
     std::ofstream file_values("output/values.json");
     file_values << values;
     return;            
+}
+
+int main(){
+    Parser obj2;
+    obj2.initial_settings();
+ 
+
+    Parser obj;
+    obj.function_extractor();
 }

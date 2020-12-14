@@ -68,12 +68,16 @@ TEST_CASE("Testing the metadata editing class") {
   CHECK(obj2.x == hh);
 }
 TEST_CASE("test the Parser class") {
-    Parser obj2;
-    obj2.initial_settings();
- 
 
-    Parser obj;
-    obj.function_extractor();
+  // Convert DICOM file and data set to JSON 
+  // dcm2json cmd line tools
+
+  Parser obj; 
+  obj.initial_settings(); /**< include user modification in metadata_modify.json*/
+
+
+  Parser obj2;
+  obj2.function_extractor();
 
 }
 
