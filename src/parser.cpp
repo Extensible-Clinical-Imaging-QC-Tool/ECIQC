@@ -87,13 +87,3 @@ void Parser::function_extractor()
     file_values << values;
     return;            
 }
-
-int main(){
-    Parser obj2;
-    obj2.initial_settings();
- 
-
-    Parser obj;
-    obj.function_extractor();
-
-}
