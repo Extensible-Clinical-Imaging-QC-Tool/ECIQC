@@ -36,7 +36,7 @@ Receiver::Receiver()
         getConfig().setPort(11112);
         // Configure SCP name
         getConfig().setAETitle("TestSCP");
-        // Set numbers of threads
+        // Set number of threads
         setMaxThreads(2);
         getConfig().setConnectionBlockingMode(DUL_NOBLOCK);
 

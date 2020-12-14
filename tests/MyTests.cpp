@@ -83,6 +83,7 @@ TEST_CASE("Testing the metadata editing class") {
 
 // Testing Receiver Class
 
+// This tests handling of C-ECHO Association
 TEST_CASE("Test C-ECHO Association"){
 
   // Create a test SCU to send C-ECHO request
@@ -140,7 +141,7 @@ TEST_CASE("Test C-ECHO Association"){
 
 }
 
-
+// This tests handling of C-STORE Association
 TEST_CASE("Test C-STORE Association"){
 
   // Create test SCU that can send C-STORE requests.
