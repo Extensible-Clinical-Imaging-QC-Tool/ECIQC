@@ -8,9 +8,9 @@
 ReceiverThread::ReceiverThread():DcmThreadSCP()
 {
 
-};
+}
 
-ReceiverThread::~ReceiverThread() {};
+ReceiverThread::~ReceiverThread() {}
 
 OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo)
     {
@@ -27,8 +27,11 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
         {
             return DcmSCP::handleIncomingCommand(incomingMsg, presInfo);
         }
-    };
+    }
 
+/*OFBool ReceiverThread::checkCallingHostAccepted(){
+
+} */
 
 Receiver::Receiver()
 {
@@ -57,12 +60,36 @@ Receiver::Receiver()
             getConfig().addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], ts);
         }
         getConfig().addPresentationContext(UID_VerificationSOPClass, ts);
-    };
+    }
 
-Receiver::~Receiver() {};
+Receiver::~Receiver() {}
 
-void Receiver::request_stop(){ DcmBaseSCPPool::stopAfterCurrentAssociations(); };
+void Receiver::request_stop(){ DcmBaseSCPPool::stopAfterCurrentAssociations(); }
 
 void Receiver::run(){
         result = DcmSCPPool :: listen();
-    };
+    }
+
+void Receiver::set_name(OFString ae_title) {
+    getConfig().setAETitle(ae_title);
+}
+
+void Receiver::setacceptableIPs(OFList<OFString> source_list){
+    m_sourcelist = source_list;
+}
+
+OFList<OFString> Receiver::getacceptableIPs(){
+    return m_sourcelist;
+}
+
+OFCondition Receiver::listen(){
+    if (getacceptableIPs().size() == 0)
+    {
+        return DcmSCPPool :: listen();
+    }
+    else
+    {
+        std::cout<<"Oooops";
+    }
+    
+}
