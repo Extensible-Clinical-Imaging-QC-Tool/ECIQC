@@ -14,7 +14,7 @@ using namespace std;
 */
 void Parser::initial_settings(){
 
-    std::ifstream ifs("/home/sabsr3/ECIQC/src/1-1copy.json");
+    std::ifstream ifs("1-1copy.json");
     std::stringstream file_content;
     file_content << ifs.rdbuf();
     json j;
