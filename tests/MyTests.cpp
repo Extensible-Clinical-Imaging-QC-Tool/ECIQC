@@ -86,8 +86,25 @@ TEST_CASE("Testing the metadata editing class") {
 }
 TEST_CASE("test the Parser class") {
    
-    Parser obj;
-    obj.initial_settings();
+  std::string test_configuration = R"({
+    "00080008": {
+      "vr": "CS",
+      "Value": [
+        "ORIGINAL",
+        "PRIMARY",
+        null
+      ]
+    },
+    "00080016": {
+      "vr": "UI",
+      "Value": [
+        "1.2.840.10008.5.1.4.1.1.1.1"
+      ]
+    }
+  })";
+
+  Parser obj;
+  obj.initial_settings(std::stringstream(test_configuration));
 
 }
 
