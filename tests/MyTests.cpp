@@ -135,7 +135,7 @@ TEST_CASE("Test C-ECHO Association"){
           (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
           (*it1)->initNetwork();
       }
-
+  OFStandard::sleep(5);
   
 
   // Start SCUs
@@ -204,7 +204,7 @@ TEST_CASE("Test C-STORE Association"){
           (*it1)->addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
           (*it1)->initNetwork();
       }
-  
+  OFStandard::sleep(5);
 
   // Start SCUs
   for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
