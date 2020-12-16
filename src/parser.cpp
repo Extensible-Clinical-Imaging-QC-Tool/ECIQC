@@ -12,13 +12,11 @@ using namespace std;
 
 /*! \The Parser class parses the configuration file with the user settings. 
 */
-void Parser::initial_settings(){
 
-    std::ifstream ifs("1-1copy.json");
-    std::stringstream file_content;
-    file_content << ifs.rdbuf();
+void Parser::initial_settings(std::stringstream configuration){
+
     json j;
-    std::stringstream(file_content.str()) >> j;
+    configuration >> j;
 
     // update data
     j.at("00080008") += {"actions", "update"};
@@ -44,8 +42,8 @@ void Parser::initial_settings(){
     j.at("00080023") += {"actions", "overwrite"};
    
 
-    std::ofstream file("1-1copy_modify.json");
-    file << j;
+    //std::ofstream file("1-1copy_modify.json");
+    //file << j;
 
     return;/**< process user settings in order to modify data*/
 }

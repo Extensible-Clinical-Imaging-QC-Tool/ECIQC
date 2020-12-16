@@ -86,8 +86,14 @@ TEST_CASE("Testing the metadata editing class") {
 }
 TEST_CASE("test the Parser class") {
    
-    Parser obj;
-    obj.initial_settings();
+  std::ifstream ifs("../src/1-1copy.json");
+  string test_configuration;
+  ostringstream ss;
+  ss << ifs.rdbuf(); // reading data
+  test_configuration = ss.str();
+
+  Parser obj;
+  obj.initial_settings(std::stringstream(test_configuration));
 
 }
 
