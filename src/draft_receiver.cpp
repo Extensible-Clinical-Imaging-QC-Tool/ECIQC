@@ -33,6 +33,10 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
 
 } */
 
+void ReceiverThread::setIPs(OFList<OFString> source_list){
+    m_sourcelist = source_list;
+}
+
 Receiver::Receiver()
 {
         // Configure SCP port
@@ -62,12 +66,14 @@ Receiver::Receiver()
         getConfig().addPresentationContext(UID_VerificationSOPClass, ts);
     }
 
+// ----------------------------------------------------------------------------
+
 Receiver::~Receiver() {}
 
-void Receiver::request_stop(){ DcmBaseSCPPool::stopAfterCurrentAssociations(); }
+void Receiver::request_stop(){ DQDBaseSCPPool::stopAfterCurrentAssociations(); }
 
 void Receiver::run(){
-        result = DcmSCPPool :: listen();
+        result = DQDSCPPool :: listen();
     }
 
 void Receiver::set_name(OFString ae_title) {
@@ -81,15 +87,4 @@ void Receiver::setacceptableIPs(OFList<OFString> source_list){
 OFList<OFString> Receiver::getacceptableIPs(){
     return m_sourcelist;
 }
-
-OFCondition Receiver::listen(){
-    if (getacceptableIPs().size() == 0)
-    {
-        return DcmSCPPool :: listen();
-    }
-    else
-    {
-        std::cout<<"Oooops";
-    }
     
-}

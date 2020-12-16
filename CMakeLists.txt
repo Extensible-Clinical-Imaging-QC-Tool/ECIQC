@@ -55,7 +55,9 @@ add_library(qctool_lib src/MyLibrary.cpp
                   src/MyLibrary.hpp
                   src/Exception.hpp
                   src/draft_receiver.cpp
-                  src/draft_receiver.hpp)
+                  src/draft_receiver.hpp
+                  src/poolbase.h
+                  src/poolbase.cpp)
 target_include_directories(qctool_lib PUBLIC src)
 
 find_package(Boost REQUIRED)

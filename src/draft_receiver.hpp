@@ -3,13 +3,13 @@
 
 #include <dcmtk/dcmnet/scppool.h>
 #include <dcmtk/dcmnet/scpthrd.h>
-
+#include <poolbase.h>
 /**
  * A worker thread in a multithreaded Service Class Provider. 
  * Runs an association from an already accepted connection.
  */
 class ReceiverThread : public DcmThreadSCP
-{
+{ OFList<OFString> m_sourcelist;
 
 public:
     /**  Constructor. */
@@ -22,7 +22,8 @@ public:
     OFCondition handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo);
 
     
-    //void setIPs();
+    void setIPs(OFList<OFString> source_list);
+    
     /**Check if calling IP is accepted */
     //virtual OFBool checkCallingHostAccepted();
 
@@ -31,7 +32,7 @@ public:
 /**
  * A multithreaded Service Class Provider.
  */
-class Receiver : public DcmSCPPool<ReceiverThread>, public OFThread
+class Receiver : public DQDSCPPool<ReceiverThread, DQDBaseSCPPool, DQDBaseSCPPool::DQDBaseSCPWorker>, public OFThread
 {
     OFList<OFString> m_sourcelist;
 
@@ -57,9 +58,6 @@ public:
 protected:
     /** Overwrite OFThread's run() method. */
     void run();
-
-    virtual OFCondition listen();
-
 };
  
 
