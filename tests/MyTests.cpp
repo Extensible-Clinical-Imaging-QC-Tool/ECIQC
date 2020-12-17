@@ -47,7 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <dcmtk/dcmnet/scu.h>
 #include <dcmtk/dcmnet/dstorscu.h>
 
-
+#include <nlohmann/json.hpp>
 
 #include "../src/Exception.hpp"
 #include "../src/MyLibrary.hpp"
@@ -57,8 +57,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "../src/MetadataEditor.cpp"
 #include "../src/MetadataEditor.hpp"
+#include "../src/parser.cpp"
+#include "../src/Parser.hpp"
 
 using namespace cpp_template;
+
+// Metadata editing tests
 
 TEST_CASE("Test for reading in a known DICOM image file") {
   DcmFileFormat image;
@@ -79,6 +83,18 @@ TEST_CASE("Testing the metadata editing class") {
   CHECK(obj1.x == 23);
   // Instantiation with 1 argument
   CHECK(obj2.x == hh);
+}
+TEST_CASE("test the Parser class") {
+   
+  std::ifstream ifs("../src/1-1copy.json");
+  string test_configuration;
+  ostringstream ss;
+  ss << ifs.rdbuf(); // reading data
+  test_configuration = ss.str();
+
+  Parser obj;
+  obj.initial_settings(std::stringstream(test_configuration));
+
 }
 
 // Testing Receiver Class
@@ -119,7 +135,7 @@ TEST_CASE("Test C-ECHO Association"){
           (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
           (*it1)->initNetwork();
       }
-
+  OFStandard::sleep(5);
   
 
   // Start SCUs
@@ -188,7 +204,7 @@ TEST_CASE("Test C-STORE Association"){
           (*it1)->addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
           (*it1)->initNetwork();
       }
-  
+  OFStandard::sleep(5);
 
   // Start SCUs
   for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
@@ -211,3 +227,13 @@ TEST_CASE("Test C-STORE Association"){
 
 #endif
 
+// Receiver class tests
+
+
+// Parser class tests
+
+
+// Validation class tests
+
+
+// Class interaction tests

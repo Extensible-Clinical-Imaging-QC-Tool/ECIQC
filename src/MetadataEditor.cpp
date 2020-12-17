@@ -10,5 +10,3 @@ MetadataEditor::MetadataEditor(int xx) {
 void MetadataEditor::print() {
     std::cout << "x = "<< x << "\n";
 }
-
-
