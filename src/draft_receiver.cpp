@@ -31,8 +31,27 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
 
 OFBool ReceiverThread::checkCallingHostAccepted(const OFString& hostOrIP){
     std::cout<<"Checking the size "<<m_sourcelist.size()<<"\n";
+    std::cout<<"IP is: "<< getPeerIP()<<"\n";
+    std::cout<<"We are looking for "<< hostOrIP<<'\n';
     if((m_sourcelist.size()!=0)) {
         // Add a check of IPs
+        OFListIterator(OFString) it = m_sourcelist.begin();
+        OFListIterator(OFString) last = m_sourcelist.end();
+        //auto itx = std::find(it, last, hostOrIP);
+        while(it != last)
+        {
+            OFString item = *it;
+            if (item == getPeerIP())
+            {
+                std::cout<<"found a matching ip"<<'\n';
+                return OFTrue;
+                it = last;
+            }
+            
+            ++it;
+        }
+
+        std::cout<<"no matching ip found"<<'\n';
         return OFFalse;
     }
 

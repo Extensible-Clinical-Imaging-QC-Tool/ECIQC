@@ -181,7 +181,7 @@ TEST_CASE("Test IP check"){
   Receiver pool;
 
   OFList<OFString> hostiplist;
-  hostiplist.push_back("An IP address");
+  hostiplist.push_back("localhost");
     
   pool.setacceptableIPs(hostiplist);
   std::cout<<pool.getacceptableIPs().size()<<'\n';
@@ -218,7 +218,7 @@ TEST_CASE("Test IP check"){
   for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
       {
         (*it3)->join();
-        CHECK((*it3)->result.bad());
+        CHECK((*it3)->result.good());
         delete *it3;
       };
   
