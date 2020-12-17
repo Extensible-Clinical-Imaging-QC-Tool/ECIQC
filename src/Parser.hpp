@@ -12,6 +12,7 @@ class Parser {
         *  the initial_settings function processes user choices and calls the editing methods
         */
        void initial_settings(std::stringstream configuration);
+       void table(std::stringstream configuration);
 
 };
 

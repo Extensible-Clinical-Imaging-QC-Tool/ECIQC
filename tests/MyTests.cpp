@@ -59,6 +59,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../src/MetadataEditor.hpp"
 #include "../src/parser.cpp"
 #include "../src/Parser.hpp"
+#include "../src/DYNARRAY.cpp"
+
 
 using namespace cpp_template;
 
@@ -85,15 +87,22 @@ TEST_CASE("Testing the metadata editing class") {
   CHECK(obj2.x == hh);
 }
 TEST_CASE("test the Parser class") {
-   
-  std::ifstream ifs("../src/1-1copy.json");
-  string test_configuration;
-  ostringstream ss;
-  ss << ifs.rdbuf(); // reading data
-  test_configuration = ss.str();
 
-  Parser obj;
-  obj.initial_settings(std::stringstream(test_configuration));
+  std::ifstream file("../src/1-1copy.json");
+  if (file.is_open())
+  {
+    string test_configuration;
+    ostringstream ss;
+    ss << file.rdbuf(); // reading data
+    test_configuration = ss.str();
+
+    Parser obj, obj2;
+    obj.initial_settings(std::stringstream(test_configuration));
+    obj2.table(std::stringstream(test_configuration));
+  }
+  else{
+    cout << "*** Error opening file" << endl;
+  }
 
 }
 
