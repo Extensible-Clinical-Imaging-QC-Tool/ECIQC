@@ -21,10 +21,7 @@
 
 using namespace cpp_template;
 
-// This tests handling of C-ECHO Association
-TEST_CASE("Test C-ECHO Association"){
-
-  // Create a test SCU to send C-ECHO request
+ // Create a test SCU to send C-ECHO request
   struct TestSCU : DcmSCU, OFThread {
       OFCondition result;
     protected:
@@ -34,6 +31,25 @@ TEST_CASE("Test C-ECHO Association"){
         releaseAssociation();
         }
     };
+
+  // Create a storage SCU that can send C-STORE requests.
+  struct TestStorageSCU : DcmStorageSCU, OFThread {
+      OFCondition result;
+      OFCondition result2;
+    protected:
+      void run(){
+        negotiateAssociation();
+        Uint16 rspStatusCode = 0;
+
+        // Images to be sent
+        result = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
+        result2 = sendSTORERequest(0, "../DICOM_Images/1-01.dcm", 0, rspStatusCode);
+        releaseAssociation();
+        }
+    };
+
+// This tests handling of C-ECHO Association
+TEST_CASE("Test C-ECHO Association"){
   
   Receiver pool;
 
@@ -82,22 +98,6 @@ TEST_CASE("Test C-ECHO Association"){
 // This tests handling of C-STORE Association
 TEST_CASE("Test C-STORE Association"){
 
-  // Create test SCU that can send C-STORE requests.
-  struct TestSCU : DcmStorageSCU, OFThread {
-      OFCondition result;
-      OFCondition result2;
-    protected:
-      void run(){
-        negotiateAssociation();
-        Uint16 rspStatusCode = 0;
-
-        // Images to be sent
-        result = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
-        result2 = sendSTORERequest(0, "../DICOM_Images/1-01.dcm", 0, rspStatusCode);
-        releaseAssociation();
-        }
-    };
-
   Receiver pool;
 
   // Define presentation contexts
@@ -112,10 +112,10 @@ TEST_CASE("Test C-STORE Association"){
   pool.start();
 
   // Configure SCUs.
-  OFVector<TestSCU*> scus(2);
-  for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
+  OFVector<TestStorageSCU*> scus(2);
+  for (OFVector<TestStorageSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
       {
-          *it1 = new TestSCU;
+          *it1 = new TestStorageSCU;
           (*it1)->setAETitle("StoreTestSCU");
           (*it1)->setPeerAETitle("TestSCP");
           (*it1)->setPeerHostName("localhost");
@@ -129,11 +129,11 @@ TEST_CASE("Test C-STORE Association"){
   
 
   // Start SCUs
-  for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+  for (OFVector<TestStorageSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
         (*it2)->start();
 
   // Check if C-STORE was successful
-  for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+  for (OFVector<TestStorageSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
       {
         (*it3)->join();
         CHECK((*it3)->result.good());
@@ -147,6 +147,7 @@ TEST_CASE("Test C-STORE Association"){
 
 }
 
+// This tests basic configuration of the Receiver.
 TEST_CASE("Test Receiver Configuration"){
 
     Receiver scppool;
@@ -163,21 +164,10 @@ TEST_CASE("Test Receiver Configuration"){
     CHECK(scppool.getacceptableIPs().size() == 1);
 }
 
-TEST_CASE("Test IP check"){
+// This tests datasource check at hostname/IP level
+TEST_CASE("Test hostname/IP check - accept"){
 
-  std::cout << "Testing IP Check";
-
-    // Create a test SCU to send C-ECHO request
-  struct TestSCU : DcmSCU, OFThread {
-      OFCondition result;
-    protected:
-      void run(){
-        negotiateAssociation();
-        result = sendECHORequest(0);
-        releaseAssociation();
-        }
-    };
-  
+  // Check that a specified hostname is accepted.
   Receiver pool;
 
   OFList<OFString> hostiplist;
@@ -227,4 +217,55 @@ TEST_CASE("Test IP check"){
   pool.join();
 }
 
+TEST_CASE("Test hostname/IP check - reject"){
+  // Check that a non-specified hostname is rejected.
+  Receiver pool;
+
+  OFList<OFString> hostiplist;
+  hostiplist.push_back("AnIPAddress");
+    
+  pool.setacceptableIPs(hostiplist);
+  std::cout<<pool.getacceptableIPs().size()<<'\n';
+
+  // Define presentation contexts for SCU
+  OFList<OFString> xfers;
+  xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+  xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+
+  // Start listening
+  pool.start();
+
+  // Configure SCU and initialize
+  OFVector<TestSCU*> scus(1);
+  for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
+      {
+          *it1 = new TestSCU;
+          (*it1)->setAETitle("PoolTestSCU");
+          (*it1)->setPeerAETitle("TestSCP");
+          (*it1)->setPeerHostName("localhost");
+          (*it1)->setPeerPort(11112);
+          (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
+          (*it1)->initNetwork();
+      }
+
+  
+
+  // Start SCUs
+  for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+        (*it2)->start();
+
+
+  // Check the association.
+  for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+      {
+        (*it3)->join();
+        CHECK((*it3)->result.bad());
+        delete *it3;
+      };
+  
+  // Request shutdown.
+  pool.request_stop();
+  pool.join();
+}
+// TODO: clean up test code & merge main branch.
 #endif
