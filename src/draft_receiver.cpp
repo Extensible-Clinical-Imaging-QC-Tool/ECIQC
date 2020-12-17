@@ -29,12 +29,28 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
         }
     }
 
-/*OFBool ReceiverThread::checkCallingHostAccepted(){
+OFBool ReceiverThread::checkCallingHostAccepted(const OFString& hostOrIP){
+    std::cout<<"Checking the size "<<m_sourcelist.size()<<"\n";
+    if((m_sourcelist.size()!=0)) {
+        // Add a check of IPs
+        return OFFalse;
+    }
 
-} */
+    else
+    {
+        return OFTrue;
+    }
+    
 
-void ReceiverThread::setIPs(OFList<OFString> source_list){
-    m_sourcelist = source_list;
+}
+
+OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list){
+    if (isConnected())
+  {
+    return EC_IllegalCall; // TODO: need to find better error code
+  }
+  m_sourcelist = source_list;
+  return EC_Normal;
 }
 
 Receiver::Receiver()
@@ -81,10 +97,7 @@ void Receiver::set_name(OFString ae_title) {
 }
 
 void Receiver::setacceptableIPs(OFList<OFString> source_list){
-    m_sourcelist = source_list;
+    DQDBaseSCPPool::setacceptableIPs(source_list);
 }
 
-OFList<OFString> Receiver::getacceptableIPs(){
-    return m_sourcelist;
-}
     

@@ -72,7 +72,7 @@ public:
        */
       virtual OFCondition setSharedConfig(const DcmSharedSCPConfig& config) = 0;
 
-      virtual void setIPs(OFList<OFString> source_list) = 0;
+      virtual OFCondition setIPs(const OFList<OFString>& source_list) = 0;
 
       /** Check whether worker is busy.
        *  @return OFTrue if worker is busy, OFFalse otherwise.
@@ -136,6 +136,8 @@ public:
    */
   virtual void setMaxThreads(const Uint16 maxWorkers);
 
+  virtual void setacceptableIPs(OFList<OFString> source_list);
+
   /** Get number of maximum permitted connections, i.e.\ threads/workers.
    *  @return Number of threads permitted to exist within pool.
    */
@@ -147,6 +149,8 @@ public:
    *  @return Number of connections currently handled within pool
    */
   virtual size_t numThreads(const OFBool onlyBusy);
+
+  virtual OFList<OFString> getacceptableIPs();
 
   /** Listen for incoming association requests. For each incoming request, a
    *  new thread is started if number of maximum threads is not reached yet.
@@ -190,7 +194,7 @@ protected:
    *          an error code otherwise.
    */
   OFCondition runAssociation(T_ASC_Association* assoc,
-                             const DcmSharedSCPConfig& sharedConfig);
+                             const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist);
 
   /** Drops association and clears internal structures to free memory
    *  @param assoc The association to free
@@ -326,9 +330,9 @@ private:
             return SCP::setSharedConfig(config);
         }
 
-        virtual void setIPs(OFList<OFString> source_list)
+        virtual OFCondition setIPs(const OFList<OFString>& source_list)
         {
-            SCP::setIPs(source_list);
+            return SCP::setIPs(source_list);
         }
 
         /** Determine if the Worker is currently handling any request.
@@ -361,6 +365,29 @@ private:
     }
 };
 
+struct DCMTK_DCMNET_EXPORT SharedSCPHosts : private OFshared_ptr< OFList<OFString>> {
+
+  OFList<OFString> sourcelist;
+  
+  inline SharedSCPHosts()
+  : OFshared_ptr<OFList<OFString>>(new OFList<OFString>){}
+
+  inline explicit SharedSCPHosts(const OFList<OFString>& sourcelist)
+  : OFshared_ptr<OFList<OFString>>(new OFList<OFString>( sourcelist)) {}
+
+  /** Access the shared DcmSCPConfig object.
+   *  @return a pointer to the shared DcmSCPConfig object.
+   */
+  inline OFList<OFString>* operator->() const { return get(); } 
+
+  /** Access the shared DcmSCPConfig object.
+   *  @return a reference to the shared DcmSCPConfig object.
+   */
+ inline OFList<OFString>& operator*() const { return *get(); }
+
+
+
+};
 
 #endif // WITH_THREADS
 

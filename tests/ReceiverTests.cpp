@@ -155,9 +155,76 @@ TEST_CASE("Test Receiver Configuration"){
 
     CHECK(scppool.getConfig().getAETitle() == "ATestName");
 
-    std::cout<<scppool.getConfig().getRefuseAssociation()<<'\n';
+    OFList<OFString> hostiplist;
+    hostiplist.push_back("An IP address");
+    
+    scppool.setacceptableIPs(hostiplist);
 
-    std::cout<<scppool.getacceptableIPs().size();
+    CHECK(scppool.getacceptableIPs().size() == 1);
+}
+
+TEST_CASE("Test IP check"){
+
+  std::cout << "Testing IP Check";
+
+    // Create a test SCU to send C-ECHO request
+  struct TestSCU : DcmSCU, OFThread {
+      OFCondition result;
+    protected:
+      void run(){
+        negotiateAssociation();
+        result = sendECHORequest(0);
+        releaseAssociation();
+        }
+    };
+  
+  Receiver pool;
+
+  OFList<OFString> hostiplist;
+  hostiplist.push_back("An IP address");
+    
+  pool.setacceptableIPs(hostiplist);
+  std::cout<<pool.getacceptableIPs().size()<<'\n';
+
+  // Define presentation contexts for SCU
+  OFList<OFString> xfers;
+  xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+  xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+
+  // Start listening
+  pool.start();
+
+  // Configure SCU and initialize
+  OFVector<TestSCU*> scus(1);
+  for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
+      {
+          *it1 = new TestSCU;
+          (*it1)->setAETitle("PoolTestSCU");
+          (*it1)->setPeerAETitle("TestSCP");
+          (*it1)->setPeerHostName("localhost");
+          (*it1)->setPeerPort(11112);
+          (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
+          (*it1)->initNetwork();
+      }
+
+  
+
+  // Start SCUs
+  for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+        (*it2)->start();
+
+
+  // Check the association.
+  for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+      {
+        (*it3)->join();
+        CHECK((*it3)->result.bad());
+        delete *it3;
+      };
+  
+  // Request shutdown.
+  pool.request_stop();
+  pool.join();
 }
 
 #endif
