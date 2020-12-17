@@ -38,6 +38,8 @@
  *  incoming TCP/IP connections and spawning a number of SCP worker threads
  *  that handle the incoming DICOM association on that connection. This base
  *  class is abstract.
+ * 
+ *  Based on DCMTK's DCMBaseSCPPool.
  */
 class DCMTK_DCMNET_EXPORT DQDBaseSCPPool
 {
@@ -72,6 +74,13 @@ public:
        */
       virtual OFCondition setSharedConfig(const DcmSharedSCPConfig& config) = 0;
 
+      /** Set the list of acceptable hostnames/IPs that should be used by the worker 
+       *  to evaluate whether to accept the incoming association request.
+       *  @param source_list An OFList<OFString> object that contains a list of strings of
+       *         acceptable hostnames/IPs to be used by this worker.
+       *  @return EC_Normal, if the list is accepted, error code 
+       *          otherwise. 
+       */
       virtual OFCondition setIPs(const OFList<OFString>& source_list) = 0;
 
       /** Check whether worker is busy.
@@ -136,6 +145,9 @@ public:
    */
   virtual void setMaxThreads(const Uint16 maxWorkers);
 
+  /** Set the hostnames/IPs from which the SCP can accept data.
+   * @param source_list A list of strings of acceptable hostnames/IPs.
+   */
   virtual void setacceptableIPs(OFList<OFString> source_list);
 
   /** Get number of maximum permitted connections, i.e.\ threads/workers.
@@ -150,6 +162,9 @@ public:
    */
   virtual size_t numThreads(const OFBool onlyBusy);
 
+  /** Get the list of acceptable hostnames/IPs by the SCP.
+   *  @return A list of acceptable hostnames/IPs.
+   */
   virtual OFList<OFString> getacceptableIPs();
 
   /** Listen for incoming association requests. For each incoming request, a
@@ -190,6 +205,7 @@ protected:
    *  side effect is that assoc is set to NULL.
    *  @param assoc The association to be run. Must be not NULL.
    *  @param sharedConfig A DcmSharedSCPConfig object to be used by the worker.
+   *  @param sourcelist A list of strings containing hostnames/IPs accepted by the worker.
    *  @return EC_Normal if worker could be found and runs the association,
    *          an error code otherwise.
    */
@@ -243,13 +259,14 @@ private:
   /// maximum number of connections for the pool since every worker serves
   /// one connection at a time.
   Uint16 m_maxWorkers;
-
+  
+  // A list of hostnames/IPs from which SCP will accept data.
+  // If not specified, all hostnames are accepted.
+  OFList<OFString> m_sourcelist;
   // Not implemented yet: Can be helpful if all workers are busy but incoming
   // associations should then not be rejected immediately but only after a
   // specific timeout
   // Uint16 m_workersBusyTimeout;
-  OFList<OFString> m_sourcelist;
-
   // Not implemented yet: list of associations that are waiting for a worker
   // becoming available
   // OFList<T_ASC_Association*> m_waiting;
@@ -330,6 +347,10 @@ private:
             return SCP::setSharedConfig(config);
         }
 
+        /** Set the list of hostnames/IPs from which to accept data for this worker.
+         *  @param source_list a list containing allowed hostnames/IPs to be used by this
+         *         worker.
+         */
         virtual OFCondition setIPs(const OFList<OFString>& source_list)
         {
             return SCP::setIPs(source_list);
@@ -365,29 +386,6 @@ private:
     }
 };
 
-struct DCMTK_DCMNET_EXPORT SharedSCPHosts : private OFshared_ptr< OFList<OFString>> {
-
-  OFList<OFString> sourcelist;
-  
-  inline SharedSCPHosts()
-  : OFshared_ptr<OFList<OFString>>(new OFList<OFString>){}
-
-  inline explicit SharedSCPHosts(const OFList<OFString>& sourcelist)
-  : OFshared_ptr<OFList<OFString>>(new OFList<OFString>( sourcelist)) {}
-
-  /** Access the shared DcmSCPConfig object.
-   *  @return a pointer to the shared DcmSCPConfig object.
-   */
-  inline OFList<OFString>* operator->() const { return get(); } 
-
-  /** Access the shared DcmSCPConfig object.
-   *  @return a reference to the shared DcmSCPConfig object.
-   */
- inline OFList<OFString>& operator*() const { return *get(); }
-
-
-
-};
 
 #endif // WITH_THREADS
 

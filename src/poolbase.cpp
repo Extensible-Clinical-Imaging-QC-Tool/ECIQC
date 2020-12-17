@@ -59,13 +59,8 @@ OFCondition DQDBaseSCPPool::listen()
   /* Copy the config to a shared config that is shared by all workers. */
   DcmSharedSCPConfig sharedConfig(m_cfg);
 
-  std::cout<<"Size of base class list is: "<<m_sourcelist.size()<<'\n';
-
-  OFList<OFString>& source_list = m_sourcelist;
-  std::cout<<"The pointer size is: "<<source_list.size()<<'\n';
-  
-  SharedSCPHosts sharedIPs(m_sourcelist);
-  //sourcelist = m_sourcelist;
+  /* Copy the list of acceptable IPs/hostnames */
+  OFList<OFString>& source_list = m_sourcelist;;
 
   /* Initialize network, i.e. create an instance of T_ASC_Network*. */
   T_ASC_Network *network = NULL;

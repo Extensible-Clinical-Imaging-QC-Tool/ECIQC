@@ -22,9 +22,14 @@ public:
     OFCondition handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo);
 
     
+    
     virtual OFCondition setIPs(const OFList<OFString>& source_list);
     
-    /**Check if calling IP is accepted */
+    /** Check if calling IP/hostname is accepted by the SCP.
+     *  @param hostOrIP Connected peer's hostname or IP.
+     *  @return OFTrue if hostname/IP is allowed (or if no acceptable hostnames/IPs are specified).
+     *          OFFalse if hostname/IP is not accepted.
+     */
     virtual OFBool checkCallingHostAccepted(const OFString& hostOrIP);
 
 };
@@ -34,7 +39,6 @@ public:
  */
 class Receiver : public DQDSCPPool<ReceiverThread, DQDBaseSCPPool, DQDBaseSCPPool::DQDBaseSCPWorker>, public OFThread
 {
-    //OFList<OFString> m_sourcelist;
 
 public:
     OFCondition result;
@@ -48,12 +52,15 @@ public:
     /** Stop listening after current association. */
     virtual void request_stop();
 
-    /** Set AE Title. */ // Is this needed??
+    /** Set AE Title. 
+     *  @param ae_title AE Title to be used by the SCP.
+     */ 
     void set_name(OFString ae_title);
 
+    /** Set hostnames/IPs from which SCP can accept data. 
+     *  @param source_list A list of strings of acceptable IPs/hostnames.
+     */ 
     void setacceptableIPs(OFList<OFString> source_list);
-
-    //OFList<OFString> getacceptableIPs();
 
 protected:
     /** Overwrite OFThread's run() method. */
