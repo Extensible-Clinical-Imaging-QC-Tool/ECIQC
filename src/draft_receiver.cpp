@@ -31,6 +31,7 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
 
 OFBool ReceiverThread::checkCallingHostAccepted(const OFString& hostOrIP){
     // Check if acceptable IPs/hostnames have been specified. 
+    std::cout<<"AE Titles set size: "<<m_peerAETitles.size();
     if((m_sourcelist.size()!=0)) {
         
         // Check if peer's hostname is in the acceptable source list.
@@ -63,6 +64,15 @@ OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list){
     return EC_IllegalCall; // TODO: need to find better error code
   }
   m_sourcelist = source_list;
+  return EC_Normal;
+}
+
+OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list){
+     if (isConnected())
+  {
+    return EC_IllegalCall; // TODO: need to find better error code
+  }
+  m_peerAETitles = peerae_list;
   return EC_Normal;
 }
 

@@ -158,10 +158,15 @@ TEST_CASE("Test Receiver Configuration"){
 
     OFList<OFString> hostiplist;
     hostiplist.push_back("An IP address");
+
+    OFList<OFString> peeraelist;
+    peeraelist.push_back("A test name");
     
     scppool.setacceptableIPs(hostiplist);
+    scppool.setcallingAETitles(peeraelist);
 
     CHECK(scppool.getacceptableIPs().size() == 1);
+    CHECK(scppool.getcallingAETitles().size() == 1);
 }
 
 // This tests datasource check at hostname/IP level
@@ -174,7 +179,6 @@ TEST_CASE("Test hostname/IP check - accept"){
   hostiplist.push_back("localhost");
     
   pool.setacceptableIPs(hostiplist);
-  std::cout<<pool.getacceptableIPs().size()<<'\n';
 
   // Define presentation contexts for SCU
   OFList<OFString> xfers;
@@ -225,7 +229,6 @@ TEST_CASE("Test hostname/IP check - reject"){
   hostiplist.push_back("AnIPAddress");
     
   pool.setacceptableIPs(hostiplist);
-  std::cout<<pool.getacceptableIPs().size()<<'\n';
 
   // Define presentation contexts for SCU
   OFList<OFString> xfers;

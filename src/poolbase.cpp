@@ -38,6 +38,7 @@ DQDBaseSCPPool::DQDBaseSCPPool()
     m_cfg(),
     m_maxWorkers(5),
     m_sourcelist(),
+    m_peeraelist(),
     m_runMode( LISTEN )
     // not implemented yet: m_workersBusyTimeout(60),
     // not implemented yet: m_waiting(),
@@ -60,7 +61,9 @@ OFCondition DQDBaseSCPPool::listen()
   DcmSharedSCPConfig sharedConfig(m_cfg);
 
   /* Copy the list of acceptable IPs/hostnames */
-  OFList<OFString>& source_list = m_sourcelist;;
+  OFList<OFString>& source_list = m_sourcelist;
+
+  OFList<OFString>& peerAE_list = m_peeraelist;
 
   /* Initialize network, i.e. create an instance of T_ASC_Network*. */
   T_ASC_Network *network = NULL;
@@ -82,7 +85,7 @@ OFCondition DQDBaseSCPPool::listen()
     /* If we have a connection request, try to find/create a worker to handle it */
     if (cond.good())
     {
-      cond = runAssociation(assoc, sharedConfig, source_list);
+      cond = runAssociation(assoc, sharedConfig, source_list, peerAE_list);
 
       /* If anything goes wrong running association: Refuse it */
       if (cond.bad())
@@ -160,8 +163,16 @@ Uint16 DQDBaseSCPPool::getMaxThreads()
 
 // ----------------------------------------------------------------------------
 
-OFList<OFString> DQDBaseSCPPool::getacceptableIPs(){
+OFList<OFString> DQDBaseSCPPool::getacceptableIPs()
+{
   return m_sourcelist;
+}
+
+// ----------------------------------------------------------------------------
+
+OFList<OFString> DQDBaseSCPPool::getcallingAETitles()
+{
+  return m_peeraelist;
 }
 
 // ----------------------------------------------------------------------------
@@ -196,8 +207,15 @@ void DQDBaseSCPPool::setacceptableIPs(OFList<OFString> source_list)
 
 // ----------------------------------------------------------------------------
 
+void DQDBaseSCPPool::setcallingAETitles(OFList<OFString> aetitle_list)
+{
+  m_peeraelist= aetitle_list;
+}
+// ----------------------------------------------------------------------------
+
 OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
-                                           const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist)
+                                           const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
+                                           const OFList<OFString>& peerAE_list)
 {
   /* Try to find idle worker thread */
   OFCondition result = EC_Normal;
@@ -225,6 +243,7 @@ OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
         m_workersBusy.push_back(worker);
         worker->setSharedConfig(sharedConfig);
         worker->setIPs(sourcelist);
+        worker->setpeerAETitles(peerAE_list);
         chosen = worker;
       }
     }

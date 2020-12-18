@@ -83,6 +83,15 @@ public:
        */
       virtual OFCondition setIPs(const OFList<OFString>& source_list) = 0;
 
+      /** Set the list of acceptable peer AE Titles that should be used by the worker 
+       *  to evaluate whether to accept the incoming association request.
+       *  @param peerae_list An OFList<OFString> object that contains a list of strings of
+       *         acceptable peer AE Titles to be used by this worker.
+       *  @return EC_Normal, if the list is accepted, error code 
+       *          otherwise. 
+       */
+      virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list) = 0;
+
       /** Check whether worker is busy.
        *  @return OFTrue if worker is busy, OFFalse otherwise.
        */
@@ -150,6 +159,11 @@ public:
    */
   virtual void setacceptableIPs(OFList<OFString> source_list);
 
+  /** Set the AE Titles of peers from which the SCP can accept data.
+   * @param aetitle_list A list of acceptable peer AE Titles.
+   */
+  virtual void setcallingAETitles(OFList<OFString> aetitle_list);
+
   /** Get number of maximum permitted connections, i.e.\ threads/workers.
    *  @return Number of threads permitted to exist within pool.
    */
@@ -161,6 +175,11 @@ public:
    *  @return Number of connections currently handled within pool
    */
   virtual size_t numThreads(const OFBool onlyBusy);
+
+  /** Get the list of acceptable calling AE Titles by the SCP.
+   *  @return A list of acceptable calling AE Titles.
+   */
+  virtual OFList<OFString> getcallingAETitles();
 
   /** Get the list of acceptable hostnames/IPs by the SCP.
    *  @return A list of acceptable hostnames/IPs.
@@ -210,7 +229,8 @@ protected:
    *          an error code otherwise.
    */
   OFCondition runAssociation(T_ASC_Association* assoc,
-                             const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist);
+                             const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
+                             const OFList<OFString>& peerAE_list);
 
   /** Drops association and clears internal structures to free memory
    *  @param assoc The association to free
@@ -263,6 +283,11 @@ private:
   // A list of hostnames/IPs from which SCP will accept data.
   // If not specified, all hostnames are accepted.
   OFList<OFString> m_sourcelist;
+
+  // A list of AE Titles of peers from which SCP will accept data.
+  // If not specified, all AE Titles are accepted.
+  OFList<OFString> m_peeraelist;
+
   // Not implemented yet: Can be helpful if all workers are busy but incoming
   // associations should then not be rejected immediately but only after a
   // specific timeout
@@ -354,6 +379,15 @@ private:
         virtual OFCondition setIPs(const OFList<OFString>& source_list)
         {
             return SCP::setIPs(source_list);
+        }
+
+        /** Set the list of hostnames/IPs from which to accept data for this worker.
+         *  @param peerae_list a list containing allowed peer AE Titles to be used by this
+         *         worker.
+         */
+        virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list)
+        {
+            return SCP::setpeerAETitles(peerae_list);
         }
 
         /** Determine if the Worker is currently handling any request.

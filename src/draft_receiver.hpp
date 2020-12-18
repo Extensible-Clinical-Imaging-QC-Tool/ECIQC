@@ -10,6 +10,7 @@
  */
 class ReceiverThread : public DcmThreadSCP
 { OFList<OFString> m_sourcelist;
+  OFList<OFString> m_peerAETitles;
 
 public:
     /**  Constructor. */
@@ -24,6 +25,7 @@ public:
     
     
     virtual OFCondition setIPs(const OFList<OFString>& source_list);
+    virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list);
     
     /** Check if calling IP/hostname is accepted by the SCP.
      *  @param hostOrIP Connected peer's hostname or IP.
