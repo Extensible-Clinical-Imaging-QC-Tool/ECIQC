@@ -31,7 +31,6 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
 
 OFBool ReceiverThread::checkCallingHostAccepted(const OFString& hostOrIP){
     // Check if acceptable IPs/hostnames have been specified. 
-    std::cout<<"AE Titles set size: "<<m_peerAETitles.size();
     if((m_sourcelist.size()!=0)) {
         
         // Check if peer's hostname is in the acceptable source list.
@@ -56,6 +55,32 @@ OFBool ReceiverThread::checkCallingHostAccepted(const OFString& hostOrIP){
     }
     
 
+}
+
+OFBool ReceiverThread::checkCallingAETitleAccepted(const OFString& callingAE)
+{
+    if(m_peerAETitles.size() != 0)
+    {
+        OFListIterator(OFString) it = m_peerAETitles.begin();
+        OFListIterator(OFString) last = m_peerAETitles.end();
+
+        while(it != last)
+        {
+            OFString item = *it;
+            if (item == getPeerAETitle())
+            {
+                return OFTrue;
+                it = last;
+            }
+            ++it;
+        }
+        
+        return OFFalse;
+    }
+    else
+    {
+        return OFTrue;
+    }
 }
 
 OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list){
@@ -87,7 +112,7 @@ Receiver::Receiver()
         getConfig().setConnectionBlockingMode(DUL_NOBLOCK);
 
         // Set time to wait for the next association (in seconds)
-        getConfig().setConnectionTimeout(20);
+        getConfig().setConnectionTimeout(5);
         // Set verbose mode
         getConfig().setVerbosePCMode(OFTrue);
 

@@ -33,6 +33,7 @@ public:
      *          OFFalse if hostname/IP is not accepted.
      */
     virtual OFBool checkCallingHostAccepted(const OFString& hostOrIP);
+    virtual OFBool checkCallingAETitleAccepted(const OFString& callingAE); 	
 
 };
 

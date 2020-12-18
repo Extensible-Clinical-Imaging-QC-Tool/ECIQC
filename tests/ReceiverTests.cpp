@@ -270,5 +270,107 @@ TEST_CASE("Test hostname/IP check - reject"){
   pool.request_stop();
   pool.join();
 }
+
+TEST_CASE("Test called AE Title check - accept"){
+
+  // Check that a specified hostname is accepted.
+  Receiver pool;
+
+  OFList<OFString> aetitles;
+  aetitles.push_back("PoolTestSCU");
+    
+  pool.setcallingAETitles(aetitles);
+
+  // Define presentation contexts for SCU
+  OFList<OFString> xfers;
+  xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+  xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+
+  // Start listening
+  pool.start();
+
+  // Configure SCU and initialize
+  OFVector<TestSCU*> scus(1);
+  for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
+      {
+          *it1 = new TestSCU;
+          (*it1)->setAETitle("PoolTestSCU");
+          (*it1)->setPeerAETitle("TestSCP");
+          (*it1)->setPeerHostName("localhost");
+          (*it1)->setPeerPort(11112);
+          (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
+          (*it1)->initNetwork();
+      }
+
+  
+
+  // Start SCUs
+  for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+        (*it2)->start();
+
+
+  // Check the association.
+  for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+      {
+        (*it3)->join();
+        CHECK((*it3)->result.good());
+        delete *it3;
+      };
+  
+  // Request shutdown.
+  pool.request_stop();
+  pool.join();
+}
+
+TEST_CASE("Test called AE Title check - reject"){
+
+  // Check that a specified hostname is accepted.
+  Receiver pool;
+
+  OFList<OFString> aetitles;
+  aetitles.push_back("A Test");
+    
+  pool.setcallingAETitles(aetitles);
+
+  // Define presentation contexts for SCU
+  OFList<OFString> xfers;
+  xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+  xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+
+  // Start listening
+  pool.start();
+
+  // Configure SCU and initialize
+  OFVector<TestSCU*> scus(1);
+  for (OFVector<TestSCU*>::iterator it1 = scus.begin(); it1 != scus.end(); ++it1)
+      {
+          *it1 = new TestSCU;
+          (*it1)->setAETitle("PoolTestSCU");
+          (*it1)->setPeerAETitle("TestSCP");
+          (*it1)->setPeerHostName("localhost");
+          (*it1)->setPeerPort(11112);
+          (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
+          (*it1)->initNetwork();
+      }
+
+  
+
+  // Start SCUs
+  for (OFVector<TestSCU*>::const_iterator it2 = scus.begin(); it2 != scus.end(); ++it2)
+        (*it2)->start();
+
+
+  // Check the association.
+  for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
+      {
+        (*it3)->join();
+        CHECK((*it3)->result.bad());
+        delete *it3;
+      };
+  
+  // Request shutdown.
+  pool.request_stop();
+  pool.join();
+}
 // TODO: clean up test code & merge main branch.
 #endif
