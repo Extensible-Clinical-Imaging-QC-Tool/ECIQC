@@ -180,8 +180,8 @@ void Receiver::setportnumber(Uint16 port)
 
 // ----------------------------------------------------------------------------
 
-void Receiver::setacceptableIPs(OFList<OFString> source_list){
+/*void Receiver::setacceptableIPs(OFList<OFString> source_list){
     DQDBaseSCPPool::setacceptableIPs(source_list);
-}
+} */
 
     

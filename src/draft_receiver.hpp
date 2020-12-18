@@ -79,7 +79,7 @@ public:
     /** Set hostnames/IPs from which SCP can accept data. 
      *  @param source_list A list of strings of acceptable IPs/hostnames.
      */ 
-    void setacceptableIPs(OFList<OFString> source_list);
+    //void setacceptableIPs(OFList<OFString> source_list);
 
 protected:
     /** Overwrite OFThread's run() method. */
