@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <dcmtk/dcmpstat/dcmpstat.h>
 
-
+#include <nlohmann/json.hpp>
 
 #include "../src/Exception.hpp"
 #include "../src/MyLibrary.hpp"
@@ -54,8 +54,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "../src/MetadataEditor.cpp"
 #include "../src/MetadataEditor.hpp"
+#include "../src/parser.cpp"
+#include "../src/Parser.hpp"
 
 using namespace cpp_template;
+
+// Metadata editing tests
 
 TEST_CASE("Test for reading in a known DICOM image file") {
   DcmFileFormat image;
@@ -77,7 +81,29 @@ TEST_CASE("Testing the metadata editing class") {
   // Instantiation with 1 argument
   CHECK(obj2.x == hh);
 }
+TEST_CASE("test the Parser class") {
+   
+  std::ifstream ifs("../src/1-1copy.json");
+  string test_configuration;
+  ostringstream ss;
+  ss << ifs.rdbuf(); // reading data
+  test_configuration = ss.str();
+
+  Parser obj;
+  obj.initial_settings(std::stringstream(test_configuration));
+
+}
 
 
 #endif
 
+// Receiver class tests
+
+
+// Parser class tests
+
+
+// Validation class tests
+
+
+// Class interaction tests
