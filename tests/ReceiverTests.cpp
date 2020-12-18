@@ -173,7 +173,7 @@ TEST_CASE("Test Receiver Configuration"){
 }
 
 // This tests datasource check at hostname/IP level
-TEST_CASE("Test hostname/IP check"){
+TEST_CASE("Test hostname/IP check - Accept"){
 
   // Check that a specified hostname is accepted.
   Receiver pool;
@@ -208,6 +208,9 @@ TEST_CASE("Test hostname/IP check"){
   // Request shutdown.
   pool.request_stop();
   pool.join();
+}
+
+TEST_CASE("Test hostname/IP check - Reject"){
 
   // Check that a non-specified hostname is rejected.
   Receiver poolrej;
@@ -217,8 +220,19 @@ TEST_CASE("Test hostname/IP check"){
 
   poolrej.setacceptableIPs(hostiplistrej);
 
+  // Define presentation contexts for SCU
+  OFList<OFString> xfers;
+  xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+  xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+
   poolrej.start();
 
+  TestSCU scu;
+  scu.setAETitle("PoolTestSCU");
+  scu.setPeerAETitle("TestSCP");
+  scu.setPeerHostName("localhost");
+  scu.setPeerPort(11112);
+  scu.addPresentationContext(UID_VerificationSOPClass, xfers);
   scu.initNetwork();
   OFStandard::sleep(5);
 
