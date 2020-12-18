@@ -39,7 +39,7 @@
  *  that handle the incoming DICOM association on that connection. This base
  *  class is abstract.
  * 
- *  Based on DCMTK's DCMBaseSCPPool.
+ *  Based on DCMTK's DCMBaseSCPPool from dcmnet library
  */
 class DCMTK_DCMNET_EXPORT DQDBaseSCPPool
 {
@@ -225,6 +225,7 @@ protected:
    *  @param assoc The association to be run. Must be not NULL.
    *  @param sharedConfig A DcmSharedSCPConfig object to be used by the worker.
    *  @param sourcelist A list of strings containing hostnames/IPs accepted by the worker.
+   *  @param peerAE_list A list containing peer calling AE Titles accepted by the worker.
    *  @return EC_Normal if worker could be found and runs the association,
    *          an error code otherwise.
    */

@@ -4,13 +4,18 @@
 
 #include "draft_receiver.hpp"
 
+// ----------------------------------------------------------------------------
 
 ReceiverThread::ReceiverThread():DcmThreadSCP()
 {
 
 }
 
+// ----------------------------------------------------------------------------
+
 ReceiverThread::~ReceiverThread() {}
+
+// ----------------------------------------------------------------------------
 
 OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo)
     {
@@ -29,7 +34,10 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
         }
     }
 
-OFBool ReceiverThread::checkCallingHostAccepted(const OFString& hostOrIP){
+// ----------------------------------------------------------------------------
+
+OFBool ReceiverThread::checkCallingHostAccepted(const OFString& hostOrIP)
+{
     // Check if acceptable IPs/hostnames have been specified. 
     if((m_sourcelist.size()!=0)) {
         
@@ -57,6 +65,8 @@ OFBool ReceiverThread::checkCallingHostAccepted(const OFString& hostOrIP){
 
 }
 
+// ----------------------------------------------------------------------------
+
 OFBool ReceiverThread::checkCallingAETitleAccepted(const OFString& callingAE)
 {
     if(m_peerAETitles.size() != 0)
@@ -83,7 +93,10 @@ OFBool ReceiverThread::checkCallingAETitleAccepted(const OFString& callingAE)
     }
 }
 
-OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list){
+// ----------------------------------------------------------------------------
+
+OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list)
+{
     if (isConnected())
   {
     return EC_IllegalCall; // TODO: need to find better error code
@@ -91,6 +104,8 @@ OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list){
   m_sourcelist = source_list;
   return EC_Normal;
 }
+
+// ----------------------------------------------------------------------------
 
 OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list){
      if (isConnected())
@@ -100,6 +115,10 @@ OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list)
   m_peerAETitles = peerae_list;
   return EC_Normal;
 }
+
+/* *********************************************************************** */
+/*                        Receiver class                                   */
+/* *********************************************************************** */
 
 Receiver::Receiver()
 {
@@ -134,15 +153,32 @@ Receiver::Receiver()
 
 Receiver::~Receiver() {}
 
+// ----------------------------------------------------------------------------
+
 void Receiver::request_stop(){ DQDBaseSCPPool::stopAfterCurrentAssociations(); }
 
-void Receiver::run(){
+// ----------------------------------------------------------------------------
+
+void Receiver::run()
+    {
         result = DQDSCPPool :: listen();
     }
 
-void Receiver::set_name(OFString ae_title) {
+// ----------------------------------------------------------------------------
+
+void Receiver::setaetitle(OFString ae_title) 
+{
     getConfig().setAETitle(ae_title);
 }
+
+// ----------------------------------------------------------------------------
+
+void Receiver::setportnumber(Uint16 port)
+{
+    getConfig().setPort(port);
+}
+
+// ----------------------------------------------------------------------------
 
 void Receiver::setacceptableIPs(OFList<OFString> source_list){
     DQDBaseSCPPool::setacceptableIPs(source_list);

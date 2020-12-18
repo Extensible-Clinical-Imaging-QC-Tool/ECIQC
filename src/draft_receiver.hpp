@@ -22,9 +22,14 @@ public:
     /** Overwrite method of DcmSCP to enable handling of C-STORE requests. */
     OFCondition handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo);
 
-    
-    
+    /** Set IP/hostnames accepted by the SCP worker.
+     *  @param source_list List of accepted hostname or IP.
+     */
     virtual OFCondition setIPs(const OFList<OFString>& source_list);
+
+    /** Set called AE titles accepted by the SCP worker.
+     *  @param peerae_list List of accepted called AE Titles.
+     */
     virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list);
     
     /** Check if calling IP/hostname is accepted by the SCP.
@@ -33,6 +38,12 @@ public:
      *          OFFalse if hostname/IP is not accepted.
      */
     virtual OFBool checkCallingHostAccepted(const OFString& hostOrIP);
+
+    /** Check if calling AE Title is accepted by the SCP.
+     *  @param callingAE Connected peer's AE Title.
+     *  @return OFTrue if calling AE Title is allowed (or if no acceptable calling AE Titles are specified).
+     *          OFFalse if calling AE is not accepted.
+     */
     virtual OFBool checkCallingAETitleAccepted(const OFString& callingAE); 	
 
 };
@@ -58,7 +69,12 @@ public:
     /** Set AE Title. 
      *  @param ae_title AE Title to be used by the SCP.
      */ 
-    void set_name(OFString ae_title);
+    void setaetitle(OFString ae_title);
+
+    /** Set Port to listen on. 
+     *  @param port Port to be used by the SCP. Default is "11112".
+     */ 
+    void setportnumber(Uint16 port);
 
     /** Set hostnames/IPs from which SCP can accept data. 
      *  @param source_list A list of strings of acceptable IPs/hostnames.

@@ -1,26 +1,4 @@
-/*
- *
- *  Copyright (C) 2012-2014, OFFIS e.V.
- *  All rights reserved.  See COPYRIGHT file for details.
- *
- *  This software and supporting documentation were developed by
- *
- *    OFFIS e.V.
- *    R&D Division Health
- *    Escherweg 2
- *    D-26121 Oldenburg, Germany
- *
- *
- *  Module:  dcmnet
- *
- *  Author:  Michael Onken
- *
- *  Purpose: Class listening for association requests and managing a pool of
- *  worker threads that each are waiting to take over a single incoming
- *  association. Thus, the pool can serve as many associations
- *  simultaneously as the number of threads it is configured to create.
- *
- */
+
 
 #include "dcmtk/config/osconfig.h" /* make sure OS specific configuration is included first */
 
