@@ -1,3 +1,6 @@
+# dcmdata .cc and .h files
+ECIQC/dcmod/*
+
 # build files
 Testing/
 build/
