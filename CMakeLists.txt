@@ -49,16 +49,19 @@ else()
     add_compile_options(-Wall -pedantic)
 endif()
 
+set(JSON_BuildTests OFF CACHE INTERNAL "")
 
-
+add_subdirectory(libs/nlohmann_json/)
 add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
-                  src/Exception.hpp)
+                  src/Exception.hpp
+                  src/draft_receiver.cpp
+                  src/draft_receiver.hpp)
 target_include_directories(qctool_lib PUBLIC src)
 
 find_package(Boost REQUIRED)
 target_include_directories(qctool_lib PRIVATE "${Boost_INCLUDE_DIR}")
-target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}")
+target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}" PUBLIC nlohmann_json::nlohmann_json)
 
 # dcmtk as a required dependency for mylib
 find_package(DCMTK REQUIRED)
@@ -73,6 +76,7 @@ target_link_libraries(unit_tests PRIVATE qctool_lib)
 add_test(run_unit_tests unit_tests)
 
 add_subdirectory(exe)
+
 
 
 # Clang tidy as optional static analyzer
