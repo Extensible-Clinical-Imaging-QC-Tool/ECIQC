@@ -2,14 +2,14 @@
 #include <iostream>
 #include <regex>
 //#include <dcmtk/dcmdata/dcitem.h>
-#include "../dcmod/apps/mdfdsman.h"
+#include "../dcmdata/apps/mdfdsman.h"
 #include "MetadataEditor.hpp"
 
 // Constructor(s)
 MetadataEditor::MetadataEditor(OFString file_path) {
   OFCondition result = loadFile(file_path.c_str());
   if (result.bad()) {
-    std::cout << "Error loading file";
+    std::cout << "Constructor error: " << result.text();
   }
   dset = getDataset();
 }
@@ -39,7 +39,8 @@ OFBool MetadataEditor::exists(OFBool searchIntoSub) {
 }
 
 // Does another tag exist?
-OFBool MetadataEditor::exists(const DcmTagKey &otherTagKey, OFBool searchIntoSub) {
+OFBool MetadataEditor::exists(const DcmTagKey &otherTagKey,
+                              OFBool searchIntoSub) {
   OFBool result = dset->tagExists(otherTagKey, searchIntoSub);
   return result;
 }
@@ -59,15 +60,15 @@ OFCondition MetadataEditor::modify(OFString newValue, OFBool only_overwrite) {
   return resultCond;
 }
 
-OFCondition MetadataEditor::modify(OFString newValue, OFBool only_overwrite,
-                                   OFString otherTagString) {
+OFCondition MetadataEditor::modify(OFString newValue, OFString otherTagString,
+                                   OFBool only_overwrite) {
   OFCondition resultCond =
       modifyOrInsertPath(otherTagString, newValue, only_overwrite);
   return resultCond;
 }
 
-OFCondition MetadataEditor::modify(OFString newValue, OFBool only_overwrite,
-                                   DcmTagKey otherTagKey) {
+OFCondition MetadataEditor::modify(OFString newValue, DcmTagKey otherTagKey,
+                                   OFBool only_overwrite) {
   OFCondition resultCond =
       modifyOrInsertPath(otherTagKey.toString(), newValue, only_overwrite);
   return resultCond;
@@ -89,6 +90,11 @@ OFBool MetadataEditor::match(OFString str_expr, OFCondition &flag) {
   }
 }
 
+// Overload match
+
+
+
+
 // Copy Tag
 OFCondition MetadataEditor::copyTag(OFString TagFromKey, OFString TagTo) {
   /* As is written, can only copy to tags with an identical VR to the
@@ -101,8 +107,8 @@ OFCondition MetadataEditor::copyTag(OFString TagFromKey, OFString TagTo) {
 // key is the variable that will hold your results
 OFCondition MetadataEditor::stringToKey(OFString str, DcmTagKey &key) {
   OFCondition result = splitTagPath(str, key);
+  return result;
 }
-
 
 /*TODO Unknown types when copying?
 Am I right in thinking the VR for an element should never change?

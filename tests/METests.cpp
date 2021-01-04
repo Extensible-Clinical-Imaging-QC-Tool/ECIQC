@@ -42,95 +42,75 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <string>
 
 OFString name;
-OFCondition resultCond;
-OFBool resultBool;
 
-OFString path = "../DICOM_Images/1-1copy.dcm";
+OFString path = "/home/sabsr3/Documents/Group_Software_Project/ECIQC/"
+                "DICOM_Images/1-1copy.dcm";
 OFString nameTagString = "(0010,0010)";
 DcmTagKey nameTagKey = DCM_PatientName;
 OFString retiredTagString = "(0040,0330)";
 DcmTagKey retiredTagKey = DCM_RETIRED_ReferencedProcedureStepSequence;
-OFString newName = "testName";
+std::vector<OFString> newNames = {
+    "testName1",
+    "testName2",
+    "testName3",
+};
 
 MetadataEditor obj{path};
 
-// Metadata editing tests
-
-TEST_CASE("Test for OVERWRITING DICOM element values") {
+TEST_CASE("Test for CHECKING tag EXISTENCE") {
 
   obj.setTag(nameTagString);
-  obj.dset->findAndGetOFString(DCM_PatientName, name);
-  CHECK(name != newName);
 
-  resultCond = obj.modify(newName, OFTrue);
-  std::string s(newName.c_str());
-
-  if (resultCond.bad()) {
-    std::cout << "OW " << resultCond.text() << "**" << std::endl;
-  }
-
-  // test other input
-
-  obj.dset->findAndGetOFString(nameTagKey, name);
-
-  CHECK(resultCond.good());
-  CHECK(name == newName);
-}
-
-TEST_CASE("Test for CHECKING tag EXISTENCE") {
-  OFBool resultBoola, resultBoolb, resultBoolc;
-  resultBoola = obj.exists();
-  resultBoolb = obj.exists(nameTagKey);
-  resultBoolc = obj.exists(nameTagString);
-  OFBool res1 = resultBoola & resultBoolb & resultBoolc;
-  CHECK(res1);
-  if(!res1) {
-    std::cout << resultBoola << resultBoolb << resultBoolc << std::endl;
-  }
-  
-  resultBoola = obj.exists(retiredTagKey);
-  resultBoolb = obj.exists(retiredTagString);
-  OFBool res2 = resultBoola & resultBoolb;
-  CHECK_FALSE(res2);
-  if(!res2) {
-    std::cout << resultBoola << resultBoolb << std::endl;
-  }
+  CHECK(obj.exists());
+  CHECK(obj.exists(nameTagKey));
+  CHECK(obj.exists(nameTagString));
+  CHECK_FALSE(obj.exists(retiredTagKey));
+  CHECK_FALSE(obj.exists(retiredTagString));
 }
 
 TEST_CASE("Test for DELETING DICOM elements") {
 
-  CHECK(obj.exists(DCM_PatientName));
-  resultCond = obj.deleteTag(nameTagString, OFFalse, OFFalse);
-  if (resultCond.bad()) {
-    std::cout << "DL " << resultCond.text() << "**" << std::endl;
+  CHECK(obj.exists(nameTagKey));
+  OFCondition result = obj.deleteTag(nameTagString, OFFalse, OFFalse);
+  if (result.bad()) {
+    std::cout << "DL " << result.text() << "**" << std::endl;
   }
   CHECK_FALSE(obj.exists(nameTagKey));
 }
 
-TEST_CASE("Test for CREATING/INSERTING DICOM elements") {
-
+TEST_CASE("Test for CREATING/MODIFYING DICOM elements") {
+  
+  std::vector<OFCondition> resultCond;
+  // Creating
   CHECK_FALSE(obj.exists(nameTagKey));
-  resultCond = obj.modify(newName, OFFalse, nameTagString);
-  if (resultCond.bad()) {
-    std::cout << "CI " << resultCond.text() << "**" << std::endl;
+  resultCond.push_back(obj.modify(newNames[0], nameTagKey, OFFalse));
+  obj.dset->findAndGetOFString(nameTagKey, name);
+  CHECK(name == newNames[0]);
+  // Modifying
+  resultCond.push_back(obj.modify(newNames[1], OFTrue));
+  obj.dset->findAndGetOFString(nameTagKey, name);
+  CHECK(name == newNames[1]);
+  resultCond.push_back(obj.modify(newNames[2], nameTagString, OFTrue));
+  obj.dset->findAndGetOFString(nameTagKey, name);
+  CHECK(name == newNames[2]);
+
+  for (auto i : resultCond) {
+    if (i.bad()) {
+      std::cout << i.text() << std::endl;
+    }
   }
-  CHECK(obj.exists(nameTagKey));
 }
 
 TEST_CASE("Test for REGEX MATCHING") {
-  std::string str = "String for TEsting regex";
-  std::string str2 = "TEsting";
-  std::regex str_expr("([A-Z]+)([a-z]*)");
-  std::smatch sm;
 
-  // bool h = std::regex_search(str,sm,str_expr,
-  // std::regex_constants::match_default); bool i =
-  // std::regex_match(str2,sm,str_expr, std::regex_constants::match_default);
-  // std::cout << "Match result = " <<  h << i;
+  std::string str1 = "TEsting";
+  std::string str2 = "String for TEsting regex";
+  std::regex str_expr("(([A-Z]+)([a-z]*))");
+ 
+  CHECK(std::regex_match(str1, str_expr));
+  CHECK_FALSE(std::regex_match(str2, str_expr));
 }
 
 TEST_CASE("Test for COPYING DICOM values") {
   // Read modifyOrInsertFromFile()
-
-
 }
