@@ -88,17 +88,25 @@ TEST_CASE("Testing the metadata editing class") {
 }
 TEST_CASE("test the Parser class") {
 
-  std::ifstream file("../src/1-1copy.json");
+  std::ifstream file("../src/schema.json");
+
   if (file.is_open())
-  {
+  {  
+  
     string test_configuration;
     ostringstream ss;
     ss << file.rdbuf(); // reading data
     test_configuration = ss.str();
 
-    Parser obj, obj2;
+    Parser obj;
     obj.initial_settings(std::stringstream(test_configuration));
-    obj2.table(std::stringstream(test_configuration));
+
+
+    json j;
+    std::stringstream(test_configuration) >> j;
+
+
+    CHECK( j["0x0001"].size() == 3 );
   }
   else{
     cout << "*** Error opening file" << endl;
