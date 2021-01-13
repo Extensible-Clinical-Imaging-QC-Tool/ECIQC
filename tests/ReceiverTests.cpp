@@ -229,18 +229,18 @@ TEST_CASE("Test hostname/IP check - Reject"){
 
   poolrej.start();
 
-  TestSCU scu;
-  scu.setAETitle("PoolTestSCU");
-  scu.setPeerAETitle("TestSCP");
-  scu.setPeerHostName("localhost");
-  scu.setPeerPort(11112);
-  scu.addPresentationContext(UID_VerificationSOPClass, xfers);
-  scu.initNetwork();
+  TestSCU rejscu;
+  rejscu.setAETitle("PoolTestSCU");
+  rejscu.setPeerAETitle("TestSCP");
+  rejscu.setPeerHostName("localhost");
+  rejscu.setPeerPort(11112);
+  rejscu.addPresentationContext(UID_VerificationSOPClass, xfers);
+  rejscu.initNetwork();
   OFStandard::sleep(5);
 
-  scu.start();
-  scu.join();
-  CHECK(scu.result.bad());
+  rejscu.start();
+  rejscu.join();
+  CHECK(rejscu.result.bad());
   // Request shutdown.
   poolrej.request_stop();
   poolrej.join();
