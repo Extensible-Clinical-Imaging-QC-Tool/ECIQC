@@ -220,8 +220,6 @@ TEST_CASE("Test hostname/IP check - Reject"){
 
   poolrej.setacceptableIPs(hostiplistrej);
 
-  std::cout<<poolrej.getacceptableIPs().size();
-
   // Define presentation contexts for SCU
   OFList<OFString> xfers;
   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
