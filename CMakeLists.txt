@@ -56,7 +56,9 @@ add_library(qctool_lib src/MyLibrary.cpp
                   src/MyLibrary.hpp
                   src/Exception.hpp
                   src/draft_receiver.cpp
-                  src/draft_receiver.hpp)
+                  src/draft_receiver.hpp
+                  src/poolbase.h
+                  src/poolbase.cpp)
 target_include_directories(qctool_lib PUBLIC src)
 
 find_package(Boost REQUIRED)
@@ -70,7 +72,8 @@ target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 
 enable_testing()
 
-add_executable(unit_tests tests/MyTests.cpp)
+add_executable(unit_tests tests/MyTests.cpp 
+                          tests/ReceiverTests.cpp)
 target_include_directories(unit_tests PRIVATE tests)
 target_link_libraries(unit_tests PRIVATE qctool_lib)
 add_test(run_unit_tests unit_tests)
