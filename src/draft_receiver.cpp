@@ -39,6 +39,8 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
 OFBool ReceiverThread::checkCallingHostAccepted(const OFString& hostOrIP)
 {
     // Check if acceptable IPs/hostnames have been specified. 
+    std::cout<<"Worker's list size: "<<m_sourcelist.size()<<'\n';
+    std::cout<<"We are looking for: "<< getPeerIP();
     if((m_sourcelist.size()!=0)) {
         
         // Check if peer's hostname is in the acceptable source list.
