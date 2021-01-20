@@ -55,14 +55,16 @@ add_subdirectory(libs/nlohmann_json/)
 add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp
-                  # Receiver Libraries
-                  src/draft_receiver.cpp
-                  src/draft_receiver.hpp
-                  # ME Libraries
+                  # ME Files
                   src/MetadataEditor.cpp
                   src/MetadataEditor.hpp
                   src/mdfdsman.cc
-                  src/mdfdsman.h)
+                  src/mdfdsman.h
+                  # Receiver Files
+                  src/draft_receiver.cpp
+                  src/draft_receiver.hpp
+                  src/poolbase.h
+                  src/poolbase.cpp)
 target_include_directories(qctool_lib PUBLIC src)
 
 find_package(Boost REQUIRED)
@@ -76,7 +78,9 @@ target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 
 enable_testing()
 
-add_executable(unit_tests tests/METests.cpp)
+add_executable(unit_tests tests/MyTests.cpp 
+                          tests/METests.cpp
+                          tests/ReceiverTests.cpp)
 target_include_directories(unit_tests PRIVATE tests)
 target_link_libraries(unit_tests PRIVATE qctool_lib)
 add_test(run_unit_tests unit_tests)
