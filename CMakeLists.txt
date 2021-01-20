@@ -55,8 +55,14 @@ add_subdirectory(libs/nlohmann_json/)
 add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp
+                  # Receiver Libraries
                   src/draft_receiver.cpp
-                  src/draft_receiver.hpp)
+                  src/draft_receiver.hpp
+                  # ME Libraries
+                  src/MetadataEditor.cpp
+                  src/MetadataEditor.hpp
+                  src/mdfdsman.cc
+                  src/mdfdsman.h)
 target_include_directories(qctool_lib PUBLIC src)
 
 find_package(Boost REQUIRED)
