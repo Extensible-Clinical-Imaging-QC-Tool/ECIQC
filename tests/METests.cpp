@@ -33,18 +33,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // This tells Catch to provide a main() - only do this in one cpp file
 #define CATCH_CONFIG_MAIN
-#include "../src/MetadataEditor.cpp"
-#include "../src/MetadataEditor.hpp"
+#include "MetadataEditor.hpp"
+#include "testDcmMaker.cpp"
 #include "catch.hpp"
-#include <dcmtk/dcmpstat/dcmpstat.h>
-#include <iostream>
 #include <regex>
-#include <string>
+
 
 OFString name;
-
-OFString path = "/home/sabsr3/Documents/Group_Software_Project/ECIQC/"
-                "DICOM_Images/1-1copy.dcm";
 OFString nameTagString = "(0010,0010)";
 DcmTagKey nameTagKey = DCM_PatientName;
 OFString retiredTagString = "(0040,0330)";
@@ -55,7 +50,8 @@ std::vector<OFString> newNames = {
     "testName3",
 };
 
-MetadataEditor obj{path};
+OFCondition res = makeTestDICOMFile();
+MetadataEditor obj{"test.dcm"};
 
 TEST_CASE("Test for CHECKING tag EXISTENCE") {
 
@@ -79,7 +75,7 @@ TEST_CASE("Test for DELETING DICOM elements") {
 }
 
 TEST_CASE("Test for CREATING/MODIFYING DICOM elements") {
-  
+
   std::vector<OFCondition> resultCond;
   // Creating
   CHECK_FALSE(obj.exists(nameTagKey));
@@ -102,15 +98,36 @@ TEST_CASE("Test for CREATING/MODIFYING DICOM elements") {
 }
 
 TEST_CASE("Test for REGEX MATCHING") {
-
+  // IN PROGRESS
   std::string str1 = "TEsting";
   std::string str2 = "String for TEsting regex";
-  std::regex str_expr("(([A-Z]+)([a-z]*))");
- 
-  CHECK(std::regex_match(str1, str_expr));
-  CHECK_FALSE(std::regex_match(str2, str_expr));
+  OFString str_expr1 = "[a-z]+[A-Z][a-z]+[0-9]"; // testNameX
 }
 
+
 TEST_CASE("Test for COPYING DICOM values") {
-  // Read modifyOrInsertFromFile()
+  // IN PROGRESS
+
+  DcmTagKey tag_a =
+      /*DCM_ImagerPixelSpacing;*/ DCM_RequestedProcedureDescription;
+  DcmTagKey tag_b = DCM_ImagerPixelSpacing; /*DCM_BitsStored;*/
+  DcmElement *ele1, *ele2;
+  obj.dset->findAndGetElement(tag_a, ele1);
+  obj.dset->findAndGetElement(tag_b, ele2);
+  ele1->print(std::cout);
+  ele2->print(std::cout);
+
+  int posTo = 0;
+  int posFrom = 0;
+  OFBool replace = OFFalse;
+  OFBool copyToThis = OFTrue;
+
+  obj.setTag(tag_b);
+  OFCondition cond = obj.copyTag(tag_a, posFrom, posTo, copyToThis, replace);
+
+  obj.dset->findAndGetElement(tag_a, ele1);
+  obj.dset->findAndGetElement(tag_b, ele2);
+  ele1->print(std::cout);
+  ele2->print(std::cout);
+  
 }
