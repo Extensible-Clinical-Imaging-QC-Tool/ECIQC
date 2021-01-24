@@ -55,34 +55,30 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../src/draft_receiver.hpp"
 
 
-#include "../src/MetadataEditor.cpp"
-#include "../src/MetadataEditor.hpp"
+
 #include "../src/parser.cpp"
 #include "../src/Parser.hpp"
-#include "../src/DYNARRAY.cpp"
 
 
 using namespace cpp_template;
 
 // Metadata editing tests
 
-TEST_CASE("Test for reading in a known DICOM image file") {
-  DcmFileFormat image;
-  OFString patientName;
-  OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
 
-  CHECK(status.good() == 1);
-  CHECK(image.getDataset()->findAndGetOFString(DCM_PatientName, patientName).good() == true);
-  CHECK(patientName == "COVID-19-AR-16406488");
-}
 
-TEST_CASE("test the Parser class") {
+TEST_CASE("Test the Parser class") {
 
   std::ifstream file("../src/schema.json");
 
   if (file.is_open())
   {  
-  
+    cout << "*** File open" << endl;
+    
+
+
+    OFString name;
+
+    OFString path = "/home/sabsr3/ECIQC/DICOM_Images/1-1copy.dcm";
     string test_configuration;
     ostringstream ss;
     ss << file.rdbuf(); // reading data
@@ -96,13 +92,33 @@ TEST_CASE("test the Parser class") {
     std::stringstream(test_configuration) >> j;
 
 
-    CHECK( j["0x0001"].size() == 3 );
+    CHECK( j["0x0001"].size() == 4 );
+
+
+
+    
+    string cfg_error;
+    ostringstream string_error = "{'(0010,0010)' : 1 }";
+    cfg_error = string_error.str();
+
+    auto input = obj.file_opening(std::stringstream(cfg_error));
+		auto expected = false; 
+		Assert::AreEqual(expected, input);
+
+    string cfg;
+    ostringstream ss_test = "{"(0010,0010)" : 1 }";
+    cfg = ss_test.str();
+
+    auto input = obj.file_opening(std::stringstream(cfg));
+		auto expected = false; 
+		Assert::AreEqual(expected, input);
+
   }
   else{
     cout << "*** Error opening file" << endl;
   }
 
-}
+
 
 // Testing Receiver Class
 

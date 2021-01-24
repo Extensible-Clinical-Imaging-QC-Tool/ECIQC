@@ -1,8 +1,8 @@
-#include <dcmtk/dcmpstat/dcmpstat.h>
 #include <iostream>
 #include <regex>
 //#include <dcmtk/dcmdata/dcitem.h>
 #include "../dcmdata/apps/mdfdsman.h"
+#include <dcmtk/dcmpstat/dcmpstat.h>
 #include "MetadataEditor.hpp"
 
 // Constructor(s)

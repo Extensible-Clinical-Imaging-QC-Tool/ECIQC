@@ -1,17 +1,19 @@
 {
-    "0x0001": {
+    "(0010,0010)": {
         "tagName": "Human readable version of hex tag above (optional).",
+        "vr": "CS",
         "description": "Description of checks (optional).",
         "checks": [{
             "comment": "Checks must only include a SINGLE operator - they are listed here for demonstrative purposes.",
             "EQUAL": {
                 "comment": "If exclusive, Is this tag (0x0001) equal to the literal in 'value' / the value at 'tag'.Else, if value at tag == value.",
                 "value": "12",
-                "tag": ""
+                "tag": "(0010,0011)"
             },
             "EXIST": {
                 "comment": "Does this tag exist or (alternatively) does 'tag' exist?",
-                "tag": ""
+                "value": "12",
+                "tag": "(0010,0011)"
             },
             "CONTAIN": {
                 "comment": "Should be exclusive. Does this tag contain 'value' or the value at 'tag'. TODO: Do we also need to check the other way around?",
@@ -48,11 +50,11 @@
             },
             "actionIfTrue": {
                 "comment": "Can contain all the same objects as 'checks', plus 'comment' and 'action'",
-                "operator": {}
+                "operator": "INSERT"
             },
             "actionIfFalse": {
                 "comment": "As above. TODO: Need to define what actions are likely.",
-                "action": "REJECT/REMOVE/CLEAR/INSERT/APPEND/OVERWRITE/REJECT ALL"
+                "action": "REJECT"
             }
         }]
     }
