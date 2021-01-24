@@ -62,62 +62,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 using namespace cpp_template;
 
-// Metadata editing tests
-
-
-
-TEST_CASE("Test the Parser class") {
-
-  std::ifstream file("../src/schema.json");
-
-  if (file.is_open())
-  {  
-    cout << "*** File open" << endl;
-    
-
-
-    OFString name;
-
-    OFString path = "/home/sabsr3/ECIQC/DICOM_Images/1-1copy.dcm";
-    string test_configuration;
-    ostringstream ss;
-    ss << file.rdbuf(); // reading data
-    test_configuration = ss.str();
-
-    Parser obj;
-    obj.initial_settings(std::stringstream(test_configuration));
-
-
-    json j;
-    std::stringstream(test_configuration) >> j;
-
-
-    CHECK( j["0x0001"].size() == 4 );
-
-
-
-    
-    string cfg_error;
-    ostringstream string_error = "{'(0010,0010)' : 1 }";
-    cfg_error = string_error.str();
-
-    auto input = obj.file_opening(std::stringstream(cfg_error));
-		auto expected = false; 
-		Assert::AreEqual(expected, input);
-
-    string cfg;
-    ostringstream ss_test = "{"(0010,0010)" : 1 }";
-    cfg = ss_test.str();
-
-    auto input = obj.file_opening(std::stringstream(cfg));
-		auto expected = false; 
-		Assert::AreEqual(expected, input);
-
-  }
-  else{
-    cout << "*** Error opening file" << endl;
-  }
-
 
 
 // Testing Receiver Class
