@@ -77,8 +77,7 @@ target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 enable_testing()
 
 
-add_executable(unit_tests tests/MyTests.cpp 
-                          tests/ReceiverTests.cpp
+add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/MyTestsParser.cpp)
                           
 target_include_directories(unit_tests PRIVATE tests)
