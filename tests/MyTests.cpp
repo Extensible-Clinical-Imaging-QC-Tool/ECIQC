@@ -44,15 +44,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef WITH_THREADS
 
 #include <dcmtk/dcmpstat/dcmpstat.h>
-#include <dcmtk/dcmnet/scu.h>
-#include <dcmtk/dcmnet/dstorscu.h>
 
 #include <nlohmann/json.hpp>
 
 #include "../src/Exception.hpp"
 #include "../src/MyLibrary.hpp"
 
-#include "../src/draft_receiver.hpp"
 
 
 
@@ -191,6 +188,7 @@ TEST_CASE("Test C-STORE Association"){
   pool.join();
 
 }
+
 
 #endif
 
