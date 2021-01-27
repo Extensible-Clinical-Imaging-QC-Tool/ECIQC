@@ -161,6 +161,8 @@ OFCondition MetadataEditor::copyTag(DcmTagKey otherTagKey, int posFrom,
     destElement->putFloat32(floatVal, posTo);
     break;
 
+  // Other types to be written
+
   // Anything that can be dealt with as a string
   default:
     std::cout << "here in default" << std::endl;
