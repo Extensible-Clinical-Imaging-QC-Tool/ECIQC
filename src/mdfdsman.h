@@ -30,6 +30,7 @@
 #include "dcmtk/ofstd/ofcmdln.h"
 // ***** My Changes ***** //
 #include "dcmtk/dcmdata/dcpath.h"
+#include "dcmtk/dcmdata/dctk.h"
 
 // forward declarations
 class DcmDataset;

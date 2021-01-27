@@ -24,8 +24,12 @@
 
 #include "mdfdsman.h"
 #include "dcmtk/ofstd/ofstd.h"
-#include "dcmtk/dcmdata/dctk.h"
-#include "dcmtk/dcmdata/dcpath.h"
+
+// {
+// ***** My Changes ***** //
+//#include "dcmtk/dcmdata/dcpath.h"
+//#include "dcmtk/dcmdata/dctk.h"
+// }
 #include "dcmtk/dcmdata/dcistrmf.h"  /* for class DcmInputFileStream */
 
 #define INCLUDE_CSTDIO
