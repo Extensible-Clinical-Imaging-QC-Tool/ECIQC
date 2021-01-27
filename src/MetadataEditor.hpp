@@ -11,7 +11,6 @@ public:
   MetadataEditor(OFString file_path);
 
   OFCondition setTag(OFString str);
-
   void setTag(DcmTagKey key);
 
   DcmTagKey getTagKey();
