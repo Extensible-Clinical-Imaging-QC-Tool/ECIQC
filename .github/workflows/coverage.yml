@@ -5,13 +5,9 @@ on:
   push:
     branches:
       - master
-    paths-ignore:
-      - 'libs'
   pull_request:
     branches:
       - '**'
-    paths-ignore:
-      - 'libs'
 
 jobs:
 
