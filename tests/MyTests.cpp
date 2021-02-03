@@ -50,37 +50,11 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../src/Exception.hpp"
 #include "../src/MyLibrary.hpp"
 
-
-
-#include "../src/MetadataEditor.cpp"
-#include "../src/MetadataEditor.hpp"
 #include "../src/parser.cpp"
 #include "../src/Parser.hpp"
 
 using namespace cpp_template;
 
-// Metadata editing tests
-
-TEST_CASE("Test for reading in a known DICOM image file") {
-  DcmFileFormat image;
-  OFString patientName;
-  OFCondition status = image.loadFile("../DICOM_Images/1-1copy.dcm");
-
-  CHECK(status.good() == 1);
-  CHECK(image.getDataset()->findAndGetOFString(DCM_PatientName, patientName).good() == true);
-  CHECK(patientName == "COVID-19-AR-16406488");
-}
-
-TEST_CASE("Testing the metadata editing class") {
-  int hh = 3;
-  MetadataEditor obj1;
-  MetadataEditor obj2{hh};
-
-  // Test instantiation with 0 arguments
-  CHECK(obj1.x == 23);
-  // Instantiation with 1 argument
-  CHECK(obj2.x == hh);
-}
 TEST_CASE("test the Parser class") {
    
   std::ifstream ifs("../src/1-1copy.json");
@@ -96,14 +70,3 @@ TEST_CASE("test the Parser class") {
 
 
 #endif
-
-// Receiver class tests
-
-
-// Parser class tests
-
-
-// Validation class tests
-
-
-// Class interaction tests
