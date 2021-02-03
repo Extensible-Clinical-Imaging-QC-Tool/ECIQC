@@ -55,6 +55,12 @@ add_subdirectory(libs/nlohmann_json/)
 add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp
+                  # ME Files
+                  src/MetadataEditor.cpp
+                  src/MetadataEditor.hpp
+                  src/mdfdsman.cc
+                  src/mdfdsman.h
+                  # Receiver Files
                   src/draft_receiver.cpp
                   src/draft_receiver.hpp
                   src/parser.cpp
@@ -77,9 +83,11 @@ target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 enable_testing()
 
 
-add_executable(unit_tests tests/ReceiverTests.cpp
-                          tests/MyTestsParser.cpp)
-                          
+add_executable(unit_tests tests/MyTestsParser.cpp
+                          #tests/ReceiverTests.cpp
+                          #tests/METests.cpp
+                 )                          
+
 target_include_directories(unit_tests PRIVATE tests)
 target_link_libraries(unit_tests PRIVATE qctool_lib)
 add_test(run_unit_tests unit_tests)

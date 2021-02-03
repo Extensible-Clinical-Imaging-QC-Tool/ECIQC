@@ -28,7 +28,8 @@
 #include "dcmtk/dcmdata/dctagkey.h"
 #include "dcmtk/dcmdata/dcxfer.h"
 #include "dcmtk/ofstd/ofcmdln.h"
-
+// ***** My Changes ***** //
+#include "dcmtk/dcmdata/dcpath.h"
 
 // forward declarations
 class DcmDataset;
@@ -206,6 +207,17 @@ public:
      */
     void setModifyUNValues(OFBool modifyUNValues);
 
+    // ****** My Changes ****** //
+    static OFLogger mdfdsmanLogger;
+
+    DcmTagKey getTagKeyFromDictionary(OFString tag);
+    int readNextToken(const char *c, int& pos, DcmTagKey& key, Uint32& idx);
+    DcmItem* getItemFromPath(DcmItem &dataset,
+                                const char *location,
+                                OFString &message);
+    OFCondition splitTagPath(OFString &tag_path,
+                                DcmTagKey &key);
+
 protected:
 
     /** modifies element to a specific value
@@ -229,6 +241,10 @@ protected:
      *  @return OFTrue if tag could be found, else OFFalse
      */
     OFBool isTagInDictionary(const DcmTagKey &search_key);
+
+
+
+
 
 private:
 

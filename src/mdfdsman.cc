@@ -32,7 +32,8 @@
 #include "dcmtk/ofstd/ofstdinc.h"
 
 
-static OFLogger mdfdsmanLogger = OFLog::getLogger("dcmtk.dcmdata.mdfdsman");
+OFLogger MdfDatasetManager::mdfdsmanLogger = OFLog::getLogger("dcmtk.dcmdata.mdfdsman");
+
 
 MdfDatasetManager::MdfDatasetManager()
 : current_file(""),
@@ -57,7 +58,8 @@ OFCondition MdfDatasetManager::loadFile(const char *file_name,
     dset = dfile->getDataset();
 
     // load file into dfile if it exists
-    OFLOG_INFO(mdfdsmanLogger, "Loading file into dataset manager: " << file_name);
+    //OFLOG_INFO(mdfdsmanLogger, "Loading file into dataset manager: " << file_name);
+    COUT << "Loading file into dataset manager: " << file_name << '\n';
     if (OFStandard::fileExists(file_name))
     {
       cond = dfile->loadFile(file_name, xfer, EGL_noChange, DCM_MaxReadLength, readMode);
@@ -65,7 +67,8 @@ OFCondition MdfDatasetManager::loadFile(const char *file_name,
     // if it does not already exist, check whether it should be created
     else if (createIfNecessary)
     {
-      OFLOG_DEBUG(mdfdsmanLogger, "File " << file_name << "does not exist, creating it as desired");
+     // OFLOG_DEBUG(mdfdsmanLogger, "File " << file_name << "does not exist, creating it as desired");
+      COUT << "File " << file_name << "does not exist, creating it as desired" << '\n';
       cond = dfile->saveFile(file_name, EXS_LittleEndianExplicit /* might change later */);
     }
     // no file, we have an error
@@ -81,7 +84,8 @@ OFCondition MdfDatasetManager::loadFile(const char *file_name,
     else
     {
         // get dataset from file
-        OFLOG_INFO(mdfdsmanLogger, "Getting dataset from loaded file: " << file_name);
+        //OFLOG_INFO(mdfdsmanLogger, "Getting dataset from loaded file: " << file_name);
+        COUT << "Getting dataset from loaded file: " << file_name << '\n';
         dset=dfile->getDataset();
         /* load also pixeldata into memory:
          * Without this command pixeldata wouldn't be included into the file,
@@ -96,7 +100,7 @@ OFCondition MdfDatasetManager::loadFile(const char *file_name,
 }
 
 
-static DcmTagKey getTagKeyFromDictionary(OFString tag)
+DcmTagKey MdfDatasetManager::getTagKeyFromDictionary(OFString tag)
 {
     DcmTagKey key(0xffff,0xffff);
     const DcmDataDictionary& globalDataDict = dcmDataDict.rdlock();
@@ -111,7 +115,7 @@ static DcmTagKey getTagKeyFromDictionary(OFString tag)
 }
 
 
-static int readNextToken(const char *c, int& pos, DcmTagKey& key, Uint32& idx)
+int MdfDatasetManager::readNextToken(const char *c, int& pos, DcmTagKey& key, Uint32& idx)
 {
   OFString aString;
   int lpos = pos;
@@ -165,7 +169,7 @@ static int readNextToken(const char *c, int& pos, DcmTagKey& key, Uint32& idx)
 }
 
 
-static DcmItem* getItemFromPath(DcmItem &dataset,
+DcmItem* MdfDatasetManager::getItemFromPath(DcmItem &dataset,
                                 const char *location,
                                 OFString &message)
 {
@@ -249,7 +253,7 @@ static DcmItem* getItemFromPath(DcmItem &dataset,
 }
 
 
-static OFCondition splitTagPath(OFString &tag_path,
+OFCondition MdfDatasetManager::splitTagPath(OFString &tag_path,
                                 DcmTagKey &key)
 {
     OFString target_tag;
@@ -431,7 +435,7 @@ OFCondition MdfDatasetManager::modifyOrInsertFromFile(OFString tag_path,
       DcmEVR vr = elem->getTag().getEVR();
       if (ignore_un_modifies && ((vr == EVR_UN) || (vr == EVR_UNKNOWN) || (vr == EVR_UNKNOWN2B)))
       {
-          OFLOG_WARN(mdfdsmanLogger, "will not write value to attribute having VR=UN: " << elem->getTag());
+          COUT << "Warning: will not write value to attribute having VR=UN: " << elem->getTag() << '\n';
           return EC_Normal;
       }
       // create stream object for binary file
@@ -482,10 +486,10 @@ OFCondition MdfDatasetManager::modifyAllTags(OFString tag_path,
     DcmStack result_stack;
     DcmObject *elem;
     // get references to all matching tags in dataset and store them in stack
-    OFLOG_DEBUG(mdfdsmanLogger, "looking for occurrences of: " << key.toString());
+    COUT << "looking for occurrences of: " << key.toString() << '\n';
     result=dset->findAndGetElements(key, result_stack);
     // if there are elements found, modify metaheader if necessary
-    OFLOG_DEBUG(mdfdsmanLogger, "found " << result_stack.card() << " occurrences");
+    COUT << "found " << result_stack.card() << " occurrences" << '\n';
     // as long there are matching elements left on the stack
     while( result_stack.card() > 0 && result.good() )
     {
@@ -495,7 +499,7 @@ OFCondition MdfDatasetManager::modifyAllTags(OFString tag_path,
         if (elem->isLeaf())
         {
             // and put new value to element
-            OFLOG_DEBUG(mdfdsmanLogger, "accessing existing tag for modify operation");
+            COUT <<  "accessing existing tag for modify operation" << '\n';
             result=startModify(OFstatic_cast(DcmElement*,elem),value);
             if (result.good()) count++;
         }
@@ -636,7 +640,7 @@ OFCondition MdfDatasetManager::saveFile(const char *file_name,
         /* check whether pixel data is compressed */
         if (opt_dataset && DcmXfer(opt_xfer).isEncapsulated())
         {
-            OFLOG_WARN(mdfdsmanLogger, "encapsulated pixel data requires file format, ignoring --write-dataset");
+            COUT << "encapsulated pixel data requires file format, ignoring --write-dataset" << '\n';
             opt_dataset = OFFalse;
         }
         /* be sure that we have a known transfer syntax. The original xfer can
@@ -656,11 +660,11 @@ OFCondition MdfDatasetManager::saveFile(const char *file_name,
                                  (opt_dataset) ? EWM_dataset : EWM_fileformat);
 
     } else {
-        OFLOG_DEBUG(mdfdsmanLogger, "no conversion to transfer syntax " << DcmXfer(opt_xfer).getXferName() << " possible!");
+        COUT << "no conversion to transfer syntax " << DcmXfer(opt_xfer).getXferName() << " possible!" << '\n';
         result = EC_CannotChangeRepresentation;
     }
     // save file
-    OFLOG_INFO(mdfdsmanLogger, "Saving current dataset to file: " << file_name);
+    COUT << "Saving current dataset to file: " << file_name << '\n';
     return result;
 }
 
@@ -680,7 +684,7 @@ OFCondition MdfDatasetManager::startModify(DcmElement *elem,
     DcmEVR vr = elem->getTag().getEVR();
     if ( ignore_un_modifies && ((vr == EVR_UN) || (vr == EVR_UNKNOWN) || (vr == EVR_UNKNOWN2B)))
     {
-      OFLOG_WARN(mdfdsmanLogger, "will not write value to attribute having VR=UN: " << elem->getTag().toString());
+      COUT << "will not write value to attribute having VR=UN: " << elem->getTag().toString() << '\n';
       return EC_Normal;
     }
     // start putString function being defined on all VRs

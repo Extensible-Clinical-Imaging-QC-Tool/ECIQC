@@ -133,12 +133,20 @@ using namespace std;
 
                 
             }
+
+
             
+            string Tag = tag.c_str();
+            int posTo = 0;
+            int posFrom = 0;
+            OFBool replace = OFFalse;
+            OFBool copyToThis = OFTrue;
+
             // Call copy Tag method 
 
             if (el["actionIfTrue"]["operator"] == "COPY")
             {
-                obj.copyTag(OFString(main_tag.c_str()), OFString(tag.c_str()));
+                obj.copyTag(DcmTagKey(Tag[0],Tag[1]), posFrom, posTo, copyToThis, replace);
             }
 
 
