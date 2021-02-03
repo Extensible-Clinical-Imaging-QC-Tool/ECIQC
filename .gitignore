@@ -1,4 +1,7 @@
 
+# DICOM Images
+DICOM_Images/*
+
 # build files
 Testing/
 build/

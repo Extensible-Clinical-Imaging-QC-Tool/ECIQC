@@ -49,6 +49,7 @@ std::vector<OFString> newNames = {
     "testName3",
 };
 
+// Create test .dcm file
 OFCondition res = makeTestDICOMFile();
 MetadataEditor obj{"test.dcm"};
 
@@ -97,7 +98,7 @@ TEST_CASE("Test for CREATING/MODIFYING DICOM elements") {
 }
 
 TEST_CASE("Test for REGEX MATCHING") {
-  // IN PROGRESS
+  // IN PROGRESS :: Implementation in MetadataEditor.cpp
   std::string str1 = "TEsting";
   std::string str2 = "String for TEsting regex";
   OFString str_expr1 = "[a-z]+[A-Z][a-z]+[0-9]"; // testNameX

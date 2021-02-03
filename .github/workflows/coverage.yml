@@ -9,6 +9,9 @@ on:
     branches:
       - '**'
 
+ignore: 
+  - "libs/**/*"
+
 jobs:
 
   build-and-test:

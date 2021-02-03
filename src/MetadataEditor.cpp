@@ -156,23 +156,52 @@ OFCondition MetadataEditor::copyTag(DcmTagKey otherTagKey, int posFrom,
 
   // Choose method based on element VR. Both elements should have the same VR
   DcmTag destTag{destElement->getTag()};
+  OFCondition resGet, resPut;
   switch (destTag.getEVR()) {
-
+  // Unsigned short integer
+  case EVR_US:
+    Uint16 uShort;
+    resGet = originElement->getUint16(uShort, posFrom);
+    resPut = destElement->putUint16(uShort, posTo);
+    break;
+  // Unsigned long integer
+  case EVR_UL:
+    Uint32 uLong;
+    resGet = originElement->getUint32(uLong, posFrom);
+    resPut = destElement->putUint32(uLong, posTo);
+    break;
+  // Signed long integer
+  case EVR_SL:
+    Sint32 sLong;
+    resGet = originElement->getSint32(sLong, posFrom);
+    resPut = destElement->putSint32(sLong, posTo);
+    break;
+  // Signed short integer
+  case EVR_SS:
+    Sint16 sShort;
+    resGet = originElement->getSint16(sShort, posFrom);
+    resPut = destElement->putSint16(sShort, posTo);
+    break;
   // Single precision float
   case EVR_FL:
-    Float32 floatVal;
-    originElement->getFloat32(floatVal, posFrom);
-    destElement->putFloat32(floatVal, posTo);
+    Float32 fSingle;
+    resGet = originElement->getFloat32(fSingle, posFrom);
+    resPut = destElement->putFloat32(fSingle, posTo);
     break;
-
+  // Double precison float
+  case EVR_FD:
+    Float64 fDouble;
+    resGet = originElement->getFloat64(fDouble, posFrom);
+    resPut = destElement->putFloat64(fDouble, posTo);
+    break;
   // Anything that can be dealt with as a string
   default:
     std::cout << "here in default" << std::endl;
     OFString destStringVal, originStringVal;
     OFCondition res;
-    res = originElement->getOFString(originStringVal, posFrom);
-    if (res.bad()) {
-      return res;
+    resGet = originElement->getOFString(originStringVal, posFrom);
+    if (resGet.bad()) {
+      return resGet;
     }
 
     unsigned long destVM = destElement->getVM();
@@ -180,9 +209,9 @@ OFCondition MetadataEditor::copyTag(DcmTagKey otherTagKey, int posFrom,
       return destElement->putString(originStringVal.c_str());
     } else {
       // Get all values at destination element
-      res = destElement->getOFStringArray(destStringVal);
-      if (res.bad()) {
-        return res;
+      resGet = destElement->getOFStringArray(destStringVal);
+      if (resGet.bad()) {
+        return resGet;
       }
       std::vector<OFString> strs = strValsToVector(destStringVal);
       // replace or add value at destination position
@@ -196,6 +225,7 @@ OFCondition MetadataEditor::copyTag(DcmTagKey otherTagKey, int posFrom,
     }
     break;
   }
+  return (resGet.bad() ? resGet : resPut);
 }
 
 ////////////////////////////////////////////////////////////////////
