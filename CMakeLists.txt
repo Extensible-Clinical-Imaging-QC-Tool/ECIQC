@@ -55,6 +55,9 @@ add_subdirectory(libs/nlohmann_json/)
 add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp
+                  # Parser files
+                  src/parser.cpp
+                  src/Parser.hpp
                   # ME Files
                   src/MetadataEditor.cpp
                   src/MetadataEditor.hpp
@@ -63,10 +66,11 @@ add_library(qctool_lib src/MyLibrary.cpp
                   # Receiver Files
                   src/draft_receiver.cpp
                   src/draft_receiver.hpp
-                  src/parser.cpp
-                  src/Parser.hpp
                   src/poolbase.h
-                  src/poolbase.cpp)
+                  src/poolbase.cpp
+                  # Sender 
+                  src/Sender.cpp
+                  src/Sender.hpp)
 
 target_include_directories(qctool_lib PUBLIC src)
 
@@ -84,8 +88,8 @@ enable_testing()
 
 
 add_executable(unit_tests tests/MyTestsParser.cpp
-                          #tests/ReceiverTests.cpp
-                          #tests/METests.cpp
+                          tests/ReceiverTests.cpp
+                          tests/METests.cpp
                  )                          
 
 target_include_directories(unit_tests PRIVATE tests)

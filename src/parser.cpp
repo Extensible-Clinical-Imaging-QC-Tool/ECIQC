@@ -148,18 +148,12 @@ using namespace std;
             {
                 obj.copyTag(DcmTagKey(Tag[0],Tag[1]), posFrom, posTo, copyToThis, replace);
             }
+            
 
 
             else{
                 cout << el["actionIfFalse"]["action"] <<endl;
             }
 
-
-            // REGEX match
-
-            // obj.match(OFString(main_tag.c_str()), OFCondition &OFString(value.c_str()))
-            // Raises error wrong expression
-            // To do : to input tag key correctly / change to OFString input and perform condition inside the method
-   
         }
     }
