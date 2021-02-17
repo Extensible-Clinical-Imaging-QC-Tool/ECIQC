@@ -39,22 +39,48 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
             T_DIMSE_C_StoreRQ &storeReq = incomingMsg->msg.CStoreRQ;
             Uint16 rspStatusCode = STATUS_STORE_Error_CannotUnderstand;
 
-            DcmFileFormat fileformat;
-            DcmDataset *reqDataset = fileformat.getDataset();
-            // receive dataset in memory
-            status = receiveSTORERequest(storeReq, presInfo.presentationContextID, reqDataset);
-            if (status.good())
+            // special case: bit preserving mode
+            if (DatasetStorage == DGM_StoreBitPreserving)
             {
+                OFString filename;
+                // generate filename with full path (and create subdirectories if needed)
+                status = generateSTORERequestFilename(storeReq, filename);
+                if (status.good())
+                {
+                    if (OFStandard::fileExists(filename))
+                        DCMNET_WARN("file already exists, overwriting: " << filename);
+                    // receive dataset directly to file
+                    status = receiveSTORERequest(storeReq, presInfo.presentationContextID, filename);
+                    if (status.good())
+                    {
+                        // call the notification handler (default implementation outputs to the logger)
+                        notifyInstanceStored(filename, storeReq.AffectedSOPClassUID, storeReq.AffectedSOPInstanceUID);
+                        rspStatusCode = STATUS_Success;
+                    }
+                }
+            } else {
+                DcmFileFormat fileformat;
+                DcmDataset *reqDataset = fileformat.getDataset();
+                // receive dataset in memory
+                status = receiveSTORERequest(storeReq, presInfo.presentationContextID, reqDataset);
+
+                if (status.good())
+                {
                 // do we need to store the received dataset at all?
                 if (DatasetStorage == DSM_Ignore)
-                {
+                    {
                     // output debug message that dataset is not stored
                     DCMNET_DEBUG("received dataset is not stored since the storage mode is set to 'ignore'");
                     rspStatusCode = STATUS_Success;
-                } else {
+                    } else {
                     // check and process C-STORE request
                     rspStatusCode = checkAndProcessSTORERequest(storeReq, fileformat);
+                    }
                 }
+
+            }
+
+            
             // send C-STORE response (with DIMSE status code)
             if (status.good())
                 status = sendSTOREResponse(presInfo.presentationContextID, storeReq, rspStatusCode);
@@ -63,7 +89,7 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
                 // do not overwrite the previous error status
                 sendSTOREResponse(presInfo.presentationContextID, storeReq, STATUS_STORE_Refused_OutOfResources);
             }
-            }
+            
             return status;
             //DcmDataset* dset = NULL;
             //return DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, dset);
@@ -134,7 +160,26 @@ void ReceiverThread::notifyInstanceStored(const OFString &filename,
     // by default, output some useful information
     DCMNET_INFO("Stored received object to file: " << filename);
 }
-
+// ----------------------------------------------------------------------------
+OFCondition ReceiverThread::generateSTORERequestFilename(const T_DIMSE_C_StoreRQ &reqMessage,
+                                                        OFString &filename)
+{
+    OFString directoryName;
+    OFString sopClassUID = reqMessage.AffectedSOPClassUID;
+    OFString sopInstanceUID = reqMessage.AffectedSOPInstanceUID;
+    // generate filename (with full path)
+    OFCondition status = generateDirAndFilename(filename, directoryName, sopClassUID, sopInstanceUID);
+    if (status.good())
+    {
+        DCMNET_DEBUG("generated filename for object to be received: " << filename);
+        // create the output directory (if needed)
+        status = OFStandard::createDirectory(directoryName, OutputDirectory /* rootDir */);
+        if (status.bad())
+            DCMNET_ERROR("cannot create directory for object to be received: " << directoryName << ": " << status.text());
+    } else
+        DCMNET_ERROR("cannot generate directory or file name for object to be received: " << status.text());
+    return status;
+}
 // ----------------------------------------------------------------------------
 OFCondition ReceiverThread::generateDirAndFilename(OFString &filename,
                                                   OFString &directoryName,

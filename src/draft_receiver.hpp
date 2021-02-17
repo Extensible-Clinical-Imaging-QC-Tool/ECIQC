@@ -100,6 +100,8 @@ public:
                                       const OFString &sopClassUID,
                                       const OFString &sopInstanceUID,
                                       DcmDataset *dataset = NULL) const;
+    virtual OFCondition generateSTORERequestFilename(const T_DIMSE_C_StoreRQ &reqMessage,
+                                                        OFString &filename);
 
     // --- public constants ---
 
