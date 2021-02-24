@@ -17,7 +17,7 @@ DQDBaseSCPPool::DQDBaseSCPPool()
     m_maxWorkers(5),
     m_sourcelist(),
     m_peeraelist(),
-    m_datastoragemode(StorageMode::DSM_Default),
+    m_datastoragemode(DSM_Default),
     m_runMode( LISTEN )
     // not implemented yet: m_workersBusyTimeout(60),
     // not implemented yet: m_waiting(),
@@ -150,6 +150,12 @@ OFList<OFString> DQDBaseSCPPool::getacceptableIPs()
 {
   return m_sourcelist;
 }
+// ----------------------------------------------------------------------------
+
+E_DatasetStorageMode DQDBaseSCPPool::getDatasetStorage()
+{
+  return m_datastoragemode;
+}
 
 // ----------------------------------------------------------------------------
 
@@ -196,7 +202,7 @@ void DQDBaseSCPPool::setcallingAETitles(OFList<OFString> aetitle_list)
 }
 
 // ----------------------------------------------------------------------------
-void DQDBaseSCPPool::setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode)
+void DQDBaseSCPPool::setDatasetStorageMode(const E_DatasetStorageMode mode)
 {
     m_datastoragemode = mode;
 }
@@ -205,7 +211,7 @@ void DQDBaseSCPPool::setDatasetStorageMode(const StorageMode::E_DatasetStorageMo
 
 OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
                                            const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
-                                           const OFList<OFString>& peerAE_list, const StorageMode::E_DatasetStorageMode mode)
+                                           const OFList<OFString>& peerAE_list, const E_DatasetStorageMode mode)
 {
   /* Try to find idle worker thread */
   OFCondition result = EC_Normal;

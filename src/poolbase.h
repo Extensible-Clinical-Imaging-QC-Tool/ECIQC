@@ -96,7 +96,7 @@ public:
       virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list) = 0;
     
 
-      virtual void setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode) = 0;
+      virtual void setDatasetStorageMode(const E_DatasetStorageMode mode) = 0;
 
       /** Check whether worker is busy.
        *  @return OFTrue if worker is busy, OFFalse otherwise.
@@ -169,7 +169,7 @@ public:
    * @param aetitle_list A list of acceptable peer AE Titles.
    */
   virtual void setcallingAETitles(OFList<OFString> aetitle_list);
-  virtual void setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode);
+  virtual void setDatasetStorageMode(const E_DatasetStorageMode mode);
 
   /** Get number of maximum permitted connections, i.e.\ threads/workers.
    *  @return Number of threads permitted to exist within pool.
@@ -192,6 +192,8 @@ public:
    *  @return A list of acceptable hostnames/IPs.
    */
   virtual OFList<OFString> getacceptableIPs();
+
+  E_DatasetStorageMode getDatasetStorage();
 
   /** Listen for incoming association requests. For each incoming request, a
    *  new thread is started if number of maximum threads is not reached yet.
@@ -238,7 +240,7 @@ protected:
    */
   OFCondition runAssociation(T_ASC_Association* assoc,
                              const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
-                             const OFList<OFString>& peerAE_list, const StorageMode::E_DatasetStorageMode mode);
+                             const OFList<OFString>& peerAE_list, const E_DatasetStorageMode mode);
 
   /** Drops association and clears internal structures to free memory
    *  @param assoc The association to free
@@ -295,7 +297,7 @@ private:
   // A list of AE Titles of peers from which SCP will accept data.
   // If not specified, all AE Titles are accepted.
   OFList<OFString> m_peeraelist;
-  StorageMode::E_DatasetStorageMode m_datastoragemode;
+  E_DatasetStorageMode m_datastoragemode;
 
   /// mode specifying how to store the received datasets (also allows for skipping the storage)
   //E_DatasetStorageMode m_datasetStorage;
@@ -402,7 +404,7 @@ private:
             return SCP::setpeerAETitles(peerae_list);
         }
 
-        virtual void setDatasetStorageMode(const typename StorageMode::E_DatasetStorageMode mode)
+        virtual void setDatasetStorageMode(const E_DatasetStorageMode mode)
         {
           //SCP::E_DatasetStorageMode mode_thread = (SCP::E_DatasetStorageMode)mode;
           //SCP::E_DataStorageMode mode_thread = (SCP::E_DataStorageMode) mode.Parse(typeof(SCP::E_DataStorageMode), value.ToString());

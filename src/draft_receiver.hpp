@@ -17,17 +17,7 @@ class ReceiverThread : public DcmThreadSCP
 public:
 
     
-    /** modes for generating subdirectories
-     */
-    enum E_DirectoryGenerationMode
-    {
-        /// do not generate any subdirectories
-        DGM_NoSubdirectory,
-        /// generated subdirectories based on the Series Date (0008,0021)
-        DGM_SeriesDate,
-        /// default value
-        DGM_Default = DGM_NoSubdirectory
-    };
+
 
     /** modes for generating filenames
      */
@@ -85,7 +75,7 @@ public:
 
     OFCondition setOutputDirectory(const OFString &directory);
     void setDirectoryGenerationMode(const E_DirectoryGenerationMode mode);
-    void setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode);
+    void setDatasetStorageMode(const E_DatasetStorageMode mode);
     void setFilenameGenerationMode(const E_FilenameGenerationMode mode);
     void setFilenameExtension(const OFString &extension);
 
@@ -109,7 +99,7 @@ public:
     static const char *DEF_FilenameExtension;
 
     /// mode specifying how to store the received datasets (also allows for skipping the storage)
-    StorageMode::E_DatasetStorageMode DatasetStorage;
+    E_DatasetStorageMode DatasetStorage;
 
 private:
     

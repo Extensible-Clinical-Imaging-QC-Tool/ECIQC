@@ -13,7 +13,7 @@ const char *ReceiverThread::DEF_FilenameExtension     = "";
 
 ReceiverThread::ReceiverThread()
     : DcmThreadSCP(),
-      DatasetStorage(StorageMode::DSM_Default),
+      DatasetStorage(DSM_Default),
       DirectoryGeneration(DGM_Default),
       FilenameGeneration(FGM_Default),
       StandardSubdirectory(DEF_StandardSubdirectory),
@@ -40,7 +40,7 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
             Uint16 rspStatusCode = STATUS_STORE_Error_CannotUnderstand;
 
             // special case: bit preserving mode
-            if (DatasetStorage == StorageMode::DGM_StoreBitPreserving)
+            if (DatasetStorage == DGM_StoreBitPreserving)
             {
                 OFString filename;
                 // generate filename with full path (and create subdirectories if needed)
@@ -67,7 +67,7 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
                 if (status.good())
                 {
                 // do we need to store the received dataset at all?
-                if (DatasetStorage == StorageMode::DSM_Ignore)
+                if (DatasetStorage == DSM_Ignore)
                     {
                     // output debug message that dataset is not stored
                     DCMNET_DEBUG("received dataset is not stored since the storage mode is set to 'ignore'");
@@ -452,7 +452,7 @@ void ReceiverThread::setFilenameExtension(const OFString &extension)
 }
 
 // ----------------------------------------------------------------------------
-void ReceiverThread::setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode)
+void ReceiverThread::setDatasetStorageMode(const E_DatasetStorageMode mode)
 {
     DatasetStorage = mode;
 }

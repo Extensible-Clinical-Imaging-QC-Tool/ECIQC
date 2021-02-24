@@ -49,7 +49,7 @@ using namespace cpp_template;
     };
 
 // This tests handling of C-ECHO Association
-TEST_CASE("Test C-ECHO Association"){
+TEST_CASE("Test Receiver C-ECHO Association"){
   
   Receiver pool;
 
@@ -96,7 +96,7 @@ TEST_CASE("Test C-ECHO Association"){
 }
 
 // This tests handling of C-STORE Association
-TEST_CASE("Test C-STORE Association"){
+TEST_CASE("Test Receiver C-STORE Association"){
 
   Receiver pool;
 
@@ -170,10 +170,14 @@ TEST_CASE("Test Receiver Configuration"){
 
     CHECK(scppool.getacceptableIPs().size() == 1);
     CHECK(scppool.getcallingAETitles().size() == 1);
+    CHECK(scppool.getDatasetStorage() == 2);
+
+    scppool.setDatasetStorageMode(DGM_StoreToFile);
+    CHECK(scppool.getDatasetStorage() == 0);
 }
 
 // This tests datasource check at hostname/IP level
-TEST_CASE("Test hostname/IP check - Accept"){
+TEST_CASE("Test Receiver hostname/IP check - Accept"){
 
   // Check that a specified hostname is accepted.
   Receiver pool;
@@ -210,7 +214,7 @@ TEST_CASE("Test hostname/IP check - Accept"){
   pool.join();
 }
 
-TEST_CASE("Test hostname/IP check - Reject"){
+TEST_CASE("Test Receiver hostname/IP check - Reject"){
 
   // Check that a non-specified hostname is rejected.
   Receiver poolrej;
@@ -245,7 +249,7 @@ TEST_CASE("Test hostname/IP check - Reject"){
 }
 
 // This tests datasource check at hostname/IP level
-TEST_CASE("Test called AE Title check"){
+TEST_CASE("Test Receiver called AE Title check"){
 
   // Check that a specified AE title is accepted.
   Receiver pool;

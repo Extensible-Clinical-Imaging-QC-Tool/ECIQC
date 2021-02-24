@@ -1,8 +1,7 @@
 #ifndef STORAGEMODE_H
 #define STORAGEMODE_H
 
-namespace StorageMode
-{
+
     /** modes specifying whether and how to store the received datasets
      */
     enum E_DatasetStorageMode
@@ -16,7 +15,19 @@ namespace StorageMode
         /// default value
         DSM_Default = DSM_Ignore
     };
-} // namespace StorageMode
+
+    /** modes for generating subdirectories
+     */
+    enum E_DirectoryGenerationMode
+    {
+        /// do not generate any subdirectories
+        DGM_NoSubdirectory,
+        /// generated subdirectories based on the Series Date (0008,0021)
+        DGM_SeriesDate,
+        /// default value
+        DGM_Default = DGM_NoSubdirectory
+    };
+
 
 
 
