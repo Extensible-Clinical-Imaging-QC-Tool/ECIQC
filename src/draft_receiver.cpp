@@ -13,7 +13,7 @@ const char *ReceiverThread::DEF_FilenameExtension     = "";
 
 ReceiverThread::ReceiverThread()
     : DcmThreadSCP(),
-      DatasetStorage(DSM_Default),
+      DatasetStorage(StorageMode::DSM_Default),
       DirectoryGeneration(DGM_Default),
       FilenameGeneration(FGM_Default),
       StandardSubdirectory(DEF_StandardSubdirectory),
@@ -40,7 +40,7 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
             Uint16 rspStatusCode = STATUS_STORE_Error_CannotUnderstand;
 
             // special case: bit preserving mode
-            if (DatasetStorage == DGM_StoreBitPreserving)
+            if (DatasetStorage == StorageMode::DGM_StoreBitPreserving)
             {
                 OFString filename;
                 // generate filename with full path (and create subdirectories if needed)
@@ -67,7 +67,7 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
                 if (status.good())
                 {
                 // do we need to store the received dataset at all?
-                if (DatasetStorage == DSM_Ignore)
+                if (DatasetStorage == StorageMode::DSM_Ignore)
                     {
                     // output debug message that dataset is not stored
                     DCMNET_DEBUG("received dataset is not stored since the storage mode is set to 'ignore'");
@@ -411,7 +411,48 @@ OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list)
 }
 
 // ----------------------------------------------------------------------------
-void ReceiverThread::setDatasetStorageMode(const E_DatasetStorageMode mode)
+OFCondition ReceiverThread::setOutputDirectory(const OFString &directory)
+{
+    OFCondition status = EC_Normal;
+    if (directory.empty())
+    {
+        // empty directory refers to the current directory
+        if (OFStandard::isWriteable("."))
+            OutputDirectory.clear();
+        else
+            status = EC_DirectoryNotWritable;
+    } else {
+        // check whether given directory exists and is writable
+        if (OFStandard::dirExists(directory))
+        {
+            if (OFStandard::isWriteable(directory))
+                OFStandard::normalizeDirName(OutputDirectory, directory);
+            else
+                status = EC_DirectoryNotWritable;
+        } else
+            status = EC_DirectoryDoesNotExist;
+    }
+    return status;
+}
+// ----------------------------------------------------------------------------
+void ReceiverThread::setDirectoryGenerationMode(const E_DirectoryGenerationMode mode)
+{
+    DirectoryGeneration = mode;
+}
+
+void ReceiverThread::setFilenameGenerationMode(const E_FilenameGenerationMode mode)
+{
+    FilenameGeneration = mode;
+}
+
+
+void ReceiverThread::setFilenameExtension(const OFString &extension)
+{
+    FilenameExtension = extension;
+}
+
+// ----------------------------------------------------------------------------
+void ReceiverThread::setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode)
 {
     DatasetStorage = mode;
 }

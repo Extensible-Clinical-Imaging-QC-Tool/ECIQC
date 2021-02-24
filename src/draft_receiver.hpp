@@ -5,6 +5,7 @@
 #include <dcmtk/dcmnet/scpthrd.h>
 #include <dcmtk/ofstd/offname.h>   /* for OFFilenameCreator */
 #include "poolbase.h"
+#include "storagemode.hpp"
 /**
  * A worker thread in a multithreaded Service Class Provider. 
  * Runs an association from an already accepted connection.
@@ -44,19 +45,7 @@ public:
         FGM_Default = FGM_SOPInstanceUID
     };
 
-    /** modes specifying whether and how to store the received datasets
-     */
-    enum E_DatasetStorageMode
-    {
-        /// receive dataset in memory, perform some conversions and store it to file
-        DGM_StoreToFile,
-        /// receive dataset directly to file, i.e. write data exactly as received
-        DGM_StoreBitPreserving,
-        /// receive dataset in memory, but do not store it to file
-        DSM_Ignore,
-        /// default value
-        DSM_Default = DSM_Ignore
-    };
+    
     /**  Constructor. */
     ReceiverThread();
 
@@ -94,7 +83,12 @@ public:
      */
     virtual OFBool checkCallingAETitleAccepted(const OFString& callingAE); 
 
-    void setDatasetStorageMode(const E_DatasetStorageMode mode);
+    OFCondition setOutputDirectory(const OFString &directory);
+    void setDirectoryGenerationMode(const E_DirectoryGenerationMode mode);
+    void setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode);
+    void setFilenameGenerationMode(const E_FilenameGenerationMode mode);
+    void setFilenameExtension(const OFString &extension);
+
     
     virtual void notifyInstanceStored(const OFString &filename,
                                       const OFString &sopClassUID,
@@ -114,10 +108,12 @@ public:
     /// default value for the filename extension appended to the generated filenames
     static const char *DEF_FilenameExtension;
 
+    /// mode specifying how to store the received datasets (also allows for skipping the storage)
+    StorageMode::E_DatasetStorageMode DatasetStorage;
+
 private:
     
-    /// mode specifying how to store the received datasets (also allows for skipping the storage)
-    E_DatasetStorageMode DatasetStorage;
+
     /// mode that is used to generate subdirectories to store the received datasets
     E_DirectoryGenerationMode DirectoryGeneration;
     /// mode that is used to generate filenames for the received datasets

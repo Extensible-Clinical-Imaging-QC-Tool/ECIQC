@@ -33,6 +33,7 @@
 #include "dcmtk/dcmnet/scpthrd.h"
 #include "dcmtk/dcmnet/scpcfg.h"
 #include "dcmtk/dcmnet/assoc.h"
+#include "storagemode.hpp"
 
 /** Base class for implementing an SCP pool with one thread listening for
  *  incoming TCP/IP connections and spawning a number of SCP worker threads
@@ -52,6 +53,8 @@ public:
   {
     public:
 
+  
+      //void LightIn(Driver::lights light);
       /** Virtual Destructor
        */
       virtual ~DQDBaseSCPWorker();
@@ -91,6 +94,9 @@ public:
        *          otherwise. 
        */
       virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list) = 0;
+    
+
+      virtual void setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode) = 0;
 
       /** Check whether worker is busy.
        *  @return OFTrue if worker is busy, OFFalse otherwise.
@@ -163,6 +169,7 @@ public:
    * @param aetitle_list A list of acceptable peer AE Titles.
    */
   virtual void setcallingAETitles(OFList<OFString> aetitle_list);
+  virtual void setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode);
 
   /** Get number of maximum permitted connections, i.e.\ threads/workers.
    *  @return Number of threads permitted to exist within pool.
@@ -231,7 +238,7 @@ protected:
    */
   OFCondition runAssociation(T_ASC_Association* assoc,
                              const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
-                             const OFList<OFString>& peerAE_list);
+                             const OFList<OFString>& peerAE_list, const StorageMode::E_DatasetStorageMode mode);
 
   /** Drops association and clears internal structures to free memory
    *  @param assoc The association to free
@@ -288,6 +295,10 @@ private:
   // A list of AE Titles of peers from which SCP will accept data.
   // If not specified, all AE Titles are accepted.
   OFList<OFString> m_peeraelist;
+  StorageMode::E_DatasetStorageMode m_datastoragemode;
+
+  /// mode specifying how to store the received datasets (also allows for skipping the storage)
+  //E_DatasetStorageMode m_datasetStorage;
 
   // Not implemented yet: Can be helpful if all workers are busy but incoming
   // associations should then not be rejected immediately but only after a
@@ -389,6 +400,13 @@ private:
         virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list)
         {
             return SCP::setpeerAETitles(peerae_list);
+        }
+
+        virtual void setDatasetStorageMode(const typename StorageMode::E_DatasetStorageMode mode)
+        {
+          //SCP::E_DatasetStorageMode mode_thread = (SCP::E_DatasetStorageMode)mode;
+          //SCP::E_DataStorageMode mode_thread = (SCP::E_DataStorageMode) mode.Parse(typeof(SCP::E_DataStorageMode), value.ToString());
+          SCP::setDatasetStorageMode(mode);
         }
 
         /** Determine if the Worker is currently handling any request.

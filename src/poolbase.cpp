@@ -17,10 +17,12 @@ DQDBaseSCPPool::DQDBaseSCPPool()
     m_maxWorkers(5),
     m_sourcelist(),
     m_peeraelist(),
+    m_datastoragemode(StorageMode::DSM_Default),
     m_runMode( LISTEN )
     // not implemented yet: m_workersBusyTimeout(60),
     // not implemented yet: m_waiting(),
 {
+
 }
 
 // ----------------------------------------------------------------------------
@@ -43,6 +45,9 @@ OFCondition DQDBaseSCPPool::listen()
 
   OFList<OFString>& peerAE_list = m_peeraelist;
 
+
+  // DQDBaseSCPWorker::E_DatasetStorageMode& storage_mode = m_datasetStorage;
+
   /* Initialize network, i.e. create an instance of T_ASC_Network*. */
   T_ASC_Network *network = NULL;
   OFCondition cond = ASC_initializeNetwork( NET_ACCEPTOR, OFstatic_cast(int, m_cfg.getPort()), m_cfg.getACSETimeout(), &network );
@@ -63,7 +68,7 @@ OFCondition DQDBaseSCPPool::listen()
     /* If we have a connection request, try to find/create a worker to handle it */
     if (cond.good())
     {
-      cond = runAssociation(assoc, sharedConfig, source_list, peerAE_list);
+      cond = runAssociation(assoc, sharedConfig, source_list, peerAE_list, m_datastoragemode);
 
       /* If anything goes wrong running association: Refuse it */
       if (cond.bad())
@@ -189,11 +194,18 @@ void DQDBaseSCPPool::setcallingAETitles(OFList<OFString> aetitle_list)
 {
   m_peeraelist= aetitle_list;
 }
+
+// ----------------------------------------------------------------------------
+void DQDBaseSCPPool::setDatasetStorageMode(const StorageMode::E_DatasetStorageMode mode)
+{
+    m_datastoragemode = mode;
+}
+
 // ----------------------------------------------------------------------------
 
 OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
                                            const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
-                                           const OFList<OFString>& peerAE_list)
+                                           const OFList<OFString>& peerAE_list, const StorageMode::E_DatasetStorageMode mode)
 {
   /* Try to find idle worker thread */
   OFCondition result = EC_Normal;
@@ -222,6 +234,7 @@ OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
         worker->setSharedConfig(sharedConfig);
         worker->setIPs(sourcelist);
         worker->setpeerAETitles(peerAE_list);
+        worker->setDatasetStorageMode(mode);
         chosen = worker;
       }
     }
