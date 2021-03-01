@@ -11,6 +11,10 @@ MetadataEditor::MetadataEditor(OFString file_path) {
   dset = getDataset();
 }
 
+MetadataEditor::MetadataEditor(DcmDataset* dataset) {
+  dset = dataset;
+}
+
 ////////////////////////////////////////////////////////////////////
 /*                    Public Member Functions                     */
 ////////////////////////////////////////////////////////////////////
@@ -75,11 +79,11 @@ OFCondition MetadataEditor::modify(OFString newValue, DcmTagKey otherTagKey,
 }
 
 // Check if the value at 'this' tag matches the regex expression
-OFBool MetadataEditor::match(OFString str_expr, OFCondition &flag) {
+OFBool MetadataEditor::match(OFString str_expr, OFCondition &flag, const unsigned long pos) {
   // Ensure the element specified by the tag exists before matching
   if (exists(OFFalse)) {
     OFString str;
-    flag = dset->findAndGetOFString(tagKey, str);
+    flag = dset->findAndGetOFString(tagKey, str,pos);
 
     std::regex expr(str_expr.c_str());
     return std::regex_match(str.c_str(), expr);
@@ -91,7 +95,7 @@ OFBool MetadataEditor::match(OFString str_expr, OFCondition &flag) {
 }
 
 OFBool MetadataEditor::match(OFString otherTagString, OFString str_expr,
-                             OFCondition &flag) {
+                             OFCondition &flag, const unsigned long pos) {
   // Ensure the element specified by the tag exists before matching
   if (exists(OFFalse)) {
     OFString str;
@@ -101,7 +105,7 @@ OFBool MetadataEditor::match(OFString otherTagString, OFString str_expr,
       std::cout << flag.text() << std::endl;
       return 0;
     }
-    flag = dset->findAndGetOFString(otherTagKey, str);
+    flag = dset->findAndGetOFString(otherTagKey, str,pos);
 
     std::regex expr(str_expr.c_str());
     return std::regex_match(str.c_str(), expr);
@@ -113,11 +117,11 @@ OFBool MetadataEditor::match(OFString otherTagString, OFString str_expr,
 }
 
 OFBool MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr,
-                             OFCondition &flag) {
+                             OFCondition &flag, const unsigned long pos) {
   // Ensure the element specified by the tag exists before matching
   if (exists(OFFalse)) {
     OFString str;
-    flag = dset->findAndGetOFString(otherTagKey, str);
+    flag = dset->findAndGetOFString(otherTagKey, str,pos);
 
     std::regex expr(str_expr.c_str());
     return std::regex_match(str.c_str(), expr);
@@ -129,7 +133,7 @@ OFBool MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr,
 }
 
 // Copy Tag
-OFCondition MetadataEditor::copyTag(DcmTagKey otherTagKey, int posFrom,
+OFCondition MetadataEditor::copy(DcmTagKey otherTagKey, int posFrom,
                                     int posTo, OFBool copyToThis,
                                     OFBool replace, OFBool searchIntoSub) {
   if (!exists(otherTagKey)) {
@@ -192,7 +196,7 @@ OFCondition MetadataEditor::copyTag(DcmTagKey otherTagKey, int posFrom,
     break;
   // Anything that can be dealt with as a string
   default:
-    std::cout << "here in default" << std::endl;
+    //std::cout << "here in default" << std::endl;
     OFString destStringVal, originStringVal;
     OFCondition res;
     resGet = originElement->getOFString(originStringVal, posFrom);

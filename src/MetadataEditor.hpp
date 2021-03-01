@@ -9,6 +9,7 @@ class MetadataEditor : public MdfDatasetManager {
 public:
   // Constructor
   MetadataEditor(OFString file_path);
+  MetadataEditor(DcmDataset* dataset);
 
   OFCondition setTag(OFString str);
   void setTag(DcmTagKey key);
@@ -21,9 +22,9 @@ public:
   OFBool exists(OFString otherTagString, OFBool searchIntoSub = OFFalse);
   OFBool exists(const DcmTagKey &key, OFBool searchIntoSub = OFFalse);
 
-  OFBool match(OFString str_expr, OFCondition &flag);
-  OFBool match(OFString otherTagString, OFString str_expr, OFCondition &flag);
-  OFBool match(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag);
+  OFBool match(OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFBool match(OFString otherTagString, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFBool match(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
 
   OFCondition modify(OFString newValue, OFBool only_overwrite);
   OFCondition modify(OFString newValue, OFString otherTagString,
@@ -31,7 +32,7 @@ public:
   OFCondition modify(OFString newValue, DcmTagKey otherTagKey,
                      OFBool only_overwrite);
 
-  OFCondition copyTag(DcmTagKey TagKeyFrom, int posTo = 0, int posFrom = 0,
+  OFCondition copy(DcmTagKey otherTagKey, int posTo = 0, int posFrom = 0,
                       OFBool copyToThis = OFTrue,
                       OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue);
 
