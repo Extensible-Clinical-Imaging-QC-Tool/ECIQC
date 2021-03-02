@@ -7,7 +7,7 @@
 
 const char *ReceiverThread::DEF_StandardSubdirectory  = "data";
 const char *ReceiverThread::DEF_UndefinedSubdirectory = "undef";
-const char *ReceiverThread::DEF_FilenameExtension     = "";
+const char *ReceiverThread::DEF_FilenameExtension     = ".dcm";
 
 // ----------------------------------------------------------------------------
 

@@ -48,6 +48,11 @@ using namespace cpp_template;
         }
     };
 
+bool FileExists( const std::string &Filename )
+{
+    return access( Filename.c_str(), 0 ) == 0;
+}
+
 // This tests handling of C-ECHO Association
 TEST_CASE("Test Receiver C-ECHO Association"){
   
@@ -99,6 +104,7 @@ TEST_CASE("Test Receiver C-ECHO Association"){
 TEST_CASE("Test Receiver C-STORE Association"){
 
   Receiver pool;
+
 
   // Define presentation contexts
   OFList<OFString> xfers;
@@ -305,6 +311,49 @@ TEST_CASE("Test Receiver called AE Title check"){
   // Request shutdown.
   poolrej.request_stop();
   poolrej.join();
+}
+
+TEST_CASE("Test Receiver Storage Mode"){
+
+  Receiver storagepool;
+
+  storagepool.setDatasetStorageMode(DGM_StoreToFile);
+  storagepool.setOutputDirectory("../DICOM_Images/");
+  storagepool.setDirectoryGenerationMode(DGM_SeriesDate);
+
+  // Define presentation contexts for SCU
+  OFList<OFString> xfers;
+  xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+  xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+
+  // Define a separate transfer syntax needed for the X-ray image
+  OFList<OFString> ts;
+  ts.push_back(UID_LittleEndianImplicitTransferSyntax);
+
+  // Start listening
+  storagepool.start();
+
+  TestStorageSCU storescu;
+  storescu.setAETitle("PoolTestSCU");
+  storescu.setPeerAETitle("TestSCP");
+  storescu.setPeerHostName("localhost");
+  storescu.setPeerPort(11112);
+  storescu.addPresentationContext(UID_VerificationSOPClass, xfers);
+  storescu.addPresentationContext(UID_CTImageStorage, xfers);
+  storescu.addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
+  storescu.initNetwork();
+
+  OFStandard::sleep(5);
+
+  storescu.start();
+  storescu.join();
+  
+  // Request shutdown.
+  storagepool.request_stop();
+  storagepool.join();
+
+  CHECK(FileExists("../DICOM_Images/data/2012/01/08/DX.1.3.6.1.4.1.14519.5.2.1.9999.103.2710019309218103448268301702692.dcm")==1);
+
 }
 
 #endif

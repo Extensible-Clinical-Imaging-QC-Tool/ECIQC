@@ -16,26 +16,6 @@ class ReceiverThread : public DcmThreadSCP
 
 public:
 
-    
-
-
-    /** modes for generating filenames
-     */
-    enum E_FilenameGenerationMode
-    {
-        /// generate filename from SOP Instance UID (0008,0018)
-        FGM_SOPInstanceUID,
-        /// generate unique filename based on new UID
-        FGM_UniqueFromNewUID,
-        /// generate short pseudo-random unique filename
-        FGM_ShortUniquePseudoRandom,
-        /// generate filename from current system time
-        FGM_CurrentSystemTime,
-        /// default value
-        FGM_Default = FGM_SOPInstanceUID
-    };
-
-    
     /**  Constructor. */
     ReceiverThread();
 
@@ -98,12 +78,11 @@ public:
     /// default value for the filename extension appended to the generated filenames
     static const char *DEF_FilenameExtension;
 
-    /// mode specifying how to store the received datasets (also allows for skipping the storage)
-    E_DatasetStorageMode DatasetStorage;
 
 private:
     
-
+    /// mode specifying how to store the received datasets (also allows for skipping the storage)
+    E_DatasetStorageMode DatasetStorage;
     /// mode that is used to generate subdirectories to store the received datasets
     E_DirectoryGenerationMode DirectoryGeneration;
     /// mode that is used to generate filenames for the received datasets

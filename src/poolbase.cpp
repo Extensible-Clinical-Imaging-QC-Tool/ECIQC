@@ -7,6 +7,7 @@
 #include "poolbase.h"
 #include "dcmtk/dcmnet/diutil.h"
 
+
 // ----------------------------------------------------------------------------
 
 DQDBaseSCPPool::DQDBaseSCPPool()
@@ -16,11 +17,12 @@ DQDBaseSCPPool::DQDBaseSCPPool()
     m_cfg(),
     m_maxWorkers(5),
     m_sourcelist(),
+    m_outputdirectory(" "),
     m_peeraelist(),
     m_datastoragemode(DSM_Default),
+    m_directorygenmode(DGM_Default),
+    m_filegenmode(FGM_Default),
     m_runMode( LISTEN )
-    // not implemented yet: m_workersBusyTimeout(60),
-    // not implemented yet: m_waiting(),
 {
 
 }
@@ -45,6 +47,9 @@ OFCondition DQDBaseSCPPool::listen()
 
   OFList<OFString>& peerAE_list = m_peeraelist;
 
+  OFString& outputdirectory = m_outputdirectory;
+
+
 
   // DQDBaseSCPWorker::E_DatasetStorageMode& storage_mode = m_datasetStorage;
 
@@ -68,7 +73,7 @@ OFCondition DQDBaseSCPPool::listen()
     /* If we have a connection request, try to find/create a worker to handle it */
     if (cond.good())
     {
-      cond = runAssociation(assoc, sharedConfig, source_list, peerAE_list, m_datastoragemode);
+      cond = runAssociation(assoc, sharedConfig, source_list, peerAE_list, m_datastoragemode, m_directorygenmode, m_filegenmode, outputdirectory);
 
       /* If anything goes wrong running association: Refuse it */
       if (cond.bad())
@@ -208,10 +213,27 @@ void DQDBaseSCPPool::setDatasetStorageMode(const E_DatasetStorageMode mode)
 }
 
 // ----------------------------------------------------------------------------
+void DQDBaseSCPPool::setDirectoryGenerationMode(const E_DirectoryGenerationMode mode)
+{
+    m_directorygenmode = mode;
+}
+
+void DQDBaseSCPPool::setFilenameGenerationMode(const E_FilenameGenerationMode mode)
+{
+  m_filegenmode = mode;
+}
+
+void DQDBaseSCPPool::setOutputDirectory(const OFString &directory)
+{
+  m_outputdirectory = directory;
+}
+// ----------------------------------------------------------------------------
 
 OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
                                            const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
-                                           const OFList<OFString>& peerAE_list, const E_DatasetStorageMode mode)
+                                           const OFList<OFString>& peerAE_list, const E_DatasetStorageMode mode,
+                                           const E_DirectoryGenerationMode dirgenmode, const E_FilenameGenerationMode filegenmode,
+                                           const OFString &directory)
 {
   /* Try to find idle worker thread */
   OFCondition result = EC_Normal;
@@ -241,6 +263,9 @@ OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
         worker->setIPs(sourcelist);
         worker->setpeerAETitles(peerAE_list);
         worker->setDatasetStorageMode(mode);
+        worker->setDirectoryGenerationMode(dirgenmode);
+        worker -> setFilenameGenerationMode(filegenmode);
+        worker -> setOutputDirectory(directory);
         chosen = worker;
       }
     }

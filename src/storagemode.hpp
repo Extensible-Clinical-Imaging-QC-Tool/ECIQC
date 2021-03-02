@@ -28,6 +28,22 @@
         DGM_Default = DGM_NoSubdirectory
     };
 
+    /** modes for generating filenames
+     */
+    enum E_FilenameGenerationMode
+    {
+        /// generate filename from SOP Instance UID (0008,0018)
+        FGM_SOPInstanceUID,
+        /// generate unique filename based on new UID
+        FGM_UniqueFromNewUID,
+        /// generate short pseudo-random unique filename
+        FGM_ShortUniquePseudoRandom,
+        /// generate filename from current system time
+        FGM_CurrentSystemTime,
+        /// default value
+        FGM_Default = FGM_SOPInstanceUID
+    };
+
 
 
 

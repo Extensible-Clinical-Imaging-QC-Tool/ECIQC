@@ -97,6 +97,9 @@ public:
     
 
       virtual void setDatasetStorageMode(const E_DatasetStorageMode mode) = 0;
+      virtual void setDirectoryGenerationMode(const E_DirectoryGenerationMode mode) = 0;
+      virtual void setFilenameGenerationMode(const E_FilenameGenerationMode mode) = 0;
+      virtual OFCondition setOutputDirectory(const OFString &directory) = 0;
 
       /** Check whether worker is busy.
        *  @return OFTrue if worker is busy, OFFalse otherwise.
@@ -165,11 +168,15 @@ public:
    */
   virtual void setacceptableIPs(OFList<OFString> source_list);
 
+
   /** Set the AE Titles of peers from which the SCP can accept data.
    * @param aetitle_list A list of acceptable peer AE Titles.
    */
   virtual void setcallingAETitles(OFList<OFString> aetitle_list);
   virtual void setDatasetStorageMode(const E_DatasetStorageMode mode);
+  virtual void setDirectoryGenerationMode(const E_DirectoryGenerationMode mode);
+  virtual void setFilenameGenerationMode(const E_FilenameGenerationMode mode);
+  virtual void setOutputDirectory(const OFString &directory);
 
   /** Get number of maximum permitted connections, i.e.\ threads/workers.
    *  @return Number of threads permitted to exist within pool.
@@ -194,6 +201,7 @@ public:
   virtual OFList<OFString> getacceptableIPs();
 
   E_DatasetStorageMode getDatasetStorage();
+
 
   /** Listen for incoming association requests. For each incoming request, a
    *  new thread is started if number of maximum threads is not reached yet.
@@ -240,7 +248,9 @@ protected:
    */
   OFCondition runAssociation(T_ASC_Association* assoc,
                              const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
-                             const OFList<OFString>& peerAE_list, const E_DatasetStorageMode mode);
+                             const OFList<OFString>& peerAE_list, const E_DatasetStorageMode mode,
+                             const E_DirectoryGenerationMode dirgenmode, const E_FilenameGenerationMode filegenmode,
+                             const OFString &directory);
 
   /** Drops association and clears internal structures to free memory
    *  @param assoc The association to free
@@ -294,10 +304,25 @@ private:
   // If not specified, all hostnames are accepted.
   OFList<OFString> m_sourcelist;
 
+  OFString m_outputdirectory;
+
   // A list of AE Titles of peers from which SCP will accept data.
   // If not specified, all AE Titles are accepted.
   OFList<OFString> m_peeraelist;
   E_DatasetStorageMode m_datastoragemode;
+  E_DirectoryGenerationMode m_directorygenmode;
+  E_FilenameGenerationMode m_filegenmode;
+  /// name of the subdirectory that might be used for the "normal" case, i.e.\ if the
+  /// name of the subdirectory could be generated according to the current mode
+  OFString StandardSubdirectory;
+  /// name of the subdirectory that might be used for the "exceptional" case, i.e.\ if
+  /// the name of the subdirectory could not be generated according to the current mode
+  OFString UndefinedSubdirectory;
+  /// filename extension appended to the generated filenames
+  OFString FilenameExtension;
+
+  /// name of the output directory that is used to store the received datasets
+  OFString OutputDirectory;
 
   /// mode specifying how to store the received datasets (also allows for skipping the storage)
   //E_DatasetStorageMode m_datasetStorage;
@@ -409,6 +434,20 @@ private:
           //SCP::E_DatasetStorageMode mode_thread = (SCP::E_DatasetStorageMode)mode;
           //SCP::E_DataStorageMode mode_thread = (SCP::E_DataStorageMode) mode.Parse(typeof(SCP::E_DataStorageMode), value.ToString());
           SCP::setDatasetStorageMode(mode);
+        }
+
+        void setDirectoryGenerationMode(const E_DirectoryGenerationMode mode){
+          SCP::setDirectoryGenerationMode(mode);
+        }
+
+        virtual void setFilenameGenerationMode(const E_FilenameGenerationMode mode)
+        {
+          SCP::setFilenameGenerationMode(mode);
+        }
+
+        OFCondition setOutputDirectory(const OFString &directory)
+        {
+          return SCP::setOutputDirectory(directory);
         }
 
         /** Determine if the Worker is currently handling any request.
