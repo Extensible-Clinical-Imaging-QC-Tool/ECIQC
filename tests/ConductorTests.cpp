@@ -15,8 +15,8 @@ TEST_CASE("Test Conductor config")
 {
     Conductor conductor;
     conductor.setReceiver(104, "SABSTool");
-    CHECK(conductor.m_receiver.getConfig().getPort() == 104);
-    CHECK(conductor.m_receiver.getConfig().getAETitle() == "SABSTool");
+    CHECK(conductor.receiver.getConfig().getPort() == 104);
+    CHECK(conductor.receiver.getConfig().getAETitle() == "SABSTool");
 
 }
 

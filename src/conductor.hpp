@@ -12,7 +12,7 @@ class Conductor
     // Receiver
 
     /** members */
-    Receiver m_receiver;
+    Receiver receiver;
     
 
     /** functions */

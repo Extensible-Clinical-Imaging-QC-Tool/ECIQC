@@ -6,15 +6,15 @@
 
 //Constructor
 Conductor::Conductor()
-    : m_receiver()
+    : receiver()
 {
 
 }
 // Receiver
 void Conductor::setReceiver(Uint16 port, OFString ae_title)
 {
-    m_receiver.setportnumber(port);
-    m_receiver.setaetitle(ae_title);
+    receiver.setportnumber(port);
+    receiver.setaetitle(ae_title);
 }
 
 
