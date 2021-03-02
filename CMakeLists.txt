@@ -66,7 +66,10 @@ add_library(qctool_lib src/MyLibrary.cpp
                   src/parser.cpp
                   src/Parser.hpp
                   src/poolbase.h
-                  src/poolbase.cpp)
+                  src/poolbase.cpp
+                  # Conductor Files
+                  src/conductor.cpp
+                  src/conductor.hpp)
 
 target_include_directories(qctool_lib PUBLIC src)
 
@@ -86,6 +89,7 @@ enable_testing()
 add_executable(unit_tests tests/MyTestsParser.cpp
                           #tests/ReceiverTests.cpp
                           #tests/METests.cpp
+                          tests/ConductorTests.cpp
                  )                          
 
 target_include_directories(unit_tests PRIVATE tests)
