@@ -10,6 +10,8 @@ using namespace std;
 class Parser {
 
     public:
+
+        Parser(OFString configFpath);
         /** Parser functions:
         *  the initial_settings function processes user choices and calls the editing methods
         */
@@ -18,6 +20,9 @@ class Parser {
        auto editing(std::stringstream configuration);
 
 
+
+    private:
+        DcmDataset* currentDataset;
 };
 
 //#endif
