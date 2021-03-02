@@ -1,6 +1,10 @@
-#include "MetadataEditor.hpp"
 #include <iostream>
 #include <regex>
+//#include "../dcmdata/apps/mdfdsman.h"
+#include <dcmtk/dcmpstat/dcmpstat.h>
+#include "MetadataEditor.hpp"
+
+
 
 // Constructor(s)
 MetadataEditor::MetadataEditor(OFString file_path) {
