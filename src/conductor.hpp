@@ -1,7 +1,22 @@
+#ifndef CONDUCTOR_H
+#define CONDUCTOR_H
 // #include 
+#include "draft_receiver.hpp"
 
+class Conductor
+{
+ public:
+    /** Constructor */
+    Conductor();
+    
+    // Receiver
 
-// Receiver
+    /** members */
+    Receiver receiver;
+    
+
+    /** functions */
+    void setReceiver(Uint16 port, OFString ae_title);
 
 
 // Parser 
@@ -13,3 +28,7 @@
 
 
 // Sender
+
+};
+
+#endif
