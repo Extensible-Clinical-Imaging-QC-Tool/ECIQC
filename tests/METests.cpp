@@ -123,7 +123,7 @@ TEST_CASE("Test for COPYING DICOM values") {
   OFBool copyToThis = OFTrue;
 
   obj.setTag(tag_b);
-  OFCondition cond = obj.copyTag(tag_a, posFrom, posTo, copyToThis, replace);
+  OFCondition cond = obj.copy(tag_a, posFrom, posTo, copyToThis, replace);
 
   obj.dset->findAndGetElement(tag_a, ele1);
   obj.dset->findAndGetElement(tag_b, ele2);

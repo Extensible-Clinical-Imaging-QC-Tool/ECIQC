@@ -146,7 +146,7 @@ using namespace std;
 
             if (el["actionIfTrue"]["operator"] == "COPY")
             {
-                obj.copyTag(DcmTagKey(Tag[0],Tag[1]), posFrom, posTo, copyToThis, replace);
+                obj.copy(DcmTagKey(Tag[0],Tag[1]), posFrom, posTo, copyToThis, replace);
             }
             
 
