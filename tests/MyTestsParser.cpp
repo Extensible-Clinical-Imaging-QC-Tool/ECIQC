@@ -61,7 +61,7 @@ std::ifstream file("../src/schema.json");// test case for input json > parser ca
 
 string test_configuration;
 
-Parser obj;
+Parser parser;
 
 
 TEST_CASE("Test the initial settings of the Parser class") {
@@ -74,7 +74,7 @@ TEST_CASE("Test the initial settings of the Parser class") {
   
   string Tag = "(10,0010)";
   string VR = "CS";
-  auto input_tag = obj.initial_settings(std::stringstream(test_configuration), Tag, VR);
+  auto input_tag = parser.initial_settings(std::stringstream(test_configuration), Tag, VR);
   auto expect = false;
   CHECK(expect == input_tag);
 }
@@ -86,7 +86,7 @@ TEST_CASE("Test the parser of the config file") {
     string ss_error = "{'(0010,0010)' : 1 }";
     cfg_error = ss_error;
 
-    auto input = obj.file_opening(std::stringstream(cfg_error));
+    auto input = parser.file_opening(std::stringstream(cfg_error));
 		auto expected = false;
 		CHECK(expected == input);
 
@@ -94,7 +94,7 @@ TEST_CASE("Test the parser of the config file") {
     string ss_test = "{ \"(0010,0010)\":1 }";
     cfg = ss_test;
 
-    auto input_test = obj.file_opening(std::stringstream(cfg));
+    auto input_test = parser.file_opening(std::stringstream(cfg));
 		auto expected_test = true; 
     CHECK(expected_test == input_test);
 
@@ -103,7 +103,7 @@ TEST_CASE("Test the parser of the config file") {
 
 TEST_CASE("Test right inputs for the Parser class") {
 
-  string output = obj.editing(std::stringstream(test_configuration));
+  string output = parser.editing(std::stringstream(test_configuration));
   string expected = "modifying tag itself";
   CHECK(expected != output);
 

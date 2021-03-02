@@ -84,8 +84,8 @@ enable_testing()
 
 
 add_executable(unit_tests tests/MyTestsParser.cpp
-                          #tests/ReceiverTests.cpp
-                          #tests/METests.cpp
+                          tests/ReceiverTests.cpp
+                          tests/METests.cpp
                  )                          
 
 target_include_directories(unit_tests PRIVATE tests)
