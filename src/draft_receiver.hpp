@@ -58,7 +58,7 @@ public:
     OFCondition result;
     
     /** Constructor. */
-    Receiver();
+    Receiver(Uint16 port, OFString aetitle);
 
     /** Destructor. */
     virtual ~Receiver();

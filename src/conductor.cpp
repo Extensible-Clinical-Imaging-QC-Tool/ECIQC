@@ -21,7 +21,9 @@ Conductor::Conductor(OFString cfp1,
     : p1(cfp1), p2(cfp2), receiver(rPortNum, rPortName), 
     sender(rPortNum, rPortName)
 {
-
+    //Receiver receiver;
+    //receiver.setportnumber(port);
+    //receiver.setaetitle(ae_title);
 }
 
 // set optional variables
