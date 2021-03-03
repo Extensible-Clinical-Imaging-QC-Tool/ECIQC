@@ -63,7 +63,7 @@ add_library(qctool_lib src/MyLibrary.cpp
                   # Receiver Files
                   src/draft_receiver.cpp
                   src/draft_receiver.hpp
-                  src/parser.cpp
+                  src/Parser.cpp
                   src/Parser.hpp
                   src/poolbase.h
                   src/poolbase.cpp

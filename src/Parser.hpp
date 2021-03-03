@@ -12,6 +12,7 @@ class Parser {
     public:
 
         Parser(OFString configFpath);
+        void setDicomFile(DcmDataset* dset);
         /** Parser functions:
         *  the initial_settings function processes user choices and calls the editing methods
         */

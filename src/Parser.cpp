@@ -14,11 +14,11 @@ using json = nlohmann::json;
 
 Parser::Parser(OFString configFpath) {
 
-    std::ifstream configFile(fpath);
+    std::ifstream configFile(configFpath.c_str());
     if (configFile) {
         std::stringstream buffer;
-        buffer << file.rdbuf();
-        file.close();
+        buffer << configFile.rdbuf();
+        configFile.close();
 
         /* buffer is the stringstream (ss) that contains the config instructions.
             These instructions will be repeated for all the images */
@@ -33,7 +33,7 @@ Parser::Parser(OFString configFpath) {
 ////////////////////////////////////////////////////////////////////
 
 
-Parser::setDicomFile(DcmDataset* dset) {
+void Parser::setDicomFile(DcmDataset* dset) {
     /* 
     DcmDataset is the class that handles the dicom metadata in c++
     
