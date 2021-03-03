@@ -2,6 +2,7 @@
 #define CONDUCTOR_H
 // #include 
 #include "draft_receiver.hpp"
+#include "Parser.hpp"
 
 class Conductor
 {
@@ -13,6 +14,7 @@ class Conductor
 
     /** members */
     Receiver receiver;
+    Parser p1, p2;
     
 
     /** functions */
@@ -26,6 +28,9 @@ class Conductor
 
 // Validator 
 
+OFString config1;
+OFString config2;
+OFString port_no;
 
 // Sender
 
