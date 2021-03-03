@@ -120,12 +120,12 @@ OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list)
 /*                        Receiver class                                   */
 /* *********************************************************************** */
 
-Receiver::Receiver()
+Receiver::Receiver(Uint16 port, OFString aetitle)
 {
         // Configure SCP port
-        getConfig().setPort(11112);
+        getConfig().setPort(port);
         // Configure SCP name
-        getConfig().setAETitle("TestSCP");
+        getConfig().setAETitle(aetitle);
         // Set number of threads
         setMaxThreads(2);
         getConfig().setConnectionBlockingMode(DUL_NOBLOCK);

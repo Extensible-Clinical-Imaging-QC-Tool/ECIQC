@@ -51,7 +51,7 @@ using namespace cpp_template;
 // This tests handling of C-ECHO Association
 TEST_CASE("Test C-ECHO Association"){
   
-  Receiver pool;
+  Receiver pool(11112, "TestSCP");
 
   // Define presentation contexts for SCU
   OFList<OFString> xfers;
@@ -98,7 +98,7 @@ TEST_CASE("Test C-ECHO Association"){
 // This tests handling of C-STORE Association
 TEST_CASE("Test C-STORE Association"){
 
-  Receiver pool;
+  Receiver pool(11112, "TestSCP");
 
   // Define presentation contexts
   OFList<OFString> xfers;
@@ -151,10 +151,10 @@ TEST_CASE("Test C-STORE Association"){
 // This tests basic configuration of the Receiver.
 TEST_CASE("Test Receiver Configuration"){
 
-    Receiver scppool;
+    Receiver scppool(104, "ATestName");
     
-    scppool.setaetitle("ATestName");
-    scppool.setportnumber(104);
+    //scppool.setaetitle("ATestName");
+    //scppool.setportnumber(104);
 
     CHECK(scppool.getConfig().getAETitle() == "ATestName");
     CHECK(scppool.getConfig().getPort() == 104);
@@ -176,7 +176,7 @@ TEST_CASE("Test Receiver Configuration"){
 TEST_CASE("Test hostname/IP check - Accept"){
 
   // Check that a specified hostname is accepted.
-  Receiver pool;
+  Receiver pool(11112, "TestSCP");
 
   OFList<OFString> hostiplist;
   hostiplist.push_back("localhost");
@@ -213,7 +213,7 @@ TEST_CASE("Test hostname/IP check - Accept"){
 TEST_CASE("Test hostname/IP check - Reject"){
 
   // Check that a non-specified hostname is rejected.
-  Receiver poolrej;
+  Receiver poolrej(11112, "TestSCP");
 
   OFList<OFString> hostiplistrej;
   hostiplistrej.push_back("AnIPAddress");
@@ -248,7 +248,7 @@ TEST_CASE("Test hostname/IP check - Reject"){
 TEST_CASE("Test called AE Title check"){
 
   // Check that a specified AE title is accepted.
-  Receiver pool;
+  Receiver pool(11112, "TestSCP");
 
   OFList<OFString> aetitles;
   aetitles.push_back("PoolTestSCU");
@@ -283,7 +283,7 @@ TEST_CASE("Test called AE Title check"){
   pool.join();
 
   // Check that a non-specified hostname is rejected.
-  Receiver poolrej;
+  Receiver poolrej(11112, "TestSCP");
 
   OFList<OFString> aelistrej;
   aelistrej.push_back("A Title");

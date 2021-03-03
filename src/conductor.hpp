@@ -7,7 +7,7 @@ class Conductor
 {
  public:
     /** Constructor */
-    Conductor();
+    Conductor(Uint16 port, OFString ae_title);
     
     // Receiver
 
@@ -16,7 +16,7 @@ class Conductor
     
 
     /** functions */
-    void setReceiver(Uint16 port, OFString ae_title);
+    //void setReceiver(Uint16 port, OFString ae_title);
 
 
 // Parser 
