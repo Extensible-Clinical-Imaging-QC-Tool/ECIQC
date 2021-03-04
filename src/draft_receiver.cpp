@@ -8,13 +8,18 @@
 
 ReceiverThread::ReceiverThread():DcmThreadSCP()
 {
-
+    m_dset = NULL;
+    //m_dset_list = NULL;
 }
 
 // ----------------------------------------------------------------------------
 
 ReceiverThread::~ReceiverThread() {}
 
+void ReceiverThread::setdatasetaddress(DcmDataset* dset){
+    m_dset = dset;
+    std::cout<<"Hi i work";
+}
 // ----------------------------------------------------------------------------
 
 OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo)
@@ -24,8 +29,15 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
         {
             // Enable handling of C-STORE requests.
             
-            DcmDataset* dset = NULL;
-            return DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, dset);
+            //DcmDataset dset;
+            DcmDataset *reqdataset = m_dset;
+            //OFshared_ptr<DcmDataset>(DcmDataset &reqdataset=dset);
+            //DcmFileFormat dfile;
+            //DcmDataset *dset = dfile.getDataset();
+            return DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, reqdataset);
+            m_dset->loadAllDataIntoMemory();
+            //m_dset_list.push_back(*reqDataset);
+            //(m_dset_list)->push_back(*reqdataset);
         }
 
         else
@@ -105,6 +117,18 @@ OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list)
   return EC_Normal;
 }
 
+DcmDataset* ReceiverThread::getdataset()
+{
+    if (m_dset == NULL)
+    {
+        return 0;
+    }
+    else
+    {
+       return m_dset;
+    }
+    
+}
 // ----------------------------------------------------------------------------
 
 OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list){
@@ -134,6 +158,8 @@ Receiver::Receiver(Uint16 port, OFString aetitle)
         getConfig().setConnectionTimeout(5);
         // Set verbose mode
         getConfig().setVerbosePCMode(OFTrue);
+        //getConfig().setProgressNotificationMode()
+
 
         // Add presentation context to be handled
         OFList<OFString> ts;
@@ -178,5 +204,3 @@ void Receiver::setportnumber(Uint16 port)
     getConfig().setPort(port);
 }
 
-
-    

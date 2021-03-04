@@ -17,6 +17,7 @@ DQDBaseSCPPool::DQDBaseSCPPool()
     m_maxWorkers(5),
     m_sourcelist(),
     m_peeraelist(),
+    m_dset(),
     m_runMode( LISTEN )
     // not implemented yet: m_workersBusyTimeout(60),
     // not implemented yet: m_waiting(),
@@ -63,7 +64,7 @@ OFCondition DQDBaseSCPPool::listen()
     /* If we have a connection request, try to find/create a worker to handle it */
     if (cond.good())
     {
-      cond = runAssociation(assoc, sharedConfig, source_list, peerAE_list);
+      cond = runAssociation(assoc, sharedConfig, source_list, peerAE_list, m_dset);
 
       /* If anything goes wrong running association: Refuse it */
       if (cond.bad())
@@ -183,17 +184,35 @@ void DQDBaseSCPPool::setacceptableIPs(OFList<OFString> source_list)
   m_sourcelist = source_list;
 }
 
+void DQDBaseSCPPool::setpooldataset(DcmDataset* dset)
+{
+    m_dset = dset;
+}
+
+DcmDataset* DQDBaseSCPPool::getpooldataset()
+{
+    return m_dset;
+}
+
+void DQDBaseSCPPool::setdsetlist(OFList<DcmDataset>* dset_list)
+{
+    m_dset_list = dset_list;
+}
+    
+
 // ----------------------------------------------------------------------------
 
 void DQDBaseSCPPool::setcallingAETitles(OFList<OFString> aetitle_list)
 {
   m_peeraelist= aetitle_list;
 }
+
 // ----------------------------------------------------------------------------
 
 OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
                                            const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
-                                           const OFList<OFString>& peerAE_list)
+                                           const OFList<OFString>& peerAE_list,
+                                           DcmDataset* dset)
 {
   /* Try to find idle worker thread */
   OFCondition result = EC_Normal;
@@ -222,6 +241,7 @@ OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
         worker->setSharedConfig(sharedConfig);
         worker->setIPs(sourcelist);
         worker->setpeerAETitles(peerAE_list);
+        worker->setdatasetaddress(dset);
         chosen = worker;
       }
     }
@@ -351,6 +371,8 @@ void DQDBaseSCPPool::DQDBaseSCPWorker::run()
     DCMNET_DEBUG("DQDBaseSCPPool: Worker thread #" << threadID() << " returns with code: " << result.text() );
   }
   m_pool.notifyThreadExit(this, result);
+  //DcmDataset worker_dset = getdataset();
+  //m_pool.setpooldataset(getdataset());
   thread_exit();
   return;
 }
