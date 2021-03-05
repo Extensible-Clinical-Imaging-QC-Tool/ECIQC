@@ -1,272 +1,187 @@
-#include <iostream>
-#include <dcmtk/ofstd/ofstd.h> 
-#include "dcmtk/ofstd/ofconapp.h"
-#include <dcmtk/dcmnet/dstorscu.h> 
-#include "dcmtk/dcmdata/cmdlnarg.h"  /* for prepareCmdLineArgs */
+/* 
+ * 
+ *  Copyright (C) 2011-2012, OFFIS e.V. 
+ *  All rights reserved.  See COPYRIGHT file for details. 
+ * 
+ *  This software and supporting documentation were developed by 
+ * 
+ *    OFFIS e.V. 
+ *    R&D Division Health 
+ *    Escherweg 2 
+ *    D-26121 Oldenburg, Germany 
+ * 
+ * 
+ *  Module:  dcmnet 
+ * 
+ *  Author:  Michael Onken 
+ * 
+ *  Purpose: Test for move feature of the DcmSCU class 
+ */ 
+
+#include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */ 
+#include "dcmtk/dcmnet/scu.h" 
+#include "dcmtk/dcmnet/diutil.h" 
 #include "Sender.hpp"
 
 
+#define OFFIS_CONSOLE_APPLICATION "testscu" 
 
-/* Sender Class 
+static OFLogger echoscuLogger = OFLog::getLogger("dcmtk.apps." OFFIS_CONSOLE_APPLICATION); 
 
-Set parameters 
---------------
+//static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v" 
+//  OFFIS_DCMTK_VERSION " " OFFIS_DCMTK_RELEASEDATE " $"; 
 
-Takes in: 
-1) host name of DICOM peer 
-2) tcp/ip port number of peer 
-3) DICOM file or directory to be transmitted
+// our application entity title used for calling the peer machine 
+#define APPLICATIONTITLE     "TEST-SCU" 
 
-Processing of Input Files 
--------------------------
--Load input filenames, check if they are valid
--Create storage SCU and add the DICOM files to it 
+// host name of the peer machine 
+#define PEERHOSTNAME         "www.dicomserver.co.uk" 
 
-Transfer
---------
--Add presentation context
--Initialise network
--Set association network with peer
+// TCP/IP port to connect to the peer machine 
+#define PEERPORT 11112 
 
---------
-TO DO:
-Log report, clean memory
---------
-*/
+// application entity title of the peer machine 
+#define PEERAPPLICATIONTITLE "MOVESCP" 
 
+// MOVE destination AE Title 
+#define MOVEAPPLICATIONTITLE "TEST-SCU" 
 
+static Uint8 findUncompressedPC(const OFString& sopClass, 
+                                DcmSCU& scu) 
+{ 
+  Uint8 pc; 
+  pc = scu.findPresentationContextID(sopClass, UID_LittleEndianExplicitTransferSyntax); 
+  if (pc == 0) 
+    pc = scu.findPresentationContextID(sopClass, UID_BigEndianExplicitTransferSyntax); 
+  if (pc == 0) 
+    pc = scu.findPresentationContextID(sopClass, UID_LittleEndianImplicitTransferSyntax); 
+  return pc; 
+} 
+// ----------------------------------------------------------------------------
 
+Sender::~Sender() {}
 
-/*
-Used implementation of dcmsend.cc from:
-https://github.com/InsightSoftwareConsortium/DCMTK/blob/master/dcmnet/apps/dcmsend.cc#L147
-*/
+// ----------------------------------------------------------------------------
 
-/* default application entity titles */
-#define PEERAPPLICATIONTITLE "ANY-SCP"
+OFCondition Sender::handleOutcomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo)
+    {
 
-/* exit codes for this command line tool */
-#define EXITCODE_CANNOT_WRITE_REPORT_FILE        43
-// network errors
-#define EXITCODE_CANNOT_INITIALIZE_NETWORK       60
-#define EXITCODE_CANNOT_NEGOTIATE_ASSOCIATION    61
-#define EXITCODE_CANNOT_SEND_REQUEST             62
-#define EXITCODE_CANNOT_ADD_PRESENTATION_CONTEXT 65
+        if (incomingMsg->CommandField == DIMSE_C_STORE_RQ)
+        {
+            // Enable handling of C-FIND response.
+            
+            DcmDataset* dset = NULL;
+            return DcmSCU::handleFINDResponse(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, dset);
+        }
 
+        else
+        {
+            return DcmSCU::handleOutcomingCommand(incomingMsg, presInfo);
+        }
+    }
 
+// ----------------------------------------------------------------------------
 
-/* Create Log */
-#define OFFIS_CONSOLE_APPLICATION "storescu"
+OFBool Sender::checkCallingHostAccepted(const OFString& hostOrIP)
+{
+    // Check if acceptable IPs/hostnames have been specified. 
+    if(m_sourcelist.size()!= 0) {
+        
+        // Check if peer's hostname is in the acceptable source list.
+        OFListIterator(OFString) it = m_sourcelist.begin();
+        OFListIterator(OFString) last = m_sourcelist.end();
+        
+        while(it != last)
+        {
+            OFString item = *it;
+            if (item == getPeerIP())
+            {
+                return OFTrue;
+                it = last;
+            }
+            ++it;
+        }
+        return OFFalse;
+    }
+    else
+    {
+        return OFTrue;
+    }
+    
 
-static OFLogger dcmsendLogger = OFLog::getLogger("dcmtk.apps." OFFIS_CONSOLE_APPLICATION);
+}
 
+// ----------------------------------------------------------------------------
 
+OFBool Sender::checkCallingAETitleAccepted(const OFString& callingAE)
+{
+    if(m_peerAETitles.size() != 0)
+    {
+        OFListIterator(OFString) it = m_peerAETitles.begin();
+        OFListIterator(OFString) last = m_peerAETitles.end();
 
+        while(it != last)
+        {
+            OFString item = *it;
+            if (item == getPeerAETitle())
+            {
+                return OFTrue;
+                it = last;
+            }
+            ++it;
+        }
+        
+        return OFFalse;
+    }
+    else
+    {
+        return OFTrue;
+    }
+}
 
-OFBool Sender::process(const char* opt_peer, const char* opt_peerTitle){
+// ----------------------------------------------------------------------------
 
+OFCondition Sender::setIPs(const OFList<OFString>& source_list)
+{
+    if (isConnected())
+  {
+    return EC_IllegalCall; // TODO: need to find better error code
+  }
+  m_sourcelist = source_list;
+  return EC_Normal;
+}
 
-    OFOStringStream optStream;
-    opt_peer = NULL;
-    opt_peerTitle = PEERAPPLICATIONTITLE;
+// ----------------------------------------------------------------------------
+
+OFCondition Sender::setpeerAETitles(const OFList<OFString>& peerae_list){
+     if (isConnected())
+  {
+    return EC_IllegalCall; // TODO: need to find better error code
+  }
+  m_peerAETitles = peerae_list;
+  return EC_Normal;
+}
+
+// **  SENDER  
+
+Sender::Sender() { 
+
+  /* Setup DICOM connection parameters */ 
+  OFLog::configure(OFLogger::DEBUG_LOG_LEVEL); 
+  DcmSCU scu; 
+  // set AE titles 
+  scu.setAETitle(APPLICATIONTITLE); 
+  scu.setPeerHostName(PEERHOSTNAME); 
+  scu.setPeerPort(PEERPORT); 
+  scu.setPeerAETitle(PEERAPPLICATIONTITLE); 
+  // Use presentation context for FIND/MOVE in study root, propose all uncompressed transfer syntaxes 
+  OFList<OFString> ts; 
+  ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
+  ts.push_back(UID_BigEndianExplicitTransferSyntax); 
+  ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
+  scu.addPresentationContext(UID_FINDStudyRootQueryRetrieveInformationModel, ts); 
+  scu.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel, ts); 
+  scu.addPresentationContext(UID_VerificationSOPClass, ts); 
+
   
-
-    OFCmdUnsignedInt opt_port = 0;
-    OFBool opt_dicomDir = OFFalse;
-    OFBool opt_haltOnInvalidFile = OFTrue;
-    OFBool opt_multipleAssociations = OFTrue;
-
-    /*command line parameters */
-    OFCommandLine cmd;
-   
-    cmd.addParam("peer", "host name of DICOM peer");
-    cmd.addParam("port", "tcp/ip port number of peer");
-    cmd.addParam("dcmfile-in", "DICOM file or directory to be transmitted", OFCmdParam::PM_MultiMandatory);
-
-    int paramCount = 0;
-    paramCount = cmd.getParamCount();
-
-    /* Iterate over input filenames */
-
-    OFList<OFString> inputFiles; 
-    const char *paramString = NULL;
-
-    for (int i = 3; i <= paramCount; i++){
-        cmd.getParam(i,paramString);
-        if (OFStandard::dirExists(paramString)){
-            OFStandard::searchDirectoryRecursively(paramString,inputFiles);
-        }
-        else{
-            inputFiles.push_back(paramString);
-        }
-    }
-
-    /* Check if there are input files */
-    if (inputFiles.empty())
-    {
-        OFLOG_FATAL(dcmsendLogger,"input files not found");
-        return EXITCODE_NO_INPUT_FILES;
-    }
-
-    DcmStorageSCU storageSCU;
-    OFCondition status;
-    unsigned long numInvalidFiles = 0;
-
-
-    /* set parameters used for processing the input files */
-    storageSCU.setReadFromDICOMDIRMode(opt_dicomDir);
-    storageSCU.setHaltOnInvalidFileMode(opt_haltOnInvalidFile);
-    OFLOG_INFO(dcmsendLogger, "checking input files ...");
-
-
-    /* iterate over all input filenames */
-    const char *filename = NULL;
-
-    OFListIterator(OFString) iter = inputFiles.begin();
-    OFListIterator(OFString) last = inputFiles.end();
-
-    if (status.good())
-    {
-        while (iter != last){
-            filename = (*iter).c_str();
-            status = storageSCU.addDicomFile(filename);
-            if (status.bad())
-            {
-                /* check for empty filename */
-                if (strlen(filename) == 0)
-                    filename = "<empty string>";
-                /* if something went wrong, we either terminate or ignore the file */
-                if (opt_haltOnInvalidFile)
-                {
-                   OFLOG_FATAL(dcmsendLogger, "bad DICOM file: " << filename << ": " << status.text());
-                //    cleanup();
-                    return EXITCODE_INVALID_INPUT_FILE;
-                } else {
-                    OFLOG_WARN(dcmsendLogger, "bad DICOM file: " << filename << ": " << status.text() << ", ignoring file");
-                }
-                ++numInvalidFiles;
-            }
-            ++iter;
-        }
-    }
-
-
-    /* check whether there are any valid input files */
-    if (storageSCU.getNumberOfSOPInstances() == 0)
-    {
-        OFLOG_FATAL(dcmsendLogger, "no valid input files to be processed");
-        //cleanup();
-        return EXITCODE_NO_VALID_INPUT_FILES;
-    } else {
-        OFLOG_DEBUG(dcmsendLogger, "in total, there are " << storageSCU.getNumberOfSOPInstances()
-            << " SOP instances to be sent, " << numInvalidFiles << " invalid files are ignored");
-    }
-
-
-    /*Prepare transfer */
-
-
-    /* set network parameters */
-    storageSCU.setPeerHostName(opt_peer);
-    storageSCU.setPeerPort(OFstatic_cast(Uint16, opt_port));
-    storageSCU.setPeerAETitle(opt_peerTitle);
-
-    //storageSCU.setMaxReceivePDULength(OFstatic_cast(Uint32, opt_maxReceivePDULength));
-    //storageSCU.setACSETimeout(OFstatic_cast(Uint32, opt_acseTimeout));
-    //storageSCU.setDIMSETimeout(OFstatic_cast(Uint32, opt_dimseTimeout));
-    //storageSCU.setDIMSEBlockingMode(opt_blockMode);
-    //storageSCU.setVerbosePCMode(opt_showPresentationContexts);
-
-
-    /* output information on the single/multiple associations setting */
-    if (opt_multipleAssociations)
-    {
-        OFLOG_DEBUG(dcmsendLogger, "multiple associations allowed (option --multi-associations used)");
-    } else {
-        OFLOG_DEBUG(dcmsendLogger, "only a single associations allowed (option --single-association used)");
-    }
-
-    /* Add presentation contexts to be negotiated */
-    while ((status = storageSCU.addPresentationContexts()).good())
-    {
-        if (opt_multipleAssociations)
-        {
-            /* output information on the start of the new association */
-            if (dcmsendLogger.isEnabledFor(OFLogger::DEBUG_LOG_LEVEL))
-            {
-                OFLOG_DEBUG(dcmsendLogger, OFString(65, '-') << OFendl
-                    << "starting association #" << (storageSCU.getAssociationCounter() + 1));
-            } else {
-                OFLOG_INFO(dcmsendLogger, "starting association #" << (storageSCU.getAssociationCounter() + 1));
-            }
-        }
-        OFLOG_INFO(dcmsendLogger, "initializing network ...");
-        /* initialize network */
-        status = storageSCU.initNetwork();
-        if (status.bad())
-        {
-            OFLOG_FATAL(dcmsendLogger, "cannot initialize network: " << status.text());
-            return EXITCODE_CANNOT_INITIALIZE_NETWORK;
-        }
-        OFLOG_INFO(dcmsendLogger, "negotiating network association ...");
-        /* negotiate network association with peer */
-        status = storageSCU.negotiateAssociation();
-        if (status.bad())
-        {
-            // check whether we can continue with a new association
-            if (status == NET_EC_NoAcceptablePresentationContexts)
-            {
-                OFLOG_ERROR(dcmsendLogger, "cannot negotiate network association: " << status.text());
-                // check whether there are any SOP instances to be sent
-                const size_t numToBeSent = storageSCU.getNumberOfSOPInstancesToBeSent();
-                if (numToBeSent > 0)
-                {
-                    OFLOG_WARN(dcmsendLogger, "trying to continue with a new association "
-                        << "in order to send the remaining " << numToBeSent << " SOP instances");
-                }
-            } else {
-                OFLOG_FATAL(dcmsendLogger, "cannot negotiate network association: " << status.text());
-                return EXITCODE_CANNOT_NEGOTIATE_ASSOCIATION;
-            }
-        }
-        if (status.good())
-        {
-            OFLOG_INFO(dcmsendLogger, "sending SOP instances ...");
-            /* send SOP instances to be transferred */
-            status = storageSCU.sendSOPInstances();
-            if (status.bad())
-            {
-                OFLOG_FATAL(dcmsendLogger, "cannot send SOP instance: " << status.text());
-                // handle certain error conditions (initiated by the communication peer)
-                if (status == DUL_PEERREQUESTEDRELEASE)
-                {
-                    // peer requested release (aborting)
-                    storageSCU.closeAssociation(DCMSCU_PEER_REQUESTED_RELEASE);
-                }
-                else if (status == DUL_PEERABORTEDASSOCIATION)
-                {
-                    // peer aborted the association
-                    storageSCU.closeAssociation(DCMSCU_PEER_ABORTED_ASSOCIATION);
-                }
-                
-                return EXITCODE_CANNOT_SEND_REQUEST;
-            }
-        }
-        /* close current network association */
-        storageSCU.releaseAssociation();
-        /* check whether multiple associations are permitted */
-        if (!opt_multipleAssociations)
-            break;
-    }
-
-
-
-    /*Create log report */
-    const char *report_filename = "Sender_Logs";
-    status = storageSCU.createReportFile(report_filename);
-    if (status.bad()){
-        //throw "Cannot write to output file";
-        return EXITCODE_CANNOT_WRITE_OUTPUT_FILE;
-    }
-
 }

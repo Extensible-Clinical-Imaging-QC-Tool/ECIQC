@@ -87,9 +87,7 @@ target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 enable_testing()
 
 
-add_executable(unit_tests tests/SenderTests.cpp
-                          
-                 )                          
+add_executable(unit_tests tests/SenderTests.cpp)                          
 
 target_include_directories(unit_tests PRIVATE tests)
 target_link_libraries(unit_tests PRIVATE qctool_lib)

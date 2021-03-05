@@ -42,7 +42,7 @@ using namespace cpp_template;
         Uint16 rspStatusCode = 0;
 
         // Images to be sent
-        result = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
+        result = sendStoreRequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
         result2 = sendSTORERequest(0, "../DICOM_Images/1-01.dcm", 0, rspStatusCode);
         releaseAssociation();
         }

@@ -1,44 +1,20 @@
-#ifndef SENDER_H_
-#define SENDER_H_
+#ifndef SENDER_H 
+#define SENDER_H 
 
-#include <iostream>
-#include <dcmtk/ofstd/ofstd.h> 
-#include <dcmtk/dcmnet/dstorscu.h> 
+#include "dcmtk/config/osconfig.h"  /* make sure OS specific configuration is included first */ 
 
-class Sender {
+#include "dcmtk/dcmnet/scu.h"     /* Covers most common dcmdata classes */ 
 
-    public:
+
+class Sender
+{ 
+
+public: 
 
     /** Constructor. */
-    //Sender();
+    Sender()  {} 
+    ~Sender() {} 
 
-    OFBool process(const char* opt_peer, const char* opt_peerTitle);
+}; 
 
-
-    /** Destructor. */
-    //virtual ~Sender();
-
-    //OFBool process(OFString str);
-    
-    OFCondition result;
-
-    /** Set Peer Host Name.
-     *  @param opt_peer
-     */ 
-    //void PeerHostName(OFString opt_peer);
-
-    /** Set Peer AE Title. 
-     *  @param optPeerTitle
-     */ 
-    //void PeerAETitle(OFString opt_peerTitle);
-
-    /** Set Peer Port  
-     *  @param opt_port 
-     */ 
-    //void PeerPort(Uint16  opt_port);
-    
-
-
-};
-
-#endif // SENDER_H_
+#endif // SENDER_H 
