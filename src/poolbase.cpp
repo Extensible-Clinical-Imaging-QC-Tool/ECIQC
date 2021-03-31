@@ -17,6 +17,7 @@ DQDBaseSCPPool::DQDBaseSCPPool()
     m_maxWorkers(5),
     m_sourcelist(),
     m_peeraelist(),
+    m_dpl(),
     m_dset(),
     m_runMode( LISTEN )
     // not implemented yet: m_workersBusyTimeout(60),
@@ -196,7 +197,7 @@ DcmDataset* DQDBaseSCPPool::getpooldataset()
 
 void DQDBaseSCPPool::setdsetlist(OFList<DcmDataset>* dset_list)
 {
-    m_dset_list = dset_list;
+    //m_dset_list = dset_list;
 }
     
 
@@ -368,11 +369,12 @@ void DQDBaseSCPPool::DQDBaseSCPWorker::run()
     T_ASC_Association *param = m_assoc;
     m_assoc = NULL;
     result = workerListen(param);
+    DcmDataset worker_dset = getdataset();
+    m_pool.m_dpl.push_back(worker_dset);
     DCMNET_DEBUG("DQDBaseSCPPool: Worker thread #" << threadID() << " returns with code: " << result.text() );
   }
-  m_pool.notifyThreadExit(this, result);
-  //DcmDataset worker_dset = getdataset();
-  //m_pool.setpooldataset(getdataset());
+  //m_pool.notifyThreadExit(this, result);
+  //m_pool.m_dpl.push_back(worker_dset);
   thread_exit();
   return;
 }

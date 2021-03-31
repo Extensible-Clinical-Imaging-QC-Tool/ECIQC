@@ -8,8 +8,8 @@
 
 ReceiverThread::ReceiverThread():DcmThreadSCP()
 {
-    m_dset = NULL;
-    //m_dset_list = NULL;
+ DcmDataset m_dset;
+ OFList<DcmDataset> test_list;   
 }
 
 // ----------------------------------------------------------------------------
@@ -17,8 +17,12 @@ ReceiverThread::ReceiverThread():DcmThreadSCP()
 ReceiverThread::~ReceiverThread() {}
 
 void ReceiverThread::setdatasetaddress(DcmDataset* dset){
-    m_dset = dset;
-    std::cout<<"Hi i work";
+   // m_dset = dset;
+}
+
+OFList<DcmDataset> ReceiverThread::getdsetlist()
+{
+    return test_list;
 }
 // ----------------------------------------------------------------------------
 
@@ -27,21 +31,20 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
 
         if (incomingMsg->CommandField == DIMSE_C_STORE_RQ)
         {
-            // Enable handling of C-STORE requests.
             
-            //DcmDataset dset;
-            DcmDataset *reqdataset = m_dset;
-            //OFshared_ptr<DcmDataset>(DcmDataset &reqdataset=dset);
             //DcmFileFormat dfile;
-            //DcmDataset *dset = dfile.getDataset();
+            DcmDataset *reqdataset = &m_dset;
             return DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, reqdataset);
-            m_dset->loadAllDataIntoMemory();
-            //m_dset_list.push_back(*reqDataset);
-            //(m_dset_list)->push_back(*reqdataset);
+            //test_list.push_back(m_dset);
+            //delete reqdataset;
+            //m_dset.clear();
+            
         }
 
         else
         {
+            //DcmDataset dset;
+            //m_dset.copyFrom(dset);
             return DcmSCP::handleIncomingCommand(incomingMsg, presInfo);
         }
     }
@@ -117,16 +120,10 @@ OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list)
   return EC_Normal;
 }
 
-DcmDataset* ReceiverThread::getdataset()
+DcmDataset ReceiverThread::getdataset()
 {
-    if (m_dset == NULL)
-    {
-        return 0;
-    }
-    else
-    {
-       return m_dset;
-    }
+   return m_dset;
+   //m_dset.clear();
     
 }
 // ----------------------------------------------------------------------------

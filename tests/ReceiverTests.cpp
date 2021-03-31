@@ -5,6 +5,7 @@
 
 
 #include <dcmtk/config/osconfig.h>
+#include <dcmtk/dcmdata/dcistrmb.h>
 
 #ifdef WITH_THREADS
 
@@ -36,14 +37,21 @@ using namespace cpp_template;
   struct TestStorageSCU : DcmStorageSCU, OFThread {
       OFCondition result;
       OFCondition result2;
+      OFCondition status;
+      //status = addDicomFile("../DICOM_Images/1-1copy.dcm", ERM_fileOnly, false);
+
     protected:
       void run(){
-        negotiateAssociation();
         Uint16 rspStatusCode = 0;
+        negotiateAssociation();
+        //std::ostream<<status;
+        //std::cout<<status.text();
+        //addDicomFile("../DICOM_Images/test2.dcm");
+        //result = sendSOPInstances();
 
         // Images to be sent
         result = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
-        result2 = sendSTORERequest(0, "../DICOM_Images/1-01.dcm", 0, rspStatusCode);
+        //result2 = sendSTORERequest(0, "../DICOM_Images/test2.dcm", 0, rspStatusCode);
         releaseAssociation();
         }
     };
@@ -98,8 +106,16 @@ TEST_CASE("Test C-ECHO Association"){
 // This tests handling of C-STORE Association
 TEST_CASE("Test C-STORE Association"){
 
-  Receiver pool(11112, "TestSCP");
+  DcmDataset testdata;
+  DcmDataset *dset = &testdata;
 
+  Receiver pool(11112, "TestSCP");
+  //pool.setdsetlist(impointer);
+  pool.setpooldataset(dset);
+  //pool.setdatasetaddress(dset);
+  //testdata.loadFile("../DICOM_Images/test1.dcm");
+  //testdata.loadFile("../DICOM_Images/test2.dcm");
+  
   // Define presentation contexts
   OFList<OFString> xfers;
   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
@@ -108,7 +124,7 @@ TEST_CASE("Test C-STORE Association"){
   // Define a separate transfer syntax needed for the X-ray image
   OFList<OFString> ts;
   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
-  
+
   pool.start();
 
   // Configure SCUs.
@@ -123,6 +139,7 @@ TEST_CASE("Test C-STORE Association"){
           (*it1)->setVerbosePCMode(OFTrue);
           (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
           (*it1)->addPresentationContext(UID_CTImageStorage, xfers);
+          (*it1)->addPresentationContext(UID_MRImageStorage, xfers);
           (*it1)->addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
           (*it1)->initNetwork();
       }
@@ -143,6 +160,33 @@ TEST_CASE("Test C-STORE Association"){
       };
   
   // Request shutdown.
+  //DcmInputBufferStream dataBuf;
+  //dataBuf.setBuffer(buf, bufLen);
+  std::cout<<pool.m_dpl.size();
+
+  OFListIterator(DcmDataset) it = pool.m_dpl.begin();
+  OFListIterator(DcmDataset) last = pool.m_dpl.end();
+
+  int count = 0;
+
+  while (it != last)
+  {
+    DcmDataset item = *it;
+    
+    //std::cout<<item.size();
+    //it->print(COUT);
+    ++it;
+  }
+
+  //std::cout<<count;
+  //reqDataset->print(COUT);
+  //testdata.loadAllDataIntoMemory();
+
+  //dset->print(COUT);
+  //free(dset);
+  std::cout<<pool.m_dpl.size();
+  
+  //delete dset;
   pool.request_stop();
   pool.join();
 

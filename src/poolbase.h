@@ -91,7 +91,8 @@ public:
        *          otherwise. 
        */
       virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list) = 0;
-      //virtual DcmDataset* getdataset() = 0;
+      virtual DcmDataset getdataset() = 0;
+      virtual OFList<DcmDataset> getdsetlist() = 0;
       virtual void setdatasetaddress(DcmDataset* dset) = 0;
      // virtual void setdsetlist(OFList<DcmDataset>* dset_list)=0;
 
@@ -215,6 +216,7 @@ public:
    *  association any more.
    */
   virtual void stopAfterCurrentAssociations();
+  OFList<DcmDataset> m_dpl;
 
 protected:
 
@@ -263,7 +265,6 @@ protected:
             
   
   DcmDataset* m_dset;
-  OFList<DcmDataset>* m_dset_list;
 
 private:
 
@@ -402,9 +403,13 @@ private:
             return SCP::setpeerAETitles(peerae_list);
         }
 
-        virtual DcmDataset* getdataset()
+        virtual DcmDataset getdataset()
         {
           return SCP::getdataset();
+        }
+        virtual OFList<DcmDataset> getdsetlist()
+        {
+          return SCP::getdsetlist();
         }
         virtual void setdatasetaddress(DcmDataset* dset)
         {
