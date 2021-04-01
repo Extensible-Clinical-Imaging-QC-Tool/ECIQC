@@ -22,7 +22,9 @@
 
 using namespace cpp_template;
 
-// our application entity title used for calling the peer machine 
+/* Set parameters */
+
+//our application entity title used for calling the peer machine 
 #define APPLICATIONTITLE     "TEST-SCU" 
 
 // host name of the peer machine 
@@ -36,26 +38,6 @@ using namespace cpp_template;
 
 // MOVE destination AE Title 
 #define MOVEAPPLICATIONTITLE "TEST-SCU" 
-
-/* Setup DICOM connection parameters */ 
-
-DcmSCU scu;
-OFCondition result;
-
-//scu.setAETitle(APPLICATIONTITLE); 
-//scu.setPeerHostName(PEERHOSTNAME); 
-//scu.setPeerPort(PEERPORT); 
-//scu.setPeerAETitle(PEERAPPLICATIONTITLE); 
-// Use presentation context for FIND/MOVE in study root, propose all uncompressed transfer syntaxes 
-//OFList<OFString> ts; 
-//ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
-//ts.push_back(UID_BigEndianExplicitTransferSyntax); 
-//ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
-//scu.addPresentationContext(UID_FINDStudyRootQueryRetrieveInformationModel, ts); 
-//scu.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel, ts); 
-//scu.addPresentationContext(UID_VerificationSOPClass, ts); 
-
-
 
 
 TEST_CASE("Test the Sender Class"){
