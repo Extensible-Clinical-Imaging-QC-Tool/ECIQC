@@ -185,21 +185,25 @@ void DQDBaseSCPPool::setacceptableIPs(OFList<OFString> source_list)
   m_sourcelist = source_list;
 }
 
-void DQDBaseSCPPool::setpooldataset(DcmDataset* dset)
+void DQDBaseSCPPool::setpooldataset(OFshared_ptr<OFList<DcmDataset>> dset)
 {
     m_dset = dset;
 }
 
-DcmDataset* DQDBaseSCPPool::getpooldataset()
+/*DcmDataset* DQDBaseSCPPool::getpooldataset()
 {
     return m_dset;
-}
+} */
 
-void DQDBaseSCPPool::setdsetlist(OFList<DcmDataset>* dset_list)
+void DQDBaseSCPPool::adddset(OFList<DcmDataset> dlist)
 {
+  m_criticalSection.lock();
+  m_dpl.push_back(dlist);
+  m_criticalSection.unlock();
     //m_dset_list = dset_list;
 }
     
+
 
 // ----------------------------------------------------------------------------
 
@@ -213,7 +217,7 @@ void DQDBaseSCPPool::setcallingAETitles(OFList<OFString> aetitle_list)
 OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
                                            const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
                                            const OFList<OFString>& peerAE_list,
-                                           DcmDataset* dset)
+                                           OFshared_ptr<OFList<DcmDataset>> dset)
 {
   /* Try to find idle worker thread */
   OFCondition result = EC_Normal;
@@ -369,8 +373,10 @@ void DQDBaseSCPPool::DQDBaseSCPWorker::run()
     T_ASC_Association *param = m_assoc;
     m_assoc = NULL;
     result = workerListen(param);
-    DcmDataset worker_dset = getdataset();
-    m_pool.m_dpl.push_back(worker_dset);
+    //DcmDataset worker_dset = getdataset();
+    //OFList<DcmDataset> test = getdsetlist();
+    //m_pool.m_dpl.push_back(test);
+    //m_pool.adddset(test);
     DCMNET_DEBUG("DQDBaseSCPPool: Worker thread #" << threadID() << " returns with code: " << result.text() );
   }
   //m_pool.notifyThreadExit(this, result);

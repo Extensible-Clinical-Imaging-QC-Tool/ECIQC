@@ -11,7 +11,7 @@
 class ReceiverThread : public DcmThreadSCP
 { OFList<OFString> m_sourcelist;
   OFList<OFString> m_peerAETitles;
-  DcmDataset m_dset;
+  OFshared_ptr<OFList<DcmDataset>> m_dset;
   OFList<DcmDataset> test_list;  
 
 public:
@@ -48,7 +48,7 @@ public:
      */
     virtual OFBool checkCallingAETitleAccepted(const OFString& callingAE); 
     //virtual DcmDataset* getdataset();
-    void setdatasetaddress(DcmDataset* dset);
+    void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset);
     DcmDataset getdataset();
     OFList<DcmDataset> getdsetlist();
     friend class DQDBaseSCPWorker;

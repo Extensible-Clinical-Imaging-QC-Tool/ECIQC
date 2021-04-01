@@ -51,7 +51,7 @@ using namespace cpp_template;
 
         // Images to be sent
         result = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
-        //result2 = sendSTORERequest(0, "../DICOM_Images/test2.dcm", 0, rspStatusCode);
+        result2 = sendSTORERequest(0, "../DICOM_Images/test2.dcm", 0, rspStatusCode);
         releaseAssociation();
         }
     };
@@ -106,15 +106,14 @@ TEST_CASE("Test C-ECHO Association"){
 // This tests handling of C-STORE Association
 TEST_CASE("Test C-STORE Association"){
 
-  DcmDataset testdata;
-  DcmDataset *dset = &testdata;
+
+
+  OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
+  
 
   Receiver pool(11112, "TestSCP");
-  //pool.setdsetlist(impointer);
-  pool.setpooldataset(dset);
-  //pool.setdatasetaddress(dset);
-  //testdata.loadFile("../DICOM_Images/test1.dcm");
-  //testdata.loadFile("../DICOM_Images/test2.dcm");
+  pool.setpooldataset(pt);
+  
   
   // Define presentation contexts
   OFList<OFString> xfers;
@@ -160,33 +159,8 @@ TEST_CASE("Test C-STORE Association"){
       };
   
   // Request shutdown.
-  //DcmInputBufferStream dataBuf;
-  //dataBuf.setBuffer(buf, bufLen);
-  std::cout<<pool.m_dpl.size();
-
-  OFListIterator(DcmDataset) it = pool.m_dpl.begin();
-  OFListIterator(DcmDataset) last = pool.m_dpl.end();
-
-  int count = 0;
-
-  while (it != last)
-  {
-    DcmDataset item = *it;
-    
-    //std::cout<<item.size();
-    //it->print(COUT);
-    ++it;
-  }
-
-  //std::cout<<count;
-  //reqDataset->print(COUT);
-  //testdata.loadAllDataIntoMemory();
-
-  //dset->print(COUT);
-  //free(dset);
-  std::cout<<pool.m_dpl.size();
+  CHECK(pt->size() == 4);
   
-  //delete dset;
   pool.request_stop();
   pool.join();
 

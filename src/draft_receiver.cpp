@@ -16,8 +16,8 @@ ReceiverThread::ReceiverThread():DcmThreadSCP()
 
 ReceiverThread::~ReceiverThread() {}
 
-void ReceiverThread::setdatasetaddress(DcmDataset* dset){
-   // m_dset = dset;
+void ReceiverThread::setdatasetaddress(OFshared_ptr<OFList<DcmDataset>>dset){
+   m_dset = dset;
 }
 
 OFList<DcmDataset> ReceiverThread::getdsetlist()
@@ -33,11 +33,18 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
         {
             
             //DcmFileFormat dfile;
-            DcmDataset *reqdataset = &m_dset;
-            return DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, reqdataset);
-            //test_list.push_back(m_dset);
-            //delete reqdataset;
-            //m_dset.clear();
+            OFList<DcmDataset>* pt = m_dset.get();
+            
+            DcmDataset dset;
+            DcmDataset *reqdataset = &dset;
+            OFCondition result = DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, reqdataset);
+            
+            pt->push_back(dset);
+
+            
+        
+            return result;
+            
             
         }
 
@@ -120,12 +127,12 @@ OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list)
   return EC_Normal;
 }
 
-DcmDataset ReceiverThread::getdataset()
+/*DcmDataset ReceiverThread::getdataset()
 {
    return m_dset;
    //m_dset.clear();
     
-}
+}*/
 // ----------------------------------------------------------------------------
 
 OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list){
