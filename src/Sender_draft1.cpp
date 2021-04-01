@@ -4,29 +4,28 @@
 #include "dcmtk/ofstd/ofconapp.h"
 #include <dcmtk/dcmnet/dstorscu.h> 
 #include "dcmtk/dcmdata/cmdlnarg.h"  /* for prepareCmdLineArgs */
-#include "Sender.hpp"
+#include "Sender_draft1.hpp"
 
 
 /* Sender Class 
 
-Set parameters 
---------------
-
-Takes in: 
-1) host name of DICOM peer 
-2) tcp/ip port number of peer 
+Inputs:
+--------- 
+1) tcp/ip port number of peer 
+2) host title of DICOM peer
 3) DICOM file or directory to be transmitted
 
 Processing of Input Files 
 -------------------------
 -Load input filenames, check if they are valid
--Create storage SCU and add the DICOM files to it 
+-Create storage SCU and add the DICOM files to it
 
 Transfer
 --------
--Add presentation context
--Initialise network
--Set association network with peer
+1) SOP instances to be sent are added to a transfer list
+2) Initialise network
+3) Set association negotiation with peer
+4) SOP instances sent to SCP
 
 --------
 TO DO:
@@ -38,8 +37,10 @@ Log report, clean memory
 
 
 /*
-Used implementation of dcmsend.cc from:
+Used the implementation of dcmsend.cc from:
+
 https://github.com/InsightSoftwareConsortium/DCMTK/blob/master/dcmnet/apps/dcmsend.cc#L147
+
 */
 
 #define OFFIS_CONSOLE_APPLICATION "SCU"
@@ -67,12 +68,13 @@ https://github.com/InsightSoftwareConsortium/DCMTK/blob/master/dcmnet/apps/dcmse
 
 static OFLogger dcmsendLogger = OFLog::getLogger("dcmtk.apps." OFFIS_CONSOLE_APPLICATION);
 
-OFBool Sender::process(const char* opt_peer, const char* opt_peerTitle){
+OFBool Sender::Send_Dicom_Files(const char* opt_peer, const char* opt_peerTitle, const char* dicom_dir){
 
 
     OFOStringStream optStream;
     opt_peer = NULL;
     opt_peerTitle = PEERAPPLICATIONTITLE;
+    dicom_dir = NULL; //"../DICOM_Images/";
   
 
     OFCmdUnsignedInt opt_port = 0;
@@ -93,7 +95,7 @@ OFBool Sender::process(const char* opt_peer, const char* opt_peerTitle){
     /* Iterate over input filenames */
 
     OFList<OFString> inputFiles; 
-    const char *paramString = NULL;
+    const char *paramString = dicom_dir;
 
     for (int i = 3; i <= paramCount; i++){
         cmd.getParam(i,paramString);
@@ -196,8 +198,8 @@ OFBool Sender::process(const char* opt_peer, const char* opt_peerTitle){
     ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
     ts.push_back(UID_BigEndianExplicitTransferSyntax); 
     ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
-    SCU.addPresentationContext(UID_FINDStudyRootQueryRetrieveInformationModel, ts); 
-    SCU.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel, ts); 
+    //SCU.addPresentationContext(UID_FINDStudyRootQueryRetrieveInformationModel, ts); 
+    //SCU.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel, ts); 
     SCU.addPresentationContext(UID_VerificationSOPClass, ts); 
 
     /* Add presentation contexts to be negotiated */
@@ -282,5 +284,7 @@ OFBool Sender::process(const char* opt_peer, const char* opt_peerTitle){
         //throw "Cannot write to output file";
         return EXITCODE_CANNOT_WRITE_OUTPUT_FILE;
     }
+
+    return true;
 
 }
