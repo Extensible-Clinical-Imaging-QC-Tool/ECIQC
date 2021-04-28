@@ -1,34 +1,35 @@
 #ifndef CONDUCTOR_H
 #define CONDUCTOR_H
-// #include 
+// #include
+#include "Parser.hpp"
 #include "draft_receiver.hpp"
+/* #include "Sender.hpp" */
 
-class Conductor
-{
- public:
-    /** Constructor */
-    Conductor(Uint16 port, OFString ae_title);
-    
-    // Receiver
+class Conductor {
+public:
+  /** Constructor */
+  Conductor(OFString cfp1, OFString cfp2, Uint8 rPortNum, OFString rPortName,
+            Uint8 sPortNum, OFString sPortName);
+  void setOptional();
+  // Receiver
 
-    /** members */
-    Receiver receiver;
-    
-
-    /** functions */
-    //void setReceiver(Uint16 port, OFString ae_title);
+  void run();
 
 
-// Parser 
+  /** members */
+  Receiver r;
+  Parser p1, p2;
+  /* Sender s; */
+  OFString sPortNum, sPortName, qPortNum, qPortName;
+  /** functions */
 
-    // Metadata Editor
+  // Parser
 
+  // Metadata Editor
 
-// Validator 
+  // Validator
 
-
-// Sender
-
+  // Sender
 };
 
 #endif
