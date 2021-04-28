@@ -171,8 +171,6 @@ TEST_CASE("Test Receiver Configuration"){
 
     Receiver scppool(104, "ATestName");
     
-    //scppool.setaetitle("ATestName");
-    //scppool.setportnumber(104);
 
     CHECK(scppool.getConfig().getAETitle() == "ATestName");
     CHECK(scppool.getConfig().getPort() == 104);

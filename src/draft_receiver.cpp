@@ -8,8 +8,7 @@
 
 ReceiverThread::ReceiverThread():DcmThreadSCP()
 {
- DcmDataset m_dset;
- OFList<DcmDataset> test_list;   
+ 
 }
 
 // ----------------------------------------------------------------------------
@@ -20,10 +19,6 @@ void ReceiverThread::setdatasetaddress(OFshared_ptr<OFList<DcmDataset>>dset){
    m_dset = dset;
 }
 
-OFList<DcmDataset> ReceiverThread::getdsetlist()
-{
-    return test_list;
-}
 // ----------------------------------------------------------------------------
 
 OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo)
@@ -32,7 +27,7 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
         if (incomingMsg->CommandField == DIMSE_C_STORE_RQ)
         {
             
-            //DcmFileFormat dfile;
+            
             OFList<DcmDataset>* pt = m_dset.get();
             
             DcmDataset dset;
@@ -50,8 +45,6 @@ OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, 
 
         else
         {
-            //DcmDataset dset;
-            //m_dset.copyFrom(dset);
             return DcmSCP::handleIncomingCommand(incomingMsg, presInfo);
         }
     }
@@ -127,12 +120,6 @@ OFCondition ReceiverThread::setIPs(const OFList<OFString>& source_list)
   return EC_Normal;
 }
 
-/*DcmDataset ReceiverThread::getdataset()
-{
-   return m_dset;
-   //m_dset.clear();
-    
-}*/
 // ----------------------------------------------------------------------------
 
 OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list){
@@ -162,7 +149,7 @@ Receiver::Receiver(Uint16 port, OFString aetitle)
         getConfig().setConnectionTimeout(5);
         // Set verbose mode
         getConfig().setVerbosePCMode(OFTrue);
-        //getConfig().setProgressNotificationMode()
+        
 
 
         // Add presentation context to be handled

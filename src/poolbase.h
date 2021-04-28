@@ -91,10 +91,9 @@ public:
        *          otherwise. 
        */
       virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list) = 0;
-      //virtual DcmDataset getdataset() = 0;
-      virtual OFList<DcmDataset> getdsetlist() = 0;
+      
       virtual void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset) = 0;
-     // virtual void setdsetlist(OFList<DcmDataset>* dset_list)=0;
+     
 
       /** Check whether worker is busy.
        *  @return OFTrue if worker is busy, OFFalse otherwise.
@@ -168,9 +167,7 @@ public:
    */
   virtual void setcallingAETitles(OFList<OFString> aetitle_list);
   void setpooldataset(OFshared_ptr<OFList<DcmDataset>> dset);
-  //void setdatasetaddress(DcmDataset* dset);
 
-  DcmDataset* getpooldataset();
 
   /** Get number of maximum permitted connections, i.e.\ threads/workers.
    *  @return Number of threads permitted to exist within pool.
@@ -193,7 +190,6 @@ public:
    *  @return A list of acceptable hostnames/IPs.
    */
   virtual OFList<OFString> getacceptableIPs();
-  void adddset(OFList<DcmDataset> dset);
   /** Listen for incoming association requests. For each incoming request, a
    *  new thread is started if number of maximum threads is not reached yet.
    *  @return DUL_NOASSOCIATIONREQUEST if no connection is requested during
@@ -216,7 +212,6 @@ public:
    *  association any more.
    */
   virtual void stopAfterCurrentAssociations();
-  OFList<OFList<DcmDataset>> m_dpl;
 
 protected:
 
@@ -402,15 +397,7 @@ private:
         {
             return SCP::setpeerAETitles(peerae_list);
         }
-
-        /*virtual DcmDataset getdataset()
-        {
-          return SCP::getdataset();
-        } */
-        virtual OFList<DcmDataset> getdsetlist()
-        {
-          return SCP::getdsetlist();
-        }
+       
         virtual void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset)
         {
           SCP::setdatasetaddress(dset);
