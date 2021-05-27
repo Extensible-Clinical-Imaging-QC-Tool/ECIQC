@@ -2,7 +2,7 @@
 #include <dcmtk/config/osconfig.h>
 #include <dcmtk/dcmpstat/dcmpstat.h>
 
-#include "draft_receiver.hpp"
+#include "receiver.hpp"
 
 // ----------------------------------------------------------------------------
 
@@ -14,6 +14,8 @@ ReceiverThread::ReceiverThread():DcmThreadSCP()
 // ----------------------------------------------------------------------------
 
 ReceiverThread::~ReceiverThread() {}
+
+// ----------------------------------------------------------------------------
 
 void ReceiverThread::setdatasetaddress(OFshared_ptr<OFList<DcmDataset>>dset){
    m_dset = dset;

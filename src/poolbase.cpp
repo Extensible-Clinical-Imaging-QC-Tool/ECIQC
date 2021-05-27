@@ -184,7 +184,8 @@ void DQDBaseSCPPool::setacceptableIPs(OFList<OFString> source_list)
   m_sourcelist = source_list;
 }
 
-void DQDBaseSCPPool::setpooldataset(OFshared_ptr<OFList<DcmDataset>> dset)
+// ----------------------------------------------------------------------------
+void DQDBaseSCPPool::setpointer(OFshared_ptr<OFList<DcmDataset>> dset)
 {
     m_dset = dset;
 }

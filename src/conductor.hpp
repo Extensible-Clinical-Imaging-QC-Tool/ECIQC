@@ -2,7 +2,7 @@
 #define CONDUCTOR_H
 // #include
 #include "Parser.hpp"
-#include "draft_receiver.hpp"
+#include "receiver.hpp"
 /* #include "Sender.hpp" */
 
 class Conductor {

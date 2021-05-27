@@ -92,6 +92,9 @@ public:
        */
       virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list) = 0;
       
+      /** Set a shared pointer for storing received DICOM images.
+       *  @param dset Shared pointer to be used by the worker.
+       */
       virtual void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset) = 0;
      
 
@@ -166,7 +169,11 @@ public:
    * @param aetitle_list A list of acceptable peer AE Titles.
    */
   virtual void setcallingAETitles(OFList<OFString> aetitle_list);
-  void setpooldataset(OFshared_ptr<OFList<DcmDataset>> dset);
+
+  /** Set a shared pointer for storing received DICOM images.
+  *  @param dset Shared pointer to be used by the receiver.
+  */
+  void setpointer(OFshared_ptr<OFList<DcmDataset>> dset);
 
 
   /** Get number of maximum permitted connections, i.e.\ threads/workers.

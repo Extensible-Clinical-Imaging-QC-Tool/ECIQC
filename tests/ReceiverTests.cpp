@@ -18,7 +18,7 @@
 #include "../src/Exception.hpp"
 #include "../src/MyLibrary.hpp"
 
-#include "../src/draft_receiver.hpp"
+#include "../src/receiver.hpp"
 
 using namespace cpp_template;
 
@@ -44,10 +44,6 @@ using namespace cpp_template;
       void run(){
         Uint16 rspStatusCode = 0;
         negotiateAssociation();
-        //std::ostream<<status;
-        //std::cout<<status.text();
-        //addDicomFile("../DICOM_Images/test2.dcm");
-        //result = sendSOPInstances();
 
         // Images to be sent
         result = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
@@ -112,7 +108,7 @@ TEST_CASE("Test C-STORE Association"){
   
 
   Receiver pool(11112, "TestSCP");
-  pool.setpooldataset(pt);
+  pool.setpointer(pt);
   
   
   // Define presentation contexts

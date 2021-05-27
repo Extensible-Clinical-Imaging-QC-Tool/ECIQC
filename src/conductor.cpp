@@ -39,7 +39,7 @@ void Conductor::run() {
     // Receiver starts listening
     OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
 
-    r.setpooldataset(pDset);
+    r.setpointer(pDset);
     r.start();
 
 

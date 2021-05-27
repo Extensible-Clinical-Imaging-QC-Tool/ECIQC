@@ -47,6 +47,9 @@ public:
      */
     virtual OFBool checkCallingAETitleAccepted(const OFString& callingAE); 
     
+    /** Set a shared pointer for storing received DICOM images.
+     *  @param dset Shared pointer to be used by the worker.
+     */
     void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset);
 
 
