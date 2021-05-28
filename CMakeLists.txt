@@ -56,8 +56,8 @@ add_library(qctool_lib src/MyLibrary.cpp
                   src/MyLibrary.hpp
                   src/Exception.hpp
                   # Parser files
-                  src/parser.cpp
-                  src/Parser.hpp
+                  #src/parser.cpp
+                  #src/Parser.hpp
                   # ME Files
                   src/MetadataEditor.cpp
                   src/MetadataEditor.hpp
@@ -69,8 +69,15 @@ add_library(qctool_lib src/MyLibrary.cpp
                   src/poolbase.h
                   src/poolbase.cpp
                   # Sender 
-                  src/Sender.cpp
-                  src/Sender.hpp)
+                  src/Sender_draft1.cpp
+                  src/Sender_draft1.hpp
+                  src/poolbase.h
+                  src/poolbase.cpp
+                  # Conductor Files
+                  src/conductor.cpp
+                  src/conductor.hpp
+            )
+
 
 target_include_directories(qctool_lib PUBLIC src)
 
@@ -87,7 +94,13 @@ target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 enable_testing()
 
 
-add_executable(unit_tests tests/SenderTests.cpp)                          
+add_executable(unit_tests tests/MyTestsParser.cpp
+                          tests/ReceiverTests.cpp
+                          tests/METests.cpp
+                          tests/ConductorTests.cpp
+                          tests/SenderTests.cpp
+                 )                          
+
 
 target_include_directories(unit_tests PRIVATE tests)
 target_link_libraries(unit_tests PRIVATE qctool_lib)
