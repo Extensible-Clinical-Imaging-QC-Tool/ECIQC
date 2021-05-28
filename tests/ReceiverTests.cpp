@@ -5,6 +5,7 @@
 
 
 #include <dcmtk/config/osconfig.h>
+#include <dcmtk/dcmdata/dcistrmb.h>
 
 #ifdef WITH_THREADS
 
@@ -17,7 +18,7 @@
 #include "../src/Exception.hpp"
 #include "../src/MyLibrary.hpp"
 
-#include "../src/draft_receiver.hpp"
+#include "../src/receiver.hpp"
 
 using namespace cpp_template;
 
@@ -36,14 +37,17 @@ using namespace cpp_template;
   struct TestStorageSCU : DcmStorageSCU, OFThread {
       OFCondition result;
       OFCondition result2;
+      OFCondition status;
+      //status = addDicomFile("../DICOM_Images/1-1copy.dcm", ERM_fileOnly, false);
+
     protected:
       void run(){
-        negotiateAssociation();
         Uint16 rspStatusCode = 0;
+        negotiateAssociation();
 
         // Images to be sent
         result = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
-        result2 = sendSTORERequest(0, "../DICOM_Images/1-01.dcm", 0, rspStatusCode);
+        result2 = sendSTORERequest(0, "../DICOM_Images/test2.dcm", 0, rspStatusCode);
         releaseAssociation();
         }
     };
@@ -51,7 +55,7 @@ using namespace cpp_template;
 // This tests handling of C-ECHO Association
 TEST_CASE("Test C-ECHO Association"){
   
-  Receiver pool;
+  Receiver pool(11112, "TestSCP");
 
   // Define presentation contexts for SCU
   OFList<OFString> xfers;
@@ -98,8 +102,15 @@ TEST_CASE("Test C-ECHO Association"){
 // This tests handling of C-STORE Association
 TEST_CASE("Test C-STORE Association"){
 
-  Receiver pool;
 
+
+  OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
+  
+
+  Receiver pool(11112, "TestSCP");
+  pool.setpointer(pt);
+  
+  
   // Define presentation contexts
   OFList<OFString> xfers;
   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
@@ -108,7 +119,7 @@ TEST_CASE("Test C-STORE Association"){
   // Define a separate transfer syntax needed for the X-ray image
   OFList<OFString> ts;
   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
-  
+
   pool.start();
 
   // Configure SCUs.
@@ -123,6 +134,7 @@ TEST_CASE("Test C-STORE Association"){
           (*it1)->setVerbosePCMode(OFTrue);
           (*it1)->addPresentationContext(UID_VerificationSOPClass, xfers);
           (*it1)->addPresentationContext(UID_CTImageStorage, xfers);
+          (*it1)->addPresentationContext(UID_MRImageStorage, xfers);
           (*it1)->addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
           (*it1)->initNetwork();
       }
@@ -143,6 +155,8 @@ TEST_CASE("Test C-STORE Association"){
       };
   
   // Request shutdown.
+  CHECK(pt->size() == 4);
+  
   pool.request_stop();
   pool.join();
 
@@ -151,10 +165,8 @@ TEST_CASE("Test C-STORE Association"){
 // This tests basic configuration of the Receiver.
 TEST_CASE("Test Receiver Configuration"){
 
-    Receiver scppool;
+    Receiver scppool(104, "ATestName");
     
-    scppool.setaetitle("ATestName");
-    scppool.setportnumber(104);
 
     CHECK(scppool.getConfig().getAETitle() == "ATestName");
     CHECK(scppool.getConfig().getPort() == 104);
@@ -176,7 +188,7 @@ TEST_CASE("Test Receiver Configuration"){
 TEST_CASE("Test hostname/IP check - Accept"){
 
   // Check that a specified hostname is accepted.
-  Receiver pool;
+  Receiver pool(11112, "TestSCP");
 
   OFList<OFString> hostiplist;
   hostiplist.push_back("localhost");
@@ -213,7 +225,7 @@ TEST_CASE("Test hostname/IP check - Accept"){
 TEST_CASE("Test hostname/IP check - Reject"){
 
   // Check that a non-specified hostname is rejected.
-  Receiver poolrej;
+  Receiver poolrej(11112, "TestSCP");
 
   OFList<OFString> hostiplistrej;
   hostiplistrej.push_back("AnIPAddress");
@@ -248,7 +260,7 @@ TEST_CASE("Test hostname/IP check - Reject"){
 TEST_CASE("Test called AE Title check"){
 
   // Check that a specified AE title is accepted.
-  Receiver pool;
+  Receiver pool(11112, "TestSCP");
 
   OFList<OFString> aetitles;
   aetitles.push_back("PoolTestSCU");
@@ -283,7 +295,7 @@ TEST_CASE("Test called AE Title check"){
   pool.join();
 
   // Check that a non-specified hostname is rejected.
-  Receiver poolrej;
+  Receiver poolrej(11112, "TestSCP");
 
   OFList<OFString> aelistrej;
   aelistrej.push_back("A Title");

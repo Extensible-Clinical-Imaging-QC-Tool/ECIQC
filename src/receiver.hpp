@@ -11,6 +11,7 @@
 class ReceiverThread : public DcmThreadSCP
 { OFList<OFString> m_sourcelist;
   OFList<OFString> m_peerAETitles;
+  OFshared_ptr<OFList<DcmDataset>> m_dset; 
 
 public:
     /**  Constructor. */
@@ -44,7 +45,13 @@ public:
      *  @return OFTrue if calling AE Title is allowed (or if no acceptable calling AE Titles are specified).
      *          OFFalse if calling AE is not accepted.
      */
-    virtual OFBool checkCallingAETitleAccepted(const OFString& callingAE); 	
+    virtual OFBool checkCallingAETitleAccepted(const OFString& callingAE); 
+    
+    /** Set a shared pointer for storing received DICOM images.
+     *  @param dset Shared pointer to be used by the worker.
+     */
+    void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset);
+
 
 };
 
@@ -58,7 +65,7 @@ public:
     OFCondition result;
     
     /** Constructor. */
-    Receiver();
+    Receiver(Uint16 port, OFString aetitle);
 
     /** Destructor. */
     virtual ~Receiver();
@@ -76,6 +83,9 @@ public:
      */ 
     void setportnumber(Uint16 port);
 
+    DcmDataset* getpooldataset();
+
+
     /** Set hostnames/IPs from which SCP can accept data. 
      *  @param source_list A list of strings of acceptable IPs/hostnames.
      */ 
@@ -84,6 +94,7 @@ public:
 protected:
     /** Overwrite OFThread's run() method. */
     void run();
+    //void setpooldataset(DcmDataset* dset);
 };
  
 

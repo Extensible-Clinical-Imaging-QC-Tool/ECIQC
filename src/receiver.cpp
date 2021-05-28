@@ -2,13 +2,13 @@
 #include <dcmtk/config/osconfig.h>
 #include <dcmtk/dcmpstat/dcmpstat.h>
 
-#include "draft_receiver.hpp"
+#include "receiver.hpp"
 
 // ----------------------------------------------------------------------------
 
 ReceiverThread::ReceiverThread():DcmThreadSCP()
 {
-
+ 
 }
 
 // ----------------------------------------------------------------------------
@@ -17,15 +17,32 @@ ReceiverThread::~ReceiverThread() {}
 
 // ----------------------------------------------------------------------------
 
+void ReceiverThread::setdatasetaddress(OFshared_ptr<OFList<DcmDataset>>dset){
+   m_dset = dset;
+}
+
+// ----------------------------------------------------------------------------
+
 OFCondition ReceiverThread::handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo)
     {
 
         if (incomingMsg->CommandField == DIMSE_C_STORE_RQ)
         {
-            // Enable handling of C-STORE requests.
             
-            DcmDataset* dset = NULL;
-            return DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, dset);
+            
+            OFList<DcmDataset>* pt = m_dset.get();
+            
+            DcmDataset dset;
+            DcmDataset *reqdataset = &dset;
+            OFCondition result = DcmSCP::handleSTORERequest(incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, reqdataset);
+            
+            pt->push_back(dset);
+
+            
+        
+            return result;
+            
+            
         }
 
         else
@@ -120,12 +137,12 @@ OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list)
 /*                        Receiver class                                   */
 /* *********************************************************************** */
 
-Receiver::Receiver()
+Receiver::Receiver(Uint16 port, OFString aetitle)
 {
         // Configure SCP port
-        getConfig().setPort(11112);
+        getConfig().setPort(port);
         // Configure SCP name
-        getConfig().setAETitle("TestSCP");
+        getConfig().setAETitle(aetitle);
         // Set number of threads
         setMaxThreads(2);
         getConfig().setConnectionBlockingMode(DUL_NOBLOCK);
@@ -134,6 +151,8 @@ Receiver::Receiver()
         getConfig().setConnectionTimeout(5);
         // Set verbose mode
         getConfig().setVerbosePCMode(OFTrue);
+        
+
 
         // Add presentation context to be handled
         OFList<OFString> ts;
@@ -178,5 +197,3 @@ void Receiver::setportnumber(Uint16 port)
     getConfig().setPort(port);
 }
 
-
-    

@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "../src/Exception.hpp"
 #include "../src/MyLibrary.hpp"
 
-#include "../src/draft_receiver.hpp"
+#include "../src/receiver.hpp"
 
 
 
