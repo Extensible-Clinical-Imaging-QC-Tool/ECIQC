@@ -28,7 +28,9 @@
 
 using namespace cpp_template;
 
-// our application entity title used for calling the peer machine 
+/* Set parameters */
+
+//our application entity title used for calling the peer machine 
 #define APPLICATIONTITLE     "TEST-SCU" 
 
 // host name of the peer machine 
@@ -43,12 +45,11 @@ using namespace cpp_template;
 // MOVE destination AE Title 
 #define MOVEAPPLICATIONTITLE "TEST-SCU" 
 
+
 /* Setup DICOM connection parameters */ 
 
 DcmStorageSCU scu;
 OFCondition result;
-
-
 
 
 TEST_CASE("Test the Sender Class parameters"){
