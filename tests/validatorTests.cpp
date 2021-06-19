@@ -1,5 +1,5 @@
 // Packages to include
-#define CATCH_CONFIG_MAIN
+//#define CATCH_CONFIG_MAIN
 #include "catch.hpp" // C++ Automated Test Cases in a Header
 //#include <iostream>
 //#include <string>
