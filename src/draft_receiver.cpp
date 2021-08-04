@@ -18,7 +18,6 @@ ReceiverThread::~ReceiverThread() {}
 
 void ReceiverThread::setdatasetaddress(DcmDataset* dset){
     m_dset = dset;
-    std::cout<<"Hi i work";
 }
 // ----------------------------------------------------------------------------
 

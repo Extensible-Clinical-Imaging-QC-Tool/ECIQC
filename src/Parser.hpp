@@ -23,7 +23,9 @@ class Parser {
 
 
     private:
+
         DcmDataset* currentDataset;
+        
 };
 
 //#endif

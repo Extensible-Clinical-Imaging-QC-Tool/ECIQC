@@ -63,10 +63,12 @@ add_library(qctool_lib src/MyLibrary.cpp
                   # Receiver Files
                   src/draft_receiver.cpp
                   src/draft_receiver.hpp
-                  src/Parser.cpp
-                  src/Parser.hpp
+                  #src/Parser.cpp
+                  #src/Parser.hpp
+                  src/nParser.cpp
+                  src/nParser.hpp
                   src/poolbase.h
-                  src/poolbase.cpp
+                  src/poolbase.cpp)
                   # Conductor Files
                   src/conductor.cpp
                   src/conductor.hpp)
@@ -87,8 +89,9 @@ enable_testing()
 
 
 add_executable(unit_tests tests/MyTestsParser.cpp
-                          #tests/ReceiverTests.cpp
-                          #tests/METests.cpp
+                          tests/ReceiverTests.cpp
+                          tests/METests.cpp
+                          tests/nParserTests.cpp
                           tests/ConductorTests.cpp
                  )                          
 

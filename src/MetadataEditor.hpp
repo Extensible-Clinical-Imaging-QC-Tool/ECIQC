@@ -8,8 +8,12 @@
 class MetadataEditor : public MdfDatasetManager {
 public:
   // Constructor
+  MetadataEditor();
   MetadataEditor(OFString file_path);
   MetadataEditor(DcmDataset* dataset);
+
+  DcmDataset* pathToDataset(OFString file_path);
+
 
   OFCondition setTag(OFString str);
   void setTag(DcmTagKey key);
@@ -46,7 +50,7 @@ private:
 
   OFString tagString;
 
-  DcmTagKey tagKey;
+  DcmTagKey tagKey; 
 };
 
 #endif // METADATAEDITOR_H_

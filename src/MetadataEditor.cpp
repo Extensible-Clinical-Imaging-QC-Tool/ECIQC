@@ -7,21 +7,30 @@
 
 
 // Constructor(s)
-MetadataEditor::MetadataEditor(OFString file_path) {
-  OFCondition result = loadFile(file_path.c_str());
-  if (result.bad()) {
-    std::cout << "Constructor error: " << result.text();
-  }
-  dset = getDataset();
-}
+MetadataEditor::MetadataEditor() { }
 
 MetadataEditor::MetadataEditor(DcmDataset* dataset) {
   dset = dataset;
 }
 
+MetadataEditor::MetadataEditor(OFString file_path) {
+  dset = pathToDataset(file_path);
+}
+
+
 ////////////////////////////////////////////////////////////////////
 /*                    Public Member Functions                     */
 ////////////////////////////////////////////////////////////////////
+
+DcmDataset* MetadataEditor::pathToDataset(OFString file_path) {
+  OFCondition result = loadFile(file_path.c_str());
+  if (result.bad()) {
+    std::cout << "Error loading file: " << result.text();
+  }
+  return getDataset();
+}
+
+
 
 // Set the tag data members
 OFCondition MetadataEditor::setTag(OFString str) {
@@ -137,6 +146,7 @@ OFBool MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr,
 }
 
 // Copy Tag
+// TODO Create version that takes in string version as well
 OFCondition MetadataEditor::copy(DcmTagKey otherTagKey, int posFrom,
                                     int posTo, OFBool copyToThis,
                                     OFBool replace, OFBool searchIntoSub) {
@@ -259,5 +269,8 @@ OFString MetadataEditor::vectorToStrVals(std::vector<OFString> vec) {
     newStringVals += val;
     newStringVals += "\\";
   }
+
+  
+
   return newStringVals.substr(0, newStringVals.length() - 1);
 }
