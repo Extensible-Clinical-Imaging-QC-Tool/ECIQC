@@ -2,14 +2,14 @@
 #define CONDUCTOR_H
 // #include
 #include "Parser.hpp"
-#include "draft_receiver.hpp"
+#include "receiver.hpp"
 /* #include "Sender.hpp" */
 
 class Conductor {
 public:
   /** Constructor */
   Conductor(OFString cfp1, OFString cfp2, Uint8 rPortNum, OFString rPortName,
-            Uint8 sPortNum, OFString sPortName)
+            Uint8 sPortNum, OFString sPortName);
   void setOptional();
   // Receiver
 

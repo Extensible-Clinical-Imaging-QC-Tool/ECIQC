@@ -13,7 +13,7 @@ specific setX() functions */
 
 Conductor::Conductor(OFString cfp1, OFString cfp2, Uint8 rPortNum,
                      OFString rPortName, Uint8 sPortNum, OFString sPortName)
-    : p1(cfp1), p2(cfp2), r(rPortNum, rPortName)
+    : p1(/*cfp1*/), p2(/*cfp2*/), r(rPortNum, rPortName)
       /*sender(PortNum, PortName)*/ 
       {}
 
@@ -37,15 +37,15 @@ void Conductor::setOptional(/*all optional variables */) {
 
 void Conductor::run() {
     // Receiver starts listening
-    DcmDataset dset;
-    DcmDataset* pDset = &dset;
+    OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
 
-    r.setpooldataset(pDset);
+    r.setpointer(pDset);
     r.start();
 
 
     // Validation Parser
-    OFString mode = 'val';
+
+    /*OFString mode = 'val';
     p1.setDicomFile(pDset);
     OFBool pass = p1.pRun(mode);
     s(qPortNum, qPortName);
@@ -56,7 +56,8 @@ void Conductor::run() {
       p2.pRun(mode);
 
       s(sPortNum, sPortName);
+<<<<<<< HEAD
     }
 
 
-} 
+>>>>>>> 15066cf3c12c712f069d7edc7f560a18a8fad27d

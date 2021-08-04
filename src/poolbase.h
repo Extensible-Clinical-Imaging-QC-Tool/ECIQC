@@ -91,9 +91,12 @@ public:
        *          otherwise. 
        */
       virtual OFCondition setpeerAETitles(const OFList<OFString>& peerae_list) = 0;
-      //virtual DcmDataset* getdataset() = 0;
-      virtual void setdatasetaddress(DcmDataset* dset) = 0;
-     // virtual void setdsetlist(OFList<DcmDataset>* dset_list)=0;
+      
+      /** Set a shared pointer for storing received DICOM images.
+       *  @param dset Shared pointer to be used by the worker.
+       */
+      virtual void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset) = 0;
+     
 
       /** Check whether worker is busy.
        *  @return OFTrue if worker is busy, OFFalse otherwise.
@@ -166,10 +169,12 @@ public:
    * @param aetitle_list A list of acceptable peer AE Titles.
    */
   virtual void setcallingAETitles(OFList<OFString> aetitle_list);
-  void setpooldataset(DcmDataset* dset);
-  //void setdatasetaddress(DcmDataset* dset);
 
-  DcmDataset* getpooldataset();
+  /** Set a shared pointer for storing received DICOM images.
+  *  @param dset Shared pointer to be used by the receiver.
+  */
+  void setpointer(OFshared_ptr<OFList<DcmDataset>> dset);
+
 
   /** Get number of maximum permitted connections, i.e.\ threads/workers.
    *  @return Number of threads permitted to exist within pool.
@@ -192,7 +197,6 @@ public:
    *  @return A list of acceptable hostnames/IPs.
    */
   virtual OFList<OFString> getacceptableIPs();
-  void setdsetlist(OFList<DcmDataset>* dset_list);
   /** Listen for incoming association requests. For each incoming request, a
    *  new thread is started if number of maximum threads is not reached yet.
    *  @return DUL_NOASSOCIATIONREQUEST if no connection is requested during
@@ -238,7 +242,7 @@ protected:
    */
   OFCondition runAssociation(T_ASC_Association* assoc,
                              const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
-                             const OFList<OFString>& peerAE_list, DcmDataset* dset);
+                             const OFList<OFString>& peerAE_list, OFshared_ptr<OFList<DcmDataset>> dset);
 
   /** Drops association and clears internal structures to free memory
    *  @param assoc The association to free
@@ -262,8 +266,7 @@ protected:
                         OFCondition result);
             
   
-  DcmDataset* m_dset;
-  OFList<DcmDataset>* m_dset_list;
+  OFshared_ptr<OFList<DcmDataset>> m_dset;
 
 private:
 
@@ -401,12 +404,8 @@ private:
         {
             return SCP::setpeerAETitles(peerae_list);
         }
-
-        virtual DcmDataset* getdataset()
-        {
-          return SCP::getdataset();
-        }
-        virtual void setdatasetaddress(DcmDataset* dset)
+       
+        virtual void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset)
         {
           SCP::setdatasetaddress(dset);
         }

@@ -61,8 +61,8 @@ add_library(qctool_lib src/MyLibrary.cpp
                   src/mdfdsman.cc
                   src/mdfdsman.h
                   # Receiver Files
-                  src/draft_receiver.cpp
-                  src/draft_receiver.hpp
+                  src/receiver.cpp
+                  src/receiver.hpp
                   #src/Parser.cpp
                   #src/Parser.hpp
                   src/nParser.cpp
@@ -90,8 +90,12 @@ enable_testing()
 
 add_executable(unit_tests tests/MyTestsParser.cpp
                           tests/ReceiverTests.cpp
+<<<<<<< HEAD
                           tests/METests.cpp
                           tests/nParserTests.cpp
+=======
+                          #tests/METests.cpp
+>>>>>>> 15066cf3c12c712f069d7edc7f560a18a8fad27d
                           tests/ConductorTests.cpp
                  )                          
 
