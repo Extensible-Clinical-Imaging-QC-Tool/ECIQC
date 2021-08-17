@@ -26,11 +26,6 @@ nParser::nParser(OFString configFpath) {
 }
 
 
-/* Look at mdfdsman and see how they handle tag names, 
-   dicom.dic. 
-   General function of the parser */
-
-
 ////////////////////////////////////////////////////////////////////
 /*                    Public Member Functions                     */
 ////////////////////////////////////////////////////////////////////
@@ -53,22 +48,6 @@ DcmDataset* nParser::tempDset() {
 }
 
 
-
-struct WorkerParameters {
-    OFString newValue, otherTagString, str_expr;
-
-    DcmTagKey otherTagKey;
-
-    OFCondition& flag;
-
-    OFBool only_overwrite;
-    OFBool searchIntoSub = OFFalse;
-    OFBool copyToThis = OFFalse;
-    OFBool replace = OFTrue;
-
-    const unsigned long pos = 0;
-
-};
 
 /*
 OFCondition nParser::worker(OFString instruction, WorkerParameters params) {
@@ -173,6 +152,7 @@ OFBool nParser::pRun() {
                 instruction = action.key().c_str();
 
                 if(base[tag.key()]["checks"][0][action.key()].is_array()) {
+
                     /* If true, then the instruction is an operation that must be performed on 
                     the result of all operations specified within this array */
 
@@ -194,11 +174,11 @@ OFBool nParser::pRun() {
                     const auto& parameters = base[tag.key()]["checks"][0][action.key()];
                     std::cout << instruction << std::endl;
                     std::cout << parameters.is_array() << std::endl;
-                    std::cout << parameters.at("value") << std::endl;
+                    //std::cout << parameters.at("value") << std::endl;
                     std::cout << parameters.items().begin().key() << std::endl;
 
 
-                   //WorkerParameters paramStruct =  WPMaker(parameters);
+                    WorkerParameters paramStruct =  WPMaker(parameters);
                    //worker(paramStruct);
     
                 }
@@ -213,15 +193,11 @@ OFBool nParser::pRun() {
     }
 }
 
-// Hash function to allow using the switch loop with strings
+// Hash function to allow using the worker switch loop with strings
+// TODO Replace this hash method with the enum and map method
 constexpr unsigned int hash(const char *s, int off = 0) {                        
     return !s[off] ? 5381 : (hash(s, off+1)*33) ^ s[off];                           
 }     
-
-
-
-
-
 
 
 
@@ -230,7 +206,8 @@ constexpr unsigned int hash(const char *s, int off = 0) {
 ////////////////////////////////////////////////////////////////////
 
 
-// An enum containing all possible arguments, required so that switch loop can be used with strings
+/* An enum containing all possible arguments, required so that the 
+    switch loop can be used with string cases */
 enum ArgumentsEnum {
     newValue,
     otherTagString,
@@ -244,7 +221,7 @@ enum ArgumentsEnum {
     pos
 };
 
-// String to correct enum
+// Maps the strings to correct enum
 int nParser::resolveArg(OFString param) {
 
     static const std::map<OFString, ArgumentsEnum> argStrings {
@@ -267,33 +244,26 @@ int nParser::resolveArg(OFString param) {
         return 404;
     }
 
-    
-
 }
 
-
-std::set<OFString> argumentsVec = {
-    "newValue",
-    "otherTagString",
-    "str_expr",
-    "otherTagKey",
-    "flag",
-    "only_overwrite",
-    "searchIntoSub",
-    "copyToThis",
-    "replace",
-    "pos"
-};
-
-WorkerParameters nParser::WPMaker(const nlohmann::json& param_object) {
+/* Populates the appropriate members of the WorkerParameters struct
+in preparation for them to be used as function arguments in worker() */
+WorkerParameters nParser::WPMaker(const json& param_object) {
 
     WorkerParameters paramStruct;
     for(const auto& param: param_object.items()) { 
         OFString argName = OFString(param.key().c_str());
-        switch (resolveArg(argName)) {
+        std::cout << "ARGNAME: " << argName << "\t";
+        std::cout << "ARGVAL: " << param.value() << "\n\n";
+        switch (400 /*resolveArg(argName)*/) {
+            default:
+                std::cout << "tns \t" << param.value() <<  "\n\n" << param.value().type_name() << "\n";
+                
+
             case newValue:
                 /* code */
-                paramStruct.newValue = param.value();
+                std::cout << "newValue:"; //"typenames" << param.value().type() << "\n" << param.value().type_name() << "\n";
+                //paramStruct.newValue = OFString(param.value());
                 break;
             
             case otherTagString:
@@ -332,15 +302,16 @@ WorkerParameters nParser::WPMaker(const nlohmann::json& param_object) {
                 /* code */
                 break;
 
-            case 404:
+            case 404: /*Not a possible argument*/
                 /* code */
+                
                 break;
 
-            case /* constant-expression */:
-                /* code */
-                break;
-        default:
-            break;
+            //case /* constant-expression */:
+            //    /* code */
+            //    break;
+            
+
         }
 
     }

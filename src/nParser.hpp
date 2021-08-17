@@ -5,7 +5,7 @@
 #include <iostream>
 #include "MetadataEditor.hpp"
 #include <nlohmann/json.hpp>
-
+#include "WorkerParameters.hpp"
 
 using json = nlohmann::json;
 
@@ -15,7 +15,7 @@ class nParser {
 
     public:
         
-        struct WorkerParameters;
+        //struct WorkerParameters;
         nParser(OFString configFpath);
         void setDicomDset(DcmDataset* dset);
         void setDicomDset(OFString path);
@@ -36,7 +36,7 @@ class nParser {
 
     private:
         int resolveArg(OFString param);
-        WorkerParameters WPMaker(const nlohmann::json& param_object);
+        WorkerParameters WPMaker(const json& param_object);
 
 };
 
