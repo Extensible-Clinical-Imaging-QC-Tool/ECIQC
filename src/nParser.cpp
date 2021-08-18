@@ -43,7 +43,7 @@ DcmDataset* nParser::getDicomDset() {
 }
 
 /* temp function */
-DcmDataset* nParser::tempDset() {
+DcmDataset* nParser::tempGetDset() {
    return editor.pathToDataset("../tests/test.dcm");
 }
 
@@ -132,34 +132,29 @@ OFBool nParser::pRun() {
 
     int i = 0;
     for(const auto& tag: base.items()) {
-        OFString vr, instruction, sub_instruction, otherTagString, newValue;
-        OFBool only_overwrite;
+        OFString  instruction, sub_instruction;
 
-        //std::cout << "One item's key: " << tag.key()  << "\n\n\n\n" << std::endl;
-        //std::cout << "One item's value: " << tag.value()  << "\n\n\n\n" << std::endl;
+        //std::cout << "One item's key: " << tag.key()  << std::endl;
+        //std::cout << "One item's value: " << tag.value()  << std::endl;
 
         editor.setTag(tag.key().c_str());
-        //std::cout << "Individual tag level: \n" << i << tag.key() << '\t' << base[tag.key()]["checks"] << '\n' << std::endl;
+        std::cout << "Individual tag level: \n" << i << tag.key() << '\t' << base[tag.key()]["checks"] << '\n' << std::endl;
         i++;
         // Tag Level 
         for(const auto& preAction: base[tag.key()]["checks"].items()) {
             for(const auto& action: preAction.value().items()) {
-                //std::cout << "action : " << action.key()  << "\n\n\n\n" << std::endl;
-                std::cout << "action parameters: " << action.value()/*.items().begin()*/  << "\n\n\n\n" << std::endl;
+                //std::cout << "\t action : " << action.key()  << std::endl;
+                //std::cout << "\t action parameters: " << action.value()/*.items().begin()*/  << std::endl;
             
-                
 
                 instruction = action.key().c_str();
-
                 if(base[tag.key()]["checks"][0][action.key()].is_array()) {
-
                     /* If true, then the instruction is an operation that must be performed on 
                     the result of all operations specified within this array */
 
                     const auto& nested_ops = base[tag.key()]["checks"][0][action.key()][0];
-
                     for(const auto& ops: nested_ops.items()) {
-                        std::cout << ops.key() << '\t' << "Value" << ops.value() << std::endl;
+                        //std::cout << "\t\t Key: " << ops.key() << '\t\t' << "Value: " << ops.value() << std::endl;
 
                         sub_instruction = ops.key().c_str();
 
@@ -176,15 +171,13 @@ OFBool nParser::pRun() {
                     std::cout << parameters.is_array() << std::endl;
                     //std::cout << parameters.at("value") << std::endl;
                     std::cout << parameters.items().begin().key() << std::endl;
+                    std::cout << parameters.items().begin().value() << std::endl;
 
 
                     WorkerParameters paramStruct =  WPMaker(parameters);
-                   //worker(paramStruct);
     
                 }
-
-
-            
+ 
                 // Create a WorkerParameters object
                 // Call Worker
 
@@ -209,7 +202,7 @@ constexpr unsigned int hash(const char *s, int off = 0) {
 /* An enum containing all possible arguments, required so that the 
     switch loop can be used with string cases */
 enum ArgumentsEnum {
-    newValue,
+    value,
     otherTagString,
     str_expr,
     otherTagKey,
@@ -225,7 +218,7 @@ enum ArgumentsEnum {
 int nParser::resolveArg(OFString param) {
 
     static const std::map<OFString, ArgumentsEnum> argStrings {
-        {  "newValue", newValue  },
+        {  "value", value  },
         {  "otherTagString", otherTagString },
         {  "str_expr", str_expr  },
         {  "otherTagKey", otherTagKey  },
@@ -253,21 +246,24 @@ WorkerParameters nParser::WPMaker(const json& param_object) {
     WorkerParameters paramStruct;
     for(const auto& param: param_object.items()) { 
         OFString argName = OFString(param.key().c_str());
-        std::cout << "ARGNAME: " << argName << "\t";
-        std::cout << "ARGVAL: " << param.value() << "\n\n";
-        switch (400 /*resolveArg(argName)*/) {
+        std::cout << "\t\t\t ARGNAME: " << argName << std::endl ;
+        //std::cout << "\t\t\t ARGVAL: " << param.value() << std::endl;
+        switch (resolveArg(argName)) {
             default:
-                std::cout << "tns \t" << param.value() <<  "\n\n" << param.value().type_name() << "\n";
+                //std::cout << "isString?" << param.value().is_string() <<  "\n\n" << param.value().type_name() << "\n";
                 
 
-            case newValue:
+            case value:
                 /* code */
-                std::cout << "newValue:"; //"typenames" << param.value().type() << "\n" << param.value().type_name() << "\n";
-                //paramStruct.newValue = OFString(param.value());
+                paramStruct.value = OFString(param.value().get<std::string>().c_str());
+                
+                std::cout << "Get attempt: " << param.value().get<std::string>() << '\n';
+                std::cout << "Member: " << paramStruct.value << '\n';
                 break;
             
             case otherTagString:
                 /* code */
+                paramStruct.otherTagString = OFString(param.value().get<std::string>().c_str());
                 break;
             
             case str_expr:
@@ -311,7 +307,6 @@ WorkerParameters nParser::WPMaker(const json& param_object) {
             //    /* code */
             //    break;
             
-
         }
 
     }

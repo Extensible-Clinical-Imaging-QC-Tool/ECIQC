@@ -25,7 +25,7 @@ class nParser {
         OFBool pRun();
 
         /* temp func */
-        DcmDataset* tempDset();
+        DcmDataset* tempGetDset();
 
 
         // Probably privatise later
