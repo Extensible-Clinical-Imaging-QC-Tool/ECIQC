@@ -4,24 +4,26 @@
 #include <fstream>
 #include "MetadataEditor.hpp"
 #include <dcmtk/dcmpstat/dcmpstat.h>
-#include <vector>
 #include <string>
-#include <nlohmann/json.hpp>
+#include <set>
 #include "Parser.hpp"
-#include <regex>
+
 
 using json = nlohmann::json;
 
 Parser::Parser(OFString configFpath) {
 
+
+
+    
     std::ifstream configFile(configFpath.c_str());
     if (configFile) {
         std::stringstream buffer;
         buffer << configFile.rdbuf();
         configFile.close();
-
         /* buffer is the stringstream (ss) that contains the config instructions.
             These instructions will be repeated for all the images */
+        buffer >> base;
     } else {
         std::cout << "Error reading configuration file";
     }
@@ -32,166 +34,80 @@ Parser::Parser(OFString configFpath) {
 /*                    Public Member Functions                     */
 ////////////////////////////////////////////////////////////////////
 
-
-void Parser::setDicomFile(DcmDataset* dset) {
-    /* 
-    DcmDataset is the class that handles the dicom metadata in c++
-    
-    We want to use the same Parser object for multiple dicom files.
-    This means a method for changing which image is being worked on is
-    required */
-    
+void Parser::setDicomDset(DcmDataset* dset) { 
     currentDataset = dset;
 }
 
-
-/*! \The Parser class parses the configuration file with the settings. 
-*/
-/* file_opening function parses the configuration and raises an error if parsing fails */
-auto Parser::file_opening(std::stringstream configuration){
-
-    try {
-        json j;
-        configuration >> j;
-        return true;
-    }
-    catch (json::parse_error& e)
-    {
-        std::cout << "Parse error:" << e.what() << std::endl;
-        return false;
-    }
-    catch (json::out_of_range& e)
-    {
-        std::cout << "Out of range:" << e.what() << std::endl;
-        return false;
-    }
-    catch (json::exception& e)
-    {
-        std::cout << "Json exception: " << e.what() << std::endl;
-        return false;
-    }
+void Parser::setDicomDset(OFString path) {
+    currentDataset = editor.pathToDataset(path);
 }
 
-auto Parser::initial_settings(std::stringstream configuration, string Tag, string VR){
-
-    json j;
-    configuration >> j;
-
-    // Check if Tag/VR elements are present in the config file
-
-
-    if (j.find(Tag) != j.end()) {
-
-        cout << "Tag" << Tag << "is present." << endl;
-        
-        if (j[Tag].find(VR) != j[Tag].end()){
-
-        cout << "VR" << VR << "is present" << endl;
-        return true;
-
-        } else{
-
-            cout << "VR" << VR << "is missing" << endl;
-            return false;
-        }
-        
-    }
-    else {
-        cout << "Tag" << Tag << "is not present." << endl;
-        return false;
-    }
-
+DcmDataset* Parser::getDicomDset() {
+    return currentDataset;
 }
 
-/**< Process settings in order to modify data*/
-auto Parser::editing(std::stringstream configuration){
+/* temp function */
+DcmDataset* Parser::tempGetDset() {
+   return editor.pathToDataset("../tests/test.dcm");
+}
 
-    json j;
-    configuration >> j;
-    
-    // Access edit operators and call the corresponding method
 
-    for (const auto& el : j["(0010,0010)"]["checks"]){
-        
-        OFString name;
 
-        OFString path = "/home/sabsr3/ECIQC/DICOM_Images/1-1copy.dcm";
+//TODO What happens to the OFCondition results of the operations
+void Parser::run() {
 
-        MetadataEditor obj{path};
+    int i = 0;
+    for(const auto& tag: base.items()) {
+        OFString  instruction, sub_instruction;
 
-        string main_tag = "(0010,0010)";
+        //std::cout << "One item's key: " << tag.key()  << std::endl;
+        //std::cout << "One item's value: " << tag.value()  << std::endl;
 
-        obj.setTag(main_tag.c_str());
-
-        vector<string>op = {"INSERT", "OVERWRITE","REMOVE"}; // vector of actions to perform on the main tag
-        
-        string tag = el["EXIST"]["tag"]; //access the tag used for the action on the main tag
-
-        string value = el["EXIST"]["value"]; //access the value needed for the action on the main tag
-
-        for (int i = 0; i<op.size(); ++i) 
-        {
-            // If the tag itself has to be edited, call the modify method without adding the tag key, only with 2 arguments
-
-            if (!el["EXIST"]["tag"].is_null()){
-
-                if (el["actionIfTrue"]["operator"] == op[i])  //loop through the list of actions to determine the one stated in the config file*/
-                {
-                    cout << "Calling method : " << op[i] <<endl;
-                    obj.modify(OFString(value.c_str()), OFString(tag.c_str()), false); 
-                    string action = "modifying tag using another tag";
-                    return action;
-                
-
-                }
-
-            }
-            else{
-
-                if (el["actionIfTrue"]["operator"] == op[i])  
-                {
-                    cout << "Calling method : " << op[i] <<endl;
-                    obj.modify(OFString(value.c_str()), false);  
-                    string act_variant = "modifying tag itself";
-                    return act_variant;
-                    
-                }
-
-            }
-
+        editor.setTag(tag.key().c_str());
+        //std::cout << "Individual tag level: \n" << i << tag.key() << '\t' << base[tag.key()]["checks"] << '\n' << std::endl;
+        i++;
+        // Tag Level 
+        for(const auto& checkList: base[tag.key()]["checks"].items()) {
+            for(const auto& action: checkList.value().items()) {
+                //std::cout <<"\t action : "<< action.key() <<'\n'<< "\t action parameters: " << action.value()<< std::endl;
             
+                instruction = action.key().c_str();
+                if(checkList.value()[action.key()].is_array()) {
+                    /* If true, then the instruction is an operation that must be performed on 
+                    the result of all operations specified within this array */
+                    const auto& nested_ops = base[tag.key()]["checks"][0][action.key()][0];
+                    for(const auto& ops: nested_ops.items()) {
+                        std::cout << "\t\t Key: " << ops.key() << '\t\t' << "Value: " << ops.value() << std::endl;
+
+                        sub_instruction = ops.key().c_str();
+
+                        /* TODO call worker to perform the specified action and store the result
+                            Perhaps use  the .size() method to create a vector containing booleans
+                            and then perform the operation on them */
+
+                        
+                    }
+                    
+                } else {
+
+                    const auto& parameters = base[tag.key()]["checks"][0][action.key()];
+                    //std::cout << instruction << std::endl;
+                    //std::cout << parameters.at("value") << std::endl;
+                    //std::cout << parameters.items().begin().key() << std::endl;
+                    //std::cout << parameters.items().begin().value() << std::endl;
+
+
+                    WorkerParameters paramStruct =  WPMaker(parameters);
+    
+                }
+ 
+                // Create a WorkerParameters object
+                // Call Worker
+
+            }
         }
-
-
-        
-        string Tag = tag.c_str();
-        int posTo = 0;
-        int posFrom = 0;
-        OFBool replace = OFFalse;
-        OFBool copyToThis = OFTrue;
-
-        // Call copy Tag method 
-
-        if (el["actionIfTrue"]["operator"] == "COPY")
-        {
-            obj.copy(DcmTagKey(Tag[0],Tag[1]), posFrom, posTo, copyToThis, replace);
-        }
-
-
-        else{
-            cout << el["actionIfFalse"]["action"] <<endl;
-        }
-
-
-        // REGEX match
-
-        // obj.match(OFString(main_tag.c_str()), OFCondition &OFString(value.c_str()))
-        // Raises error wrong expression
-        // To do : to input tag key correctly / change to OFString input and perform condition inside the method
-
     }
 }
-
 
 ////////////////////////////////////////////////////////////////////
 /*                    Private Member Functions                    */
@@ -199,6 +115,287 @@ auto Parser::editing(std::stringstream configuration){
 
 
 
+/* An enum containing all possible arguments, required so that the 
+    switch loop can be used with string cases */
+enum ArgumentsEnum {
+    otherTagString,
+    otherTagKey,
+    value,
+    str_expr,
+    flag,
+    only_overwrite,
+    searchIntoSub,
+    copyToThis,
+    replace,
+    posFrom,
+    posTo,
+    pos,
+
+
+    tag
+};
+
+enum ActionsEnum {
+    /* Comparisons */
+    EQUAL,
+    LESS_THAN,
+    GREATER_THAN,
+    /* Boolean Operations */
+    AND,
+    OR,
+    NOT,
+    /* REGEX */
+    EXIST,
+    CONTAIN,
+    REGEX,
+    /* Editing Operations */
+    OVERWRITE,
+    REMOVE,
+    INSERT,
+    CLEAR,
+    REJECT,
+    COPY
+};
+
+// Maps the arguments in string form to the correct enum
+int Parser::resolveArguments(OFString param) {
+    static const std::map<OFString, ArgumentsEnum> argStrings {
+        {  "otherTagString", otherTagString },
+        {  "otherTagKey", otherTagKey  },
+        {  "value", value  },
+        {  "str_expr", str_expr  },
+        {  "flag", flag  },
+        {  "only_overwrite", only_overwrite  },
+        {  "searchIntoSub",  searchIntoSub  },
+        {  "copyToThis",  copyToThis},
+        {  "replace",  replace},
+        {  "posFrom", posFrom  },
+        {  "posTo", posTo  },
+        {  "pos", pos  },
+
+        {  "tag", tag }
+    };
+
+    auto itr = argStrings.find(param);
+    if (itr != argStrings.end()) {
+        return itr->second;
+    } else {
+        return 404;
+    }
+
+}
+
+int Parser::resolveActions(OFString param) {
+    static const std::map<OFString, ActionsEnum> actionStrings {
+        {  "EQUAL", EQUAL  },
+        {  "LESS_THAN", LESS_THAN },
+        {  "GREATER_THAN", GREATER_THAN  },
+        {  "AND", AND  },
+        {  "OR", OR  },
+        {  "NOT", NOT  },
+        {  "EXIST",  EXIST  },
+        {  "CONTAIN",  CONTAIN},
+        {  "REGEX",  REGEX},
+        {  "INSERT", INSERT  },
+        {  "REMOVE", REMOVE  },
+        {  "CLEAR", CLEAR  },
+        {  "COPY", COPY  }
+    };
+
+    auto itr = actionStrings.find(param);
+    if (itr != actionStrings.end()) {
+        return itr->second;
+    } else {
+        return 404;
+    }
+
+}
+
+/* Populates the appropriate members of the WorkerParameters struct
+in preparation for them to be used as function arguments in worker() */
+WorkerParameters Parser::WPMaker(const json& param_object) {
+
+    WorkerParameters paramStruct;
+
+    for(const auto& param: param_object.items()) { 
+        OFString argName = OFString(param.key().c_str());
+        const auto& arg = param.value();
+        //std::cout << "inWorkerParameters\n" << "\t\t\t ARGNAME: " << argName << std::endl;
+        
+        //std::cout << "\t\t\t ARGVAL: " << arg << std::endl;
+        switch (resolveArguments(argName)) {
+            /*
+            case tag: {
+                (tag == "") ? 
+
+                break;
+            }
+            */
+            case otherTagString: {
+                /* code */
+                paramStruct.otherTagString = OFString(arg.get<std::string>().c_str());
+                }
+                break;
+            case otherTagKey: {
+                /* code */
+                OFCondition oflag;
+                DcmTagKey oTagKey;
+
+                OFString str = OFString(arg.get<std::string>().c_str());
+                
+                oflag = editor.stringToKey(str, oTagKey);
+                if (oflag.bad()) {
+                    std::cout << oflag.text() << std::endl;
+                }
+
+                paramStruct.otherTagKey = oTagKey;
+                }
+                break;
+            case value: {
+                /* code */
+                paramStruct.value = OFString(arg.get<std::string>().c_str());
+                
+                //std::cout << "Get attempt: " << arg.get<std::string>() << '\n';
+                //std::cout << "Member: " << paramStruct.value << '\n';
+                }
+                break;
+
+            case str_expr: {
+                /* code */
+                paramStruct.str_expr = OFString(arg.get<std::string>().c_str());
+                }
+                break;
+            
+
+            case only_overwrite:
+                /* code */
+                paramStruct.only_overwrite = arg.get<bool>();
+                break;
+
+            case searchIntoSub:
+                /* code */
+                paramStruct.searchIntoSub = arg.get<bool>();
+                break;
+
+            case copyToThis:
+                /* code */
+                paramStruct.copyToThis = arg.get<bool>();
+                break;
+
+            case replace:
+                /* code */
+                paramStruct.replace = arg.get<bool>();
+                break;
+
+            case posFrom:
+                /* code */
+                paramStruct.posFrom = arg.get<unsigned long>();
+                break;
+
+            case posTo/* constant-expression */:
+                /* code */
+                paramStruct.posTo = arg.get<unsigned long>();
+                break;
+
+            case pos:
+                /* code */
+                paramStruct.pos = arg.get<unsigned long>();
+                break;
+
+            case 404: /*Not a possible argument*/
+                /* code */
+                
+                break;
+
+            default:
+               break;
+
+            //case /* constant-expression */:
+            //    /* code */
+            //    break;
+        }
+
+    }
+
+    return paramStruct;
+
+} 
+
+
+/*
+OFCondition Parser::worker(OFString instruction, WorkerParameters params) {
+
+                                                                    
+    switch(resolveActions(instruction.c_str())) {
+        // Editing options
+        //action.
+        case (INSERT || OVERWRITE): 
+            // Arguments
+
+            //TODO Check that params contains the required arguments for this case
+
+            params.only_overwrite = (resolveActions(instruction.c_str()) == INSERT) ?  OFFalse : OFTrue;
+            //params.newValue = action.value().value;
+
+            if(action.values().tag == "") {
+                // No 'otherTag' provided therefore perfom operation on 'thisTag'
+                editor.modify(params.newValue, params.only_overwrite);
+            } else if(action.value().tag[0] == "D") {
+                // Tag is provided in word form
+                OFString j;
+            } else {
+                newValue = 4;
+                // Tag is provided as (group, element)
+                // TODO ensure Tag is in (group,element) form, or take g&e and add (,)
+                otherTagString = action.values().tag;
+                editor.modify(newValue, only_overwrite, otherTagString); 
+
+            }
+            break;
+        
+
+        case CLEAR: {
+            OFBool only_overwrite = OFTrue;
+            newValue = "";
+
+            if(action.values().tag == "") {
+                editor.modify(newValue, only_overwrite);
+            } else if(action.values().tag[0] == "D") {
+
+            } else {
+                otherTagString = action.values().tag;
+                editor.modify(newValue, only_overwrite, otherTagString);
+            }
+
+            break;
+        }
+
+        case REMOVE: {
+            OFBool all_tags = False;
+            OFBool ignore_missing_tags = True;
+
+            editor.deleteTag(tag_path, all_tags, ignore_missing_tags);
+            editor.get 
+
+            break;
+        }
+        // TODO Complete
+        case COPY: {
+            copyToThis = (action.values().toTag == "") ? OFTrue : OFFalse;
+            int posFrom, posTo;
+
+            break;
+        }
+            //stringstream from(action.values().)
+        // Action Level
 
 
 
+        default: {
+            COUT << "default \n";
+        }
+        // Check options
+    }
+    
+} 
+*/
