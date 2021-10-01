@@ -63,12 +63,10 @@ add_library(qctool_lib src/MyLibrary.cpp
                   # Receiver Files
                   src/receiver.cpp
                   src/receiver.hpp
-                  #src/Parser.cpp
-                  #src/Parser.hpp
-                  src/nParser.cpp
-                  src/nParser.hpp
+                  src/Parser.cpp
+                  src/Parser.hpp
                   src/poolbase.h
-                  src/poolbase.cpp)
+                  src/poolbase.cpp
                   # Conductor Files
                   src/conductor.cpp
                   src/conductor.hpp)
@@ -88,15 +86,11 @@ target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 enable_testing()
 
 
-add_executable(unit_tests tests/MyTestsParser.cpp
-                          tests/ReceiverTests.cpp
-<<<<<<< HEAD
+add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/METests.cpp
-                          tests/nParserTests.cpp
-=======
-                          #tests/METests.cpp
->>>>>>> 15066cf3c12c712f069d7edc7f560a18a8fad27d
+                          tests/ParserTests.cpp
                           tests/ConductorTests.cpp
+                          
                  )                          
 
 target_include_directories(unit_tests PRIVATE tests)
