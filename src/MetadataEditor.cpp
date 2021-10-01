@@ -147,8 +147,8 @@ OFBool MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr,
 
 // Copy Tag
 // TODO Create version that takes in string version as well
-OFCondition MetadataEditor::copy(DcmTagKey otherTagKey, int posFrom,
-                                    int posTo, OFBool copyToThis,
+OFCondition MetadataEditor::copy(DcmTagKey otherTagKey, const unsigned long posFrom,
+                                    const unsigned long posTo, OFBool copyToThis,
                                     OFBool replace, OFBool searchIntoSub) {
   if (!exists(otherTagKey)) {
     return makeOFCondition(OFM_dcmdata, 23, OF_error,
