@@ -120,10 +120,7 @@ TEST_CASE("Test for REGEX MATCHING","[ME]") {
 
   //std::cout << "here";
   OFString writtenTag = "DCM_PatientName";
-  //const DcmDataDictionary& globalD = dcmDataDict.rdlock();
-  //const DcmDictEntry *ent = globalD.findEntry(writtenTag.c_str());
-  //std::cout << (ent->getKey());
-  //dcmDataDict.rdlock();
+
 }
 
 
@@ -139,8 +136,8 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
   ele1->print(std::cout);
   ele2->print(std::cout);
 
-  int posTo = 0;
-  int posFrom = 0;
+  const unsigned long posTo = 0;
+  const unsigned long posFrom = 0;
   OFBool replace = OFFalse;
   OFBool copyToThis = OFTrue;
 
