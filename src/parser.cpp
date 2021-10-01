@@ -2,15 +2,21 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
+#include "MetadataEditor.hpp"
+#include <dcmtk/dcmpstat/dcmpstat.h>
+#include <vector>
+#include <string>
 #include <nlohmann/json.hpp>
-
 #include "Parser.hpp"
+#include <regex>
+
 
 using json = nlohmann::json;
 
 using namespace std;
 
 
+<<<<<<< HEAD
 /*! \The Parser class parses the configuration file with the user settings. 
     \It includes basic functionalities for the moment. 
 */

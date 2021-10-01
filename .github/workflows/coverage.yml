@@ -9,6 +9,9 @@ on:
     branches:
       - '**'
 
+ignore: 
+  - "libs/**/*"
+
 jobs:
 
   build-and-test:
@@ -20,10 +23,13 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v2
 
+      - name: update sudo apt 
+        run: sudo apt-get update 
+        
       - name: install dependencies
         run: |
           bash scripts/install_dependencies.sh
-
+      
       - name: install tools
         run: sudo apt install g++-10 lcov libcurl4-openssl-dev
 

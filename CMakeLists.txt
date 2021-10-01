@@ -81,7 +81,7 @@ target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}" PUBLIC nlohmann_js
 # Include boost options
 find_package(Boost 1.30 COMPONENTS program_options REQUIRED)
 target_include_directories(qctool_lib PRIVATE "${Boost_INCLUDE_DIR}")
-target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}")
+target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}" PUBLIC nlohmann_json::nlohmann_json)
 
 # dcmtk as a required dependency for mylib
 
