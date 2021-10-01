@@ -1,0 +1,94 @@
+{
+    "(0010,0010)": {
+        "Global Rules":[
+            "Specifying 'tag' as an empty string means perform the action on 'this' tag",
+            "? represents optional keys",
+            "! represents optional keys, however, at least one or more of the arguments must be provided but not all"
+                    
+        ],
+        "?tagName": "Human readable version of hex tag above (optional).",
+        "vr": "CS",
+        "?description": "Description of checks (optional).",
+        "checks": [{
+            "comment": "Checks must only include a SINGLE operator - they are listed here for demonstrative purposes.",
+            "EQUAL": {
+                "comment": "If exclusive, Is this tag (0x0001) equal to the literal in 'value' / the value at 'tag'.Else, if value at tag == value.",
+                "value": "12",
+                "tag": "(0010,0011)",
+                "?IF_TRUE": {
+                    "ACTION": "Do something"
+                }
+            },
+            "EXIST": {
+                "comment": "Does this tag exist or (alternatively) does 'tag' exist?",
+                "value": "12",
+                "tag": "(0010,0011)"
+            },
+            "CONTAIN": {
+                "comment": "Should be exclusive. Does this tag contain 'value' or the value at 'tag'. TODO: Do we also need to check the other way around?",
+                "value": "34",
+                "tag": ""
+            },
+            "REGEX": {
+                "comment": "Does the value in this tag conform to the regex?",
+                "expression": ""
+            },
+            "GREATER_THAN": {
+                "comment": "Should be exclusive. Is the value in this tag greater than 'value' or the value at 'tag'.",
+                "tag": "",
+                "value": "s"
+            },
+            "LESS_THAN": {
+                "comment": "Should be exclusive. Is the value in this tag less than 'value' or the value at 'tag'.",
+                "tag": "",
+                "value": ""
+            },
+            "COPY": {
+                "comment": "Should be exclusive. We can either copy the val of this tag (0x0001) into 'toTag' or we can copy the val at 'fromTag' into this tag. In the case of multi-valued tags (VM > 1) the desired value can be specified with posFrom and posTo",
+                "!toTag": "",
+                "!from": "",
+                "?posTo": "3",
+                "?posFrom": "0"
+            },
+            "OR": [{
+                "comment": "List of operators - operator 'parent' key doesn't matter"
+            }],
+            "AND": [{
+                "LESS_THAN": {
+                    "tag": "PatientAge",
+                    "value": 80
+                },
+                "GREATER_THAN": {
+                    "tag": "PatientAge",
+                    "value": "60"
+                },
+                "EQUAL": {
+                    "tag": "SeriesNumber",
+                    "values": "ge001-0001-001-01"
+                },
+                "IF_TRUE":{"actionT":"Can contain all the same objects as 'checks', plus 'comment' and 'action'"},
+                "IF_FALSE":{"actionF":" do something if the above all evaluate to false "}
+            }],
+            "NOT": {
+                "comment": "Operator"
+            },
+            "INSERT": {
+                "comment": "Insert 'value' into tag",
+                "tag": "",
+                "value": " 64 "
+            },
+            "REMOVE": {
+                "comment": "Allows the user to remove a DICOM tag from a dataset",
+                "tag":""
+            },
+            "CLEAR": {
+                "comment": "Replaces the contents of a tag with an empty string",
+                "tag":""
+            }
+        }]
+    },
+
+    "(0020,0010)": {
+        "myKey": "myValue"
+    }
+}
