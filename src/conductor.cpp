@@ -45,19 +45,17 @@ void Conductor::run() {
 
     // Validation Parser
 
-    /*OFString mode = 'val';
+    /* OFString mode = 'val' ;
     p1.setDicomFile(pDset);
     OFBool pass = p1.pRun(mode);
     s(qPortNum, qPortName);
     // ME Parser
     if(pass) {
-      mode = 'me';
+      mode = "me";
       p2.setDicomFile(pDset);
       p2.pRun(mode);
 
       s(sPortNum, sPortName);
-<<<<<<< HEAD
-    }
+    */
+    } 
 
-
->>>>>>> 15066cf3c12c712f069d7edc7f560a18a8fad27d

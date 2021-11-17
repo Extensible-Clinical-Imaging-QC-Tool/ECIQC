@@ -15,6 +15,13 @@ class Parser {
 
     public:
         
+        
+        /** Default constructor for the class. 
+         * REMOVE ME
+         */
+        Parser();
+
+
         /** Constructor for the class. A path to a configuration file must be provided
          *
          * @param configFpath 

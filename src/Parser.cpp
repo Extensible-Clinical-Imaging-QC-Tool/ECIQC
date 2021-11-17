@@ -10,6 +10,9 @@
 
 
 using json = nlohmann::json;
+Parser::Parser(){
+    std::cout << "REMOVE ME";
+}
 
 Parser::Parser(OFString configFpath) {
 

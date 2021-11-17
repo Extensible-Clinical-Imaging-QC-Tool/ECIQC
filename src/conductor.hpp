@@ -18,7 +18,8 @@ public:
 
   /** members */
   Receiver r;
-  Parser p1, p2;
+  Parser p1;
+  Parser p2;
   /* Sender s; */
   OFString sPortNum, sPortName, qPortNum, qPortName;
   /** functions */
