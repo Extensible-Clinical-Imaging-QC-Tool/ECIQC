@@ -1,0 +1,1 @@
+brew install dcmtk boost cmake
