@@ -89,6 +89,12 @@ find_package(DCMTK REQUIRED)
 target_link_libraries(qctool_lib PUBLIC "${DCMTK_LIBRARIES}")
 target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 
+# opencv as arequired dependency
+find_package( OpenCV REQUIRED )
+target_link_libraries(qctool_lib PUBLIC "${OpenCV_LIBS}")
+target_include_directories(qctool_lib PUBLIC "${OpenCV_INCLUDE_DIRS}")
+
+
 enable_testing()
 
 
