@@ -33,6 +33,11 @@ public:
      */
     DcmDataset* pathToDataset(OFString file_path);
 
+    /** Initiliases tesseract API to be used in findText and 
+     * getBoxes methods. 
+     */
+    void initTess();
+
     /** Runs preprocessed image through tesseract ocr to find text 
      * contained
      * @return a string of all text found
@@ -44,6 +49,11 @@ public:
      * @return a char pointer to a UTF-8 box file
      */
     char* getBoxes();
+
+    /** Ends tesseract API used in findText and 
+     * getBoxes methods. 
+     */
+    void endTess();
 
     /** Uses output of tesseract OCR to draw rectangles on the original
      * image
@@ -59,7 +69,12 @@ private:
     cv::Mat datasetImage;
     // Pre-processed dataset image, to be used for OCR
     cv::Mat preProcImage;
+    // Tesseract API
+    tesseract::TessBaseAPI *api;
+    // Text identified from the pre-processed image by tesseract
     std::string foundText;
+    // Output of getBoxes
+    char* boxes;    
 };
 
 #endif // ImageEditor_H_

@@ -22,7 +22,7 @@ ImageEditor::ImageEditor(DcmDataset* dataset){
 /*                    Public Member Functions                     */
 ////////////////////////////////////////////////////////////////////
 
-std::string ImageEditor::findText(){
+void ImageEditor::initTess(){
   tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
 
   api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
@@ -30,14 +30,23 @@ std::string ImageEditor::findText(){
   
   // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
   api->SetImage(preProcImage.data, preProcImage.cols, preProcImage.rows, 1, preProcImage.step);
+}
+
+std::string ImageEditor::findText(){
   const char* outText = api->GetUTF8Text();
-  api->End();
 
   return std::string(outText);
 }
 
 char* ImageEditor::getBoxes(){
-  
+  // 0 argument in GetBoxText refers to page
+  boxes = api->GetBoxText(0);
+
+  return boxes;
+}
+
+void ImageEditor::endTess(){
+  api->End();
 }
 
 cv::Mat ImageEditor::coverText(){
