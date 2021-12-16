@@ -1,33 +1,43 @@
 #include "ImageEditor.hpp"
 #include <iostream>
 #include <opencv2/opencv.hpp>
+#include "mdfdsman.h"
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include <vector>
 #include <tesseract/baseapi.h>
 #include <string>
 
 // Constructor(s)
-ImageEditor::ImageEditor() { }
 
-ImageEditor::ImageEditor(OFString file_path){
-  dset = pathToDataset(file_path);
-}
-
-ImageEditor::ImageEditor(DcmDataset* dataset){
+ImageEditor::ImageEditor(DcmDataset* dataset) {
   dset = dataset;
 }
 
+ImageEditor::ImageEditor(OFString file_path) {
+  dset = pathToDataset(file_path);
+}
 
 ////////////////////////////////////////////////////////////////////
 /*                    Public Member Functions                     */
 ////////////////////////////////////////////////////////////////////
 
-void ImageEditor::initTess(){
-  tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
 
+DcmDataset* ImageEditor::pathToDataset(OFString file_path) {
+  OFCondition result = loadFile(file_path.c_str());
+  if (result.bad()) {
+    std::cout << "Error loading file: " << result.text();
+  }
+  return getDataset();
+}
+
+OFCondition ImageEditor::runEditing(){
+
+}
+
+void ImageEditor::initTess(){
   api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
   api->SetPageSegMode(tesseract::PSM_AUTO);
-  
+
   // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
   api->SetImage(preProcImage.data, preProcImage.cols, preProcImage.rows, 1, preProcImage.step);
 }
@@ -50,5 +60,12 @@ void ImageEditor::endTess(){
 }
 
 cv::Mat ImageEditor::coverText(){
-  
+
+}
+
+////////////////////////////////////////////////////////////////////
+/*                    Private Member Functions                    */
+////////////////////////////////////////////////////////////////////
+OFCondition ImageEditor::prePro(){
+
 }

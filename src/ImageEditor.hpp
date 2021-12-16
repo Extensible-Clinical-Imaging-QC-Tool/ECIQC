@@ -9,10 +9,7 @@
 // #include "ImageUtility.h"
 
 class ImageEditor : public MdfDatasetManager {
-public: 
-    /** Default constructor
-     */
-    ImageEditor();
+public:
 
     /** Constructor to handle the scenario where a path to
      * a DICOM file is provided 
@@ -33,17 +30,21 @@ public:
      */
     DcmDataset* pathToDataset(OFString file_path);
 
+    OFCondition runEditing();
+
+    OFCondition saveImage();
+
     /** Initiliases tesseract API to be used in findText and 
      * getBoxes methods. 
      */
     void initTess();
 
-    /** Runs preprocessed image through tesseract ocr to find text 
+    /** Runs preprocessed image through tesseract ocr to find text
      * contained
      * @return a string of all text found
      */
     std::string findText();
-    
+
     /** Takes input of cv::Mat image to find coordinates of text
      * bounding boxes
      * @return a char pointer to a UTF-8 box file
@@ -60,10 +61,10 @@ public:
      * @return an edited cv::Mat image with rectangles over text
      */
     cv::Mat coverText();
-    
+
 private:
 
-    // Holds the dataset to be modified
+   // Holds the dataset to be modified
     DcmDataset *dset;
     // The original dataset image, to be edited and 
     cv::Mat datasetImage;
@@ -75,6 +76,21 @@ private:
     std::string foundText;
     // Output of getBoxes
     char* boxes;    
+
+    /** Get the raw pixel data from Utility function
+     *  @return Uint8* buffer of pixelData values
+     */
+    Uint8* mat2PixelData();
+
+
+    /** Pre-process the DICOM image in order to improve tesseract performance
+     *
+     * @return OFCondition which has status EC_Normal if everything is OK, else an error
+     */
+    OFCondition prePro();
+
+    // Writes the processed image back to the DICOM object
+    OFCondition writeImage();
 };
 
 #endif // ImageEditor_H_
