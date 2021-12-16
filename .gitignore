@@ -5,6 +5,7 @@ DICOM_Images/*
 # build files
 Testing/
 build/
+cmake-build-*
 
 # Prerequisites
 *.d
@@ -43,3 +44,7 @@ build/
 .vs
 CMakeSettings.json
 .vscode
+c_cpp_properties.json
+
+# IDEA specific viles
+.idea
