@@ -40,8 +40,10 @@ private:
 
     // Holds the dataset to be modified
     DcmDataset *dset;
-    // The dataset image
+    // The original dataset image, to be edited and 
     cv::Mat datasetImage;
+    // Pre-processed dataset image, to be used for OCR
+    cv::Mat preProcImage;
     std::string foundText;
 }
 
