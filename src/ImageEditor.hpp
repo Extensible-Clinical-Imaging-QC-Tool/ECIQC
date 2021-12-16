@@ -33,8 +33,23 @@ public:
      */
     DcmDataset* pathToDataset(OFString file_path);
 
+    /** Runs preprocessed image through tesseract ocr to find text 
+     * contained
+     * @return a string of all text found
+     */
+    std::string findText();
+    
+    /** Takes input of cv::Mat image to find coordinates of text
+     * bounding boxes
+     * @return a char pointer to a UTF-8 box file
+     */
+    char* getBoxes();
 
-
+    /** Uses output of tesseract OCR to draw rectangles on the original
+     * image
+     * @return an edited cv::Mat image with rectangles over text
+     */
+    cv::Mat coverText();
     
 private:
 
@@ -45,6 +60,6 @@ private:
     // Pre-processed dataset image, to be used for OCR
     cv::Mat preProcImage;
     std::string foundText;
-}
+};
 
 #endif // ImageEditor_H_
