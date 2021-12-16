@@ -32,7 +32,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(QCTool)
 
-# ensure C++14
+# esure C++14
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -55,6 +55,9 @@ add_subdirectory(libs/nlohmann_json/)
 add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp
+                  # Image Editor
+                  src/ImageEditor.hpp
+                  src/ImageEditor.cpp
                   # ME Files
                   src/MetadataEditor.cpp
                   src/MetadataEditor.hpp
@@ -102,6 +105,7 @@ add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/METests.cpp
                           tests/ParserTests.cpp
                           tests/ConductorTests.cpp
+                          tests/IETests.cpp
                           
                  )                          
 
