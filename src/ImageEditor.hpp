@@ -5,6 +5,7 @@
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include <vector>
 #include <opencv2/opencv.hpp>
+#include <tesseract/baseapi.h>
 // TODO Update with Elliot's Utility Class
 // #include "ImageUtility.h"
 
