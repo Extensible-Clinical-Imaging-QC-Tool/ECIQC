@@ -33,10 +33,27 @@ public:
     OFCondition runEditing();
 
     OFCondition saveImage();
+    /** Runs preprocessed image through tesseract ocr to find text
+     * contained
+     * @return a string of all text found
+     */
+    std::string findText();
 
+    /** Takes input of cv::Mat image to find coordinates of text
+     * bounding boxes
+     * @return a char pointer to a UTF-8 box file
+     */
+    char* getBoxes();
 
-  private:
-    // Holds the dataset to be modified
+    /** Uses output of tesseract OCR to draw rectangles on the original
+     * image
+     * @return an edited cv::Mat image with rectangles over text
+     */
+    cv::Mat coverText();
+
+private:
+
+   // Holds the dataset to be modified
     DcmDataset *dset;
     // The original dataset image, to be edited and 
     cv::Mat datasetImage;
