@@ -6,6 +6,7 @@
 #include <vector>
 #include <opencv2/opencv.hpp>
 #include <tesseract/baseapi.h>
+#include <leptonica/allheaders.h>
 // TODO Update with Elliot's Utility Class
 // #include "ImageUtility.h"
 
@@ -75,8 +76,6 @@ private:
     tesseract::TessBaseAPI *api;
     // Text identified from the pre-processed image by tesseract
     std::string foundText;
-    // Output of getBoxes
-    char* boxes;    
 
     /** Get the raw pixel data from Utility function
      *  @return Uint8* buffer of pixelData values

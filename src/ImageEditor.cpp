@@ -6,6 +6,7 @@
 #include <vector>
 #include <tesseract/baseapi.h>
 #include <string>
+#include <leptonica/allheaders.h>
 
 // Constructor(s)
 
@@ -44,23 +45,37 @@ void ImageEditor::initTess(){
 
 std::string ImageEditor::findText(){
   const char* outText = api->GetUTF8Text();
-
-  return std::string(outText);
+  foundText = std::string(outText);
+  return foundText;
 }
 
-char* ImageEditor::getBoxes(){
-  // 0 argument in GetBoxText refers to page
-  boxes = api->GetBoxText(0);
+cv::Mat ImageEditor::coverText(){
+  Boxa* boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
+  //printf("Found %d textline image components.\n", boxes->n);
+  
+  for (int i = 0; i < boxes->n; i++) {
+    BOX* box = boxaGetBox(boxes, i, L_CLONE);
 
-  return boxes;
+    /* Commented code "zooms in" on a region and prints the text, the confidence tesseract has and the bounding box
+    * - could be used for testing?
+    //api->SetRectangle(box->x, box->y, box->w, box->h);
+    //char* ocrResult = api->GetUTF8Text();
+    //int conf = api->MeanTextConf();
+    //fprintf(stdout, "Box[%d]: x=%d, y=%d, w=%d, h=%d, confidence: %d, text: %s",
+    //                i, box->x, box->y, box->w, box->h, conf, ocrResult);
+    */
+
+    // Draw the rectangle on the original image
+    cv::Rect rect(box->x,box->y,box->w,box->h);
+    cv::rectangle(datasetImage, rect, cv::Scalar(0, 255, 0));
+
+    boxDestroy(&box);
+  }
 }
 
 void ImageEditor::endTess(){
   api->End();
-}
-
-cv::Mat ImageEditor::coverText(){
-
+  delete api;
 }
 
 ////////////////////////////////////////////////////////////////////
