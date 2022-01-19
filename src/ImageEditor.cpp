@@ -59,5 +59,9 @@ cv::Mat ImageEditor::coverText(){
 /*                    Private Member Functions                    */
 ////////////////////////////////////////////////////////////////////
 OFCondition ImageEditor::prePro(){
-
+  // Convert image to greyscale
+  cv::Mat grayImage;
+  cv::cvtColor( datasetImage, grayImage, cv::COLOR_BGR2GRAY );
+  // Threshold using Otsu
+  cv::threshold(grayImage, preProcImage, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
 }
