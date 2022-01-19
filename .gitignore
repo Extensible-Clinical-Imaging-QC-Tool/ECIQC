@@ -48,3 +48,6 @@ c_cpp_properties.json
 
 # IDEA specific viles
 .idea
+
+# Mac Files
+.DS_Store
