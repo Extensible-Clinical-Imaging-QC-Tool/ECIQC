@@ -36,25 +36,52 @@ public:
 
     OFCondition saveImage();
 
-    /** Initiliases tesseract API to be used in findText and 
-     * getBoxes methods. 
+    /** Initiliases tesseract API to be used in findText method
      */
     void initTess();
 
     /** Runs preprocessed image through tesseract ocr to find text
      * contained
      * @return a string of all text found
+     * 
+     * TODO: Might not need this?
      */
     std::string findText();
 
-    /** Takes input of cv::Mat image to find coordinates of text
-     * bounding boxes
-     * @return a char pointer to a UTF-8 box file
+    /**
+     * Checks text is all letters. Combined with digitsOnly, can check for a mixture of letters and numbers
+     * 
+     * @param text text found by tesseract, to be checked for being all letters
+     * @return true - no numbers or special characters found
+     * @return false - numbers or special characters found
      */
-    char* getBoxes();
+    OFBool lettersOnly(std::string text);
 
-    /** Ends tesseract API used in findText and 
-     * getBoxes methods. 
+    /**
+     * Checks text is all numbers. Combined with lettersOnly, can check for a mixture of letters and numbers
+     * 
+     * @param text text found by tesseract, to be checked for being all numeric
+     * @return true - no letters or special characters found
+     * @return false - letters or special characters found
+     */
+    OFBool digitsOnly(std::string text);
+    
+    /**
+     * Checks if length of text is less than 4 characters - the length to automatically exclude for all-letter strings
+     * 
+     * @param text text found by tesseract, length to be checked
+     * @return true - length of the text is less than 4 characters
+     * @return false - length of text is greater than or equal to 4 characters
+     */
+    OFBool lessThanFourChars(std::string text);
+
+    /**
+     * TODO: Exclusions - text strings to not block/numeric or short strings to block
+     */
+    // OFBool inExclusions(std::string text);
+
+
+    /** Ends tesseract API used in findText method. 
      */
     void endTess();
 

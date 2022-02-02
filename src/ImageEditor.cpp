@@ -7,6 +7,7 @@
 #include <tesseract/baseapi.h>
 #include <string>
 #include <leptonica/allheaders.h>
+#include <regex>
 
 // Constructor(s)
 
@@ -43,11 +44,38 @@ void ImageEditor::initTess(){
   api->SetImage(preProcImage.data, preProcImage.cols, preProcImage.rows, 1, preProcImage.step);
 }
 
+// Do we need a separate findText function for testing? Currently the text is checked for blocking
+// within the coverText function and findText isn't used
 std::string ImageEditor::findText(){
   const char* outText = api->GetUTF8Text();
   foundText = std::string(outText);
   return foundText;
 }
+
+// Do we need to distinguish "lettersOnly" with mixed alpha-numeric strings?
+OFBool ImageEditor::lettersOnly(std::string text){
+  return std::regex_match(text, std::regex("^[A-Za-z]+$"));
+}
+
+OFBool ImageEditor::digitsOnly(std::string text){
+  return std::all_of(text.begin(), text.end(),
+                  [](char c){ return isdigit(c) != 0; });
+}
+
+OFBool lessThanFourChars(std::string text){
+  return text.length() < 4;
+}
+
+
+/**
+ * TODO: Exclusions - text strings to not block/numeric strings to block
+ */
+// OFBool inExclusions(std::string text){
+//   // Check config .json file for exceptions - can be used for letter strings, numerical string (e.g. subject IDs)
+//   // and mixed (e.g. "Dose 1" for annotations)
+//   // - "Dose 1" might be hard to retain due to tesseract treating words separated by spaces as separate
+  
+// }
 
 cv::Mat ImageEditor::coverText(){
   Boxa* boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
@@ -56,20 +84,29 @@ cv::Mat ImageEditor::coverText(){
   for (int i = 0; i < boxes->n; i++) {
     BOX* box = boxaGetBox(boxes, i, L_CLONE);
 
-    /* Commented code "zooms in" on a region and prints the text, the confidence tesseract has and the bounding box
-    * - could be used for testing?
-    //api->SetRectangle(box->x, box->y, box->w, box->h);
-    //char* ocrResult = api->GetUTF8Text();
-    //int conf = api->MeanTextConf();
-    //fprintf(stdout, "Box[%d]: x=%d, y=%d, w=%d, h=%d, confidence: %d, text: %s",
-    //                i, box->x, box->y, box->w, box->h, conf, ocrResult);
-    */
+    // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
+    api->SetRectangle(box->x, box->y, box->w, box->h);
+    std::string ocrResult = api->GetUTF8Text();
+    OFBool blockText = OFTrue;
 
-    // Draw the rectangle on the original image
-    cv::Rect rect(box->x,box->y,box->w,box->h);
-    cv::rectangle(datasetImage, rect, cv::Scalar(0, 255, 0));
+    if(digitsOnly(ocrResult)){
+      // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
+      blockText = OFFalse;
+    } else if(lessThanFourChars(ocrResult)){
+      // TODO: check for exclusions - short text/mixed strings to be blocked, otherwise retain them
+      blockText = OFFalse;
+    } else{
+      // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
+    }
+
+    if(blockText == OFTrue){
+      // Draw the rectangle on the original image
+      cv::Rect rect(box->x,box->y,box->w,box->h);
+      cv::rectangle(datasetImage, rect, cv::Scalar(0, 255, 0));
+    }
 
     boxDestroy(&box);
+
   }
 
   return datasetImage;
@@ -83,9 +120,6 @@ void ImageEditor::endTess(){
 ////////////////////////////////////////////////////////////////////
 /*                    Private Member Functions                    */
 /////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////
-/*                    Public Member Functions                     */
-///////////////////////////////////////////////////////////////////////////////
 OFCondition ImageEditor::prePro(){
 
 }
