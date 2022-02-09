@@ -25,14 +25,15 @@ public:
      */
     ImageEditor(DcmDataset* dataset);
 
-    /** Creates a DICOM dataset using the DICOM file at the specified 
+
+/** Creates a DICOM dataset using the DICOM file at the specified
      * path
      * @param file_path holds the path to the DICOM file
      * @return a pointer to the created DcmDataset
      */
     DcmDataset* pathToDataset(OFString file_path);
 
-    OFCondition runEditing();
+    cv::Mat runEditing();
 
     OFCondition saveImage();
 
@@ -91,12 +92,15 @@ public:
      */
     cv::Mat coverText();
 
+    // The original dataset image, to be edited and
+    cv::Mat datasetImage;
 private:
 
+    // Holds the DicomImage instance
+    DicomImage *image;
    // Holds the dataset to be modified
     DcmDataset *dset;
-    // The original dataset image, to be edited and 
-    cv::Mat datasetImage;
+
     // Pre-processed dataset image, to be used for OCR
     cv::Mat preProcImage;
     // Tesseract API
@@ -118,6 +122,8 @@ private:
 
     // Writes the processed image back to the DICOM object
     OFCondition writeImage();
+
+    bool loadPixelData();
 };
 
 #endif // ImageEditor_H_

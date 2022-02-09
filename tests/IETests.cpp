@@ -33,27 +33,27 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 // This tells Catch to provide a main() - only do this in one cpp file
 #define CATCH_CONFIG_MAIN
-#include "MetadataEditor.hpp"
+#include "ImageEditor.hpp"
 #include "testDcmMaker.cpp"
 #include "catch.hpp"
 #include <regex>
 
+Uint16* pixelData;
 
-OFString name;
-OFString nameTagString = "(0010,0010)";
-DcmTagKey nameTagKey = DCM_PatientName;
-OFString retiredTagString = "(0040,0330)";
-DcmTagKey retiredTagKey = DCM_RETIRED_ReferencedProcedureStepSequence;
-std::vector<OFString> newNames = {
-    "testName1",
-    "testName2",
-    "Sidri Able"//"testName3",
-};
+TEST_CASE("Test for reading DICOM images and converting to MAT object for openCV","[DR]") {
+    OFString filePath = OFString("../tests/1-01.dcm");
+    ImageEditor* dicomTest = new ImageEditor(filePath);
+    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    cv::imshow( "Unedited Image", dicomTest->datasetImage);
+    cv::waitKey(0);
+    cv::Mat img = dicomTest->runEditing();
 
-// Create test .dcm file
-OFCondition res = makeTestDICOMFile();
-MetadataEditor meObj{"test.dcm"};
-
+    std::cout << img.size() << std::endl;
+    std::cout << img.channels() << std::endl;
+    cv::namedWindow( "Display window", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    cv::imshow( "Display window", img);
+    cv::waitKey(0);
+}
 
 
 

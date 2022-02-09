@@ -8,15 +8,20 @@
 #include <string>
 #include <leptonica/allheaders.h>
 #include <regex>
+#include "dcmtk/dcmimgle/dcmimage.h"
 
 // Constructor(s)
 
 ImageEditor::ImageEditor(DcmDataset* dataset) {
   dset = dataset;
+  // load the pixel data into image
+  loadPixelData();
 }
 
 ImageEditor::ImageEditor(OFString file_path) {
-  dset = pathToDataset(file_path);
+    dset = pathToDataset(file_path);
+    // load the pixel data into image
+    loadPixelData();
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -32,8 +37,47 @@ DcmDataset* ImageEditor::pathToDataset(OFString file_path) {
   return getDataset();
 }
 
-OFCondition ImageEditor::runEditing(){
+// Load pixel data from the dset
+bool ImageEditor::loadPixelData() {
+    image = new DicomImage(dset, EXS_Unknown);
 
+    unsigned int nRows;
+    unsigned int nCols;
+    unsigned int nImgs;
+
+    // Get the information
+    nRows = image->getHeight();
+    nCols = image->getWidth();
+    nImgs = image->getFrameCount();
+
+    std::vector <cv::Mat> slices(nImgs);
+
+    // Loop for each slice
+    for(unsigned int k = 0; k<nImgs; k++){
+
+        Uint16* pixelData = (Uint16 *)(image->getOutputData(16 /* bits */,k /* slice */));
+
+        slices[k] = cv::Mat(nRows, nCols, CV_16U, pixelData).clone();
+    }
+
+    // Merge the slices in a single img
+    cv::merge(slices,datasetImage);
+    if (datasetImage.empty()) {
+        return false;
+    }
+    else {
+        return true;
+    }
+
+}
+
+cv::Mat ImageEditor::runEditing(){
+    // Preprocess image using thresholding
+    prePro();
+    // Initiate tesseract
+    initTess();
+    //
+    return coverText();
 }
 
 void ImageEditor::initTess(){
@@ -128,3 +172,4 @@ OFCondition ImageEditor::prePro(){
   // Threshold using Otsu
   cv::threshold(grayImage, preProcImage, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
 }
+
