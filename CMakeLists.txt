@@ -98,10 +98,25 @@ target_link_libraries(qctool_lib PUBLIC "${OpenCV_LIBS}")
 target_include_directories(qctool_lib PUBLIC "${OpenCV_INCLUDE_DIRS}")
 
 # Tesseract and Leptonica as required dependencies
-include_directories(/usr/include/tesseract/)
-include_directories(/usr/include/leptonica/)
-target_link_libraries(qctool_lib PRIVATE "${Tesseract_LIBRARIES}")
-target_link_libraries(qctool_lib PUBLIC tesseract lept)
+
+if(APPLE)
+    find_package( PkgConfig REQUIRED)
+    pkg_search_module( TESSERACT REQUIRED tesseract )
+    pkg_search_module( LEPTONICA REQUIRED lept )
+    include_directories( ${TESSERACT_INCLUDE_DIRS} )
+    include_directories( ${LEPTONICA_INCLUDE_DIRS} )
+    link_directories( ${TESSERACT_LIBRARY_DIRS} )
+    link_directories( ${LEPTONICA_LIBRARY_DIRS} )
+    target_link_libraries( qctool_lib PUBLIC "${TESSERACT_LIBRARIES}" )
+    target_link_libraries( qctool_lib PUBLIC "${LEPTONICA_LIBRARIES}" )
+endif()
+
+if(UNIX AND NOT APPLE)
+    include_directories(/usr/include/tesseract/)
+    include_directories(/usr/include/leptonica/)
+    target_link_libraries(qctool_lib PRIVATE "${Tesseract_LIBRARIES}")
+    target_link_libraries(qctool_lib PUBLIC tesseract lept)
+endif()
 
 enable_testing()
 
