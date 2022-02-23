@@ -37,18 +37,6 @@ public:
 
     OFCondition saveImage();
 
-    /** Initiliases tesseract API to be used in findText method
-     */
-    void initTess();
-
-    /** Runs preprocessed image through tesseract ocr to find text
-     * contained
-     * @return a string of all text found
-     * 
-     * TODO: Might not need this?
-     */
-    std::string findText();
-
     /**
      * Checks text is all letters. Combined with digitsOnly, can check for a mixture of letters and numbers
      * 
@@ -65,7 +53,7 @@ public:
      * @return true - no letters or special characters found
      * @return false - letters or special characters found
      */
-    OFBool digitsOnly(std::string text);
+    static OFBool digitsOnly(std::string text);
     
     /**
      * Checks if length of text is less than 4 characters - the length to automatically exclude for all-letter strings
@@ -80,11 +68,6 @@ public:
      * TODO: Exclusions - text strings to not block/numeric or short strings to block
      */
     // OFBool inExclusions(std::string text);
-
-
-    /** Ends tesseract API used in findText method. 
-     */
-    void endTess();
 
     /** Uses output of tesseract OCR to draw rectangles on the original
      * image

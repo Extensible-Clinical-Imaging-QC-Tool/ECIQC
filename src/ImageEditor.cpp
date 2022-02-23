@@ -71,29 +71,13 @@ bool ImageEditor::loadPixelData() {
 
 }
 
-cv::Mat ImageEditor::runEditing(){
+auto ImageEditor::runEditing() -> cv::Mat{
     // Preprocess image using thresholding
     prePro();
     // Initiate tesseract
-    initTess();
+//    initTess();
     //
     return coverText();
-}
-
-void ImageEditor::initTess(){
-  api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
-  api->SetPageSegMode(tesseract::PSM_AUTO);
-
-  // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
-  api->SetImage(preProcImage.data, preProcImage.cols, preProcImage.rows, 1, preProcImage.step);
-}
-
-// Do we need a separate findText function for testing? Currently the text is checked for blocking
-// within the coverText function and findText isn't used
-std::string ImageEditor::findText(){
-  const char* outText = api->GetUTF8Text();
-  foundText = std::string(outText);
-  return foundText;
 }
 
 // Do we need to distinguish "lettersOnly" with mixed alpha-numeric strings?
@@ -101,7 +85,7 @@ OFBool ImageEditor::lettersOnly(std::string text){
   return std::regex_match(text, std::regex("^[A-Za-z]+$"));
 }
 
-OFBool ImageEditor::digitsOnly(std::string text){
+auto ImageEditor::digitsOnly(std::string text) -> OFBool{
   return std::all_of(text.begin(), text.end(),
                   [](char c){ return isdigit(c) != 0; });
 }
@@ -122,8 +106,13 @@ OFBool lessThanFourChars(std::string text){
 // }
 
 cv::Mat ImageEditor::coverText(){
+  tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
+  api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
+  api->SetPageSegMode(tesseract::PSM_AUTO);
+
+  // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
+  api->SetImage(preProcImage.data, preProcImage.cols, preProcImage.rows, 1, preProcImage.step);
   Boxa* boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
-  //printf("Found %d textline image components.\n", boxes->n);
   
   for (int i = 0; i < boxes->n; i++) {
     BOX* box = boxaGetBox(boxes, i, L_CLONE);
@@ -133,17 +122,17 @@ cv::Mat ImageEditor::coverText(){
     std::string ocrResult = api->GetUTF8Text();
     OFBool blockText = OFTrue;
 
-    if(digitsOnly(ocrResult)){
-      // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
-      blockText = OFFalse;
-    } else if(lessThanFourChars(ocrResult)){
-      // TODO: check for exclusions - short text/mixed strings to be blocked, otherwise retain them
-      blockText = OFFalse;
-    } else{
-      // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
-    }
+//    if(digitsOnly(ocrResult)){
+//      // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
+//      blockText = OFFalse;
+//    } else if(lessThanFourChars(ocrResult)){
+//      // TODO: check for exclusions - short text/mixed strings to be blocked, otherwise retain them
+//      blockText = OFFalse;
+//    } else{
+//      // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
+//    }
 
-    if(blockText == OFTrue){
+    if(blockText){
       // Draw the rectangle on the original image
       cv::Rect rect(box->x,box->y,box->w,box->h);
       cv::rectangle(datasetImage, rect, cv::Scalar(0, 255, 0));
@@ -152,13 +141,9 @@ cv::Mat ImageEditor::coverText(){
     boxDestroy(&box);
 
   }
-
-  return datasetImage;
-}
-
-void ImageEditor::endTess(){
   api->End();
   delete api;
+  return datasetImage;
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -169,6 +154,8 @@ OFCondition ImageEditor::prePro(){
   // Convert image to greyscale
   cv::Mat grayImage;
   cv::cvtColor( datasetImage, grayImage, cv::COLOR_BGR2GRAY );
+  // TODO: (maybe) normalise before threshold (TBC - look at tess doc to see if Tesseract normalises for us)
+  // TODO: (maybe) contrast adjustment - look into this (helpful for text detection - again may not be needed for Tesseract)
   // Threshold using Otsu
   cv::threshold(grayImage, preProcImage, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
 }

@@ -32,16 +32,14 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 // This tells Catch to provide a main() - only do this in one cpp file
-#define CATCH_CONFIG_MAIN
 #include "ImageEditor.hpp"
-#include "testDcmMaker.cpp"
 #include "catch.hpp"
 #include <regex>
-
+//
 Uint16* pixelData;
-
+//
 TEST_CASE("Test for reading DICOM images and converting to MAT object for openCV","[DR]") {
-    OFString filePath = OFString("../tests/1-01.dcm");
+    OFString filePath = OFString("../DICOM_Images/1-01.dcm");
     ImageEditor* dicomTest = new ImageEditor(filePath);
     cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
     cv::imshow( "Unedited Image", dicomTest->datasetImage);
@@ -54,7 +52,7 @@ TEST_CASE("Test for reading DICOM images and converting to MAT object for openCV
     cv::imshow( "Display window", img);
     cv::waitKey(0);
 }
-
+//
 
 
 
