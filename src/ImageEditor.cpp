@@ -44,20 +44,43 @@ bool ImageEditor::loadPixelData() {
     unsigned int nRows;
     unsigned int nCols;
     unsigned int nImgs;
+    unsigned int bitDepth;
+    unsigned int cvType = NULL;
+    EP_Interpretation colorModel;
 
     // Get the information
     nRows = image->getHeight();
     nCols = image->getWidth();
     nImgs = image->getFrameCount();
+    bitDepth = 16;
 
-    std::vector <cv::Mat> slices(nImgs);
+
+    // determine the CV image format
+    switch (bitDepth) {
+        case 8:
+            cvType = CV_8U;
+            break;
+        case 16:
+            cvType = CV_16U;
+            break;
+    }
+
+    // if unsupported format
+    if (cvType == NULL) {
+        std::cout << "Unsuported image format, with bit depth " << bitDepth << " and encoding ";
+        return false;
+
+    }
+
     if (nImgs == 1){
-        Uint16* pixelData = (Uint16 *)(image->getOutputData(16));
+        Uint16* pixelData = (Uint16 *)(image->getOutputData(bitDepth));
         datasetImage = cv::Mat(nRows, nCols, CV_16U, pixelData).clone();
     }
 
     // Loop for each slice
     else {
+        std::vector <cv::Mat> slices(nImgs);
+
         for(unsigned int k = 0; k<nImgs; k++){
 
             Uint16* pixelData = (Uint16 *)(image->getOutputData(16 /* bits */,k /* slice */));
@@ -80,7 +103,7 @@ bool ImageEditor::loadPixelData() {
 void ImageEditor::runEditing(){
     // Preprocess image using thresholding
     prePro();
-   coverText();
+   //coverText();
 }
 
 // Do we need to distinguish "lettersOnly" with mixed alpha-numeric strings?
@@ -155,9 +178,10 @@ void ImageEditor::coverText(){
 void ImageEditor::prePro(){
   // Convert image to greyscale
   cv::Mat grayImage = datasetImage;
-  // TODO check if image is grayscale or not
-  //cv::cvtColor( datasetImage, grayImage, cv::COLOR_BGR2GRAY );
-
+  // check if image is already greyscale
+  if (!image->isMonochrome()) {
+      cv::cvtColor(datasetImage, grayImage, cv::COLOR_BGR2GRAY );
+  }
   // TODO: (maybe) normalise before threshold (TBC - look at tess doc to see if Tesseract normalises for us)
   // TODO: (maybe) contrast adjustm ent - look into this (helpful for text detection - again may not be needed for Tesseract)
   // Threshold using Otsu
