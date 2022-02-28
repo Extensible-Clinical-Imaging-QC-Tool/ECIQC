@@ -39,17 +39,18 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Uint16* pixelData;
 //
 TEST_CASE("Test for reading DICOM images and converting to MAT object for openCV","[DR]") {
-    OFString filePath = OFString("../DICOM_Images/1-01.dcm");
+    OFString filePath = OFString("../DICOM_Images/1-003.dcm");
     ImageEditor* dicomTest = new ImageEditor(filePath);
     cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
     cv::imshow( "Unedited Image", dicomTest->datasetImage);
     cv::waitKey(0);
-    cv::Mat img = dicomTest->runEditing();
+    cv::destroyAllWindows();
+    dicomTest->runEditing();
 
-    std::cout << img.size() << std::endl;
-    std::cout << img.channels() << std::endl;
-    cv::namedWindow( "Display window", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    cv::imshow( "Display window", img);
+   std::cout << dicomTest->datasetImage.size() << std::endl;
+    std::cout << dicomTest->datasetImage.channels() << std::endl;
+    cv::namedWindow( "Final window", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    cv::imshow( "Final window", dicomTest->datasetImage);
     cv::waitKey(0);
 }
 //

@@ -33,7 +33,7 @@ public:
      */
     DcmDataset* pathToDataset(OFString file_path);
 
-    cv::Mat runEditing();
+    void runEditing();
 
     OFCondition saveImage();
 
@@ -73,7 +73,7 @@ public:
      * image
      * @return an edited cv::Mat image with rectangles over text
      */
-    cv::Mat coverText();
+    void coverText();
 
     // The original dataset image, to be edited and
     cv::Mat datasetImage;
@@ -101,7 +101,7 @@ private:
      *
      * @return OFCondition which has status EC_Normal if everything is OK, else an error
      */
-    OFCondition prePro();
+    void prePro();
 
     // Writes the processed image back to the DICOM object
     OFCondition writeImage();

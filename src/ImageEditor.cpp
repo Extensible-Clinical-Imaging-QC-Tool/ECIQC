@@ -51,33 +51,36 @@ bool ImageEditor::loadPixelData() {
     nImgs = image->getFrameCount();
 
     std::vector <cv::Mat> slices(nImgs);
-
-    // Loop for each slice
-    for(unsigned int k = 0; k<nImgs; k++){
-
-        Uint16* pixelData = (Uint16 *)(image->getOutputData(16 /* bits */,k /* slice */));
-
-        slices[k] = cv::Mat(nRows, nCols, CV_16U, pixelData).clone();
+    if (nImgs == 1){
+        Uint16* pixelData = (Uint16 *)(image->getOutputData(16));
+        datasetImage = cv::Mat(nRows, nCols, CV_16U, pixelData).clone();
     }
 
-    // Merge the slices in a single img
-    cv::merge(slices,datasetImage);
+    // Loop for each slice
+    else {
+        for(unsigned int k = 0; k<nImgs; k++){
+
+            Uint16* pixelData = (Uint16 *)(image->getOutputData(16 /* bits */,k /* slice */));
+
+            slices[k] = cv::Mat(nRows, nCols, CV_16U, pixelData).clone();
+        }
+
+        // Merge the slices in a single img
+        cv::merge(slices,datasetImage);
+    }
+
     if (datasetImage.empty()) {
         return false;
     }
     else {
         return true;
     }
-
 }
 
-auto ImageEditor::runEditing() -> cv::Mat{
+void ImageEditor::runEditing(){
     // Preprocess image using thresholding
     prePro();
-    // Initiate tesseract
-//    initTess();
-    //
-    return coverText();
+   coverText();
 }
 
 // Do we need to distinguish "lettersOnly" with mixed alpha-numeric strings?
@@ -105,7 +108,7 @@ OFBool lessThanFourChars(std::string text){
   
 // }
 
-cv::Mat ImageEditor::coverText(){
+void ImageEditor::coverText(){
   tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
   api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
   api->SetPageSegMode(tesseract::PSM_AUTO);
@@ -143,20 +146,24 @@ cv::Mat ImageEditor::coverText(){
   }
   api->End();
   delete api;
-  return datasetImage;
 }
 
 ////////////////////////////////////////////////////////////////////
 /*                    Private Member Functions                    */
 /////////////////////////////////////////////////////////
 
-OFCondition ImageEditor::prePro(){
+void ImageEditor::prePro(){
   // Convert image to greyscale
-  cv::Mat grayImage;
-  cv::cvtColor( datasetImage, grayImage, cv::COLOR_BGR2GRAY );
+  cv::Mat grayImage = datasetImage;
+  // TODO check if image is grayscale or not
+  //cv::cvtColor( datasetImage, grayImage, cv::COLOR_BGR2GRAY );
+
   // TODO: (maybe) normalise before threshold (TBC - look at tess doc to see if Tesseract normalises for us)
-  // TODO: (maybe) contrast adjustment - look into this (helpful for text detection - again may not be needed for Tesseract)
+  // TODO: (maybe) contrast adjustm ent - look into this (helpful for text detection - again may not be needed for Tesseract)
   // Threshold using Otsu
-  cv::threshold(grayImage, preProcImage, 0, 255, cv::THRESH_BINARY | cv::THRESH_OTSU);
+  // TODO: check the bit depth of imag to determine maxval
+  cv::threshold(datasetImage, preProcImage, 0, 65535, cv::THRESH_OTSU);
+  cv::imshow( "8 bit Image", preProcImage );
+  cv::waitKey(0);
 }
 
