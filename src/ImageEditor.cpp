@@ -9,7 +9,7 @@
 #include <leptonica/allheaders.h>
 #include <regex>
 #include "dcmtk/dcmimgle/dcmimage.h"
-
+#include<cmath>
 // Constructor(s)
 
 ImageEditor::ImageEditor(DcmDataset* dataset) {
@@ -45,7 +45,7 @@ bool ImageEditor::loadPixelData() {
     unsigned int nCols;
     unsigned int nImgs;
     unsigned int bitDepth;
-    unsigned int cvType = NULL;
+    unsigned int cvType;
     EP_Interpretation colorModel;
 
     // Get the information
@@ -54,7 +54,7 @@ bool ImageEditor::loadPixelData() {
     nImgs = image->getFrameCount();
     bitDepth = 16;
 
-
+    // TODO implement thist to work for different bit depths, will need to look at bits allocated.
     // determine the CV image format
     switch (bitDepth) {
         case 8:
@@ -65,12 +65,6 @@ bool ImageEditor::loadPixelData() {
             break;
     }
 
-    // if unsupported format
-    if (cvType == NULL) {
-        std::cout << "Unsuported image format, with bit depth " << bitDepth << " and encoding ";
-        return false;
-
-    }
 
     if (nImgs == 1){
         Uint16* pixelData = (Uint16 *)(image->getOutputData(bitDepth));
@@ -103,7 +97,7 @@ bool ImageEditor::loadPixelData() {
 void ImageEditor::runEditing(){
     // Preprocess image using thresholding
     prePro();
-   //coverText();
+   coverText();
 }
 
 // Do we need to distinguish "lettersOnly" with mixed alpha-numeric strings?
@@ -139,14 +133,15 @@ void ImageEditor::coverText(){
   // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
   api->SetImage(preProcImage.data, preProcImage.cols, preProcImage.rows, 1, preProcImage.step);
   Boxa* boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
-  
-  for (int i = 0; i < boxes->n; i++) {
-    BOX* box = boxaGetBox(boxes, i, L_CLONE);
+  // ensure text has been found
+    if (boxes) {
+        for (int i = 0; i < boxes->n; i++) {
+            BOX *box = boxaGetBox(boxes, i, L_CLONE);
 
-    // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
-    api->SetRectangle(box->x, box->y, box->w, box->h);
-    std::string ocrResult = api->GetUTF8Text();
-    OFBool blockText = OFTrue;
+            // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
+            api->SetRectangle(box->x, box->y, box->w, box->h);
+            std::string ocrResult = api->GetUTF8Text();
+            OFBool blockText = OFTrue;
 
 //    if(digitsOnly(ocrResult)){
 //      // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
@@ -158,15 +153,16 @@ void ImageEditor::coverText(){
 //      // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
 //    }
 
-    if(blockText){
-      // Draw the rectangle on the original image
-      cv::Rect rect(box->x,box->y,box->w,box->h);
-      cv::rectangle(datasetImage, rect, cv::Scalar(0, 255, 0));
+            if (blockText) {
+                // Draw the rectangle on the original image
+                cv::Rect rect(box->x, box->y, box->w, box->h);
+                cv::rectangle(datasetImage, rect, cv::Scalar(0, 255, 0));
+            }
+
+            boxDestroy(&box);
+
+        }
     }
-
-    boxDestroy(&box);
-
-  }
   api->End();
   delete api;
 }
@@ -176,17 +172,20 @@ void ImageEditor::coverText(){
 /////////////////////////////////////////////////////////
 
 void ImageEditor::prePro(){
-  // Convert image to greyscale
+
+    // Convert image to greyscale
   cv::Mat grayImage = datasetImage;
   // check if image is already greyscale
   if (!image->isMonochrome()) {
       cv::cvtColor(datasetImage, grayImage, cv::COLOR_BGR2GRAY );
   }
   // TODO: (maybe) normalise before threshold (TBC - look at tess doc to see if Tesseract normalises for us)
-  // TODO: (maybe) contrast adjustm ent - look into this (helpful for text detection - again may not be needed for Tesseract)
-  // Threshold using Otsu
-  // TODO: check the bit depth of imag to determine maxval
-  cv::threshold(datasetImage, preProcImage, 0, 65535, cv::THRESH_OTSU);
+  // TODO: (maybe) contrast adjustment - look into this (helpful for text detection - again may not be needed for Tesseract
+  // convert to 8 bit
+  cv::normalize(grayImage, grayImage, 0.,255., cv::NORM_MINMAX,CV_8UC1);
+    cv::imshow( "8 bit Image", grayImage );
+    cv::waitKey(0);
+  cv::threshold(grayImage, preProcImage, 0, 255, cv::THRESH_OTSU);
   cv::imshow( "8 bit Image", preProcImage );
   cv::waitKey(0);
 }
