@@ -2,6 +2,7 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include "mdfdsman.h"
+#include "dcmtk/dcmjpeg/djdecode.h"
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include <vector>
 #include <tesseract/baseapi.h>
@@ -10,6 +11,7 @@
 #include <regex>
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include<cmath>
+
 // Constructor(s)
 
 ImageEditor::ImageEditor(DcmDataset* dataset) {
@@ -39,6 +41,8 @@ DcmDataset* ImageEditor::pathToDataset(OFString file_path) {
 
 // Load pixel data from the dset
 bool ImageEditor::loadPixelData() {
+    // TODO check transfer syntax and handle appropriately
+
     image = new DicomImage(dset, EXS_Unknown);
 
     unsigned int nRows;
@@ -53,6 +57,11 @@ bool ImageEditor::loadPixelData() {
     nCols = image->getWidth();
     nImgs = image->getFrameCount();
     bitDepth = 16;
+    // handle jpeg https://support.dcmtk.org/docs-snapshot/mod_dcmjpeg.html
+    DJDecoderRegistration::registerCodecs();
+    DJDecoderRegistration::cleanup();
+    // TODO use chooseRepresentation() to change to uncompressed https://support.dcmtk.org/docs/classDcmDataset.html#a0a857d70d21aa29513f82c1c90eece66
+
 
     // TODO implement thist to work for different bit depths, will need to look at bits allocated.
     // determine the CV image format
