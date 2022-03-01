@@ -63,6 +63,9 @@ add_library(qctool_lib src/MyLibrary.cpp
                   src/MetadataEditor.hpp
                   src/mdfdsman.cc
                   src/mdfdsman.h
+                  # Validator
+                  src/validator.cpp
+                  src/validator.hpp
                   # Receiver Files
                   src/receiver.cpp
                   src/receiver.hpp
@@ -126,7 +129,8 @@ add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/ParserTests.cpp
                           tests/ConductorTests.cpp
                           tests/IETests.cpp
-                          
+                          tests/validatorTests.cpp
+
                  )                          
 
 target_include_directories(unit_tests PRIVATE tests)
