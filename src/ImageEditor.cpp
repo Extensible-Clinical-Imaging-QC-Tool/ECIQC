@@ -134,7 +134,7 @@ auto ImageEditor::digitsOnly(std::string text) -> OFBool{
                   [](char c){ return isdigit(c) != 0; });
 }
 
-OFBool lessThanFourChars(std::string text){
+OFBool ImageEditor::lessThanFourChars(std::string text){
   return text.length() < 4;
 }
 
