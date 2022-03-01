@@ -41,9 +41,25 @@ DcmDataset* ImageEditor::pathToDataset(OFString file_path) {
 
 // Load pixel data from the dset
 bool ImageEditor::loadPixelData() {
-    // TODO check transfer syntax and handle appropriately
 
-    image = new DicomImage(dset, EXS_Unknown);
+    // TODO check transfer syntax and handle appropriately
+    E_TransferSyntax originalXfer = dset->getOriginalXfer();
+    // the uncompressed dset will be the same
+    uncompressedDset = new DcmDataset(*dset);
+    // If this is not already uncompressed, then uncompress it.
+    if ( ! (originalXfer == EXS_LittleEndianImplicit || originalXfer == EXS_BigEndianImplicit || originalXfer == EXS_BigEndianExplicit || originalXfer == EXS_LittleEndianExplicit) ) {
+        // the uncompressed dset will be the same
+        OFCondition decompressionResult = ImageEditor::decompressJpegDataset(*uncompressedDset);
+        // check if succesful
+        if (decompressionResult.bad()) {
+            std::cerr << "Error in parsing file of transfer syntax: " << originalXfer;
+            return false;
+        }
+
+    }
+
+    E_TransferSyntax uncompressedXfer = uncompressedDset->getCurrentXfer();
+    image = new DicomImage(uncompressedDset, uncompressedXfer);
 
     unsigned int nRows;
     unsigned int nCols;
@@ -57,10 +73,10 @@ bool ImageEditor::loadPixelData() {
     nCols = image->getWidth();
     nImgs = image->getFrameCount();
     bitDepth = 16;
-    // handle jpeg https://support.dcmtk.org/docs-snapshot/mod_dcmjpeg.html
-    DJDecoderRegistration::registerCodecs();
-    DJDecoderRegistration::cleanup();
-    // TODO use chooseRepresentation() to change to uncompressed https://support.dcmtk.org/docs/classDcmDataset.html#a0a857d70d21aa29513f82c1c90eece66
+
+    // if it is JPEG, then decompress the dset
+
+
 
 
     // TODO implement thist to work for different bit depths, will need to look at bits allocated.
@@ -179,6 +195,16 @@ void ImageEditor::coverText(){
 ////////////////////////////////////////////////////////////////////
 /*                    Private Member Functions                    */
 /////////////////////////////////////////////////////////
+
+OFCondition ImageEditor::decompressJpegDataset(DcmDataset &dset) {
+
+    // handle jpeg https://support.dcmtk.org/docs-snapshot/mod_dcmjpeg.html
+    DJDecoderRegistration::registerCodecs();
+    // TODO use chooseRepresentation() to change to uncompressed https://support.dcmtk.org/docs/classDcmDataset.html#a0a857d70d21aa29513f82c1c90eece66
+    OFCondition result = dset.chooseRepresentation(EXS_LittleEndianExplicit, NULL);
+    DJDecoderRegistration::cleanup();
+    return result;
+}
 
 void ImageEditor::prePro(){
 

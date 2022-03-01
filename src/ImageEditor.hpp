@@ -79,10 +79,15 @@ public:
     cv::Mat datasetImage;
 private:
 
+    // Function to decompress JPeg datasets
+    OFCondition decompressJpegDataset(DcmDataset &dset);
+
     // Holds the DicomImage instance
     DicomImage *image;
    // Holds the dataset to be modified
     DcmDataset *dset;
+    // holds dset for use in editing
+    DcmDataset *uncompressedDset;
 
     // Pre-processed dataset image, to be used for OCR
     cv::Mat preProcImage;
