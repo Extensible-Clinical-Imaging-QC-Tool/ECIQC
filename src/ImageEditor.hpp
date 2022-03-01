@@ -89,6 +89,8 @@ private:
     // holds dset for use in editing
     DcmDataset *uncompressedDset;
 
+    // vector of slices for multi slice images
+    std::vector <cv::Mat> slices;
     // Pre-processed dataset image, to be used for OCR
     cv::Mat preProcImage;
     // Tesseract API

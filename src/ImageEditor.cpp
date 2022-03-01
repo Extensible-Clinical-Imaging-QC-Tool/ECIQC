@@ -90,7 +90,7 @@ bool ImageEditor::loadPixelData() {
             break;
     }
 
-
+    // if it is a single image
     if (nImgs == 1){
         Uint16* pixelData = (Uint16 *)(image->getOutputData(bitDepth));
         datasetImage = cv::Mat(nRows, nCols, CV_16U, pixelData).clone();
@@ -98,17 +98,15 @@ bool ImageEditor::loadPixelData() {
 
     // Loop for each slice
     else {
-        std::vector <cv::Mat> slices(nImgs);
-
         for(unsigned int k = 0; k<nImgs; k++){
 
             Uint16* pixelData = (Uint16 *)(image->getOutputData(16 /* bits */,k /* slice */));
 
-            slices[k] = cv::Mat(nRows, nCols, CV_16U, pixelData).clone();
+            slices.push_back(cv::Mat(nRows, nCols, CV_16U, pixelData).clone());
         }
 
-        // Merge the slices in a single img
-        cv::merge(slices,datasetImage);
+        // Store first images as the datasetImage
+        datasetImage = slices[0].clone();
     }
 
     if (datasetImage.empty()) {
@@ -201,7 +199,7 @@ OFCondition ImageEditor::decompressJpegDataset(DcmDataset &dset) {
     // handle jpeg https://support.dcmtk.org/docs-snapshot/mod_dcmjpeg.html
     DJDecoderRegistration::registerCodecs();
     // TODO use chooseRepresentation() to change to uncompressed https://support.dcmtk.org/docs/classDcmDataset.html#a0a857d70d21aa29513f82c1c90eece66
-    OFCondition result = dset.chooseRepresentation(EXS_LittleEndianExplicit, NULL);
+    OFCondition result = dset.chooseRepresentation(EXS_LittleEndianImplicit, NULL);
     DJDecoderRegistration::cleanup();
     return result;
 }
@@ -211,9 +209,9 @@ void ImageEditor::prePro(){
     // Convert image to greyscale
   cv::Mat grayImage = datasetImage;
   // check if image is already greyscale
-  if (!image->isMonochrome()) {
-      cv::cvtColor(datasetImage, grayImage, cv::COLOR_BGR2GRAY );
-  }
+  //if (!image->isMonochrome()) {
+  //    cv::cvtColor(datasetImage, grayImage, cv::COLOR_BGR2GRAY );
+  //}
   // TODO: (maybe) normalise before threshold (TBC - look at tess doc to see if Tesseract normalises for us)
   // TODO: (maybe) contrast adjustment - look into this (helpful for text detection - again may not be needed for Tesseract
   // convert to 8 bit
