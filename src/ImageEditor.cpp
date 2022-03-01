@@ -3,6 +3,7 @@
 #include <opencv2/opencv.hpp>
 #include "mdfdsman.h"
 #include "dcmtk/dcmjpeg/djdecode.h"
+#include "dcmtk/dcmjpeg/dipijpeg.h"    /* for dcmimage JPEG plugin */
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include <vector>
 #include <tesseract/baseapi.h>
@@ -45,11 +46,11 @@ bool ImageEditor::loadPixelData() {
     // TODO check transfer syntax and handle appropriately
     E_TransferSyntax originalXfer = dset->getOriginalXfer();
     // the uncompressed dset will be the same
-    uncompressedDset = new DcmDataset(*dset);
+    // uncompressedDset = new DcmDataset(*dset);
     // If this is not already uncompressed, then uncompress it.
     if ( ! (originalXfer == EXS_LittleEndianImplicit || originalXfer == EXS_BigEndianImplicit || originalXfer == EXS_BigEndianExplicit || originalXfer == EXS_LittleEndianExplicit) ) {
         // the uncompressed dset will be the same
-        OFCondition decompressionResult = ImageEditor::decompressJpegDataset(*uncompressedDset);
+        OFCondition decompressionResult = ImageEditor::decompressJpegDataset(*dset);
         // check if succesful
         if (decompressionResult.bad()) {
             std::cerr << "Error in parsing file of transfer syntax: " << originalXfer;
@@ -58,8 +59,8 @@ bool ImageEditor::loadPixelData() {
 
     }
 
-    E_TransferSyntax uncompressedXfer = uncompressedDset->getCurrentXfer();
-    image = new DicomImage(uncompressedDset, uncompressedXfer);
+    E_TransferSyntax uncompressedXfer = dset->getCurrentXfer();
+    image = new DicomImage(dset, EXS_LittleEndianExplicit);
 
     unsigned int nRows;
     unsigned int nCols;
@@ -197,10 +198,16 @@ void ImageEditor::coverText(){
 OFCondition ImageEditor::decompressJpegDataset(DcmDataset &dset) {
 
     // handle jpeg https://support.dcmtk.org/docs-snapshot/mod_dcmjpeg.html
-    DJDecoderRegistration::registerCodecs();
+    DJDecoderRegistration::registerCodecs(EDC_photometricInterpretation, EUC_default, EPC_default, false, false, true);
     // TODO use chooseRepresentation() to change to uncompressed https://support.dcmtk.org/docs/classDcmDataset.html#a0a857d70d21aa29513f82c1c90eece66
-    OFCondition result = dset.chooseRepresentation(EXS_LittleEndianImplicit, NULL);
+    OFCondition result = dset.chooseRepresentation(EXS_LittleEndianExplicit, NULL);
+    OFBool canWrite = dset.canWriteXfer(EXS_LittleEndianExplicit);
+    // force the meta-header UIDs to be re-generated when storing the file
+
     DJDecoderRegistration::cleanup();
+    // save out the result for testing
+    getFileFormat()->loadAllDataIntoMemory();
+    OFCondition resultSave =  getFileFormat()->saveFile("../DICOM_Images/GEMS_IMG/2018_AUG/16/_C102004/I8GB5UO2_test_decompress.dcm", EXS_LittleEndianExplicit, EET_ExplicitLength);
     return result;
 }
 
