@@ -80,8 +80,6 @@ public:
     cv::Mat datasetImage;
 private:
 
-    // Function to decompress JPeg datasets
-    OFCondition decompressJpegDataset(DcmDataset &dset);
 
     // Holds the DicomImage instance
     DicomImage *image;
