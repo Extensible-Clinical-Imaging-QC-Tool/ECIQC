@@ -45,26 +45,25 @@ bool ImageEditor::loadPixelData() {
 
     // TODO check transfer syntax and handle appropriately
 
-    // handling JPegs
-    E_TransferSyntax originalXfer = dset->getOriginalXfer();
+    // handling Jpegs
     E_DecompressionColorSpaceConversion opt_decompCSconversion = EDC_photometricInterpretation;
-    OFBool              opt_predictor6WorkaroundEnable = OFFalse;
-    OFBool              opt_cornellWorkaroundEnable = OFFalse;
-    OFBool              opt_forceSingleFragmentPerFrame = OFFalse;
+    OFBool opt_predictor6WorkaroundEnable = OFFalse;
+    OFBool opt_cornellWorkaroundEnable = OFFalse;
+    OFBool opt_forceSingleFragmentPerFrame = OFFalse;
 
     // register decompression codecs
     DJDecoderRegistration::registerCodecs(opt_decompCSconversion, EUC_default,
                                           EPC_default, opt_predictor6WorkaroundEnable, opt_cornellWorkaroundEnable,
                                           opt_forceSingleFragmentPerFrame);
 
-    unsigned long opt_compatabilityMode;
-    opt_compatabilityMode = CIF_DecompressCompletePixelData;
+    E_TransferSyntax originalXfer = dset->getOriginalXfer();
     image = new DicomImage(dset, originalXfer);
+    DJDecoderRegistration::cleanup();
 
     unsigned int nRows;
     unsigned int nCols;
     unsigned int nImgs;
-    unsigned int bitDepth;
+    unsigned short bitDepth;
     unsigned int cvType;
     EP_Interpretation colorModel;
 
@@ -72,28 +71,20 @@ bool ImageEditor::loadPixelData() {
     nRows = image->getHeight();
     nCols = image->getWidth();
     nImgs = image->getFrameCount();
-    bitDepth = 16;
 
-    // if it is JPEG, then decompress the dset
-
-
-
-
-    // TODO implement thist to work for different bit depths, will need to look at bits allocated.
-    // determine the CV image format
-    switch (bitDepth) {
-        case 8:
-            cvType = CV_8U;
-            break;
-        case 16:
-            cvType = CV_16U;
-            break;
+    // TODO implement this to work for different bit depths, will need to look at bits allocated.
+    // determine the CV image format, for colour or grays scale
+    if (image->isMonochrome()) {
+        cvType = CV_16U;
+    }
+    else {
+        cvType = CV_16UC3;
     }
 
     // if it is a single image
     if (nImgs == 1){
-        Uint16* pixelData = (Uint16 *)(image->getOutputData(bitDepth));
-        datasetImage = cv::Mat(nRows, nCols, CV_16U, pixelData).clone();
+        Uint16* pixelData = (Uint16 *)(image->getOutputData(16));
+        datasetImage = cv::Mat(nRows, nCols, cvType, pixelData).clone();
     }
 
     // Loop for each slice
@@ -102,7 +93,7 @@ bool ImageEditor::loadPixelData() {
 
             Uint16* pixelData = (Uint16 *)(image->getOutputData(16 /* bits */,k /* slice */));
 
-            slices.push_back(cv::Mat(nRows, nCols, CV_16U, pixelData).clone());
+            slices.push_back(cv::Mat(nRows, nCols, cvType, pixelData).clone());
         }
 
         // Store first images as the datasetImage
@@ -119,7 +110,7 @@ bool ImageEditor::loadPixelData() {
 
 void ImageEditor::runEditing(){
     // Preprocess image using thresholding
-      prePro();
+    prePro();
    coverText();
 }
 
@@ -166,15 +157,15 @@ void ImageEditor::coverText(){
             std::string ocrResult = api->GetUTF8Text();
             OFBool blockText = OFTrue;
 
-//    if(digitsOnly(ocrResult)){
-//      // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
-//      blockText = OFFalse;
-//    } else if(lessThanFourChars(ocrResult)){
-//      // TODO: check for exclusions - short text/mixed strings to be blocked, otherwise retain them
-//      blockText = OFFalse;
-//    } else{
-//      // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
-//    }
+    if(digitsOnly(ocrResult)){
+      // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
+     blockText = OFFalse;
+    } else if(lessThanFourChars(ocrResult)){
+      // TODO: check for exclusions - short text/mixed strings to be blocked, otherwise retain them
+      blockText = OFFalse;
+    } else{
+      // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
+    }
 
             if (blockText) {
                 // Draw the rectangle on the original image
@@ -200,17 +191,22 @@ void ImageEditor::prePro(){
     // Convert image to greyscale
   cv::Mat grayImage = datasetImage;
   // check if image is already greyscale
-  //if (!image->isMonochrome()) {
-  //    cv::cvtColor(datasetImage, grayImage, cv::COLOR_BGR2GRAY );
-  //}
-  // TODO: (maybe) normalise before threshold (TBC - look at tess doc to see if Tesseract normalises for us)
+  if (!image->isMonochrome()) {
+      cv::cvtColor(datasetImage, grayImage, cv::COLOR_BGR2GRAY );
+  }
+  // TODO: (maybe) normalise before threshold (TBC - look at tess doc to see  if Tesseract normalises for us)
   // TODO: (maybe) contrast adjustment - look into this (helpful for text detection - again may not be needed for Tesseract
   // convert to 8 bit
   cv::normalize(grayImage, grayImage, 0.,255., cv::NORM_MINMAX,CV_8UC1);
-    cv::imshow( "8 bit Image", grayImage );
-    cv::waitKey(0);
+  cv::imshow( "8 bit Image", grayImage );
+  cv::waitKey(0);
   cv::threshold(grayImage, preProcImage, 0, 255, cv::THRESH_OTSU);
   cv::imshow( "8 bit Image", preProcImage );
   cv::waitKey(0);
 }
 
+OFBool ImageEditor::saveMask(){
+    // if single frame
+
+
+}
