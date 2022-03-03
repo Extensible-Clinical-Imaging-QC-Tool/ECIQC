@@ -77,7 +77,7 @@ public:
     void coverText();
 
     // The original dataset image, to be edited and
-    cv::Mat datasetImage;
+    cv::Mat representativeImage;
 private:
 
     // i
@@ -85,11 +85,16 @@ private:
     DicomImage *image;
    // Holds the dataset to be modified
     DcmDataset *dset;
-    // holds dset for use in editing
-    DcmDataset *uncompressedDset;
-
     // vector of slices for multi slice images
     std::vector <cv::Mat> slices;
+public:
+    const std::vector<cv::Mat> &getSlices() const;
+
+    const std::vector<cv::Mat> &getImageProcessingSlices() const;
+
+private:
+    // vector on which processing is performed
+    std::vector <cv::Mat> imageProcessingSlices;
     // Pre-processed dataset image, to be used for OCR
     cv::Mat preProcImage;
     // Tesseract API
@@ -102,7 +107,10 @@ private:
      */
     Uint8* mat2PixelData();
 
+    OFBool changeDatasetFormat(DcmDataset &, E_TransferSyntax);
 
+    // Change the xfer syntax of the dataset back to original
+    OFBool changeToOriginalFormat(DcmDataset &);
     /** Pre-process the DICOM image in order to improve tesseract performance
      *
      * @return OFCondition which has status EC_Normal if everything is OK, else an error
@@ -113,6 +121,9 @@ private:
     OFCondition writeImage();
 
     bool loadPixelData();
+
+    // Edits the dset to write the contents of slices back to PixelData
+    bool savePixelData();
 };
 
 #endif // ImageEditor_H_
