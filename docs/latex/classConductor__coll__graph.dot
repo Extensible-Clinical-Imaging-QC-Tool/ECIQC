@@ -1,0 +1,20 @@
+digraph "Conductor"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Conductor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" r" ];
+  Node2 [label="Receiver",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classReceiver.html",tooltip=" "];
+  Node3 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node3 [label="DQDSCPPool\< ReceiverThread,\l DQDBaseSCPPool, DQDBaseSCPPool\l::DQDBaseSCPWorker \>",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node4 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node4 [label="OFThread",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" p1\np2" ];
+  Node5 [label="Parser",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classParser.html",tooltip=" "];
+  Node6 -> Node5 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" editor" ];
+  Node6 [label="MetadataEditor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classMetadataEditor.html",tooltip=" "];
+  Node7 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid"];
+  Node7 [label="MdfDatasetManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classMdfDatasetManager.html",tooltip=" "];
+}
