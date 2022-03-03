@@ -52,26 +52,29 @@ endif()
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 add_subdirectory(libs/nlohmann_json/)
-add_library(qctool_lib src/MyLibrary.cpp 
-                  src/MyLibrary.hpp
-                  src/Exception.hpp
+add_library(qctool_lib src/misc/MyLibrary.cpp 
+                  src/misc/MyLibrary.hpp
+                  src/misc/Exception.hpp
                   # ME Files
-                  src/MetadataEditor.cpp
-                  src/MetadataEditor.hpp
-                  src/mdfdsman.cc
-                  src/mdfdsman.h
+                  src/metadata/MetadataEditor.cpp
+                  src/metadata/MetadataEditor.hpp
+                  src/metadata/mdfdsman.cc
+                  src/metadata/mdfdsman.h
                   # Receiver Files
-                  src/receiver.cpp
-                  src/receiver.hpp
-                  src/Parser.cpp
-                  src/Parser.hpp
-                  src/poolbase.h
-                  src/poolbase.cpp
+                  src/communication/receiver.cpp
+                  src/communication/receiver.hpp
+                  src/communication/poolbase.h
+                  src/communication/poolbase.cpp
+                  # Parsing Files
+                  src/parsing/Parser.cpp
+                  src/parsing/Parser.hpp
                   # Conductor Files
                   src/conductor.cpp
                   src/conductor.hpp)
 
-target_include_directories(qctool_lib PUBLIC src)
+target_include_directories(qctool_lib PUBLIC src/)
+
+
 
 find_package(Boost REQUIRED) 
 target_include_directories(qctool_lib PRIVATE "${Boost_INCLUDE_DIR}")
