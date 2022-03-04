@@ -32,7 +32,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(QCTool)
 
-# esure C++14
+# ensure C++14
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -52,32 +52,35 @@ endif()
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 add_subdirectory(libs/nlohmann_json/)
-add_library(qctool_lib src/MyLibrary.cpp 
-                  src/MyLibrary.hpp
-                  src/Exception.hpp
-                  # Image Editor
-                  src/ImageEditor.hpp
-                  src/ImageEditor.cpp
+add_library(qctool_lib src/misc/MyLibrary.cpp
+                  src/misc/MyLibrary.hpp
+                  src/misc/Exception.hpp
                   # ME Files
-                  src/MetadataEditor.cpp
-                  src/MetadataEditor.hpp
-                  src/mdfdsman.cc
-                  src/mdfdsman.h
-                  # Validator
-                  src/validator.cpp
-                  src/validator.hpp
+                  src/metadata/MetadataEditor.cpp
+                  src/metadata/MetadataEditor.hpp
+                  src/metadata/mdfdsman.cc
+                  src/metadata/mdfdsman.h
+                  src/metadata/validator.cpp
+                  src/metadata/validator.hpp
                   # Receiver Files
-                  src/receiver.cpp
-                  src/receiver.hpp
-                  src/Parser.cpp
-                  src/Parser.hpp
-                  src/poolbase.h
-                  src/poolbase.cpp
+                  src/communication/receiver.cpp
+                  src/communication/receiver.hpp
+                  src/communication/poolbase.h
+                  src/communication/poolbase.cpp
+                  # Parsing Files
+                  src/parsing/Parser.cpp
+                  src/parsing/Parser.hpp
                   # Conductor Files
                   src/conductor.cpp
-                  src/conductor.hpp)
+                  src/conductor.hpp
+                  # IE Files
+                  src/image/ImageEditor.cpp
+                  src/image/ImageEditor.hpp
+        )
 
-target_include_directories(qctool_lib PUBLIC src)
+target_include_directories(qctool_lib PUBLIC src/)
+
+
 
 find_package(Boost REQUIRED) 
 target_include_directories(qctool_lib PRIVATE "${Boost_INCLUDE_DIR}")

@@ -1,7 +1,7 @@
 #include "ImageEditor.hpp"
 #include <iostream>
 #include <opencv2/opencv.hpp>
-#include "mdfdsman.h"
+#include "metadata/mdfdsman.h"
 #include "dcmtk/dcmjpeg/djdecode.h" // decoding JPEG
 #include "dcmtk/dcmjpeg/dipijpeg.h"    /* for dcmimage JPEG plugin */
 #include "dcmtk/dcmjpeg/djencode.h" // encode JPEGs

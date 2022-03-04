@@ -1,0 +1,10 @@
+var searchData=
+[
+  ['match_78',['match',['../classMetadataEditor.html#a3bce595c09a9e18f84f6b3a79b5c09ed',1,'MetadataEditor::match(OFString str_expr, OFCondition &amp;flag, const unsigned long pos=0)'],['../classMetadataEditor.html#a6c20353b373e9efb3c41aaef05941dcf',1,'MetadataEditor::match(OFString otherTagString, OFString str_expr, OFCondition &amp;flag, const unsigned long pos=0)'],['../classMetadataEditor.html#a5270415836da8ab10ac6b7bca3f0a369',1,'MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr, OFCondition &amp;flag, const unsigned long pos=0)']]],
+  ['mdfdatasetmanager_79',['MdfDatasetManager',['../classMdfDatasetManager.html#a3e5dd9d7be105086b92a56c85529cd6e',1,'MdfDatasetManager']]],
+  ['metadataeditor_80',['MetadataEditor',['../classMetadataEditor.html#aff5ec7ca8861177710a4d491ba59b855',1,'MetadataEditor::MetadataEditor()'],['../classMetadataEditor.html#a625b2c3b2ba2dabeeae450e371d8ad90',1,'MetadataEditor::MetadataEditor(OFString file_path)'],['../classMetadataEditor.html#a471ea6d9fe78f4376096906cdbfae0e1',1,'MetadataEditor::MetadataEditor(DcmDataset *dataset)']]],
+  ['modify_81',['modify',['../classMetadataEditor.html#a3ac9a6a89e5d68650e1ebaee5a204d4c',1,'MetadataEditor::modify(OFString newValue, OFBool only_overwrite)'],['../classMetadataEditor.html#a5de35d23dd7162a50b8793e6a1cb511c',1,'MetadataEditor::modify(OFString newValue, OFString otherTagString, OFBool only_overwrite)'],['../classMetadataEditor.html#a54d30e835fe0007fe132b3b19de00491',1,'MetadataEditor::modify(OFString newValue, DcmTagKey otherTagKey, OFBool only_overwrite)']]],
+  ['modifyalltags_82',['modifyAllTags',['../classMdfDatasetManager.html#a106bb0c93370fafdbec506100717a2f8',1,'MdfDatasetManager']]],
+  ['modifyorinsertfromfile_83',['modifyOrInsertFromFile',['../classMdfDatasetManager.html#a1397e76cbf6ed39ebb60543bc07f7bb0',1,'MdfDatasetManager']]],
+  ['modifyorinsertpath_84',['modifyOrInsertPath',['../classMdfDatasetManager.html#a48cd22890a793d0c5785ed806fc807b6',1,'MdfDatasetManager']]]
+];

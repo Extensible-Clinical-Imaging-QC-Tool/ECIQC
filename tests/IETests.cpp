@@ -32,7 +32,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 // This tells Catch to provide a main() - only do this in one cpp file
-#include "ImageEditor.hpp"
+#include "image/ImageEditor.hpp"
 #include "catch.hpp"
 #include <regex>
 //

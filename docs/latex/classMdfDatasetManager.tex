@@ -1,0 +1,344 @@
+\hypertarget{classMdfDatasetManager}{}\doxysection{Mdf\+Dataset\+Manager Class Reference}
+\label{classMdfDatasetManager}\index{MdfDatasetManager@{MdfDatasetManager}}
+
+
+{\ttfamily \#include $<$mdfdsman.\+h$>$}
+
+
+
+Inheritance diagram for Mdf\+Dataset\+Manager\+:
+% FIG 0
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classMdfDatasetManager_a3e5dd9d7be105086b92a56c85529cd6e}{Mdf\+Dataset\+Manager}} ()
+\item 
+\mbox{\hyperlink{classMdfDatasetManager_a9cf558e8796d2fd570785d9140cf9613}{$\sim$\+Mdf\+Dataset\+Manager}} ()
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a585b3b2001443ba6be24edeb8a723a7d}{load\+File}} (const char $\ast$file\+\_\+name, const E\+\_\+\+File\+Read\+Mode read\+Mode=E\+R\+M\+\_\+auto\+Detect, const E\+\_\+\+Transfer\+Syntax xfer=E\+X\+S\+\_\+\+Unknown, const O\+F\+Bool create\+If\+Necessary=O\+F\+False)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a48cd22890a793d0c5785ed806fc807b6}{modify\+Or\+Insert\+Path}} (O\+F\+String tag\+\_\+path, const O\+F\+String \&value, const O\+F\+Bool only\+\_\+modify, const O\+F\+Bool update\+\_\+metaheader=O\+F\+True, const O\+F\+Bool ignore\+\_\+missing\+\_\+tags=O\+F\+False, const O\+F\+Bool no\+\_\+reservation\+\_\+checks=O\+F\+False)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a1397e76cbf6ed39ebb60543bc07f7bb0}{modify\+Or\+Insert\+From\+File}} (O\+F\+String tag\+\_\+path, const O\+F\+String \&filename, const O\+F\+Bool only\+\_\+modify, const O\+F\+Bool update\+\_\+metaheader=O\+F\+True, const O\+F\+Bool ignore\+\_\+missing\+\_\+tags=O\+F\+False, const O\+F\+Bool no\+\_\+reservation\+\_\+checks=O\+F\+False)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a106bb0c93370fafdbec506100717a2f8}{modify\+All\+Tags}} (O\+F\+String tag\+\_\+path, const O\+F\+String \&value, const O\+F\+Bool update\+\_\+metaheader, int \&count, const O\+F\+Bool ignore\+\_\+missing\+\_\+tags=O\+F\+False)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a3bc551c5372ec702bc13d0a2c8aefeaa}{delete\+Tag}} (O\+F\+String tag\+\_\+path, const O\+F\+Bool all\+\_\+tags, const O\+F\+Bool ignore\+\_\+missing\+\_\+tags)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a7a3d1ac7b01dbc8950702dce02745b3d}{delete\+Private\+Data}} ()
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_ae03032fc3e9932d11bd539672c21127b}{generate\+And\+Insert\+U\+ID}} (const Dcm\+Tag\+Key \&uid\+Key)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a758b5910a7931c5afd908175eb9ee700}{save\+File}} (const char $\ast$file\+\_\+name, E\+\_\+\+Transfer\+Syntax opt\+\_\+xfer=E\+X\+S\+\_\+\+Unknown, E\+\_\+\+Encoding\+Type opt\+\_\+enctype=E\+E\+T\+\_\+\+Undefined\+Length, E\+\_\+\+Grp\+Len\+Encoding opt\+\_\+glenc=E\+G\+L\+\_\+recalc\+GL, E\+\_\+\+Padding\+Encoding opt\+\_\+padenc=E\+P\+D\+\_\+no\+Change, O\+F\+Cmd\+Unsigned\+Int opt\+\_\+filepad=0, O\+F\+Cmd\+Unsigned\+Int opt\+\_\+itempad=0, O\+F\+Bool opt\+\_\+dataset=O\+F\+False)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a01960a9d7c257875c0b4dcdf52bb7136}{save\+File}} ()
+\item 
+Dcm\+Dataset $\ast$ \mbox{\hyperlink{classMdfDatasetManager_a17eee1831a6932219d7d4d12deb94d52}{get\+Dataset}} ()
+\item 
+Dcm\+File\+Format $\ast$ \mbox{\hyperlink{classMdfDatasetManager_acac3104351961b5884458bbca27fc01f}{get\+File\+Format}} ()
+\item 
+O\+F\+String \mbox{\hyperlink{classMdfDatasetManager_a2b7b1a550d161ab770098a2bdbca4062}{get\+Filename}} () const
+\item 
+void \mbox{\hyperlink{classMdfDatasetManager_a43550fcb8af0a41562c23ac580c4146a}{set\+Modify\+U\+N\+Values}} (O\+F\+Bool modify\+U\+N\+Values)
+\item 
+\mbox{\Hypertarget{classMdfDatasetManager_ac8ac09d34d070a3bea942c3a58173b15}\label{classMdfDatasetManager_ac8ac09d34d070a3bea942c3a58173b15}} 
+Dcm\+Tag\+Key {\bfseries get\+Tag\+Key\+From\+Dictionary} (O\+F\+String tag)
+\item 
+\mbox{\Hypertarget{classMdfDatasetManager_a0d5829558e88beb7e776bde0a90ca08d}\label{classMdfDatasetManager_a0d5829558e88beb7e776bde0a90ca08d}} 
+int {\bfseries read\+Next\+Token} (const char $\ast$c, int \&pos, Dcm\+Tag\+Key \&key, Uint32 \&idx)
+\item 
+\mbox{\Hypertarget{classMdfDatasetManager_a20d0b0019e79949a166f981219150e70}\label{classMdfDatasetManager_a20d0b0019e79949a166f981219150e70}} 
+Dcm\+Item $\ast$ {\bfseries get\+Item\+From\+Path} (Dcm\+Item \&dataset, const char $\ast$location, O\+F\+String \&message)
+\item 
+\mbox{\Hypertarget{classMdfDatasetManager_a89b4ad730b97571aafd2c80ae74becd0}\label{classMdfDatasetManager_a89b4ad730b97571aafd2c80ae74becd0}} 
+O\+F\+Condition {\bfseries split\+Tag\+Path} (O\+F\+String \&tag\+\_\+path, Dcm\+Tag\+Key \&key)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classMdfDatasetManager_a01719f6952775da2cd9cc525068e15f1}\label{classMdfDatasetManager_a01719f6952775da2cd9cc525068e15f1}} 
+static O\+F\+Logger {\bfseries mdfdsman\+Logger} = O\+F\+Log\+::get\+Logger(\char`\"{}dcmtk.\+dcmdata.\+mdfdsman\char`\"{})
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a80d4c4d61bfc5bd3c21fba2fc8ea8ece}{start\+Modify}} (Dcm\+Element $\ast$elem, const O\+F\+String \&value)
+\item 
+void \mbox{\hyperlink{classMdfDatasetManager_a155e6e4d6df40460fcc9ec8bdba9972f}{delete\+Related\+Metaheader\+Tag}} (const Dcm\+Tag\+Key \&key)
+\item 
+O\+F\+Bool \mbox{\hyperlink{classMdfDatasetManager_af83ddf3c45bd9297421881b276bbb7be}{is\+Tag\+In\+Dictionary}} (const Dcm\+Tag\+Key \&search\+\_\+key)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+This class encapsulates data structures and operations for modifying D\+I\+C\+OM files. Therefore it allows the process of load-\/$>$modify-\/$>$save to provide this service. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classMdfDatasetManager_a3e5dd9d7be105086b92a56c85529cd6e}\label{classMdfDatasetManager_a3e5dd9d7be105086b92a56c85529cd6e}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!MdfDatasetManager@{MdfDatasetManager}}
+\index{MdfDatasetManager@{MdfDatasetManager}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{MdfDatasetManager()}{MdfDatasetManager()}}
+{\footnotesize\ttfamily Mdf\+Dataset\+Manager\+::\+Mdf\+Dataset\+Manager (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Constructor, initializes member-\/variables \mbox{\Hypertarget{classMdfDatasetManager_a9cf558e8796d2fd570785d9140cf9613}\label{classMdfDatasetManager_a9cf558e8796d2fd570785d9140cf9613}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!````~MdfDatasetManager@{$\sim$MdfDatasetManager}}
+\index{````~MdfDatasetManager@{$\sim$MdfDatasetManager}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{$\sim$MdfDatasetManager()}{~MdfDatasetManager()}}
+{\footnotesize\ttfamily Mdf\+Dataset\+Manager\+::$\sim$\+Mdf\+Dataset\+Manager (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Destructor 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classMdfDatasetManager_a7a3d1ac7b01dbc8950702dce02745b3d}\label{classMdfDatasetManager_a7a3d1ac7b01dbc8950702dce02745b3d}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!deletePrivateData@{deletePrivateData}}
+\index{deletePrivateData@{deletePrivateData}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{deletePrivateData()}{deletePrivateData()}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::delete\+Private\+Data (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Deletes all private data from file,\textbackslash{} i.\+e. all tags having odd group numbers. \begin{DoxyReturn}{Returns}
+E\+C\+\_\+\+Normal, if deletion was successful; error code otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a155e6e4d6df40460fcc9ec8bdba9972f}\label{classMdfDatasetManager_a155e6e4d6df40460fcc9ec8bdba9972f}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!deleteRelatedMetaheaderTag@{deleteRelatedMetaheaderTag}}
+\index{deleteRelatedMetaheaderTag@{deleteRelatedMetaheaderTag}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{deleteRelatedMetaheaderTag()}{deleteRelatedMetaheaderTag()}}
+{\footnotesize\ttfamily void Mdf\+Dataset\+Manager\+::delete\+Related\+Metaheader\+Tag (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+If key is the tag for S\+O\+P\+Instance\+U\+ID or S\+O\+P\+Class\+U\+ID, then this function removes the related Media\+Storage U\+I\+Ds from the metaheader. The metaheader is then updated \char`\"{}automagically\char`\"{} when the file is saved back to disk. 
+\begin{DoxyParams}{Parameters}
+{\em key} & tag to examine \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classMdfDatasetManager_a3bc551c5372ec702bc13d0a2c8aefeaa}\label{classMdfDatasetManager_a3bc551c5372ec702bc13d0a2c8aefeaa}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!deleteTag@{deleteTag}}
+\index{deleteTag@{deleteTag}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{deleteTag()}{deleteTag()}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::delete\+Tag (\begin{DoxyParamCaption}\item[{O\+F\+String}]{tag\+\_\+path,  }\item[{const O\+F\+Bool}]{all\+\_\+tags,  }\item[{const O\+F\+Bool}]{ignore\+\_\+missing\+\_\+tags }\end{DoxyParamCaption})}
+
+Deletes tag in dataset 
+\begin{DoxyParams}{Parameters}
+{\em tag\+\_\+path} & holds complete path to tag \\
+\hline
+{\em all\+\_\+tags} & if true, tag is deleted at all levels of dataset, else only 1st level is accessed \\
+\hline
+{\em ignore\+\_\+missing\+\_\+tags} & if true, tags that could not be found while modifying are handled as non-\/errors \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_ae03032fc3e9932d11bd539672c21127b}\label{classMdfDatasetManager_ae03032fc3e9932d11bd539672c21127b}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!generateAndInsertUID@{generateAndInsertUID}}
+\index{generateAndInsertUID@{generateAndInsertUID}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{generateAndInsertUID()}{generateAndInsertUID()}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::generate\+And\+Insert\+U\+ID (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{uid\+Key }\end{DoxyParamCaption})}
+
+Inserts new Study, Series or S\+OP Instance U\+ID. If S\+OP Instance U\+ID is generated, the related tag in the metaheader is deleted, too so that the new U\+ID is also applied there when saving to disk later. 
+\begin{DoxyParams}{Parameters}
+{\em uid\+Key} & \mbox{[}in\mbox{]} The Instance U\+ID to insert (study, series or sop instance U\+ID key permitted). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+E\+C\+\_\+\+Normal, if insertion was successful, error otherwise 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a17eee1831a6932219d7d4d12deb94d52}\label{classMdfDatasetManager_a17eee1831a6932219d7d4d12deb94d52}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!getDataset@{getDataset}}
+\index{getDataset@{getDataset}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{getDataset()}{getDataset()}}
+{\footnotesize\ttfamily Dcm\+Dataset $\ast$ Mdf\+Dataset\+Manager\+::get\+Dataset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the dataset that this \mbox{\hyperlink{classMdfDatasetManager}{Mdf\+Dataset\+Manager}} handles. You should use the returned object with care to avoid side effects with other class methods that modify this object, too. \begin{DoxyReturn}{Returns}
+returns the dataset, this \mbox{\hyperlink{classMdfDatasetManager}{Mdf\+Dataset\+Manager}} manages and N\+U\+LL, if no dataset is loaded 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_acac3104351961b5884458bbca27fc01f}\label{classMdfDatasetManager_acac3104351961b5884458bbca27fc01f}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!getFileFormat@{getFileFormat}}
+\index{getFileFormat@{getFileFormat}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{getFileFormat()}{getFileFormat()}}
+{\footnotesize\ttfamily Dcm\+File\+Format $\ast$ Mdf\+Dataset\+Manager\+::get\+File\+Format (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Returns the Dcm\+File\+Format that this \mbox{\hyperlink{classMdfDatasetManager}{Mdf\+Dataset\+Manager}} handles. You should use the returned object with care to avoid side-\/effects with other class methods that modify this object, too. \begin{DoxyReturn}{Returns}
+returns the Dcm\+File\+Format, this \mbox{\hyperlink{classMdfDatasetManager}{Mdf\+Dataset\+Manager}} manages and N\+U\+LL, if no file is loaded 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a2b7b1a550d161ab770098a2bdbca4062}\label{classMdfDatasetManager_a2b7b1a550d161ab770098a2bdbca4062}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!getFilename@{getFilename}}
+\index{getFilename@{getFilename}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{getFilename()}{getFilename()}}
+{\footnotesize\ttfamily O\+F\+String Mdf\+Dataset\+Manager\+::get\+Filename (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+Returns filename of the file that is currently loaded. \begin{DoxyReturn}{Returns}
+returns filename and \char`\"{}\char`\"{} if no file is loaded. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_af83ddf3c45bd9297421881b276bbb7be}\label{classMdfDatasetManager_af83ddf3c45bd9297421881b276bbb7be}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!isTagInDictionary@{isTagInDictionary}}
+\index{isTagInDictionary@{isTagInDictionary}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{isTagInDictionary()}{isTagInDictionary()}}
+{\footnotesize\ttfamily O\+F\+Bool Mdf\+Dataset\+Manager\+::is\+Tag\+In\+Dictionary (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{search\+\_\+key }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Returns true, if given tag key can be found in dictionary 
+\begin{DoxyParams}{Parameters}
+{\em search\+\_\+key} & tag to lookup \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+True if tag could be found, else O\+F\+False 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a585b3b2001443ba6be24edeb8a723a7d}\label{classMdfDatasetManager_a585b3b2001443ba6be24edeb8a723a7d}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!loadFile@{loadFile}}
+\index{loadFile@{loadFile}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{loadFile()}{loadFile()}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::load\+File (\begin{DoxyParamCaption}\item[{const char $\ast$}]{file\+\_\+name,  }\item[{const E\+\_\+\+File\+Read\+Mode}]{read\+Mode = {\ttfamily ERM\+\_\+autoDetect},  }\item[{const E\+\_\+\+Transfer\+Syntax}]{xfer = {\ttfamily EXS\+\_\+Unknown},  }\item[{const O\+F\+Bool}]{create\+If\+Necessary = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
+
+Loads a file into dataset manager 
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+name} & file to be loaded \\
+\hline
+{\em read\+Mode} & read file with or without metaheader. Default=autodetect \\
+\hline
+{\em xfer} & try to read with this transfer syntax. Default=autodetect \\
+\hline
+{\em create\+If\+Necessary} & If true, the file is created if it does not exist \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a106bb0c93370fafdbec506100717a2f8}\label{classMdfDatasetManager_a106bb0c93370fafdbec506100717a2f8}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!modifyAllTags@{modifyAllTags}}
+\index{modifyAllTags@{modifyAllTags}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{modifyAllTags()}{modifyAllTags()}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::modify\+All\+Tags (\begin{DoxyParamCaption}\item[{O\+F\+String}]{tag\+\_\+path,  }\item[{const O\+F\+String \&}]{value,  }\item[{const O\+F\+Bool}]{update\+\_\+metaheader,  }\item[{int \&}]{count,  }\item[{const O\+F\+Bool}]{ignore\+\_\+missing\+\_\+tags = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
+
+Modifies all matching tags in dataset to a new value 
+\begin{DoxyParams}{Parameters}
+{\em tag\+\_\+path} & denotes, which tag to modify \\
+\hline
+{\em value} & denotes new value of tag \\
+\hline
+{\em update\+\_\+metaheader} & if true, metaheader U\+I\+Ds are updated, if related dataset U\+I\+Ds are changed, (default=true) \\
+\hline
+{\em count} & returns the number of tags that were affected \\
+\hline
+{\em ignore\+\_\+missing\+\_\+tags} & if true, tags that could not be found while modifying are handled as non-\/errors \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a1397e76cbf6ed39ebb60543bc07f7bb0}\label{classMdfDatasetManager_a1397e76cbf6ed39ebb60543bc07f7bb0}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!modifyOrInsertFromFile@{modifyOrInsertFromFile}}
+\index{modifyOrInsertFromFile@{modifyOrInsertFromFile}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{modifyOrInsertFromFile()}{modifyOrInsertFromFile()}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::modify\+Or\+Insert\+From\+File (\begin{DoxyParamCaption}\item[{O\+F\+String}]{tag\+\_\+path,  }\item[{const O\+F\+String \&}]{filename,  }\item[{const O\+F\+Bool}]{only\+\_\+modify,  }\item[{const O\+F\+Bool}]{update\+\_\+metaheader = {\ttfamily OFTrue},  }\item[{const O\+F\+Bool}]{ignore\+\_\+missing\+\_\+tags = {\ttfamily OFFalse},  }\item[{const O\+F\+Bool}]{no\+\_\+reservation\+\_\+checks = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
+
+Modifies/\+Inserts a path with a specific value read from file 
+\begin{DoxyParams}{Parameters}
+{\em tag\+\_\+path} & path to item/element \\
+\hline
+{\em filename} & name of the file from which the value should be read \\
+\hline
+{\em only\+\_\+modify} & if true, only existing tags are processed. If false, any not existing tag is inserted \\
+\hline
+{\em update\+\_\+metaheader} & updates metaheader U\+I\+Ds, if related U\+I\+Ds in dataset are changed (default=true) \\
+\hline
+{\em ignore\+\_\+missing\+\_\+tags} & if true, tags that could not be found while modifying (only\+\_\+modify must be true) are handled as non-\/errors \\
+\hline
+{\em no\+\_\+reservation\+\_\+checks} & if true, any missing private reservation tags are ignored when inserting private tags. Only makes sense w/o only\+\_\+modify \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a48cd22890a793d0c5785ed806fc807b6}\label{classMdfDatasetManager_a48cd22890a793d0c5785ed806fc807b6}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!modifyOrInsertPath@{modifyOrInsertPath}}
+\index{modifyOrInsertPath@{modifyOrInsertPath}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{modifyOrInsertPath()}{modifyOrInsertPath()}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::modify\+Or\+Insert\+Path (\begin{DoxyParamCaption}\item[{O\+F\+String}]{tag\+\_\+path,  }\item[{const O\+F\+String \&}]{value,  }\item[{const O\+F\+Bool}]{only\+\_\+modify,  }\item[{const O\+F\+Bool}]{update\+\_\+metaheader = {\ttfamily OFTrue},  }\item[{const O\+F\+Bool}]{ignore\+\_\+missing\+\_\+tags = {\ttfamily OFFalse},  }\item[{const O\+F\+Bool}]{no\+\_\+reservation\+\_\+checks = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
+
+Modifies/\+Inserts a path (with a specific value if desired). 
+\begin{DoxyParams}{Parameters}
+{\em tag\+\_\+path} & path to item/element \\
+\hline
+{\em value} & denotes new value of tag \\
+\hline
+{\em only\+\_\+modify} & if true, only existing tags are processed. If false, any not existing tag is inserted \\
+\hline
+{\em update\+\_\+metaheader} & updates metaheader U\+I\+Ds, if related U\+I\+Ds in dataset are changed (default=true) \\
+\hline
+{\em ignore\+\_\+missing\+\_\+tags} & if true, tags that could not be found while modifying (only\+\_\+modify must be true) are handled as non-\/errors \\
+\hline
+{\em no\+\_\+reservation\+\_\+checks} & if true, any missing private reservation tags are ignored when inserting private tags. Only makes sense w/o only\+\_\+modify \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a01960a9d7c257875c0b4dcdf52bb7136}\label{classMdfDatasetManager_a01960a9d7c257875c0b4dcdf52bb7136}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!saveFile@{saveFile}}
+\index{saveFile@{saveFile}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{saveFile()}{saveFile()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::save\+File (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Saves current dataset back to file using original filename and original parameters like transfer syntax, padding etc. \begin{DoxyReturn}{Returns}
+returns E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a758b5910a7931c5afd908175eb9ee700}\label{classMdfDatasetManager_a758b5910a7931c5afd908175eb9ee700}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!saveFile@{saveFile}}
+\index{saveFile@{saveFile}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{saveFile()}{saveFile()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::save\+File (\begin{DoxyParamCaption}\item[{const char $\ast$}]{file\+\_\+name,  }\item[{E\+\_\+\+Transfer\+Syntax}]{opt\+\_\+xfer = {\ttfamily EXS\+\_\+Unknown},  }\item[{E\+\_\+\+Encoding\+Type}]{opt\+\_\+enctype = {\ttfamily EET\+\_\+UndefinedLength},  }\item[{E\+\_\+\+Grp\+Len\+Encoding}]{opt\+\_\+glenc = {\ttfamily EGL\+\_\+recalcGL},  }\item[{E\+\_\+\+Padding\+Encoding}]{opt\+\_\+padenc = {\ttfamily EPD\+\_\+noChange},  }\item[{O\+F\+Cmd\+Unsigned\+Int}]{opt\+\_\+filepad = {\ttfamily 0},  }\item[{O\+F\+Cmd\+Unsigned\+Int}]{opt\+\_\+itempad = {\ttfamily 0},  }\item[{O\+F\+Bool}]{opt\+\_\+dataset = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
+
+Saves current dataset back to a file. Caution\+: After saving \mbox{\hyperlink{classMdfDatasetManager}{Mdf\+Dataset\+Manager}} keeps working on old filename. 
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+name} & filename to save to \\
+\hline
+{\em opt\+\_\+xfer} & transfer syntax to save to (E\+X\+S\+\_\+\+Unknown\+: don\textquotesingle{}t change) \\
+\hline
+{\em opt\+\_\+enctype} & write with explicit or implicit length encoding \\
+\hline
+{\em opt\+\_\+glenc} & option to set group length calculation mode \\
+\hline
+{\em opt\+\_\+padenc} & sets padding option \\
+\hline
+{\em opt\+\_\+filepad} & pad file to a multiple of this options value \\
+\hline
+{\em opt\+\_\+itempad} & pad item to a multiple of this options value \\
+\hline
+{\em opt\+\_\+dataset} & if true, write only dataset, else write fileformat \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+returns E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMdfDatasetManager_a43550fcb8af0a41562c23ac580c4146a}\label{classMdfDatasetManager_a43550fcb8af0a41562c23ac580c4146a}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!setModifyUNValues@{setModifyUNValues}}
+\index{setModifyUNValues@{setModifyUNValues}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{setModifyUNValues()}{setModifyUNValues()}}
+{\footnotesize\ttfamily void Mdf\+Dataset\+Manager\+::set\+Modify\+U\+N\+Values (\begin{DoxyParamCaption}\item[{O\+F\+Bool}]{modify\+U\+N\+Values }\end{DoxyParamCaption})}
+
+Sets whether attributes with VR of UN should be modified or left alone. 
+\begin{DoxyParams}{Parameters}
+{\em modify\+U\+N\+Values} & \mbox{[}in\mbox{]} If set, UN values will be modified (default) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classMdfDatasetManager_a80d4c4d61bfc5bd3c21fba2fc8ea8ece}\label{classMdfDatasetManager_a80d4c4d61bfc5bd3c21fba2fc8ea8ece}} 
+\index{MdfDatasetManager@{MdfDatasetManager}!startModify@{startModify}}
+\index{startModify@{startModify}!MdfDatasetManager@{MdfDatasetManager}}
+\doxysubsubsection{\texorpdfstring{startModify()}{startModify()}}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::start\+Modify (\begin{DoxyParamCaption}\item[{Dcm\+Element $\ast$}]{elem,  }\item[{const O\+F\+String \&}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+modifies element to a specific value 
+\begin{DoxyParams}{Parameters}
+{\em elem} & element that should be changed \\
+\hline
+{\em value} & the value, the element should be changed to \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition, which returns an error code if an error occurs 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/mdfdsman.\+h\item 
+/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/mdfdsman.\+cc\end{DoxyCompactItemize}
