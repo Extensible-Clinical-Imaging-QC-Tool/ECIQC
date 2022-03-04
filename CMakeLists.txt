@@ -69,7 +69,11 @@ add_library(qctool_lib src/MyLibrary.cpp
                   src/poolbase.cpp
                   # Conductor Files
                   src/conductor.cpp
-                  src/conductor.hpp)
+                  src/conductor.hpp
+                  # Sender Files
+                  src/test_scu.hpp
+                  src/test_scu.cpp
+                  )
 
 target_include_directories(qctool_lib PUBLIC src)
 

@@ -53,7 +53,7 @@ using namespace cpp_template;
     };
 
 // This tests handling of C-ECHO Association
-TEST_CASE("Test C-ECHO Association"){
+TEST_CASE("Test C-ECHO Association","[RT]"){
   
   Receiver pool(11112, "TestSCP");
 
@@ -100,7 +100,7 @@ TEST_CASE("Test C-ECHO Association"){
 }
 
 // This tests handling of C-STORE Association
-TEST_CASE("Test C-STORE Association"){
+TEST_CASE("Test C-STORE Association","[RT]"){
 
 
 
@@ -163,7 +163,7 @@ TEST_CASE("Test C-STORE Association"){
 }
 
 // This tests basic configuration of the Receiver.
-TEST_CASE("Test Receiver Configuration"){
+TEST_CASE("Test Receiver Configuration","[RT]"){
 
     Receiver scppool(104, "ATestName");
     
@@ -222,7 +222,7 @@ TEST_CASE("Test hostname/IP check - Accept"){
   pool.join();
 }
 
-TEST_CASE("Test hostname/IP check - Reject"){
+TEST_CASE("Test hostname/IP check - Reject","[RT]"){
 
   // Check that a non-specified hostname is rejected.
   Receiver poolrej(11112, "TestSCP");
@@ -257,7 +257,7 @@ TEST_CASE("Test hostname/IP check - Reject"){
 }
 
 // This tests datasource check at hostname/IP level
-TEST_CASE("Test called AE Title check"){
+TEST_CASE("Test called AE Title check","[RT]"){
 
   // Check that a specified AE title is accepted.
   Receiver pool(11112, "TestSCP");
