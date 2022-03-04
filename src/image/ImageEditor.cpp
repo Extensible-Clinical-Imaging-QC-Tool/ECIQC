@@ -45,9 +45,6 @@ DcmDataset* ImageEditor::pathToDataset(OFString file_path) {
 // Load pixel data from the dset
 bool ImageEditor::loadPixelData() {
     DJDecoderRegistration::registerCodecs(EDC_photometricInterpretation, EUC_default, EPC_default, false, false, true);
-
-    // TODO check transfer syntax and handle appropriately
-
     unsigned short nRows;
     unsigned short nCols;
     unsigned short isSigned;
@@ -56,20 +53,22 @@ bool ImageEditor::loadPixelData() {
     unsigned short samplesPerPixel;
     unsigned int frameSize;
     unsigned long cvType;
+    // copy of dset to be used for decompression
+    uncompressedDset = new DcmDataset(*dset);
     DcmElement * pixelElement {NULL};
     DcmPixelData * pixelData {NULL};
     DcmPixelSequence * pixelSequence {NULL};
     OFCondition result {EC_Normal};
-    E_TransferSyntax xfer = dset->getCurrentXfer();
+    E_TransferSyntax xfer = uncompressedDset->getCurrentXfer();
 
 
     // load in data
-    dset->findAndGetUint16(DCM_BitsAllocated, bitDepth);
-    dset->findAndGetUint16(DCM_SamplesPerPixel, samplesPerPixel);
-    dset->findAndGetUint16(DCM_Rows, nRows);
-    dset->findAndGetUint16(DCM_Columns, nCols);
-    dset->findAndGetLongInt(DCM_NumberOfFrames, nImgs);
-    dset->findAndGetUint16(DCM_PixelRepresentation, isSigned);
+    uncompressedDset->findAndGetUint16(DCM_BitsAllocated, bitDepth);
+    uncompressedDset->findAndGetUint16(DCM_SamplesPerPixel, samplesPerPixel);
+    uncompressedDset->findAndGetUint16(DCM_Rows, nRows);
+    uncompressedDset->findAndGetUint16(DCM_Columns, nCols);
+    uncompressedDset->findAndGetLongInt(DCM_NumberOfFrames, nImgs);
+    uncompressedDset->findAndGetUint16(DCM_PixelRepresentation, isSigned);
 
     // if NumberOfFrames is 0 then set nImgs to 1 (single frame image)
     if (nImgs==0) {
@@ -78,18 +77,19 @@ bool ImageEditor::loadPixelData() {
     // change representation format to little endian if compressed
     if (xfer!=0 && xfer!=1 && xfer!=2 && xfer!=3) {
         // change to little endian format
-        if (! decompressDataset(*dset) ) {
+        if (! decompressDataset(*uncompressedDset) ) {
             std::cerr << "Error decomporessing dataset of format: " << xfer;
             return false;
         }
     }
 
-    result = dset->findAndGetElement(DCM_PixelData, pixelElement);
+    result = uncompressedDset->findAndGetElement(DCM_PixelData, pixelElement);
     if (result.bad() || pixelElement == NULL){
         return false;
     }
     pixelData = OFstatic_cast(DcmPixelData*, pixelElement);
-    pixelData->getUncompressedFrameSize(dset, frameSize);
+    unsigned long length = pixelData->getLength(uncompressedDset->getCurrentXfer());
+    pixelData->getUncompressedFrameSize(uncompressedDset, frameSize);
     OFString decompressedColorModel;
 
     // colour images
@@ -102,7 +102,7 @@ bool ImageEditor::loadPixelData() {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
                     Uint8 *buffer = new Uint8[frameSize];
-                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
+                    pixelData->getUncompressedFrame(uncompressedDset, frame, fragmentStart, buffer, frameSize,
                                                     decompressedColorModel);
                     cv::Mat slice = cv::Mat(nRows, nCols, CV_8UC3, buffer).clone();
                     slices.push_back(slice);
@@ -121,7 +121,7 @@ bool ImageEditor::loadPixelData() {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
                     Sint16 *buffer = new Sint16[frameSize];
-                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
+                    pixelData->getUncompressedFrame(uncompressedDset, frame, fragmentStart, buffer, frameSize,
                                                     decompressedColorModel);
                     cv::Mat slice = cv::Mat(nRows, nCols, CV_16S, buffer).clone();
                     // convert to unsigned
@@ -135,7 +135,7 @@ bool ImageEditor::loadPixelData() {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
                     Uint16 *buffer = new Uint16[frameSize];
-                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
+                    pixelData->getUncompressedFrame(uncompressedDset, frame, fragmentStart, buffer, frameSize,
                                                     decompressedColorModel);
                     cv::Mat slice = cv::Mat(nRows, nCols, CV_16U, buffer).clone();
                     // convert to unsigned
@@ -146,12 +146,14 @@ bool ImageEditor::loadPixelData() {
 
     }
     else{std::cerr << "incompatible channel number"; return false;}
+    // delete the uncompressed dset
+    delete uncompressedDset;
 
     // display the original image
-    //cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    //cv::imshow( "Unedited Image", slices[0]);
-    //cv::waitKey(0);
-    //cv::destroyAllWindows();
+    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    cv::imshow( "Unedited Image", slices[0]);
+    cv::waitKey(0);
+    cv::destroyAllWindows();
 
     // run preprocessing step
     prePro();
@@ -166,7 +168,6 @@ bool ImageEditor::loadPixelData() {
     cv::Mat combined;
     // convert slices vector to array
     cv::vconcat(slices, combined);
-    unsigned long length = pixelData->getLength(dset->getCurrentXfer());
 
 
     // colour images
@@ -199,8 +200,6 @@ bool ImageEditor::loadPixelData() {
             }
         }
 
-    // recompress if needed
-    changeToOriginalFormat(*dset);
     return true;
 }
 
@@ -259,11 +258,14 @@ void ImageEditor::coverText(){
   api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
   api->SetPageSegMode(tesseract::PSM_AUTO);
     for (std::size_t i = 0; i < imageProcessingSlices.size(); i++) {
+        // vector of boxes for this slice
+        std::vector<Box*> boxesToMask;
         // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
         api->SetImage(imageProcessingSlices[i].data, imageProcessingSlices[i].cols, imageProcessingSlices[i].rows, 1, imageProcessingSlices[i].step);
         Boxa *boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
         // ensure text has been found
         if (boxes) {
+            // loop over each box found
             for (int i = 0; i < boxes->n; i++) {
                 BOX *box = boxaGetBox(boxes, i, L_CLONE);
 
@@ -286,12 +288,17 @@ void ImageEditor::coverText(){
                     // Draw the rectangle on the original image
                     cv::Rect rect(box->x, box->y, box->w, box->h);
                     cv::rectangle(slices[i], rect, cv::Scalar(0, 255, 0));
+                    // save the box to vector
+                    boxesToMask.push_back(box);
                 }
 
                 boxDestroy(&box);
 
             }
         }
+        else {boxesToMask.push_back(NULL);}
+        // add boxes for this slice to the overall vector
+        sliceBoxes.push_back(boxesToMask);
     }
   api->End();
   delete api;
@@ -312,10 +319,10 @@ const std::vector<cv::Mat> &ImageEditor::getImageProcessingSlices() const {
 
 OFBool Image;
 
-OFBool ImageEditor::decompressDataset(DcmDataset &dset) {
+OFBool ImageEditor::decompressDataset(DcmDataset &dataset) {
 
     // handle jpeg https://support.dcmtk.org/docs-snapshot/mod_dcmjpeg.html
-    if(dset.chooseRepresentation(EXS_LittleEndianExplicit, NULL).good() && dset.canWriteXfer(EXS_LittleEndianExplicit) ){
+    if(dataset.chooseRepresentation(EXS_LittleEndianExplicit, NULL).good() && dataset.canWriteXfer(EXS_LittleEndianExplicit) ){
             // force the meta-header UIDs to be re-generated when storing the file
             std::cout << "Compressed image successfully decompressed\n";
             return true;
@@ -323,11 +330,11 @@ OFBool ImageEditor::decompressDataset(DcmDataset &dset) {
     return false;
 }
 
-OFBool ImageEditor::changeToOriginalFormat(DcmDataset &dset) {
+OFBool ImageEditor::changeToOriginalFormat(DcmDataset &dataset) {
     DJEncoderRegistration::registerCodecs();
     DJ_RPLossless params; // default params
 
-    if (dset.chooseRepresentation(dset.getOriginalXfer(), &params).good() && dset.canWriteXfer(dset.getOriginalXfer())){
+    if (dset.chooseRepresentation(dataset.getOriginalXfer(), &params).good() && dataset.canWriteXfer(dataset.getOriginalXfer())){
         DJEncoderRegistration::cleanup();
         return true;
     }
