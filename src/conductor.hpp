@@ -1,8 +1,8 @@
 #ifndef CONDUCTOR_H
 #define CONDUCTOR_H
 // #include
-#include "Parser.hpp"
-#include "receiver.hpp"
+#include "parsing/Parser.hpp"
+#include "communication/receiver.hpp"
 /* #include "Sender.hpp" */
 
 class Conductor {

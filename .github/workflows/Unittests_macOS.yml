@@ -22,8 +22,7 @@ jobs:
 
       - name: install dependencies
         run: |
-          brew install boost cmake dcmtk
-
+            bash scripts/install_dependencies_macosx.sh
       - name: make build directory
         run: mkdir build_dir
 

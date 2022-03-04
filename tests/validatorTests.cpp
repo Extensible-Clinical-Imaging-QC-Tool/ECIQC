@@ -14,7 +14,7 @@
 //#include <dcmtk/dcmdata/dcmetinf.h> 
 
 // Classes to include
-#include "validator.hpp"
+#include "metadata/validator.hpp"
 
 // DCMTK tests
 TEST_CASE("Test for reading in a DICOM image file", "[VT]") {

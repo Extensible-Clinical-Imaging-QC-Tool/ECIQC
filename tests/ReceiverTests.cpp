@@ -15,10 +15,10 @@
 
 
 
-#include "../src/Exception.hpp"
-#include "../src/MyLibrary.hpp"
+#include "misc/Exception.hpp"
+#include "misc/MyLibrary.hpp"
 
-#include "../src/receiver.hpp"
+#include "communication/receiver.hpp"
 
 using namespace cpp_template;
 

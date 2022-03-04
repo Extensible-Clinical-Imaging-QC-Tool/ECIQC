@@ -1,0 +1,64 @@
+\hypertarget{classConductor}{}\doxysection{Conductor Class Reference}
+\label{classConductor}\index{Conductor@{Conductor}}
+
+
+Collaboration diagram for Conductor\+:
+% FIG 0
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classConductor_a985eb9899da026adc353147d9faf5b94}{Conductor}} (O\+F\+String cfp1, O\+F\+String cfp2, Uint8 r\+Port\+Num, O\+F\+String r\+Port\+Name, Uint8 s\+Port\+Num, O\+F\+String s\+Port\+Name)
+\item 
+\mbox{\Hypertarget{classConductor_af42dcc198d0beea39ee2d913964729e4}\label{classConductor_af42dcc198d0beea39ee2d913964729e4}} 
+void {\bfseries set\+Optional} ()
+\item 
+\mbox{\Hypertarget{classConductor_af4331b84d867313bc201876d784252bb}\label{classConductor_af4331b84d867313bc201876d784252bb}} 
+void {\bfseries run} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classReceiver}{Receiver}} \mbox{\hyperlink{classConductor_ac2457ee92031b8cee6a874ac46215369}{r}}
+\item 
+\mbox{\Hypertarget{classConductor_a9fb707b7a44f03203e4a004fc7904183}\label{classConductor_a9fb707b7a44f03203e4a004fc7904183}} 
+\mbox{\hyperlink{classParser}{Parser}} {\bfseries p1}
+\item 
+\mbox{\Hypertarget{classConductor_a0b45ece5063f5de09c0327eae8010002}\label{classConductor_a0b45ece5063f5de09c0327eae8010002}} 
+\mbox{\hyperlink{classParser}{Parser}} {\bfseries p2}
+\item 
+\mbox{\Hypertarget{classConductor_a8813e511801df8b9c5cb0064953ea3f2}\label{classConductor_a8813e511801df8b9c5cb0064953ea3f2}} 
+O\+F\+String {\bfseries s\+Port\+Num}
+\item 
+\mbox{\Hypertarget{classConductor_a9373ada90ef8c3558dccc9e2226b34ba}\label{classConductor_a9373ada90ef8c3558dccc9e2226b34ba}} 
+O\+F\+String {\bfseries s\+Port\+Name}
+\item 
+\mbox{\Hypertarget{classConductor_ad8a3d09d0e9823641ebebc6c81d456ed}\label{classConductor_ad8a3d09d0e9823641ebebc6c81d456ed}} 
+O\+F\+String {\bfseries q\+Port\+Num}
+\item 
+\mbox{\Hypertarget{classConductor_aab881beb838dc8f9b20953b162d329f1}\label{classConductor_aab881beb838dc8f9b20953b162d329f1}} 
+O\+F\+String {\bfseries q\+Port\+Name}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classConductor_a985eb9899da026adc353147d9faf5b94}\label{classConductor_a985eb9899da026adc353147d9faf5b94}} 
+\index{Conductor@{Conductor}!Conductor@{Conductor}}
+\index{Conductor@{Conductor}!Conductor@{Conductor}}
+\doxysubsubsection{\texorpdfstring{Conductor()}{Conductor()}}
+{\footnotesize\ttfamily Conductor\+::\+Conductor (\begin{DoxyParamCaption}\item[{O\+F\+String}]{cfp1,  }\item[{O\+F\+String}]{cfp2,  }\item[{Uint8}]{r\+Port\+Num,  }\item[{O\+F\+String}]{r\+Port\+Name,  }\item[{Uint8}]{s\+Port\+Num,  }\item[{O\+F\+String}]{s\+Port\+Name }\end{DoxyParamCaption})}
+
+Constructor 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classConductor_ac2457ee92031b8cee6a874ac46215369}\label{classConductor_ac2457ee92031b8cee6a874ac46215369}} 
+\index{Conductor@{Conductor}!r@{r}}
+\index{r@{r}!Conductor@{Conductor}}
+\doxysubsubsection{\texorpdfstring{r}{r}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classReceiver}{Receiver}} Conductor\+::r}
+
+members 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/conductor.\+hpp\item 
+/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/conductor.\+cpp\end{DoxyCompactItemize}
