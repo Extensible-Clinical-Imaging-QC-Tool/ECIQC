@@ -72,8 +72,8 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   src/conductor.cpp
                   src/conductor.hpp
                   # Sender Files
-                  src/test_scu.hpp
-                  src/test_scu.cpp
+                  src/communication/test_scu.hpp
+                  src/communication/test_scu.cpp
                   )
 
 target_include_directories(qctool_lib PUBLIC src/)

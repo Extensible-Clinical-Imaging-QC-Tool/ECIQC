@@ -2,10 +2,10 @@
 #include "dcmtk/dcmnet/diutil.h" 
 #include "catch.hpp"
 
-#include "../src/Exception.hpp"
-#include "../src/MyLibrary.hpp"
+#include "../src/misc/Exception.hpp"
+#include "../src/misc/MyLibrary.hpp"
 
-#include "../src/test_scu.hpp"
+#include "../src/communication/test_scu.hpp"
 
 #define OFFIS_CONSOLE_APPLICATION "testscu" 
 
@@ -42,6 +42,7 @@ static Uint8 findUncompressedPC(const OFString& sopClass,
     pc = scu.findPresentationContextID(sopClass, UID_LittleEndianImplicitTransferSyntax); 
   return pc; 
 } 
+
 
 
 
@@ -166,8 +167,8 @@ TEST_CASE("Test C-FIND request with SCU","[ST]"){
   
   result = scu.sendFINDRequest(presID, &req, &findResponses); 
   CHECK (result.good());
-  //DCMNET_INFO("There are " << findResponses.size() << " studies available");
-  CHECK(findResponses.size() == 240) ;
+  DCMNET_INFO("There are " << findResponses.size() << " studies available");
+  CHECK(findResponses.size() == 242) ;
 
 
 }
@@ -209,7 +210,7 @@ TEST_CASE("Test C-MOVE request with SCU","[ST]"){
   result = scu.sendFINDRequest(presID, &req, &findResponses); 
   CHECK (result.good());
   DCMNET_INFO("There are " << findResponses.size() << " studies available");
-  CHECK(findResponses.size() == 240) ;
+  CHECK(findResponses.size() == 242) ;
 
   /* Assemble and send C-MOVE request, for each study identified above*/ 
   presID = findUncompressedPC(UID_MOVEStudyRootQueryRetrieveInformationModel, scu); 
@@ -258,6 +259,98 @@ TEST_CASE("Test C-MOVE request with SCU","[ST]"){
     findResponses.pop_front();
   }
 }
+
+TEST_CASE("Test Release Association with SCU","[ST]"){
+  /* Setup DICOM connection parameters */ 
+  OFLog::configure(OFLogger::DEBUG_LOG_LEVEL); 
+  DcmTestSCU scu; 
+  // set AE titles 
+  scu.setAETitle(APPLICATIONTITLE); 
+  scu.setPeerHostName(PEERHOSTNAME); 
+  scu.setPeerPort(PEERPORT); 
+  scu.setPeerAETitle(PEERAPPLICATIONTITLE); 
+  // Use presentation context for FIND/MOVE in study root, propose all uncompressed transfer syntaxes 
+  OFList<OFString> ts; 
+  ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
+  ts.push_back(UID_BigEndianExplicitTransferSyntax); 
+  ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
+  scu.addPresentationContext(UID_FINDStudyRootQueryRetrieveInformationModel, ts); 
+  scu.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel, ts); 
+  scu.addPresentationContext(UID_VerificationSOPClass, ts); 
+  /* Initialize network */ 
+  OFCondition result = scu.initNetwork(); 
+  CHECK(result.good()); 
+
+
+  /* Negotiate Association */ 
+  result = scu.negotiateAssociation(); 
+  CHECK(result.good());
+
+  /* Assemble and send C-FIND request */ 
+  OFList<QRResponse*> findResponses; 
+  DcmDataset req; 
+  req.putAndInsertOFStringArray(DCM_QueryRetrieveLevel, "STUDY"); 
+  req.putAndInsertOFStringArray(DCM_StudyInstanceUID, ""); 
+  T_ASC_PresentationContextID presID = findUncompressedPC(UID_FINDStudyRootQueryRetrieveInformationModel, scu);
+  CHECK (presID != 0);
+  
+  result = scu.sendFINDRequest(presID, &req, &findResponses); 
+  CHECK (result.good());
+  DCMNET_INFO("There are " << findResponses.size() << " studies available");
+  CHECK(findResponses.size() == 242) ;
+
+  /* Assemble and send C-MOVE request, for each study identified above*/ 
+  presID = findUncompressedPC(UID_MOVEStudyRootQueryRetrieveInformationModel, scu); 
+  CHECK (presID !=0);
+  if (presID == 0) 
+  { 
+    DCMNET_ERROR("There is no uncompressed presentation context for Study Root MOVE"); 
+    return ; 
+  } 
+  OFListIterator(QRResponse*) study = findResponses.begin() ;
+  Uint32 studyCount = 1; 
+  OFBool failed = OFFalse; 
+  
+  // Every while loop run will get all image for a specific study 
+  while (study == findResponses.begin() && result.good())
+  { 
+    // be sure we are not in the last response which does not have a dataset 
+    if ( (*study)->m_dataset != NULL) 
+    { 
+      OFString studyInstanceUID; 
+      result = (*study)->m_dataset->findAndGetOFStringArray(DCM_StudyInstanceUID, studyInstanceUID); 
+      // only try to get study if we actually have study instance uid, otherwise skip it 
+      CHECK (result.good());
+      if (result.good()) 
+      { 
+        req.putAndInsertOFStringArray(DCM_StudyInstanceUID, studyInstanceUID); 
+        // fetches all images of this particular study 
+        result = scu.sendMOVERequest(presID, MOVEAPPLICATIONTITLE, &req, NULL /* we are not interested into responses*/); 
+        CHECK (result.good());
+        if (result.good()) 
+        { 
+          DCMNET_INFO("Received study #" << std::setw(7) << studyCount << ": " << studyInstanceUID); 
+          studyCount++; 
+        } 
+      }
+    } 
+    study++;
+  } 
+  if (result.bad()) 
+  { 
+    DCMNET_ERROR("Unable to retrieve all studies: " << result.text()); 
+  }
+  while (!findResponses.empty())
+  {
+    delete findResponses.front();
+    findResponses.pop_front();
+  }
+  /* Release association */ 
+  scu.closeAssociation(DCMSCU_RELEASE_ASSOCIATION);
+  
+}
+
+
 
 
 
