@@ -317,9 +317,6 @@ void ImageEditor::prePro(){
         }
         cv::threshold(imageProcessingSlices[i], imageProcessingSlices[i], 0, 255, cv::THRESH_OTSU);
     }
-    cv::imshow( "Otsu Threshold", imageProcessingSlices[0] );
-    cv::waitKey(0);
-
 
 }
 
