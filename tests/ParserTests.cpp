@@ -8,6 +8,7 @@ OFString schemaPath = "../src/latestSchema.json";
 OFString pName;
 Parser pObj{schemaPath};
 
+/*
 TEST_CASE("Test parser object instantiation","[NP]") {
     std::cout << pObj.base.begin().key();
 }
@@ -23,3 +24,4 @@ TEST_CASE("Test parser dset setting","[NP]") {
 TEST_CASE("Test parser parsing","[NP]") {
     pObj.run();
 }
+*/
