@@ -1,1 +1,1 @@
-brew install dcmtk boost cmake
+brew install dcmtk boost cmake opencv

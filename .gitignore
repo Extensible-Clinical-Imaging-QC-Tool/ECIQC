@@ -5,7 +5,7 @@ DICOM_Images/*
 # build files
 Testing/
 build/
-cmake-build-debug/
+cmake-build-*
 
 # Prerequisites
 *.d
@@ -44,11 +44,10 @@ cmake-build-debug/
 .vs
 CMakeSettings.json
 .vscode
+c_cpp_properties.json
 
-# idea specific
-.idea/
+# IDEA specific viles
+.idea
 
-# mac specific
+# Mac Files
 .DS_Store
-
-

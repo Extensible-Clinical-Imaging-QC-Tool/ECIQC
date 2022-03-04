@@ -32,7 +32,7 @@
 cmake_minimum_required(VERSION 3.6)
 project(QCTool)
 
-# ensure C++14
+# esure C++14
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -55,11 +55,17 @@ add_subdirectory(libs/nlohmann_json/)
 add_library(qctool_lib src/MyLibrary.cpp 
                   src/MyLibrary.hpp
                   src/Exception.hpp
+                  # Image Editor
+                  src/ImageEditor.hpp
+                  src/ImageEditor.cpp
                   # ME Files
                   src/MetadataEditor.cpp
                   src/MetadataEditor.hpp
                   src/mdfdsman.cc
                   src/mdfdsman.h
+                  # Validator
+                  src/validator.cpp
+                  src/validator.hpp
                   # Receiver Files
                   src/receiver.cpp
                   src/receiver.hpp
@@ -89,6 +95,32 @@ find_package(DCMTK REQUIRED)
 target_link_libraries(qctool_lib PUBLIC "${DCMTK_LIBRARIES}")
 target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
 
+# opencv as arequired dependency
+find_package( OpenCV REQUIRED )
+target_link_libraries(qctool_lib PUBLIC "${OpenCV_LIBS}")
+target_include_directories(qctool_lib PUBLIC "${OpenCV_INCLUDE_DIRS}")
+
+# Tesseract and Leptonica as required dependencies
+
+if(APPLE)
+    find_package( PkgConfig REQUIRED)
+    pkg_search_module( TESSERACT REQUIRED tesseract )
+    pkg_search_module( LEPTONICA REQUIRED lept )
+    include_directories( ${TESSERACT_INCLUDE_DIRS} )
+    include_directories( ${LEPTONICA_INCLUDE_DIRS} )
+    link_directories( ${TESSERACT_LIBRARY_DIRS} )
+    link_directories( ${LEPTONICA_LIBRARY_DIRS} )
+    target_link_libraries( qctool_lib PUBLIC "${TESSERACT_LIBRARIES}" )
+    target_link_libraries( qctool_lib PUBLIC "${LEPTONICA_LIBRARIES}" )
+endif()
+
+if(UNIX AND NOT APPLE)
+    include_directories(/usr/include/tesseract/)
+    include_directories(/usr/include/leptonica/)
+    target_link_libraries(qctool_lib PRIVATE "${Tesseract_LIBRARIES}")
+    target_link_libraries(qctool_lib PUBLIC tesseract lept)
+endif()
+
 enable_testing()
 
 
@@ -96,7 +128,9 @@ add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/METests.cpp
                           tests/ParserTests.cpp
                           tests/ConductorTests.cpp
-                          
+                          tests/IETests.cpp
+                          tests/validatorTests.cpp
+
                  )                          
 
 target_include_directories(unit_tests PRIVATE tests)
