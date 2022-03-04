@@ -148,10 +148,10 @@ bool ImageEditor::loadPixelData() {
     else{std::cerr << "incompatible channel number"; return false;}
 
     // display the original image
-    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    cv::imshow( "Unedited Image", slices[0]);
-    cv::waitKey(0);
-    cv::destroyAllWindows();
+    //cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    //cv::imshow( "Unedited Image", slices[0]);
+    //cv::waitKey(0);
+    //cv::destroyAllWindows();
 
     // run preprocessing step
     prePro();
@@ -211,9 +211,9 @@ void ImageEditor::displayFirstFrame(){
     DicomImage * image = new DicomImage(dset, dset->getCurrentXfer());
     // gets pixel data, after modality has been applied
     Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
-    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
-    cv::waitKey(0);
+//    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
+//    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
+//    cv::waitKey(0);
     DJDecoderRegistration::cleanup();
 
 }
