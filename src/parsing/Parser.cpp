@@ -2,11 +2,11 @@
 #include <iomanip>
 #include <sstream>
 #include <fstream>
-#include "MetadataEditor.hpp"
+#include "metadata/MetadataEditor.hpp"
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include <string>
 #include <set>
-#include "Parser.hpp"
+#include "parsing/Parser.hpp"
 
 
 using json = nlohmann::json;
