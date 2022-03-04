@@ -50,132 +50,174 @@ bool ImageEditor::loadPixelData() {
 
     unsigned short nRows;
     unsigned short nCols;
-    long int nImgs;
+    unsigned short isSigned;
+    long int nImgs {NULL};
     unsigned short bitDepth;
     unsigned short samplesPerPixel;
+    unsigned int frameSize;
     unsigned long cvType;
-
+    DcmElement * pixelElement {NULL};
+    DcmPixelData * pixelData {NULL};
+    DcmPixelSequence * pixelSequence {NULL};
+    OFCondition result {EC_Normal};
     E_TransferSyntax xfer = dset->getCurrentXfer();
-
-
-    // change representation format to little endian if compressed
-  /*  if (xfer!=0 && xfer!=1 && xfer!=2 && xfer!=3) {
-        // change to little endian format
-        if (!changeDatasetFormat(*dset, EXS_LittleEndianExplicit)){
-            std::cerr << "Error decomporessing dataset of format: " << xfer;
-            return false;
-        }
-    }*/
 
 
     // load in data
     dset->findAndGetUint16(DCM_BitsAllocated, bitDepth);
     dset->findAndGetUint16(DCM_SamplesPerPixel, samplesPerPixel);
+    dset->findAndGetUint16(DCM_Rows, nRows);
+    dset->findAndGetUint16(DCM_Columns, nCols);
+    dset->findAndGetLongInt(DCM_NumberOfFrames, nImgs);
+    dset->findAndGetUint16(DCM_PixelRepresentation, isSigned);
 
-    // create a DicomImage
-    image = new DicomImage(dset, dset->getCurrentXfer());
-    // gets pixel data, after modality has been applied
-    nRows = image->getHeight();
-    nCols = image->getWidth();
-    nImgs = image->getFrameCount();
-    const DiPixel* pixelData = image->getInterData();
-    const void * pixelDataPtr = pixelData->getData();
-
-    // pixels per frame
-    const Uint32 frameSize = image->getWidth() * image->getHeight();
-
-
-    // colour images
-    if (!image->isMonochrome()){
-
-
-        // pixelDataPtr points to array of 3 pointers for each plane (r, g, b)
-        const void * const * arrayPixelDataPtr = OFstatic_cast(const void * const *, pixelDataPtr);
-        const void *colourPlanes[3] = {NULL, NULL, NULL};
-        // pointer to each colour plane
-        colourPlanes[0] = arrayPixelDataPtr[0];
-        colourPlanes[1] = arrayPixelDataPtr[1];
-        colourPlanes[2] =  arrayPixelDataPtr[2];
-
-        switch (pixelData->getRepresentation()){
-            case EPR_Uint8:
-                for (int frame = 0; frame < nImgs; frame ++ ){
-                    // display the output data
-
-                    // load in each plane seperately and then merge, increasing pointer location for each frame
-                    Uint8 *r =((Uint8 *) colourPlanes[0]) + frame *frameSize;
-                    Uint8 *g = (Uint8 *) colourPlanes[1] + frame *frameSize;
-                    Uint8 *b = (Uint8 *) colourPlanes[2] + frame *frameSize;
-                    cv::Mat rMat = cv::Mat(nRows, nCols, CV_8UC1, r);
-                    cv::Mat gMat = cv::Mat(nRows, nCols, CV_8UC1, g);
-                    cv::Mat bMat = cv::Mat(nRows, nCols, CV_8UC1 , b);
-                    // OpenCV uses b,g,r
-                    auto channels = std::vector<cv::Mat>{bMat, gMat, rMat};
-                    // merge the channels together
-                    cv::Mat slice;
-                    cv::merge(channels, slice);
-                    slices.push_back(slice.clone());
-                }
-                break;
-
-            case EPR_Uint16:
-                cvType = CV_16UC3;
-                // TODO implement
-                break;
-            case EPR_Uint32:
-                cvType = CV_32FC3;
-                // TODO implement
-                break;
-            default:
-                std::cerr << "Unsupported image format";
-                return false;
+    // if NumberOfFrames is 0 then set nImgs to 1 (single frame image)
+    if (nImgs==0) {
+        nImgs = 1;
+    }
+    // change representation format to little endian if compressed
+    if (xfer!=0 && xfer!=1 && xfer!=2 && xfer!=3) {
+        // change to little endian format
+        if (! decompressDataset(*dset) ) {
+            std::cerr << "Error decomporessing dataset of format: " << xfer;
+            return false;
         }
     }
-    // monochrome images
-    else{
-        switch (pixelData->getRepresentation()) {
-            case EPR_Uint8:
-                // TODO implelement
-                cvType = CV_8U;
-                break;
-            case EPR_Uint16:
-                // TODO implement
 
-                break;
-            case EPR_Sint16:
-                for (int frame = 0; frame < nImgs; frame ++ ){
-                    // load in each plane seperately and then merge, increasing pointer location for each frame
-                    Uint16 *f = (Uint16 *) pixelDataPtr + frame *frameSize;
-                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16S, f).clone();
+    result = dset->findAndGetElement(DCM_PixelData, pixelElement);
+    if (result.bad() || pixelElement == NULL){
+        return false;
+    }
+    pixelData = OFstatic_cast(DcmPixelData*, pixelElement);
+    pixelData->getUncompressedFrameSize(dset, frameSize);
+    OFString decompressedColorModel;
+
+    // colour images
+    if (samplesPerPixel == 3){
+        isGrayscale = false;
+        // 8 bit
+        if (bitDepth == 8) {
+            // unsigned
+            if (!isSigned) {
+                unsigned int fragmentStart{0};
+                for (int frame = 0; frame < nImgs; frame++) {
+                    Uint8 *buffer = new Uint8[frameSize];
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
+                                                    decompressedColorModel);
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_8UC3, buffer).clone();
+                    slices.push_back(slice);
+                }
+            }
+        }
+    }
+
+    // monochrome images
+    else if(samplesPerPixel == 1){
+        isGrayscale = true;
+        // 16 bit images
+        if (bitDepth == 16) {
+            // signed int
+            if (isSigned) {
+                unsigned int fragmentStart{0};
+                for (int frame = 0; frame < nImgs; frame++) {
+                    Sint16 *buffer = new Sint16[frameSize];
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
+                                                    decompressedColorModel);
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16S, buffer).clone();
                     // convert to unsigned
                     slice = slice + 32768;
                     slice.convertTo(slice, CV_16U);
                     slices.push_back(slice);
                 }
-                break;
-            case EPR_Uint32:
-                // TODO implement
-                cvType = CV_32F;
-                break;
-            default:
-                std::cerr << "Unsupported image format";
-                return false;
+            }
+            // unsigned 16 bit
+            else {
+                unsigned int fragmentStart{0};
+                for (int frame = 0; frame < nImgs; frame++) {
+                    Uint16 *buffer = new Uint16[frameSize];
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
+                                                    decompressedColorModel);
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16U, buffer).clone();
+                    // convert to unsigned
+                    slices.push_back(slice);
+                }
+            }
+        }
+
+    }
+    else{std::cerr << "incompatible channel number"; return false;}
+
+    // display the original image
+    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    cv::imshow( "Unedited Image", slices[0]);
+    cv::waitKey(0);
+    cv::destroyAllWindows();
+
+    // run preprocessing step
+    prePro();
+    // run cover text function
+    coverText();
+
+
+    // save out the image
+
+    // combine slices into single Mat object
+    // vertically concatenate to ensure Mat array is sequential
+    cv::Mat combined;
+    // convert slices vector to array
+    cv::vconcat(slices, combined);
+    unsigned long length = pixelData->getLength(dset->getCurrentXfer());
+
+
+    // colour images
+    if (samplesPerPixel == 3){
+        // 8 bit
+        if (bitDepth == 8) {
+            // unsigned
+            if (!isSigned) {
+                Uint8 * mergedSlices = combined.data;
+                // insert array back into DcmPixelData
+                pixelData->putUint8Array(mergedSlices, length);
+
+            }
         }
     }
 
 
-    DJDecoderRegistration::cleanup();
-    // Store first images as the representativeImage
-    representativeImage = slices[0].clone();
+        // monochrome images
+    else if(samplesPerPixel == 1){
+        // 16 bit images
+        if (bitDepth == 16) {
+            // signed int
+            if (isSigned) {
 
-    if (representativeImage.empty()) {
-        return false;
-    }
+            }
+            // unsigned 16 bit
+            else {
 
-    else {
-        return true;
-    }
+                }
+            }
+        }
+
+    // recompress if needed
+    changeToOriginalFormat(*dset);
+    return true;
 }
+
+void ImageEditor::displayFirstFrame(){
+    DJDecoderRegistration::registerCodecs(EDC_photometricInterpretation, EUC_default, EPC_default, false, false, true);
+
+    // create a DicomImage
+    DicomImage * image = new DicomImage(dset, dset->getCurrentXfer());
+    // gets pixel data, after modality has been applied
+    Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
+    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
+    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
+    cv::waitKey(0);
+    DJDecoderRegistration::cleanup();
+
+}
+
 
 void ImageEditor::runEditing(){
     // Preprocess image using thresholding
@@ -183,6 +225,9 @@ void ImageEditor::runEditing(){
    coverText();
    //savePixelData();
 }
+
+
+
 
 // Do we need to distinguish "lettersOnly" with mixed alpha-numeric strings?
 OFBool ImageEditor::lettersOnly(std::string text){
@@ -267,18 +312,14 @@ const std::vector<cv::Mat> &ImageEditor::getImageProcessingSlices() const {
 
 OFBool Image;
 
-OFBool ImageEditor::changeDatasetFormat(DcmDataset &dset, E_TransferSyntax repType=EXS_LittleEndianExplicit) {
+OFBool ImageEditor::decompressDataset(DcmDataset &dset) {
 
     // handle jpeg https://support.dcmtk.org/docs-snapshot/mod_dcmjpeg.html
-    //DJDecoderRegistration::registerCodecs(EDC_photometricInterpretation, EUC_default, EPC_default, false, false, true);
-    // TODO use chooseRepresentation() to change to uncompressed https://support.dcmtk.org/docs/classDcmDataset.html#a0a857d70d21aa29513f82c1c90eece66
     if(dset.chooseRepresentation(EXS_LittleEndianExplicit, NULL).good() && dset.canWriteXfer(EXS_LittleEndianExplicit) ){
             // force the meta-header UIDs to be re-generated when storing the file
             std::cout << "Compressed image successfully decompressed\n";
-            DJDecoderRegistration::cleanup();
             return true;
     }
-    //DJDecoderRegistration::cleanup();
     return false;
 }
 
@@ -296,6 +337,14 @@ OFBool ImageEditor::changeToOriginalFormat(DcmDataset &dset) {
     }
 
 }
+void *  ImageEditor::getSlicesPtr() {
+    // merge
+    cv::Mat merged;
+    cv::merge(slices, merged);
+    void * matPtr = merged.data;
+    return matPtr;
+}
+
 
 void ImageEditor::prePro(){
 
@@ -305,7 +354,7 @@ void ImageEditor::prePro(){
     for (std::size_t i = 0; i < imageProcessingSlices.size(); i++) {
 
         // check if image is already greyscale
-        if (!image->isMonochrome()) {
+        if (!isGrayscale) {
             cv::cvtColor(imageProcessingSlices[i], imageProcessingSlices[i], cv::COLOR_BGR2GRAY );
 
         }
@@ -316,6 +365,8 @@ void ImageEditor::prePro(){
             cv::normalize(imageProcessingSlices[i], imageProcessingSlices[i], 0., 255., cv::NORM_MINMAX, CV_8UC1);
         }
         cv::threshold(imageProcessingSlices[i], imageProcessingSlices[i], 0, 255, cv::THRESH_OTSU);
+        //cv::namedWindow( "Threshold window", cv::WINDOW_AUTOSIZE );// Create a window for display.
+        //cv::imshow("Threshold window", imageProcessingSlices[i]);
     }
 
 }
