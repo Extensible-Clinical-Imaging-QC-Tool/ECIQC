@@ -6,6 +6,7 @@
 #include "dcmtk/dcmjpeg/dipijpeg.h"    /* for dcmimage JPEG plugin */
 #include "dcmtk/dcmjpeg/djencode.h" // encode JPEGs
 #include "dcmtk/dcmjpeg/djrplol.h"
+#include "dcmtk/dcmdata/dcpxitem.h"
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include <vector>
 #include <tesseract/baseapi.h>
@@ -150,10 +151,10 @@ bool ImageEditor::loadPixelData() {
     delete uncompressedDset;
 
     // display the original image
-    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    cv::imshow( "Unedited Image", slices[0]);
-    cv::waitKey(0);
-    cv::destroyAllWindows();
+    //cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    //cv::imshow( "Unedited Image", slices[0]);
+    //cv::waitKey(0);
+    //cv::destroyAllWindows();
 
     // run preprocessing step
     prePro();
@@ -169,7 +170,13 @@ bool ImageEditor::loadPixelData() {
     // convert slices vector to array
     cv::vconcat(slices, combined);
 
+    // get JPEG data from compressed dset
+    DcmElement * compressedPixelElement {NULL};
+    DcmPixelData * compressedPixelData {NULL};
+    dset->findAndGetElement(DCM_PixelData, compressedPixelElement);
+    compressedPixelData = OFstatic_cast(DcmPixelData*, compressedPixelElement);
 
+    Uint8* firstCompressedFrame = getRawJpegData(compressedPixelData);
     // colour images
     if (samplesPerPixel == 3){
         // 8 bit
@@ -330,11 +337,40 @@ OFBool ImageEditor::decompressDataset(DcmDataset &dataset) {
     return false;
 }
 
+Uint8* ImageEditor::getRawJpegData(DcmPixelData* pixelData){
+    DcmPixelSequence *dseq = NULL;
+    E_TransferSyntax xferSyntax = EXS_Unknown;
+    const DcmRepresentationParameter *rep = NULL;
+    // Find the key that is needed to access the right representation of the data within DCMTK
+    pixelData->getOriginalRepresentationKey(xferSyntax, rep);
+    // Access original data representation and get result within pixel sequence
+    OFCondition result = pixelData->getEncapsulatedRepresentation(xferSyntax, rep, dseq);
+    Uint8* pixData = NULL;
+    if ( result == EC_Normal )
+    {
+        DcmPixelItem* pixitem = NULL;
+        // Access first frame (skipping offset table)
+        dseq->getItem(pixitem, 1);
+        if (pixitem == NULL)
+            return NULL;
+        // Get the length of this pixel item (i.e. fragment, i.e. most of the time, the length of the frame)
+        Uint32 length = pixitem->getLength();
+        if (length == 0)
+            return NULL;
+        // Finally, get the compressed data for this pixel item
+        result = pixitem->getUint8Array(pixData);
+    }
+    if (result.bad())
+        return NULL;
+    else
+        return pixData;
+}
+
 OFBool ImageEditor::changeToOriginalFormat(DcmDataset &dataset) {
     DJEncoderRegistration::registerCodecs();
     DJ_RPLossless params; // default params
 
-    if (dset.chooseRepresentation(dataset.getOriginalXfer(), &params).good() && dataset.canWriteXfer(dataset.getOriginalXfer())){
+    if (dataset.chooseRepresentation(dataset.getOriginalXfer(), &params).good() && dataset.canWriteXfer(dataset.getOriginalXfer())){
         DJEncoderRegistration::cleanup();
         return true;
     }
@@ -343,13 +379,6 @@ OFBool ImageEditor::changeToOriginalFormat(DcmDataset &dataset) {
         return false;
     }
 
-}
-void *  ImageEditor::getSlicesPtr() {
-    // merge
-    cv::Mat merged;
-    cv::merge(slices, merged);
-    void * matPtr = merged.data;
-    return matPtr;
 }
 
 

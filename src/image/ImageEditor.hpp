@@ -131,6 +131,8 @@ private:
      * @return Void pointer to locaiton of merged slices array
      */
     void * getSlicesPtr();
+
+    Uint8 *getRawJpegData(DcmPixelData *pixelData);
 };
 
 #endif // ImageEditor_H_
