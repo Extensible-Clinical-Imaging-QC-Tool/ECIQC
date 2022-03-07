@@ -2,8 +2,6 @@
 #include "dcmtk/dcmnet/diutil.h" 
 #include "catch.hpp"
 
-#ifdef WITH_THREADS
-
 #include "../src/misc/Exception.hpp"
 #include "../src/misc/MyLibrary.hpp"
 
@@ -31,16 +29,20 @@ static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
 // application entity title of the peer machine 
 #define PEERAPPLICATIONTITLE "MOVESCP" 
 
+// MOVE destination AE Title 
+#define MOVEAPPLICATIONTITLE "TEST-SCU" 
+
+
 
 TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
   /* Setup DICOM connection parameters */ 
   OFLog::configure(OFLogger::DEBUG_LOG_LEVEL); 
-  Sender scu(APPLICATIONTITLE, PEERHOSTNAME,PEERPORT, PEERAPPLICATIONTITLE); 
+  Sender scu(APPLICATIONTITLE, PEERHOSTNAME, PEERPORT, PEERAPPLICATIONTITLE); 
   // set AE titles 
-  scu.setAETitle(APPLICATIONTITLE); 
-  scu.setPeerHostName(PEERHOSTNAME); 
-  scu.setPeerPort(PEERPORT); 
-  scu.setPeerAETitle(PEERAPPLICATIONTITLE); 
+  scu.setAETitle("TEST-SCU"); 
+  scu.setPeerHostName("www.dicomserver.co.uk"); 
+  scu.setPeerPort(11112); 
+  scu.setPeerAETitle("MOVESCP"); 
   // Use presentation context for FIND/MOVE in study root, propose all uncompressed transfer syntaxes 
   OFList<OFString> ts; 
   ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
@@ -73,8 +75,9 @@ TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
 
 TEST_CASE("Test C-STORE Association with SCU","[ST]"){
   OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
-  Receiver pool(PEERPORT, PEERAPPLICATIONTITLE);
+  Receiver pool(11112, "TestSCP");
   pool.setpointer(pt);
+  
 
     /* Setup DICOM connection parameters */ 
   OFLog::configure(OFLogger::DEBUG_LOG_LEVEL); 
@@ -90,22 +93,23 @@ TEST_CASE("Test C-STORE Association with SCU","[ST]"){
   OFList<OFString> xfer;
   xfer.push_back(UID_LittleEndianImplicitTransferSyntax);
 
+  //Start listening
+  pool.start();
+
   // configure SCU 
-  scu.setAETitle(APPLICATIONTITLE); 
-  scu.setPeerHostName(PEERHOSTNAME); 
-  scu.setPeerPort(PEERPORT); 
-  scu.setPeerAETitle(PEERAPPLICATIONTITLE);
+  scu.setAETitle("StoreTestSCU"); 
+  scu.setPeerHostName("localhost"); 
+  scu.setPeerPort(11112); 
+  scu.setPeerAETitle("TestSCP");
+  scu.setVerbosePCMode(OFTrue);
   scu.addPresentationContext(UID_CTImageStorage, ts); 
   scu.addPresentationContext(UID_MRImageStorage, ts); 
   scu.addPresentationContext(UID_DigitalXRayImageStorageForPresentation, xfer);
   scu.addPresentationContext(UID_VerificationSOPClass, ts); 
 
-  //Start listening
-  pool.start();
-
   /* Initialize network */ 
   OFCondition result = scu.initNetwork(); 
-  CHECK(result.good()); 
+  CHECK(result.good());
 
   OFStandard::sleep(5);
 
@@ -125,13 +129,14 @@ TEST_CASE("Test C-STORE Association with SCU","[ST]"){
   result = scu.releaseAssociation();
   CHECK(result.good());
 
-  /*Request shutdown. */
+  /*Request shutdown and stop listening. */ 
   pool.request_stop();
   pool.join();
+  
 
 }
 
-#endif
+
 
 
 

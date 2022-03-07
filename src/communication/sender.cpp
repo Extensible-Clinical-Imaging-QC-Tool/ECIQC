@@ -12,7 +12,7 @@
 #include "dcmtk/dcmnet/diutil.h" 
 
 /**Constructor.*/
-Sender::Sender(OFString aetitle, OFString peer_hostname, Uint16 peer_port,OFString peer_aetitle){}
+Sender::Sender(OFString ae_title, OFString peer_hostname, Uint16 peer_port, OFString peer_aetitle){}
 
 
 /**Destructor .*/

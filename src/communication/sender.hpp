@@ -15,7 +15,7 @@ public:
   //status = addDicomFile("../DICOM_Images/1-1copy.dcm", ERM_fileOnly, false);
 
  /**Constructor. */
-  Sender(OFString aetitle, OFString peer_hostname, Uint16 peer_port,OFString peer_aetitle);
+  Sender(OFString ae_title, OFString peer_hostname, Uint16 peer_port, OFString peer_aetitles);
 
   /**Destructor. */
   virtual ~Sender();
