@@ -78,15 +78,19 @@ public:
 
     // The original dataset image, to be edited and
     cv::Mat representativeImage;
+
+    // Displays the first frame from the dataset
+    void displayFirstFrame();
 private:
 
-    // i
-    // Holds the DicomImage instance
-    DicomImage *image;
-   // Holds the dataset to be modified
+   // Holds the original dataset, not to be uncompressed
     DcmDataset *dset;
+    // Holds copy of dset which can be uncompresed to determine masking location
+    DcmDataset *uncompressedDset;
     // vector of slices for multi slice images
     std::vector <cv::Mat> slices;
+    // vector of vector of Boxs. Outer vector representes slice, inner vector is boxes to be masked
+    std::vector< std::vector<BOX*>> sliceBoxes;
 public:
     const std::vector<cv::Mat> &getSlices() const;
 
@@ -95,19 +99,19 @@ public:
 private:
     // vector on which processing is performed
     std::vector <cv::Mat> imageProcessingSlices;
-    // Pre-processed dataset image, to be used for OCR
-    cv::Mat preProcImage;
     // Tesseract API
     tesseract::TessBaseAPI *api;
     // Text identified from the pre-processed image by tesseract
     std::string foundText;
+    // is the image grayscale originally
+    bool isGrayscale;
 
     /** Get the raw pixel data from Utility function
      *  @return Uint8* buffer of pixelData values
      */
     Uint8* mat2PixelData();
 
-    OFBool changeDatasetFormat(DcmDataset &, E_TransferSyntax);
+    OFBool decompressDataset(DcmDataset &);
 
     // Change the xfer syntax of the dataset back to original
     OFBool changeToOriginalFormat(DcmDataset &);
@@ -122,8 +126,13 @@ private:
 
     bool loadPixelData();
 
-    // Edits the dset to write the contents of slices back to PixelData
-    bool savePixelData();
+    /** Merges slices and returns pointer to array in memory
+     *
+     * @return Void pointer to locaiton of merged slices array
+     */
+    void * getSlicesPtr();
+
+    Uint8 *getRawJpegData(DcmPixelData *pixelData);
 };
 
 #endif // ImageEditor_H_
