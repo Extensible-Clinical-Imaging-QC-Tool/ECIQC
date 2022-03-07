@@ -8,6 +8,24 @@
 #include <set>
 #include "parsing/Parser.hpp"
 
+/*
+ * Logical operators:
+ * AND
+ * OR
+ * NOT
+ * GREATER_THAN
+ * LESS_THAN
+ * EQUALS
+ *
+ * Actions:
+ * UPDATE: Add something in the next value channel without removing current ones
+ * INSERT: If tag doesn't exist, insert with specified value
+ * OVERWRITE: If tag exists, replace value
+ * REMOVE: If tag exists, remove it and its value
+ * CLEAR: If tag exists, remove its value
+ * PREPEND: String operation, add string at start
+ * APPEND: String operation, add string at end
+ */
 
 using json = nlohmann::json;
 Parser::Parser(){
@@ -63,22 +81,23 @@ void Parser::run() {
     for(const auto& tag: base.items()) {
         OFString  instruction, sub_instruction;
 
-        //std::cout << "One item's key: " << tag.key()  << std::endl;
-        //std::cout << "One item's value: " << tag.value()  << std::endl;
+        std::cout << "One item's key: " << tag.key()  << std::endl;
+        std::cout << "One item's value: " << tag.value()  << std::endl;
 
         editor.setTag(tag.key().c_str());
-        //std::cout << "Individual tag level: \n" << i << tag.key() << '\t' << base[tag.key()]["checks"] << '\n' << std::endl;
+        std::cout << "Individual tag level: \n" << i << tag.key() << '\t' << base[tag.key()]["operations"] << '\n' << std::endl;
         i++;
         // Tag Level 
-        for(const auto& checkList: base[tag.key()]["checks"].items()) {
+        for(const auto& checkList: base[tag.key()]["operations"].items()) {
             for(const auto& action: checkList.value().items()) {
-                //std::cout <<"\t action : "<< action.key() <<'\n'<< "\t action parameters: " << action.value()<< std::endl;
-            
+                std::cout <<"\t action : "<< action.key() <<'\n'<< "\t action parameters: " << action.value()<< std::endl;
+
                 instruction = action.key().c_str();
+//              If this is an array, then instruction must be "AND", "OR" or "NOT".
                 if(checkList.value()[action.key()].is_array()) {
                     /* If true, then the instruction is an operation that must be performed on 
                     the result of all operations specified within this array */
-                    const auto& nested_ops = base[tag.key()]["checks"][0][action.key()][0];
+                    const auto& nested_ops = base[tag.key()]["operations"][0][action.key()][0];
                     for(const auto& ops: nested_ops.items()) {
                         std::cout << "\t\t Key: " << ops.key() << '\t\t' << "Value: " << ops.value() << std::endl;
 
@@ -90,10 +109,11 @@ void Parser::run() {
 
                         
                     }
-                    
+
+//              Otherwise, must be either a check with an action if T/F, or actions with no checks
                 } else {
 
-                    const auto& parameters = base[tag.key()]["checks"][0][action.key()];
+                    const auto& parameters = base[tag.key()]["operations"][0][action.key()];
                     //std::cout << instruction << std::endl;
                     //std::cout << parameters.at("value") << std::endl;
                     //std::cout << parameters.items().begin().key() << std::endl;
@@ -101,7 +121,7 @@ void Parser::run() {
 
 
                     WorkerParameters paramStruct =  WPMaker(parameters);
-    
+//                  Need Worker to differentiate between checks and actions (for IF_TRUE/FALSE)
                 }
  
                 // Create a WorkerParameters object
@@ -149,15 +169,16 @@ enum ActionsEnum {
     NOT,
     /* REGEX */
     EXIST,
-    CONTAIN,
     REGEX,
     /* Editing Operations */
     OVERWRITE,
     REMOVE,
     INSERT,
     CLEAR,
-    REJECT,
-    COPY
+    COPY,
+    UPDATE,
+    APPEND,
+    PREPEND
 };
 
 // Maps the arguments in string form to the correct enum
@@ -197,12 +218,16 @@ int Parser::resolveActions(OFString param) {
         {  "OR", OR  },
         {  "NOT", NOT  },
         {  "EXIST",  EXIST  },
-        {  "CONTAIN",  CONTAIN},
         {  "REGEX",  REGEX},
         {  "INSERT", INSERT  },
         {  "REMOVE", REMOVE  },
         {  "CLEAR", CLEAR  },
-        {  "COPY", COPY  }
+        {  "COPY", COPY  },
+        {  "OVERWRITE", OVERWRITE  },
+        {  "UPDATE", UPDATE  },
+        {  "APPEND", APPEND  },
+        {  "PREPEND", PREPEND  },
+
     };
 
     auto itr = actionStrings.find(param);
@@ -322,17 +347,111 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
 
     return paramStruct;
 
-} 
+}
 
+/*
+ * OFBool Parser::parse_action(OFString instruction, const json& params){
+ *  int enumerated_inst = resolveActions(instruction);
+ * }
+ *
+ */
+
+OFBool Parser::parse_operation(OFString instruction, const json& params){
+    int enumerated_inst = resolveActions(instruction);
+    OFBool check_result = OFTrue;
+    OFString nested_key;
+    json nested_parameters = {};
+    switch (enumerated_inst){
+        case AND: {
+            for(const auto& nested_ops: params[0].items()){
+                nested_key = nested_ops.key().c_str();
+                nested_parameters = nested_ops.value();
+                if (parse_operation(nested_key,nested_parameters) == OFFalse){
+                    check_result = OFFalse;
+                }
+            }
+            if (check_result) {
+                // parse_operation for IF_TRUE
+            }
+            else {
+                // parse_operation for IF_FALSE
+            }
+        }
+        case OR: {
+            check_result = OFFalse;
+            for(const auto& nested_ops: params[0].items()){
+                nested_key = nested_ops.key().c_str();
+                nested_parameters = nested_ops.value();
+                if (parse_operation(nested_key,nested_parameters) == OFTrue){
+                    check_result = OFTrue;
+                }
+            }
+            if (check_result) {
+                // parse_operation for IF_TRUE
+            }
+            else {
+                // parse_operation for IF_FALSE
+            }
+        }
+        case NOT: {
+            check_result = !parse_operation(instruction, params);
+            if (check_result) {
+                // parse_operation for IF_TRUE
+            }
+            else {
+                // parse_operation for IF_FALSE
+            }
+        }
+        case EQUAL: {
+            break;
+        }
+        case LESS_THAN: {
+            break;
+        }
+        case GREATER_THAN: {
+            break;
+        }
+        case EXIST: {
+            break;
+        }
+        case REGEX: {
+            break;
+        }
+        case INSERT: {
+            break;
+        }
+        case REMOVE: {
+            break;
+        }
+        case CLEAR: {
+            break;
+        }
+        case COPY: {
+            break;
+        }
+        case OVERWRITE: {
+            break;
+        }
+        case UPDATE: {
+            break;
+        }
+        case APPEND: {
+            break;
+        }
+        case PREPEND: {
+            break;
+        }
+    }
+}
 
 /*
 OFCondition Parser::worker(OFString instruction, WorkerParameters params) {
 
-                                                                    
+
     switch(resolveActions(instruction.c_str())) {
         // Editing options
         //action.
-        case (INSERT || OVERWRITE): 
+        case (INSERT || OVERWRITE):
             // Arguments
 
             //TODO Check that params contains the required arguments for this case
@@ -351,7 +470,7 @@ OFCondition Parser::worker(OFString instruction, WorkerParameters params) {
                 // Tag is provided as (group, element)
                 // TODO ensure Tag is in (group,element) form, or take g&e and add (,)
                 otherTagString = action.values().tag;
-                editor.modify(newValue, only_overwrite, otherTagString); 
+                editor.modify(newValue, only_overwrite, otherTagString);
 
             }
             break;

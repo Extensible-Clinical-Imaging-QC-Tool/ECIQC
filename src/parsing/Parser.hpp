@@ -82,6 +82,11 @@ class Parser {
 
 
     private:
+        /** Performs a check based on the parameters passed in from the config .json file.
+         *
+         * @return OFBool returns the result of the check
+         */
+        OFBool parse_operation(OFString instruction, const json& params);
         /** Maps the string form of the actions to the enum. This is required because
          * you can only use integral types as switch cases in switch loops. Therefore 
          * strings can not be used

@@ -52,18 +52,18 @@
         "vr": "CS",
         "description": "Checks patient sex not empty and clears if it is",
         "operations": [{
-            "NOT": [{
-                "EQUAL": {
-                    "tag": "",
-                    "value": ""
-                },
-                "IF_TRUE": {
-                    "CLEAR": {
-                        "tag": ""
-                    }
-                },
-              "IF_FALSE": ""
-            }]
+                "NOT": [{
+                    "EQUAL": {
+                        "tag": "",
+                        "value": ""
+                    },
+                    "IF_TRUE": {
+                        "CLEAR": {
+                            "tag": ""
+                        }
+                    },
+                  "IF_FALSE": ""
+                }]
         }]
     }
 }
