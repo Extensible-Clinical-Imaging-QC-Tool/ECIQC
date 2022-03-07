@@ -20,8 +20,6 @@ public:
   /**Destructor. */
   virtual ~Sender();
 
-protected:
-  void run();
 };
 
  

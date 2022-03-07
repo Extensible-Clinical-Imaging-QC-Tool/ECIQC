@@ -8,42 +8,21 @@
 #include "../src/communication/sender.hpp"
 #include "../src/communication/receiver.hpp"
 
-#define OFFIS_CONSOLE_APPLICATION "testscu" 
-
 using namespace cpp_template;
-
-static OFLogger echoscuLogger = OFLog::getLogger("dcmtk.apps." OFFIS_CONSOLE_APPLICATION); 
-
-static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v" 
-  OFFIS_DCMTK_VERSION " " OFFIS_DCMTK_RELEASEDATE " $"; 
-
-// our application entity title used for calling the peer machine 
-#define APPLICATIONTITLE     "TEST-SCU" 
-
-// host name of the peer machine 
-#define PEERHOSTNAME         "www.dicomserver.co.uk" 
-
-// TCP/IP port to connect to the peer machine 
-#define PEERPORT 11112 
-
-// application entity title of the peer machine 
-#define PEERAPPLICATIONTITLE "MOVESCP" 
-
-// MOVE destination AE Title 
-#define MOVEAPPLICATIONTITLE "TEST-SCU" 
-
-
 
 TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
   /* Setup DICOM connection parameters */ 
-  OFLog::configure(OFLogger::DEBUG_LOG_LEVEL); 
-  Sender scu(APPLICATIONTITLE, PEERHOSTNAME, PEERPORT, PEERAPPLICATIONTITLE); 
+  OFString ae_title = "TEST-SCU";
+  OFString peer_hostname = "www.dicomserver.co.uk";
+  Uint16 peer_port = 11112;
+  OFString peer_aetitle = "MOVESCP";
+  Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle); 
   // set AE titles 
-  scu.setAETitle("TEST-SCU"); 
-  scu.setPeerHostName("www.dicomserver.co.uk"); 
-  scu.setPeerPort(11112); 
-  scu.setPeerAETitle("MOVESCP"); 
-  // Use presentation context for FIND/MOVE in study root, propose all uncompressed transfer syntaxes 
+  scu.setAETitle(ae_title); 
+  scu.setPeerHostName(peer_hostname); 
+  scu.setPeerPort(peer_port); 
+  scu.setPeerAETitle(peer_aetitle); 
+  // Define presentation contexts, propose all uncompressed transfer syntaxes 
   OFList<OFString> ts; 
   ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
   ts.push_back(UID_BigEndianExplicitTransferSyntax); 
@@ -79,9 +58,13 @@ TEST_CASE("Test C-STORE Association with SCU","[ST]"){
   pool.setpointer(pt);
   
 
-    /* Setup DICOM connection parameters */ 
-  OFLog::configure(OFLogger::DEBUG_LOG_LEVEL); 
-  Sender scu(APPLICATIONTITLE, PEERHOSTNAME,PEERPORT, PEERAPPLICATIONTITLE); 
+    /* Setup DICOM connection parameters */
+  OFString ae_title = "StoreTestSCU";
+  OFString peer_hostname = "localhost";
+  Uint16 peer_port = 11112;
+  OFString peer_aetitle = "TestSCP";
+  Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);  
+   
    
   // Define presentation contexts, propose all uncompressed transfer syntaxes 
   OFList<OFString> ts; 
@@ -97,10 +80,10 @@ TEST_CASE("Test C-STORE Association with SCU","[ST]"){
   pool.start();
 
   // configure SCU 
-  scu.setAETitle("StoreTestSCU"); 
-  scu.setPeerHostName("localhost"); 
-  scu.setPeerPort(11112); 
-  scu.setPeerAETitle("TestSCP");
+  scu.setAETitle(ae_title); 
+  scu.setPeerHostName(peer_hostname); 
+  scu.setPeerPort(peer_port); 
+  scu.setPeerAETitle(peer_aetitle);
   scu.setVerbosePCMode(OFTrue);
   scu.addPresentationContext(UID_CTImageStorage, ts); 
   scu.addPresentationContext(UID_MRImageStorage, ts); 
@@ -110,8 +93,6 @@ TEST_CASE("Test C-STORE Association with SCU","[ST]"){
   /* Initialize network */ 
   OFCondition result = scu.initNetwork(); 
   CHECK(result.good());
-
-  OFStandard::sleep(5);
 
   OFCondition status = scu.addDicomFile("../DICOM_Images/1-1copy.dcm", ERM_fileOnly,false);
   CHECK(status.good());
