@@ -148,7 +148,6 @@ bool ImageEditor::loadPixelData() {
     }
     else{std::cerr << "incompatible channel number"; return false;}
     // delete the uncompressed dset
-    delete uncompressedDset;
 
     // display the original image
     //cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
@@ -176,7 +175,7 @@ bool ImageEditor::loadPixelData() {
     dset->findAndGetElement(DCM_PixelData, compressedPixelElement);
     compressedPixelData = OFstatic_cast(DcmPixelData*, compressedPixelElement);
 
-    Uint8* firstCompressedFrame = getRawJpegData(compressedPixelData);
+    //Uint8* firstCompressedFrame = getRawJpegData(compressedPixelData);
     // colour images
     if (samplesPerPixel == 3){
         // 8 bit
@@ -185,7 +184,7 @@ bool ImageEditor::loadPixelData() {
             if (!isSigned) {
                 Uint8 * mergedSlices = combined.data;
                 // insert array back into DcmPixelData
-                pixelData->putUint8Array(mergedSlices, length);
+                //pixelData->putUint8Array(mergedSlices, length);
 
             }
         }
@@ -206,7 +205,6 @@ bool ImageEditor::loadPixelData() {
                 }
             }
         }
-
     return true;
 }
 
@@ -217,9 +215,9 @@ void ImageEditor::displayFirstFrame(){
     DicomImage * image = new DicomImage(dset, dset->getCurrentXfer());
     // gets pixel data, after modality has been applied
     Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
-//    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
-//    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
-//    cv::waitKey(0);
+    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
+    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
+    cv::waitKey(0);
     DJDecoderRegistration::cleanup();
 
 }
