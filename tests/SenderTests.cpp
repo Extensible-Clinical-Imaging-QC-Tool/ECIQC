@@ -1,4 +1,5 @@
 #include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */ 
+#include "dcmtk/dcmdata/dcpxitem.h"
 #include "dcmtk/dcmnet/diutil.h" 
 #include "catch.hpp"
 
@@ -97,13 +98,19 @@ TEST_CASE("Test C-STORE Association with SCU","[STS]"){
   OFCondition status = scu.addDicomFile("../DICOM_Images/1-01.dcm", ERM_fileOnly,false);
   CHECK(status.good());
 
+  /*Extracting data from dicom file.*/ 
+  DcmFileFormat dfile;
+  result = dfile.loadFile("/home/hazelweeling/ECIQC/DICOM_Images/1-01.dcm");
+  CHECK (result.good());
+  DcmDataset *data = dfile.getDataset();
+
   /* Negotiate Association */ 
   result = scu.negotiateAssociation(); 
   CHECK(result.good());
 
   /*Assemble and send C-STORE request. Check if C-STORE was successful.*/
   Uint16 rspStatusCode = 0;
-  result = scu.sendSTORERequest(0, "../DICOM_Images/1-01.dcm",0, rspStatusCode = 0);
+  result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data, rspStatusCode = 0);
   CHECK(result.good());
 
   /*Release association. */
