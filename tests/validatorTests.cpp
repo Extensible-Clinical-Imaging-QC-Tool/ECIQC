@@ -14,10 +14,10 @@
 //#include <dcmtk/dcmdata/dcmetinf.h> 
 
 // Classes to include
-#include "../src/validator.hpp"
+#include "metadata/validator.hpp"
 
 // DCMTK tests
-TEST_CASE("Test for reading in a DICOM image file") {
+TEST_CASE("Test for reading in a DICOM image file", "[VT]") {
   DcmFileFormat image;
   OFString patientName;
   OFString uid;
@@ -37,12 +37,12 @@ TEST_CASE("Test for reading in a DICOM image file") {
 }
 
 // Validator class tests
-TEST_CASE("Test for validating if a file is DICOM") {
+TEST_CASE("Test for validating if a file is DICOM", "[VT]") {
   Validator validate("../DICOM_Images/1-1copy.dcm");
   CHECK(validate.dicomFormatValidation() == OFTrue);
 }
 
-TEST_CASE("Test for existence of a tag (file path)") {
+TEST_CASE("Test for existence of a tag (file path)", "[VT]") {
   Validator validate("../DICOM_Images/1-1copy.dcm");
 
   //DCM_PatientName
@@ -75,7 +75,7 @@ TEST_CASE("Test for existence of a tag (file path)") {
   CHECK(validate.validation_output == OFFalse); 
 }
 
-TEST_CASE("Test for existence of a tag (dataset)") {
+TEST_CASE("Test for existence of a tag (dataset)", "[VT]") {
   DcmFileFormat fileformat;
   DcmDataset *testDset = fileformat.getDataset();
   testDset->putAndInsertString(DCM_PatientName, "John Doe");
@@ -111,7 +111,7 @@ TEST_CASE("Test for existence of a tag (dataset)") {
   CHECK(validate.validation_output == OFFalse); 
 }
 
-TEST_CASE("Test for existence of a tag with non-empty value (dataset)") {
+TEST_CASE("Test for existence of a tag with non-empty value (dataset)", "[VT]") {
   DcmFileFormat fileformat;
   DcmDataset *testDset = fileformat.getDataset();
   testDset->putAndInsertString(DCM_PatientName, "John Doe");
@@ -148,7 +148,7 @@ TEST_CASE("Test for existence of a tag with non-empty value (dataset)") {
   CHECK(validate.validation_output == OFFalse);    
 }
 
-TEST_CASE("Test for existence of a tag with non-empty value and within a range (dataset)") {
+TEST_CASE("Test for existence of a tag with non-empty value and within a range (dataset)", "[VT]") {
   DcmFileFormat fileformat;
   DcmDataset *testDset = fileformat.getDataset();
   testDset->putAndInsertString(DCM_PatientAge, "50");
@@ -181,7 +181,7 @@ TEST_CASE("Test for existence of a tag with non-empty value and within a range (
   CHECK(validate.validation_output == OFFalse);        
 }
 
-TEST_CASE("Test for writing the validation output to the unlimited text field (dataset)") {
+TEST_CASE("Test for writing the validation output to the unlimited text field (dataset)", "[VT]") {
   DcmFileFormat fileformat;
   DcmDataset *testDset = fileformat.getDataset();
   testDset->putAndInsertString(DCM_PatientName, "John Doe");
@@ -216,7 +216,7 @@ TEST_CASE("Test for writing the validation output to the unlimited text field (d
   CHECK(text_value_tag_string == validate.validation_results.c_str()); 
 }
 
-TEST_CASE("Test for writing the validation output to a .txt file") {
+TEST_CASE("Test for writing the validation output to a .txt file", "[VT]") {
   DcmFileFormat fileformat;
   DcmDataset *testDset = fileformat.getDataset();
   testDset->putAndInsertString(DCM_PatientName, "John Doe");
@@ -269,7 +269,7 @@ TEST_CASE("Test for writing the validation output to a .txt file") {
   //CHECK(buffer.str() == validation_results_string);
 } 
 
-TEST_CASE("Testing getting a tag key from tag name") {
+TEST_CASE("Testing getting a tag key from tag name", "[VT]") {
   //DCM_PixelData
   DcmTagKey key = Validator::getTagKeyFromDictionary("PixelData");
   //std::cout << "Tag key: \n" << key.toString() << "\n"  << std::endl;
@@ -281,7 +281,7 @@ TEST_CASE("Testing getting a tag key from tag name") {
   CHECK(key2 == DcmTagKey(0xffff,0xffff));  
 }
 
-TEST_CASE("Testing getting a tag name from tag key") {
+TEST_CASE("Testing getting a tag name from tag key", "[VT]") {
   //DCM_PixelData
   OFString tag_name = Validator::getTagNameFromDictionary(DCM_PixelData);
   //std::cout << "Tag name: \n" << tag_name << "\n"  << std::endl;
