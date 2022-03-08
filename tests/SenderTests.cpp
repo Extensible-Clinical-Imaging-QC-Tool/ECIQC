@@ -52,17 +52,17 @@ TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
 
 }
 
-TEST_CASE("Test C-STORE Association with SCU","[ST]"){
+TEST_CASE("Test C-STORE Association with SCU","[STS]"){
   OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
-  Receiver pool(11112, "TestSCP");
+  Receiver pool(104, "MOVESCP");
   pool.setpointer(pt);
   
 
     /* Setup DICOM connection parameters */
-  OFString ae_title = "StoreTestSCU";
-  OFString peer_hostname = "localhost";
-  Uint16 peer_port = 11112;
-  OFString peer_aetitle = "TestSCP";
+  OFString ae_title = "TEST-SCU";/*"StoreTestSCU";*/
+  OFString peer_hostname = "www.dicomserver.co.uk";
+  Uint16 peer_port = 104;
+  OFString peer_aetitle = "MOVESCP";/*"TestSCP";*/
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);  
    
    
@@ -94,7 +94,7 @@ TEST_CASE("Test C-STORE Association with SCU","[ST]"){
   OFCondition result = scu.initNetwork(); 
   CHECK(result.good());
 
-  OFCondition status = scu.addDicomFile("../DICOM_Images/1-1copy.dcm", ERM_fileOnly,false);
+  OFCondition status = scu.addDicomFile("../DICOM_Images/1-01.dcm", ERM_fileOnly,false);
   CHECK(status.good());
 
   /* Negotiate Association */ 
@@ -103,7 +103,7 @@ TEST_CASE("Test C-STORE Association with SCU","[ST]"){
 
   /*Assemble and send C-STORE request. Check if C-STORE was successful.*/
   Uint16 rspStatusCode = 0;
-  result = scu.sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm",0, rspStatusCode = 0);
+  result = scu.sendSTORERequest(0, "../DICOM_Images/1-01.dcm",0, rspStatusCode = 0);
   CHECK(result.good());
 
   /*Release association. */
