@@ -77,6 +77,10 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   src/image/ImageEditor.cpp
                   src/image/ImageEditor.hpp
         )
+                  # Sender Files
+                  src/communication/sender.hpp
+                  src/communication/sender.cpp
+                  )
 
 target_include_directories(qctool_lib PUBLIC src/)
 
@@ -133,7 +137,8 @@ add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/ConductorTests.cpp
                           tests/IETests.cpp
                           tests/validatorTests.cpp
-
+                          tests/SenderTests.cpp
+                          
                  )                          
 
 target_include_directories(unit_tests PRIVATE tests)
