@@ -150,10 +150,10 @@ bool ImageEditor::loadPixelData() {
     // delete the uncompressed dset
 
     // display the original image
-    //cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    //cv::imshow( "Unedited Image", slices[0]);
-    //cv::waitKey(0);
-    //cv::destroyAllWindows();
+    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    cv::imshow( "Unedited Image", slices[0]);
+    cv::waitKey(0);
+    cv::destroyAllWindows();
 
     // run preprocessing step
     prePro();
@@ -261,12 +261,12 @@ OFBool ImageEditor::lessThanFourChars(std::string text){
 void ImageEditor::coverText(){
   tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
   api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
-  api->SetPageSegMode(tesseract::PSM_AUTO);
-    for (std::size_t i = 0; i < imageProcessingSlices.size(); i++) {
+  api->SetPageSegMode(tesseract::PSM_SPARSE_TEXT);
+    for (std::size_t n = 0; n < imageProcessingSlices.size(); n++) {
         // vector of boxes for this slice
         std::vector<Box*> boxesToMask;
         // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
-        api->SetImage(imageProcessingSlices[i].data, imageProcessingSlices[i].cols, imageProcessingSlices[i].rows, 1, imageProcessingSlices[i].step);
+        api->SetImage(imageProcessingSlices[n].data, imageProcessingSlices[n].cols, imageProcessingSlices[n].rows, 1, imageProcessingSlices[n].step);
         Boxa *boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
         // ensure text has been found
         if (boxes) {
@@ -279,20 +279,20 @@ void ImageEditor::coverText(){
                 std::string ocrResult = api->GetUTF8Text();
                 OFBool blockText = OFTrue;
 
-                if (digitsOnly(ocrResult)) {
-                    // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
-                    blockText = OFFalse;
-                } else if (lessThanFourChars(ocrResult)) {
-                    // TODO: check for exclusions - short text/mixed strings to be blocked, otherwise retain them
-                    blockText = OFFalse;
-                } else {
-                    // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
-                }
+//                if (digitsOnly(ocrResult)) {
+//                    // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
+//                    blockText = OFFalse;
+//                } else if (lessThanFourChars(ocrResult)) {
+//                    // TODO: check for exclusions - short text/mixed strings to be blocked, otherwise retain them
+//                    blockText = OFFalse;
+//                } else {
+//                    // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
+//                }
 
                 if (blockText) {
                     // Draw the rectangle on the original image
                     cv::Rect rect(box->x, box->y, box->w, box->h);
-                    cv::rectangle(slices[i], rect, cv::Scalar(0, 255, 0));
+                    cv::rectangle(slices[n], rect, cv::Scalar(0, 255, 0));
                     // save the box to vector
                     boxesToMask.push_back(box);
                 }
@@ -300,6 +300,10 @@ void ImageEditor::coverText(){
                 boxDestroy(&box);
 
             }
+            cv::namedWindow("edited image", cv::WINDOW_AUTOSIZE);
+            cv::imshow("edited image", slices[n]);
+            cv::waitKey(0);
+
         }
         else {boxesToMask.push_back(NULL);}
         // add boxes for this slice to the overall vector
@@ -394,14 +398,32 @@ void ImageEditor::prePro(){
         }
         // TODO: (maybe) normalise before threshold (TBC - look at tess doc to see  if Tesseract normalises for us)
         // TODO: (maybe) contrast adjustment - look into this (helpful for text detection - again may not be needed for Tesseract
+        cv::fastNlMeansDenoising(imageProcessingSlices[i], imageProcessingSlices[i]);
         // convert to 8 bit if not already
         if ( imageProcessingSlices[i].depth() == CV_16U ) {
             cv::normalize(imageProcessingSlices[i], imageProcessingSlices[i], 0., 255., cv::NORM_MINMAX, CV_8UC1);
         }
         cv::threshold(imageProcessingSlices[i], imageProcessingSlices[i], 0, 255, cv::THRESH_OTSU);
-        //cv::namedWindow( "Threshold window", cv::WINDOW_AUTOSIZE );// Create a window for display.
-        //cv::imshow("Threshold window", imageProcessingSlices[i]);
+        cv::bitwise_not(imageProcessingSlices[i], imageProcessingSlices[i]);
+
     }
+    // Create an average image
+    double alpha;
+    double beta;
+    for (std::size_t i = 0; i < imageProcessingSlices.size(); i++) {
+        if (i == 0){averageImage = imageProcessingSlices[0];}
+        else {
+            alpha = 1.0 / (i + 1);
+            beta = 1.0 - alpha;
+            cv::addWeighted(imageProcessingSlices[i], alpha, averageImage, beta, 0, averageImage);
+        }
+
+    }
+
+
+    cv::namedWindow( "Average Threshold", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    cv::imshow("Average Threshold", averageImage);
+    cv::waitKey(0);
 
 }
 
