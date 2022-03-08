@@ -277,7 +277,11 @@ void ImageEditor::coverText(){
                 // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
                 api->SetRectangle(box->x, box->y, box->w, box->h);
                 std::string ocrResult = api->GetUTF8Text();
+                std::cout << ocrResult;
+                int conf = api->MeanTextConf();
                 OFBool blockText = OFTrue;
+
+
 
 //                if (digitsOnly(ocrResult)) {
 //                    // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
@@ -398,13 +402,12 @@ void ImageEditor::prePro(){
         }
         // TODO: (maybe) normalise before threshold (TBC - look at tess doc to see  if Tesseract normalises for us)
         // TODO: (maybe) contrast adjustment - look into this (helpful for text detection - again may not be needed for Tesseract
-        cv::fastNlMeansDenoising(imageProcessingSlices[i], imageProcessingSlices[i]);
         // convert to 8 bit if not already
         if ( imageProcessingSlices[i].depth() == CV_16U ) {
             cv::normalize(imageProcessingSlices[i], imageProcessingSlices[i], 0., 255., cv::NORM_MINMAX, CV_8UC1);
         }
         cv::threshold(imageProcessingSlices[i], imageProcessingSlices[i], 0, 255, cv::THRESH_OTSU);
-        cv::bitwise_not(imageProcessingSlices[i], imageProcessingSlices[i]);
+        //cv::bitwise_not(imageProcessingSlices[i], imageProcessingSlices[i]);
 
     }
     // Create an average image
