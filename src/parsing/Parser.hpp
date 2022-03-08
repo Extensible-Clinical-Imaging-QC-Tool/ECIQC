@@ -83,17 +83,25 @@ class Parser {
 
     private:
         /** Parse results of check IF_TRUE or IF_FALSE
-         *
-         * @return OFBool returns the result of the operation - this will always be true because
-         * the check has already been made, so the action will be performed.
+         * @param trueOrFalse OFBool indicating if result of check is true or false, so dictating which actions
+         * should follow.
+         * @param params json object containing parameters for actions to be performed. Actions may be further nested
+         * in these parameters.
+         * @return OFBool returns the result of the operation - this will always be true because the check has already
+         * been made, so the action will be performed.
          */
         OFBool parseTorF(OFBool trueOrFalse, const json& params);
+
         /** Performs an operation based on the parameters passed in from the config .json file.
          *
+         * @param instruction string indicating which check or action is to be performed.
+         * @param params json object containing parameters for actions to be performed. Actions may be further nested
+         * in these parameters.
          * @return OFBool returns the result of the operation - checks can be true or false,
          * actions will always return true after being performed.
          */
         OFBool parseOperation(OFString instruction, const json& params);
+
         /** Maps the string form of the actions to the enum. This is required because
          * you can only use integral types as switch cases in switch loops. Therefore 
          * strings can not be used
@@ -110,14 +118,21 @@ class Parser {
          */
         int resolveActions(OFString param);
 
-        /** Function that populates a WorkerParameter struct which will hold all the required
-         * arguments for a particular action
+        /** Function that populates a WorkerParameter struct which will hold all the required arguments for a
+         * particular action
          * 
          * @param param_object holds the json object with the desired arguments
          * @return WorkerParameters a populated struct
          */
         WorkerParameters WPMaker(const json& param_object);
 
+        /**
+         *
+         * @param instruction enumerated instruction indicating which check or action to be performed.
+         * @param params WorkerParameters object containing parameters for the check or action to be performed.
+         * @return OFCondition with result of check or or action.
+         */
+        OFCondition worker(int instruction, WorkerParameters params);
 };
 
 #endif

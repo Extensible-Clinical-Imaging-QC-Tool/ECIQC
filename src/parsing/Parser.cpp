@@ -93,6 +93,8 @@ void Parser::run() {
                 std::cout <<"\t action : "<< action.key() <<'\n'<< "\t action parameters: " << action.value()<< std::endl;
                 parseOperation(action.key().c_str(), action.value());
 
+//// parseOperation (in private methods) should be able to replace all of below
+
 //                instruction = action.key().c_str();
 ////              If this is an array, then instruction must be "AND", "OR" or "NOT".
 //                if(checkList.value()[action.key()].is_array()) {
@@ -365,7 +367,9 @@ OFBool Parser::parseTorF(OFBool trueOrFalse, const json& params){
     return OFTrue;
 }
 
-// TODO: Add logging of checks and actions performed
+// TODO: Add logging of checks and actions performed to output to user
+// TODO: Change OFBools to OFConditions
+// TODO: Use validator for checks and MEEditor for actions
 
 OFBool Parser::parseOperation(OFString instruction, const json& params){
     int enumerated_inst = resolveActions(instruction);
@@ -420,20 +424,20 @@ OFBool Parser::parseOperation(OFString instruction, const json& params){
                 std::cout << "Key : " << nested_key << "params : " << nested_parameters << std::endl;
                 parseOperation(nested_key,nested_parameters);
             }
+            return OFTrue; // Doesn't matter what this returns - actions have been done above
         }
         case (EQUAL | LESS_THAN | GREATER_THAN | EXIST | REGEX): {
             std::cout << "\t Key : " << instruction << "params : " << params << std::endl;
 
             paramStruct = WPMaker(params);
-            // TODO ... call worker to perform check
+            // TODO: call worker to perform check
             return parseTorF(check_result, params);
         }
-        case (INSERT | REMOVE | CLEAR | COPY |
-                OVERWRITE | UPDATE | APPEND | PREPEND): {
+        case (INSERT | REMOVE | CLEAR | COPY | OVERWRITE | UPDATE | APPEND | PREPEND): {
             std::cout << "\t Key : " << instruction << "params : " << params << std::endl;
             paramStruct = WPMaker(params);
-            // TODO ... call worker to perform action
-            return OFTrue;
+            // TODO: call worker to perform action
+            return OFTrue; // Return true once actions have been performed
         }
     }
 }
@@ -445,7 +449,7 @@ OFCondition Parser::worker(int instruction, WorkerParameters params) {
     switch(instruction) {
         // Editing options
         //action.
-        case (INSERT || OVERWRITE):
+        case (INSERT | OVERWRITE):
             // Arguments
 
             //TODO Check that params contains the required arguments for this case
