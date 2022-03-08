@@ -358,11 +358,13 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
 
 OFBool Parser::parse_operation(OFString instruction, const json& params){
     int enumerated_inst = resolveActions(instruction);
-    OFBool check_result = OFTrue;
+    OFBool check_result;
     OFString nested_key;
     json nested_parameters = {};
+    WorkerParameters paramStruct;
     switch (enumerated_inst){
         case AND: {
+            check_result = OFTrue;
             for(const auto& nested_ops: params[0].items()){
                 nested_key = nested_ops.key().c_str();
                 nested_parameters = nested_ops.value();
@@ -402,43 +404,20 @@ OFBool Parser::parse_operation(OFString instruction, const json& params){
                 // parse_operation for IF_FALSE
             }
         }
-        case EQUAL: {
-            break;
+        case (EQUAL | LESS_THAN | GREATER_THAN | EXIST | REGEX): {
+            paramStruct = WPMaker(params);
+            // ... call worker to perform check
+            if (check_result) {
+                // parse_operation for IF_TRUE
+            }
+            else {
+                // parse_operation for IF_FALSE
+            }            break;
         }
-        case LESS_THAN: {
-            break;
-        }
-        case GREATER_THAN: {
-            break;
-        }
-        case EXIST: {
-            break;
-        }
-        case REGEX: {
-            break;
-        }
-        case INSERT: {
-            break;
-        }
-        case REMOVE: {
-            break;
-        }
-        case CLEAR: {
-            break;
-        }
-        case COPY: {
-            break;
-        }
-        case OVERWRITE: {
-            break;
-        }
-        case UPDATE: {
-            break;
-        }
-        case APPEND: {
-            break;
-        }
-        case PREPEND: {
+        case (INSERT | REMOVE | CLEAR | COPY |
+                OVERWRITE | UPDATE | APPEND | PREPEND): {
+            paramStruct = WPMaker(params);
+            // ... call worker to perform action
             break;
         }
     }
