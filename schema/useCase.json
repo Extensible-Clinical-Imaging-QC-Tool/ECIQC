@@ -3,7 +3,7 @@
         "tagName": "PatientName",
         "vr": "CS",
         "description": "check if patient is called 'bob' and change, if so.",
-        "operations": [{
+        "operations": {
                 "EQUAL": {
                     "tag": "(0010,0011)",
                     "value": "bob",
@@ -12,24 +12,23 @@
                             "tag": "",
                             "value": "Robert"
                         }
-                    },
-                    "IF_FALSE": ""
+                    }
                 },
                 "COPY": {
                     "fromTag": "(0020,0010)",
                     "toTag": ""
                 }
-            }]
+            }
     },
     "(0020,0010)": {
         "tagName": "PatientAge",
         "vr": "AS",
-        "operations": [{
+        "operations": {
                 "OVERWRITE": {
                     "tag": "(0010,0011)",
                     "value": "56"
                 },
-                "AND": [{
+                "AND": {
                         "GREATER_THAN": {
                             "tag": "",
                             "value": 43
@@ -38,21 +37,20 @@
                             "tag": "",
                             "value": 80
                         },
-                        "IF_TRUE": "",
                         "IF_FALSE": {
                             "REMOVE": {
                                 "tag": ""
                             }
                         }
-                    }]
-            }]
+                    }
+            }
     },
     "(0010,0040)": {
         "tagName": "PatientSex",
         "vr": "CS",
         "description": "Checks patient sex not empty and clears if it is",
-        "operations": [{
-                "NOT": [{
+        "operations": {
+                "NOT": {
                     "EQUAL": {
                         "tag": "",
                         "value": ""
@@ -61,9 +59,8 @@
                         "CLEAR": {
                             "tag": ""
                         }
-                    },
-                  "IF_FALSE": ""
-                }]
-        }]
+                    }
+                }
+        }
     }
 }
