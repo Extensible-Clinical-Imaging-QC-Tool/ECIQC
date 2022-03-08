@@ -76,7 +76,7 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   # IE Files
                   src/image/ImageEditor.cpp
                   src/image/ImageEditor.hpp
-        )
+        
                   # Sender Files
                   src/communication/sender.hpp
                   src/communication/sender.cpp
