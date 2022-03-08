@@ -154,11 +154,9 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   /*Assemble and send C-STORE request. Check if C-STORE was successful.*/
   Uint16 rspStatusCode = 0;
   result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data, rspStatusCode = 0);
-  //CHECK(result.good());
-  if (result.bad()){
-    
+  CHECK(result.bad());
+  if (result.bad()){   
     status = data->saveFile("../DICOM_Images/Archive/testtext.dcm");
-    std::cerr<< "ERROR: Fail to send C-STORE Request. Data retained in ../DICOM_Images/Archive.";
     CHECK(status.good());
     }
     
@@ -249,7 +247,6 @@ TEST_CASE("Test Successful C-STORE Association with SCU","[STS2]"){
   CHECK(result.good());
   if (result.bad()){
     status = data->saveFile("../DICOM_Images/Archive/testtext.dcm");
-    std::cerr<< "Fail to send C-STORE Request. Data retained in ../DICOM_Images/Archive.";
     CHECK(status.good());
   }
     
