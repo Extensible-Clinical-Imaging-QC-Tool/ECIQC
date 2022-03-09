@@ -80,6 +80,8 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   # Sender Files
                   src/communication/sender.hpp
                   src/communication/sender.cpp
+
+                  src/CLI.cpp
                   )
 
 target_include_directories(qctool_lib PUBLIC src/)
