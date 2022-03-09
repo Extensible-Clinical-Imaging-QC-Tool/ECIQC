@@ -1,6 +1,5 @@
 #include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */ 
 #include "dcmtk/dcmnet/diutil.h" 
-#include "dcmtk/oflog/oflog.h"
 #include "dcmtk/oflog/fileap.h"
 #include "catch.hpp"
 
@@ -9,6 +8,7 @@
 
 #include "../src/communication/sender.hpp"
 #include "../src/communication/receiver.hpp"
+/*
 
 using namespace cpp_template;
 
@@ -18,6 +18,7 @@ static OFLogger my_Logger = OFLog::getLogger("dcmtk.apps." OFFIS_CONSOLE_APPLICA
 
 static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
   OFFIS_DCMTK_VERSION " " OFFIS_DCMTK_RELEASEDATE " $";
+  */
 
 
     
@@ -26,18 +27,18 @@ static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
 TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
 
   /* specify log pattern */
-    OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-    /* Denote that a log file should be used that is appended to. The file is re-created every
-       time the code gets to this point.
-     */
-    dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("ST.log"));
-    //logfile->setLayout(OFmove(layout));
+  OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
+  /* Denote that a log file should be used that is appended to. The file is re-created every
+      time the code gets to this point.
+    */
+  dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("ST.log"));
+  //logfile->setLayout(OFmove(layout));
 
-    /* make sure that only the file logger is used */
-    dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
-    log.removeAllAppenders();
-    log.addAppender(logfile);
-    log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
+  /* make sure that only the file logger is used */
+  dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
+  log.removeAllAppenders();
+  log.addAppender(logfile);
+  log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
 
   /* Setup DICOM connection parameters */ 
   
@@ -84,18 +85,18 @@ TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
 TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
 
   /* specify log pattern */
-    OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-    /* Denote that a log file should be used that is appended to. The file is re-created every
-       time the code gets to this point.
-     */
-    dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS.log"));
-    //logfile->setLayout(OFmove(layout));
+  OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
+  /* Denote that a log file should be used that is appended to. The file is re-created every
+      time the code gets to this point.
+  */
+  dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS.log"));
+  //logfile->setLayout(OFmove(layout));
 
-    /* make sure that only the file logger is used */
-    dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
-    log.removeAllAppenders();
-    log.addAppender(logfile);
-    log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
+  /* make sure that only the file logger is used */
+  dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
+  log.removeAllAppenders();
+  log.addAppender(logfile);
+  log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
   OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
   Receiver pool(104, "MOVESCP");
   pool.setpointer(pt);
@@ -156,7 +157,7 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data, rspStatusCode = 0);
   CHECK(result.bad());
   if (result.bad()){   
-    status = data->saveFile("../DICOM_Images/Archive/testtext.dcm");
+    status = data->saveFile("../DICOM_Images/archive_1.dcm");
     CHECK(status.good());
     }
     
@@ -174,18 +175,18 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
 
 TEST_CASE("Test Successful C-STORE Association with SCU","[STS2]"){
   /* specify log pattern */
-    OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-    /* Denote that a log file should be used that is appended to. The file is re-created every
-       time the code gets to this point.
-     */
-    dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS2.log"));
-    //logfile->setLayout(OFmove(layout));
+  OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
+  /* Denote that a log file should be used that is appended to. The file is re-created every
+      time the code gets to this point.
+  */
+  dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS2.log"));
+  //logfile->setLayout(OFmove(layout));
 
-    /* make sure that only the file logger is used */
-    dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
-    log.removeAllAppenders();
-    log.addAppender(logfile);
-    log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
+  /* make sure that only the file logger is used */
+  dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
+  log.removeAllAppenders();
+  log.addAppender(logfile);
+  log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
   OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
   Receiver pool(104, "MOVESCP");
   pool.setpointer(pt);
