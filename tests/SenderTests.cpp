@@ -37,7 +37,7 @@ TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
     dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
     log.removeAllAppenders();
     log.addAppender(logfile);
-    log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
+    log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
 
   /* Setup DICOM connection parameters */ 
   
