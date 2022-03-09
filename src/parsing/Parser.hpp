@@ -87,8 +87,8 @@ class Parser {
          * should follow.
          * @param params json object containing parameters for actions to be performed. Actions may be further nested
          * in these parameters.
-         * @return OFBool returns the result of the operation - this will always be true because the check has already
-         * been made, so the action will be performed.
+         * @return OFCondition returns the result of the operation - this will always be "OK" because the check has
+         * already been made, so the action will be performed. OFCondition returned for consistency with parseOperation.
          */
         OFCondition parseTorF(OFBool trueOrFalse, const json& params);
 
@@ -97,8 +97,8 @@ class Parser {
          * @param instruction string indicating which check or action is to be performed.
          * @param params json object containing parameters for actions to be performed. Actions may be further nested
          * in these parameters.
-         * @return OFBool returns the result of the operation - checks can be true or false,
-         * actions will always return true after being performed.
+         * @return OFCondition returns the result of the operation - checks can be true or false (status OK or not,
+         * actions will always return OK after being performed.
          */
         OFCondition parseOperation(OFString instruction, const json& params);
 

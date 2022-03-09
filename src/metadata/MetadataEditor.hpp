@@ -56,6 +56,8 @@ public:
   */
   OFString getTagString();
 
+  // CHECKS
+
   /** Checks whether the tag specified by tagKey is present in the dataset
    * @param searchIntoSub if true, the search will dive into nested values and search
    *        the lower levels as well
@@ -108,7 +110,140 @@ public:
    */
   OFCondition match(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
 
-  /** Modifies or inserts a value at a tag 
+// TODO: add REMOVE and CLEAR functions(?), add APPEND and PREPEND, and UDPATE?
+// TODO: Implement equals, less_than and greater_than. NOTE: greater_than can be less_than with values negated
+// TODO: should string equals be case-sensitive or not?
+  /** Checks if value at a tag matches a string exactly
+   *
+   * @param str_expr string to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the string exactly
+   */
+  OFCondition equals(OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Checks if value at a tag matches a string exactly
+   *
+   * @param otherTagString holds the desired tag in (group, element) string form
+   * @param str_expr string to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the string exactly
+   */
+  OFCondition equals(OFString otherTagString, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Checks if value at a tag matches a string exactly
+   *
+   * @param otherTagKey holds the desired tag in (group, element) string form
+   * @param str_expr string to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the string exactly
+   */
+  OFCondition equals(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Checks if value at a tag matches a value exactly
+   *
+   * @param compare_value double to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the double exactly
+   */
+  OFCondition equals(double compare_value, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Checks if value at a tag matches a value exactly
+   *
+   * @param otherTagString holds the desired tag in (group, element) string form
+   * @param compare_value double to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the double exactly
+   */
+  OFCondition equals(OFString otherTagString, double compare_value, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Checks if value at a tag matches a value exactly
+   *
+   * @param otherTagKey holds the desired tag in (group, element) string form
+   * @param compare_value double to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the double exactly
+   */
+  OFCondition equals(DcmTagKey otherTagKey, double compare_value, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Check if value at a tag is less than a given value
+   *
+   * @param compare_value double to compare value at tag with
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value is less than the given double
+   */
+  OFCondition lessThan(double compare_value, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Check if value at a tag is less than a given value
+   *
+   * @param otherTagString holds the desired tag in (group, element) string form
+   * @param compare_value double to compare value at tag with
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value is less than the given double
+   */
+  OFCondition lessThan(OFString otherTagString, double compare_value, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Check if value at a tag is less than a given value
+   *
+   * @param otherTagKey holds the desired tag in (group, element) string form
+   * @param compare_value double to compare value at tag with
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value is less than the given double
+   */
+  OFCondition lessThan(DcmTagKey otherTagKey, double compare_value, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Check if value at a tag is greater than a given value
+   *
+   * @param compare_value double to compare value at tag with
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value is greater than the given double
+   */
+  OFCondition greaterThan(double compare_value, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Check if value at a tag is greater than a given value
+   *
+   * @param otherTagString holds the desired tag in (group, element) string form
+   * @param compare_value double to compare value at tag with
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value is greater than the given double
+   */
+  OFCondition greaterThan(OFString otherTagString, double compare_value, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Check if value at a tag is greater than a given value
+   *
+   * @param otherTagKey holds the desired tag in (group, element) string form
+   * @param compare_value double to compare value at tag with
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value is greater than the given double
+   */
+  OFCondition greaterThan(DcmTagKey otherTagKey, double compare_value, OFCondition &flag, const unsigned long pos = 0);
+
+  // EDITS
+
+    /** Modifies or inserts a value at a tag
    * @param newValue denotes new value of tag
    * @param only_overwrite if true, only existing tags are processed. If false,
    *        any not existing tag is inserted
