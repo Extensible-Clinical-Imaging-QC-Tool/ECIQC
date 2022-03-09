@@ -156,7 +156,7 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data, rspStatusCode = 0);
   CHECK(result.bad());
   if (result.bad()){   
-    status = data->saveFile("../DICOM_Images/Archive/testtext.dcm");
+    status = data->saveFile("../DICOM_Images/Archive_1.dcm");
     CHECK(status.good());
     }
     
@@ -246,7 +246,7 @@ TEST_CASE("Test Successful C-STORE Association with SCU","[STS2]"){
   result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data, rspStatusCode = 0);
   CHECK(result.good());
   if (result.bad()){
-    status = data->saveFile("../DICOM_Images/Archive/testtext.dcm");
+    status = data->saveFile("../DICOM_Images/Archive_1.dcm");
     CHECK(status.good());
   }
     
