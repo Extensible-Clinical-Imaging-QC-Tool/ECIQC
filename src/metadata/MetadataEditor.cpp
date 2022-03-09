@@ -110,7 +110,7 @@ OFBool MetadataEditor::match(OFString str_expr, OFCondition &flag, const unsigne
 OFBool MetadataEditor::match(OFString otherTagString, OFString str_expr,
                              OFCondition &flag, const unsigned long pos) {
   // Ensure the element specified by the tag exists before matching
-  if (exists(OFFalse)) {
+  if (exists(otherTagString,OFFalse)) {
     OFString str;
     DcmTagKey otherTagKey;
     flag = stringToKey(otherTagString, otherTagKey);
@@ -132,7 +132,7 @@ OFBool MetadataEditor::match(OFString otherTagString, OFString str_expr,
 OFBool MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr,
                              OFCondition &flag, const unsigned long pos) {
   // Ensure the element specified by the tag exists before matching
-  if (exists(OFFalse)) {
+  if (exists(otherTagKey,OFFalse)) {
     OFString str;
     flag = dset->findAndGetOFString(otherTagKey, str,pos);
 
