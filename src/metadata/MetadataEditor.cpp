@@ -50,24 +50,42 @@ DcmTagKey MetadataEditor::getTagKey() { return tagKey; }
 OFString MetadataEditor::getTagString() { return tagString; }
 
 // Does  'this' tag exist?
-OFBool MetadataEditor::exists(OFBool searchIntoSub) {
+OFCondition MetadataEditor::exists(OFBool searchIntoSub) {
   OFBool result = dset->tagExists(tagKey, searchIntoSub);
-  return result;
+//  return result;
+  if (result){
+      return makeOFCondition(OFM_dcmdata, 23, OF_ok, "This tag does exist");
+  }
+  else {
+      return makeOFCondition(OFM_dcmdata, 23, OF_error, "This tag does not exist");
+  }
 }
 
 // Does another tag exist?
-OFBool MetadataEditor::exists(const DcmTagKey &otherTagKey,
+OFCondition MetadataEditor::exists(const DcmTagKey &otherTagKey,
                               OFBool searchIntoSub) {
   OFBool result = dset->tagExists(otherTagKey, searchIntoSub);
-  return result;
+//  return result;
+    if (result){
+        return makeOFCondition(OFM_dcmdata, 23, OF_ok, "This tag does exist");
+    }
+    else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error, "This tag does not exist");
+    }
 }
 
-OFBool MetadataEditor::exists(OFString otherTagString, OFBool searchIntoSub) {
+OFCondition MetadataEditor::exists(OFString otherTagString, OFBool searchIntoSub) {
   DcmTagKey otherTagKey;
   OFCondition resultCond = stringToKey(otherTagString, otherTagKey);
 
   OFBool result = dset->tagExists(otherTagKey, searchIntoSub);
-  return result;
+//  return result;
+    if (result){
+        return makeOFCondition(OFM_dcmdata, 23, OF_ok, "This tag does exist");
+    }
+    else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error, "This tag does not exist");
+    }
 }
 
 // Allows editing the value at the current or a different tag
@@ -92,56 +110,68 @@ OFCondition MetadataEditor::modify(OFString newValue, DcmTagKey otherTagKey,
 }
 
 // Check if the value at 'this' tag matches the regex expression
-OFBool MetadataEditor::match(OFString str_expr, OFCondition &flag, const unsigned long pos) {
+OFCondition MetadataEditor::match(OFString str_expr, OFCondition &flag, const unsigned long pos) {
   // Ensure the element specified by the tag exists before matching
-  if (exists(OFFalse)) {
+  if (exists(OFFalse).good()) {
     OFString str;
     flag = dset->findAndGetOFString(tagKey, str,pos);
 
     std::regex expr(str_expr.c_str());
-    return std::regex_match(str.c_str(), expr);
+    if (std::regex_match(str.c_str(), expr)) {
+      return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value specified by the tag matches the regex expression");
+    } else {
+      return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                             "Value specified by the tag doesn't match the regex expression");
+    }
   } else {
-    flag = makeOFCondition(OFM_dcmdata, 23, OF_error,
-                           "element specified by the tag does not exst");
-    return 0;
+      return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                             "element specified by the tag does not exist");
   }
 }
 
-OFBool MetadataEditor::match(OFString otherTagString, OFString str_expr,
+OFCondition MetadataEditor::match(OFString otherTagString, OFString str_expr,
                              OFCondition &flag, const unsigned long pos) {
   // Ensure the element specified by the tag exists before matching
-  if (exists(otherTagString,OFFalse)) {
+  if (exists(otherTagString,OFFalse).good()) {
     OFString str;
     DcmTagKey otherTagKey;
     flag = stringToKey(otherTagString, otherTagKey);
     if (flag.bad()) {
       std::cout << flag.text() << std::endl;
-      return 0;
+      return flag;
     }
     flag = dset->findAndGetOFString(otherTagKey, str,pos);
 
     std::regex expr(str_expr.c_str());
-    return std::regex_match(str.c_str(), expr);
+      if (std::regex_match(str.c_str(), expr)) {
+          return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value specified by the tag matches the regex expression");
+      } else {
+          return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                                 "Value specified by the tag doesn't match the regex expression");
+      }
   } else {
-    flag = makeOFCondition(OFM_dcmdata, 23, OF_error,
-                           "element specified by the tag does not exst");
-    return 0;
+      return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                             "element specified by the tag does not exist");
   }
 }
 
-OFBool MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr,
+OFCondition MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr,
                              OFCondition &flag, const unsigned long pos) {
   // Ensure the element specified by the tag exists before matching
-  if (exists(otherTagKey,OFFalse)) {
+  if (exists(otherTagKey,OFFalse).good()) {
     OFString str;
     flag = dset->findAndGetOFString(otherTagKey, str,pos);
 
     std::regex expr(str_expr.c_str());
-    return std::regex_match(str.c_str(), expr);
+      if (std::regex_match(str.c_str(), expr)) {
+          return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value specified by the tag matches the regex expression");
+      } else {
+          return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                                 "Value specified by the tag doesn't match the regex expression");
+      }
   } else {
-    flag = makeOFCondition(OFM_dcmdata, 23, OF_error,
-                           "element specified by the tag does not exst");
-    return 0;
+      return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                             "element specified by the tag does not exist");
   }
 }
 
@@ -150,7 +180,7 @@ OFBool MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr,
 OFCondition MetadataEditor::copy(DcmTagKey otherTagKey, const unsigned long posFrom,
                                     const unsigned long posTo, OFBool copyToThis,
                                     OFBool replace, OFBool searchIntoSub) {
-  if (!exists(otherTagKey)) {
+  if (exists(otherTagKey).bad()) {
     return makeOFCondition(OFM_dcmdata, 23, OF_error,
                            "tag does not exist in DICOM file");
   }

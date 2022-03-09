@@ -90,7 +90,7 @@ class Parser {
          * @return OFBool returns the result of the operation - this will always be true because the check has already
          * been made, so the action will be performed.
          */
-        OFBool parseTorF(OFBool trueOrFalse, const json& params);
+        OFCondition parseTorF(OFBool trueOrFalse, const json& params);
 
         /** Performs an operation based on the parameters passed in from the config .json file.
          *
@@ -100,7 +100,7 @@ class Parser {
          * @return OFBool returns the result of the operation - checks can be true or false,
          * actions will always return true after being performed.
          */
-        OFBool parseOperation(OFString instruction, const json& params);
+        OFCondition parseOperation(OFString instruction, const json& params);
 
         /** Maps the string form of the actions to the enum. This is required because
          * you can only use integral types as switch cases in switch loops. Therefore 

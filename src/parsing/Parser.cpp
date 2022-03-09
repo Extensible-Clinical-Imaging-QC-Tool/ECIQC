@@ -357,21 +357,21 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
 
 }
 
-OFBool Parser::parseTorF(OFBool trueOrFalse, const json& params){
+OFCondition Parser::parseTorF(OFBool trueOrFalse, const json& params){
     if (trueOrFalse == OFTrue && params.contains("IF_TRUE")){
         return parseOperation("IF_TRUE", params.at("IF_TRUE"));
     }
     else if (trueOrFalse == OFFalse && params.contains("IF_FALSE")) {
         return parseOperation("IF_FALSE", params.at("IF_FALSE"));
     }
-    return OFTrue;
+    return EC_Normal;
 }
 
 // TODO: Add logging of checks and actions performed to output to user
 // TODO: Change OFBools to OFConditions
 // TODO: Use validator for checks and MEEditor for actions
 
-OFBool Parser::parseOperation(OFString instruction, const json& params){
+OFCondition Parser::parseOperation(OFString instruction, const json& params){
     int enumerated_inst = resolveActions(instruction);
     OFBool check_result;
     OFString nested_key;
@@ -385,7 +385,7 @@ OFBool Parser::parseOperation(OFString instruction, const json& params){
                 nested_parameters = nested_ops.value();
                 if (nested_key != "IF_TRUE" && nested_key != "IF_FALSE") {
                     std::cout << "AND CHECK \t\t Key : " << nested_key << "params : " << nested_parameters << std::endl;
-                    if (parseOperation(nested_key, nested_parameters) == OFFalse) {
+                    if (parseOperation(nested_key, nested_parameters).bad()) {
                         check_result = OFFalse;
                     }
                 }
@@ -399,7 +399,7 @@ OFBool Parser::parseOperation(OFString instruction, const json& params){
                 nested_parameters = nested_ops.value();
                 if (nested_key != "IF_TRUE" && nested_key != "IF_FALSE"){
                     std::cout << "OR CHECK \t\t Key : " << nested_key << "params : " << nested_parameters << std::endl;
-                    if (parseOperation(nested_key,nested_parameters) == OFTrue){
+                    if (parseOperation(nested_key,nested_parameters).good()){
                         check_result = OFTrue;
                     }
                 }
@@ -412,7 +412,7 @@ OFBool Parser::parseOperation(OFString instruction, const json& params){
                 nested_parameters = nested_ops.value();
                 if (nested_key != "IF_TRUE" && nested_key != "IF_FALSE") {
                     std::cout << "NOT CHECK \t\t Key : " << nested_key << "params : " << nested_parameters << std::endl;
-                    check_result = !parseOperation(nested_key, nested_parameters);
+                    check_result = parseOperation(nested_key, nested_parameters).bad();
                 }
             }
             return parseTorF(check_result, params);
@@ -424,7 +424,7 @@ OFBool Parser::parseOperation(OFString instruction, const json& params){
                 std::cout << "Key : " << nested_key << "params : " << nested_parameters << std::endl;
                 parseOperation(nested_key,nested_parameters);
             }
-            return OFTrue; // Doesn't matter what this returns - actions have been done above
+            return EC_Normal; // Doesn't matter what this returns - actions have been done above
         }
         case (EQUAL | LESS_THAN | GREATER_THAN | EXIST | REGEX): {
             std::cout << "\t Key : " << instruction << "params : " << params << std::endl;
@@ -437,7 +437,7 @@ OFBool Parser::parseOperation(OFString instruction, const json& params){
             std::cout << "\t Key : " << instruction << "params : " << params << std::endl;
             paramStruct = WPMaker(params);
             // TODO: call worker to perform action
-            return OFTrue; // Return true once actions have been performed
+            return EC_Normal; // Return normal once actions have been performed
         }
     }
 }

@@ -59,34 +59,34 @@ public:
   /** Checks whether the tag specified by tagKey is present in the dataset
    * @param searchIntoSub if true, the search will dive into nested values and search
    *        the lower levels as well
-   * @return OFBool representing whether or not the tag is present
+   * @return OFCondition representing whether or not the tag is present
    */
-  OFBool exists(OFBool searchIntoSub = OFFalse);
+  OFCondition exists(OFBool searchIntoSub = OFFalse);
 
   /** Checks whether a tag is present in the dataset
    * @param otherTagString holds the desired tag in (group, element) string form
    * @param searchIntoSub if true, the search will dive into nested values and search
    *        the lower levels as well
-   * @return OFBool representing whether or not the tag is present
+   * @return OFCondition representing whether or not the tag is present
    */
-  OFBool exists(OFString otherTagString, OFBool searchIntoSub = OFFalse);
+  OFCondition exists(OFString otherTagString, OFBool searchIntoSub = OFFalse);
 
   /** Checks whether a tag is present in the dataset
    * @param key holds the desired tag as a DcmTagKey
    * @param searchIntoSub if true, the search will dive into nested values and search
    *        the lower levels as well
-   * @return OFBool representing whether or not the tag is present
+   * @return OFCondition representing whether or not the tag is present
    */
-  OFBool exists(const DcmTagKey &key, OFBool searchIntoSub = OFFalse);
+  OFCondition exists(const DcmTagKey &key, OFBool searchIntoSub = OFFalse);
 
   /** Checks if the value at a tag matches a REGEX
    * @param str_expr holds the REGEX in string form
    * @param flag a reference intended to store the result of the retrieval of the value
    *        at the specified tag. It should hold EC_Normal if all goes well
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
-   * @return OFBool representing whether or not the value matches the REGEX
+   * @return OFCondition representing whether or not the value matches the REGEX
    */
-  OFBool match(OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition match(OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
 
   /** Checks if the value at a tag matches a REGEX
    * @param otherTagString holds the desired tag in (group, element) string form
@@ -94,9 +94,9 @@ public:
    * @param flag a reference intended to store the result of the retrieval of the value
    *        at the specified tag. It should hold EC_Normal if all goes well
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
-   * @return OFBool representing whether or not the value matches the REGEX
+   * @return OFCondition representing whether or not the value matches the REGEX
    */
-  OFBool match(OFString otherTagString, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition match(OFString otherTagString, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
 
   /** Checks if the value at a tag matches a REGEX
    * @param otherTagKey holds the desired tag as a DcmTagKey
@@ -104,9 +104,9 @@ public:
    * @param flag a reference intended to store the result of the retrieval of the value
    *        at the specified tag. It should hold EC_Normal if all goes well
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
-   * @return OFBool representing whether or not the value matches the REGEX
+   * @return OFCondition representing whether or not the value matches the REGEX
    */
-  OFBool match(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition match(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
 
   /** Modifies or inserts a value at a tag 
    * @param newValue denotes new value of tag
