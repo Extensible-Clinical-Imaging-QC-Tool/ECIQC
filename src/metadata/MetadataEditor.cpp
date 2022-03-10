@@ -175,8 +175,76 @@ OFCondition MetadataEditor::match(DcmTagKey otherTagKey, OFString str_expr,
   }
 }
 
+OFCondition MetadataEditor::equals(OFString str_expr, OFCondition &flag, const unsigned long pos){
+    // Ensure the element specified by the tag exists before matching
+    if (exists(OFFalse).good()) {
+        OFString str;
+        flag = dset->findAndGetOFString(tagKey, str,pos);
+
+        std::string expr = str_expr.c_str();
+        if (str.c_str() == expr) {
+            return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value specified by the tag matches the string");
+        } else {
+            return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                                   "Value specified by the tag doesn't match the string");
+        }
+    } else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "element specified by the tag does not exist or is not a string");
+    }
+}
+
+OFCondition MetadataEditor::equals(OFString otherTagString, OFString str_expr,
+                                  OFCondition &flag, const unsigned long pos) {
+    // Ensure the element specified by the tag exists before matching
+    if (exists(otherTagString,OFFalse).good()) {
+        OFString str;
+        DcmTagKey otherTagKey;
+        flag = stringToKey(otherTagString, otherTagKey);
+        if (flag.bad()) {
+            std::cout << flag.text() << std::endl;
+            return flag;
+        }
+        flag = dset->findAndGetOFString(otherTagKey, str,pos);
+
+        std::string expr = str_expr.c_str();
+        if (str.c_str() == expr) {
+            return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value specified by the tag matches the string");
+        } else {
+            return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                                   "Value specified by the tag doesn't match the string");
+        }
+    } else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "element specified by the tag does not exist or is not a string");
+    }
+}
+
+OFCondition MetadataEditor::equals(DcmTagKey otherTagKey, OFString str_expr,
+                                  OFCondition &flag, const unsigned long pos) {
+    // Ensure the element specified by the tag exists before matching
+    if (exists(otherTagKey,OFFalse).good()) {
+        OFString str;
+        flag = dset->findAndGetOFString(otherTagKey, str,pos);
+
+        std::string expr = str_expr.c_str();
+        if (str.c_str() == expr) {
+            return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value specified by the tag matches the string");
+        } else {
+            return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                                   "Value specified by the tag doesn't match the string");
+        }
+    } else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "element specified by the tag does not exist or is not a string");
+    }
+}
+
+// TODO: equals functions for comparing values (have to convert between UInt, SInt, Floats???)
+
+
+
 // Copy Tag
-// TODO Create version that takes in string version as well
 OFCondition MetadataEditor::copy(DcmTagKey otherTagKey, const unsigned long posFrom,
                                     const unsigned long posTo, OFBool copyToThis,
                                     OFBool replace, OFBool searchIntoSub) {
@@ -270,6 +338,22 @@ OFCondition MetadataEditor::copy(DcmTagKey otherTagKey, const unsigned long posF
     break;
   }
   return (resGet.bad() ? resGet : resPut);
+}
+
+OFCondition MetadataEditor::copy(OFString otherTagString, const unsigned long posFrom,
+                                 const unsigned long posTo, OFBool copyToThis,
+                                 OFBool replace, OFBool searchIntoSub) {
+    if (exists(otherTagString,OFFalse).good()) {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "tag does not exist in DICOM file");
+    }
+    DcmTagKey otherTagKey;
+    OFCondition flag = stringToKey(otherTagString, otherTagKey);
+    if (flag.bad()) {
+        std::cout << flag.text() << std::endl;
+        return flag;
+    }
+    return copy(otherTagKey, posFrom, posTo, copyToThis, replace, searchIntoSub);
 }
 
 ////////////////////////////////////////////////////////////////////
