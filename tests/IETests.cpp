@@ -39,7 +39,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 Uint16* pixelData;
 //
 TEST_CASE("Test for reading DICOM images and converting to MAT object for openCV","[DR]") {
-    OFString filePath = OFString("../DICOM_Images/GEMS_IMG/2018_AUG/16/_C102004/I8GB5UO2");
+
+//    OFString filePath = OFString("../DICOM_Images/GEMS_IMG/2021_NOV/18/_C103258/LBIAGEG2");
+    OFString filePath = OFString("../DICOM_Images/GEMS_IMG/2019_MAR/20/_C130056/J3KD2EG2");
     ImageEditor* dicomTest = new ImageEditor(filePath);
     std::cout << dicomTest->getSlices()[0].size() << std::endl;
     std::cout << dicomTest->getSlices()[0].channels() << std::endl;

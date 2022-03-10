@@ -135,6 +135,8 @@ private:
     void * getSlicesPtr();
 
     Uint8 *getRawJpegData(DcmPixelData *pixelData);
+
+    OFBool isSpecialCharactersOnly(std::string text);
 };
 
 #endif // ImageEditor_H_

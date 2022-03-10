@@ -153,7 +153,7 @@ bool ImageEditor::loadPixelData() {
     cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
     cv::imshow( "Unedited Image", slices[0]);
     cv::waitKey(0);
-    cv::destroyAllWindows();
+    //cv::destroyAllWindows();
 
     // run preprocessing step
     prePro();
@@ -184,7 +184,7 @@ bool ImageEditor::loadPixelData() {
             if (!isSigned) {
                 Uint8 * mergedSlices = combined.data;
                 // insert array back into DcmPixelData
-                //pixelData->putUint8Array(mergedSlices, length);
+                pixelData->putUint8Array(mergedSlices, length);
 
             }
         }
@@ -243,8 +243,17 @@ auto ImageEditor::digitsOnly(std::string text) -> OFBool{
                   [](char c){ return isdigit(c) != 0; });
 }
 
+OFBool  ImageEditor::isSpecialCharactersOnly(std::string text){
+    return std::regex_match(text, std::regex("[^a-zA-Z0-9]+"));
+}
+
+
 OFBool ImageEditor::lessThanFourChars(std::string text){
-  return text.length() < 4;
+    text.erase(std::remove_if(text.begin(), text.end(), isspace), text.end());
+    text.erase(std::remove(text.begin(), text.end(), '\n'), text.end());
+    std::cout << text << "length: " << text.length() << "\n";
+
+    return text.length() < 4;
 }
 
 
@@ -260,13 +269,17 @@ OFBool ImageEditor::lessThanFourChars(std::string text){
 
 void ImageEditor::coverText(){
   tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
-  api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
-  api->SetPageSegMode(tesseract::PSM_SPARSE_TEXT);
+    // Stop tesseract using dictionaries for word recogntion
+    std::vector<std::string> pars_vec {"load_system_dawg", "load_freq_dawg"};
+    std::vector<std::string> pars_values{"0", "0"};
+    api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY, NULL, 0, &pars_vec, &pars_values, false);
+    api->SetPageSegMode(tesseract::PSM_SPARSE_TEXT);
+
     for (std::size_t n = 0; n < imageProcessingSlices.size(); n++) {
         // vector of boxes for this slice
         std::vector<Box*> boxesToMask;
         // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
-        api->SetImage(imageProcessingSlices[n].data, imageProcessingSlices[n].cols, imageProcessingSlices[n].rows, 1, imageProcessingSlices[n].step);
+        api->SetImage(averageImage.data, averageImage.cols, averageImage.rows, 1, averageImage.step);
         Boxa *boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
         // ensure text has been found
         if (boxes) {
@@ -277,23 +290,27 @@ void ImageEditor::coverText(){
                 // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
                 api->SetRectangle(box->x, box->y, box->w, box->h);
                 std::string ocrResult = api->GetUTF8Text();
-                std::cout << ocrResult;
                 int conf = api->MeanTextConf();
                 OFBool blockText = OFTrue;
 
 
+                // check if only blank space
+                if (ocrResult.find_first_not_of(' \\t\\n\\v\\f\\r') == std::string::npos) {blockText = OFFalse;}
+                // check if empty
+                else if (ocrResult == "") {blockText = OFFalse;}
+                // check if only special characters
+                else if (isSpecialCharactersOnly(ocrResult)) {blockText = OFFalse;}
 
-//                if (digitsOnly(ocrResult)) {
-//                    // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
-//                    blockText = OFFalse;
-//                } else if (lessThanFourChars(ocrResult)) {
-//                    // TODO: check for exclusions - short text/mixed strings to be blocked, otherwise retain them
-//                    blockText = OFFalse;
-//                } else {
+                else if (lessThanFourChars(ocrResult)) {
+                    blockText = OFFalse;
+                }
+//                else {
 //                    // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
 //                }
 
                 if (blockText) {
+                    std::cout << ocrResult << "location x:" << box->x << " y: " << box->y << "\n";
+
                     // Draw the rectangle on the original image
                     cv::Rect rect(box->x, box->y, box->w, box->h);
                     cv::rectangle(slices[n], rect, cv::Scalar(0, 255, 0));
@@ -304,16 +321,17 @@ void ImageEditor::coverText(){
                 boxDestroy(&box);
 
             }
-            cv::namedWindow("edited image", cv::WINDOW_AUTOSIZE);
-            cv::imshow("edited image", slices[n]);
-            cv::waitKey(0);
+            //cv::namedWindow("edited image", cv::WINDOW_AUTOSIZE);
+            //cv::imshow("edited image", slices[n]);
+            //cv::waitKey(0);
 
         }
         else {boxesToMask.push_back(NULL);}
         // add boxes for this slice to the overall vector
         sliceBoxes.push_back(boxesToMask);
     }
-  api->End();
+
+    api->End();
   delete api;
 }
 
@@ -406,23 +424,19 @@ void ImageEditor::prePro(){
         if ( imageProcessingSlices[i].depth() == CV_16U ) {
             cv::normalize(imageProcessingSlices[i], imageProcessingSlices[i], 0., 255., cv::NORM_MINMAX, CV_8UC1);
         }
-        cv::threshold(imageProcessingSlices[i], imageProcessingSlices[i], 0, 255, cv::THRESH_OTSU);
-        //cv::bitwise_not(imageProcessingSlices[i], imageProcessingSlices[i]);
+        double C {2};
+        cv::bitwise_not(imageProcessingSlices[i], imageProcessingSlices[i]);
+        cv::adaptiveThreshold(imageProcessingSlices[i], imageProcessingSlices[i], 255, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 17, C);
 
     }
+
     // Create an average image
-    double alpha;
-    double beta;
     for (std::size_t i = 0; i < imageProcessingSlices.size(); i++) {
         if (i == 0){averageImage = imageProcessingSlices[0];}
         else {
-            alpha = 1.0 / (i + 1);
-            beta = 1.0 - alpha;
-            cv::addWeighted(imageProcessingSlices[i], alpha, averageImage, beta, 0, averageImage);
+            cv::bitwise_and(averageImage, imageProcessingSlices[i], averageImage);
         }
-
     }
-
 
     cv::namedWindow( "Average Threshold", cv::WINDOW_AUTOSIZE );// Create a window for display.
     cv::imshow("Average Threshold", averageImage);
