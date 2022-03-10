@@ -51,7 +51,9 @@ endif()
 
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
+
 add_subdirectory(libs/nlohmann_json/)
+
 add_library(qctool_lib src/misc/MyLibrary.cpp
                   src/misc/MyLibrary.hpp
                   src/misc/Exception.hpp
@@ -81,7 +83,7 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   src/communication/sender.hpp
                   src/communication/sender.cpp
 
-                  src/CLI.cpp
+            
                   )
 
 target_include_directories(qctool_lib PUBLIC src/)

@@ -11,9 +11,9 @@ specific setX() functions */
 // Constructor ()
 // 2 config files, 2*(port number and port name)
 
-Conductor::Conductor(OFString cfp1, OFString cfp2, Uint8 rPortNum,
+Conductor::Conductor(/*OFString cfp1, OFString cfp2,*/ Uint8 rPortNum,
                      OFString rPortName, Uint8 sPortNum, OFString sPortName)
-    : p1(/*cfp1*/), p2(/*cfp2*/), r(rPortNum, rPortName)
+    : /*p1(/*cfp1*//*), p2(/*cfp2*//*),*/ r(rPortNum, rPortName)
       /*sender(PortNum, PortName)*/ 
       {}
 

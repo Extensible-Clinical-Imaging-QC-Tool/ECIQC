@@ -8,7 +8,7 @@
 class Conductor {
 public:
   /** Constructor */
-  Conductor(OFString cfp1, OFString cfp2, Uint8 rPortNum, OFString rPortName,
+  Conductor(/*OFString cfp1, OFString cfp2,*/ Uint8 rPortNum, OFString rPortName,
             Uint8 sPortNum, OFString sPortName);
   void setOptional();
   // Receiver
@@ -18,8 +18,8 @@ public:
 
   /** members */
   Receiver r;
-  Parser p1;
-  Parser p2;
+  //Parser p1;
+  //Parser p2;
   /* Sender s; */
   OFString sPortNum, sPortName, qPortNum, qPortName;
   /** functions */
