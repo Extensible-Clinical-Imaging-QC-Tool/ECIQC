@@ -27,20 +27,6 @@ static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
 TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
 
   /* specify log pattern */
-<<<<<<< HEAD
-    OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-    /* Denote that a log file should be used that is appended to. The file is re-created every
-       time the code gets to this point.
-     */
-    dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("ST.log"));
-    //logfile->setLayout(OFmove(layout));
-
-    /* make sure that only the file logger is used */
-    dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
-    log.removeAllAppenders();
-    log.addAppender(logfile);
-    log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
-=======
   OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
   /* Denote that a log file should be used that is appended to. The file is re-created every
       time the code gets to this point.
@@ -53,7 +39,6 @@ TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
   log.removeAllAppenders();
   log.addAppender(logfile);
   log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
->>>>>>> origin
 
   /* Setup DICOM connection parameters */ 
   
@@ -172,11 +157,7 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data, rspStatusCode = 0);
   CHECK(result.bad());
   if (result.bad()){   
-<<<<<<< HEAD
-    status = data->saveFile("../DICOM_Images/Archive_1.dcm");
-=======
     status = data->saveFile("../DICOM_Images/archive_1.dcm");
->>>>>>> origin
     CHECK(status.good());
     }
     
