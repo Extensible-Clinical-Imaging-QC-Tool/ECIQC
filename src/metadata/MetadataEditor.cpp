@@ -242,6 +242,77 @@ OFCondition MetadataEditor::equals(DcmTagKey otherTagKey, OFString str_expr,
 
 // TODO: equals functions for comparing values (have to convert between UInt, SInt, Floats???)
 
+OFCondition MetadataEditor::equals(Float64 compare_value, OFCondition &flag, const unsigned long pos){
+    // Ensure the element specified by the tag exists before matching
+    DcmElement *thisElement;
+    dset->findAndGetElement(tagKey, thisElement, OFFalse);
+    DcmTag thisTag{thisElement->getTag()};
+    OFCondition resGet;
+    OFCondition resCompare;
+    Float64 thisValue;
+
+    switch (thisTag.getEVR()){
+        case EVR_US: {
+            Uint16 uShort;
+            resGet = thisElement->getUint16(uShort, pos);
+            thisValue = static_cast<double>(uShort);
+            break;
+        }
+            // Unsigned long integer
+        case EVR_UL: {
+            Uint32 uLong;
+            resGet = thisElement->getUint32(uLong, pos);
+            thisValue = static_cast<double>(uLong);
+            break;
+        }
+            // Signed long integer
+        case EVR_SL: {
+            Sint32 sLong;
+            resGet = thisElement->getSint32(sLong, pos);
+            thisValue = static_cast<double>(sLong);
+            break;
+        }
+            // Signed short integer
+        case EVR_SS: {
+            Sint16 sShort;
+            resGet = thisElement->getSint16(sShort, pos);
+            thisValue = static_cast<double>(sShort);
+            break;
+        }
+            // Single precision float
+        case EVR_FL: {
+            Float32 fSingle;
+            resGet = thisElement->getFloat32(fSingle, pos);
+            thisValue = static_cast<double>(fSingle);
+            break;
+        }
+            // Double precison float
+        case EVR_FD: {
+            Float64 fDouble;
+            resGet = thisElement->getFloat64(fDouble, pos);
+            thisValue = fDouble;
+            break;
+        }
+            // Anything that can be dealt with as a string
+        default: {
+            return makeOFCondition(OFM_dcmdata, 23, OF_error, "Value at tag is not numeric");
+        }
+
+    }
+
+    if (resGet.good()){
+        //compare to 1e-8 tolerance to avoid precision errors
+        if (std::abs(thisValue-compare_value) < 1e-8){
+            return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value at tag equal to given double");
+        }
+        else {
+            return makeOFCondition(OFM_dcmdata, 23, OF_error, "Value at tag not equal to given double");
+        }
+    }
+
+    return resGet;
+}
+
 
 
 // Copy Tag

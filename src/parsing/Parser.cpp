@@ -367,9 +367,8 @@ OFCondition Parser::parseTorF(OFBool trueOrFalse, const json& params){
     return EC_Normal;
 }
 
-// TODO: Add logging of checks and actions performed to output to user
-// TODO: Change OFBools to OFConditions
-// TODO: Use validator for checks and MEEditor for actions
+// TODO: Add logging of checks and actions performed to output to user (and store in a dicom tag?)
+// TODO: Use MetadataEditor for checks and actions
 
 OFCondition Parser::parseOperation(OFString instruction, const json& params){
     int enumerated_inst = resolveActions(instruction);
@@ -449,7 +448,9 @@ OFCondition Parser::worker(int instruction, WorkerParameters params) {
     switch(instruction) {
         // Editing options
         //action.
-        case (INSERT | OVERWRITE):
+
+        // INSERT and UPDATE are the same up to the only_overwrite parameter - confirmed by email from Chris
+        case (INSERT | UPDATE):
             // Arguments
 
             //TODO Check that params contains the required arguments for this case

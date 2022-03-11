@@ -159,7 +159,7 @@ public:
    */
   OFCondition equals(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
 
-  // TODO: is Float64 the best type for comparison in equals and greater/less than????
+  // TODO: is Float64 the best type for comparison in equals and greater/less than???? - use static_cast<double>
   /** Checks if value at a tag matches a value exactly
    *
    * @param compare_value double to be matched
@@ -259,6 +259,10 @@ public:
    */
   OFCondition modify(OFString newValue, DcmTagKey otherTagKey,
                      OFBool only_overwrite); 
+
+//  TODO: function for overwriting according to current value (e.g. DOB 19810605 -> 19810101 per Chris' email)
+  OFCondition editValue();
+
 
   /** Appends a string on to the end of the current value at a tag
    *
