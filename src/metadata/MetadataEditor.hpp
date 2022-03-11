@@ -205,6 +205,19 @@ public:
   OFCondition greaterOrLessThan(Float64 compare_value, OFBool greaterThan, OFCondition &flag, const unsigned long pos = 0);
 
   /** Check if value at a tag is less than a given value
+    *
+    * @param otherTagKey holds the desired tag in (group, element) string form
+    * @param compare_value double to compare value at tag with
+    * @param greaterThan if OFTRUE, value at tag will be checked for being greater than compare_value, otherwise will be
+    * checked for less than.
+    * @param flag a reference intended to store the result of the retrieval of the value
+    *        at the specified tag. It should hold EC_Normal if all goes well
+    * @param pos holds the index of the desired value. Useful for tags where VM > 1
+    * @return OFCondition representing whether or not the value is less than the given double
+    */
+  OFCondition greaterOrLessThan(DcmTagKey otherTagKey, Float64 compare_value, OFBool greaterThan, OFCondition &flag, const unsigned long pos = 0);
+
+  /** Check if value at a tag is less than a given value
    *
    * @param otherTagString holds the desired tag in (group, element) string form
    * @param compare_value double to compare value at tag with
@@ -217,21 +230,9 @@ public:
    */
   OFCondition greaterOrLessThan(OFString otherTagString, Float64 compare_value, OFBool greaterThan, OFCondition &flag, const unsigned long pos = 0);
 
-  /** Check if value at a tag is less than a given value
-   *
-   * @param otherTagKey holds the desired tag in (group, element) string form
-   * @param compare_value double to compare value at tag with
-   * @param greaterThan if OFTRUE, value at tag will be checked for being greater than compare_value, otherwise will be
-   * checked for less than.
-   * @param flag a reference intended to store the result of the retrieval of the value
-   *        at the specified tag. It should hold EC_Normal if all goes well
-   * @param pos holds the index of the desired value. Useful for tags where VM > 1
-   * @return OFCondition representing whether or not the value is less than the given double
-   */
-  OFCondition greaterOrLessThan(DcmTagKey otherTagKey, Float64 compare_value, OFBool greaterThan, OFCondition &flag, const unsigned long pos = 0);
-
   // EDITS
 
+// TODO: do we need to be able to modify types other than OFString? i.e. sInt, lInt etc.? Currently can only set a tag value to an OFString?
   /** Modifies or inserts a value at a tag
    * @param newValue denotes new value of tag
    * @param only_overwrite if true, only existing tags are processed. If false,
@@ -261,7 +262,7 @@ public:
                      OFBool only_overwrite); 
 
 //  TODO: function for overwriting according to current value (e.g. DOB 19810605 -> 19810101 per Chris' email)
-//  OFCondition editValue();
+//  OFCondition editValue(); - using regex?
 
 
   /** Appends a string on to the end of the current value at a tag

@@ -88,7 +88,6 @@ OFCondition MetadataEditor::exists(OFString otherTagString, OFBool searchIntoSub
     }
 }
 
-// TODO: do we need to be able to modify types other than OFString? i.e. sInt, lInt etc.?
 // Allows editing the value at the current or a different tag
 OFCondition MetadataEditor::modify(OFString newValue, OFBool only_overwrite) {
   OFCondition resultCond =
