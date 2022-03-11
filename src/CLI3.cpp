@@ -4,9 +4,10 @@
 #include <string>
 #include <boost/program_options.hpp>
 #include <dcmtk/config/osconfig.h>
+#include "dcmtk/ofstd/ofstring.h"
 #include "communication/sender.hpp"
-#include "communication/receiver.hpp"
-#include "conductor.hpp"
+//#include "communication/receiver.hpp"
+//#include "conductor.hpp"
 #include <exception>
 
 using std::cerr;
@@ -72,7 +73,7 @@ try {
             cout << "Receiver Port Name was not set.\n";
         }   
 
-
+    
     //Execute C-ECHO Request with Receiver
     Sender scu(SenderAETitle, ReceiverPortName, ReceiverPortNumber, ReceiverAETitle);
     // set AE titles 
@@ -88,18 +89,16 @@ try {
     scu.addPresentationContext(UID_FINDStudyRootQueryRetrieveInformationModel, ts); 
     scu.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel, ts); 
     scu.addPresentationContext(UID_VerificationSOPClass, ts); 
-    /* Initialize network */ 
+    // Initialize network / 
     OFCondition result = scu.initNetwork(); 
-    /*Negotiate association */
+    //Negotiate association 
     result = scu.negotiateAssociation();
 
-    /*Check whether the server is listening*/
+    //Check whether the server is listening//
     result = scu.sendECHORequest(0);
-    /*Release association */
+    //Release association 
     result = scu.releaseAssociation();
-
-
-
+    
 
 }
     
