@@ -19,7 +19,7 @@
  *
  *  TO BE ADDED:
  * REMOVE - can use deleteTag from mdfdsman
- * CLEAR (?) - clear value? findAndDeleteElement?
+ * CLEAR (?) - clear value? clear()?
  * UPDATE (?) - add another value on top of what's there?
  */
 
@@ -123,10 +123,10 @@ public:
    */
   OFCondition match(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
 
-// TODO: add REMOVE and CLEAR functions(?), add APPEND and PREPEND, and UPDATE?
-// TODO: Implement (float) equals, less_than and greater_than, append, prepend.
+// TODO: add REMOVE and CLEAR functions(?), and OVERWRITE (editing according current value, e.g. DOB anonymisation)
+// TODO: Implement append, prepend.
 
-// TODO: should string equals be case-sensitive or not?
+// TODO: should string equals be case-sensitive or not? Could add flag for this?
   /** Checks if value at a tag matches a string exactly
    *
    * @param str_expr string to be matched
@@ -159,7 +159,7 @@ public:
    */
   OFCondition equals(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
 
-  // TODO: is Float64 the best type for comparison in equals and greater/less than???? - use static_cast<double>
+  // TODO: is Float64 the best type for comparison in equals and greater/less than????
   /** Checks if value at a tag matches a value exactly
    *
    * @param compare_value double to be matched
@@ -261,7 +261,7 @@ public:
                      OFBool only_overwrite); 
 
 //  TODO: function for overwriting according to current value (e.g. DOB 19810605 -> 19810101 per Chris' email)
-  OFCondition editValue();
+//  OFCondition editValue();
 
 
   /** Appends a string on to the end of the current value at a tag
