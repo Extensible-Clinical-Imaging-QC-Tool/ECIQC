@@ -280,61 +280,58 @@ void ImageEditor::coverText(){
     api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY, NULL, 0, &pars_vec, &pars_values, false);
     api->SetPageSegMode(tesseract::PSM_SPARSE_TEXT);
 
-    for (std::size_t n = 0; n < imageProcessingSlices.size(); n++) {
-        // vector of boxes for this slice
-        std::vector<Box*> boxesToMask;
-        // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
-        api->SetImage(averageImage.data, averageImage.cols, averageImage.rows, 1, averageImage.step);
-        Boxa *boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
-        // ensure text has been found
-        if (boxes) {
-            // loop over each box found
-            for (int i = 0; i < boxes->n; i++) {
-                BOX *box = boxaGetBox(boxes, i, L_CLONE);
+    // vector of boxes for masking
+    std::vector<Box*> boxesToMask;
+    // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
+    api->SetImage(averageImage.data, averageImage.cols, averageImage.rows, 1, averageImage.step);
+    Boxa *boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
+    // ensure text has been found
+    if (boxes) {
+        // loop over each box found
+        for (int i = 0; i < boxes->n; i++) {
+            BOX *box = boxaGetBox(boxes, i, L_CLONE);
 
-                // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
-                api->SetRectangle(box->x, box->y, box->w, box->h);
-                std::string ocrResult = api->GetUTF8Text();
-                int conf = api->MeanTextConf();
-                OFBool blockText = OFTrue;
+            // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
+            api->SetRectangle(box->x, box->y, box->w, box->h);
+            std::string ocrResult = api->GetUTF8Text();
+            int conf = api->MeanTextConf();
+            OFBool blockText = OFTrue;
 
+            // checks on text content
+            // check if only blank space
+            if (ocrResult.find_first_not_of(' \\t\\n\\v\\f\\r') == std::string::npos) {blockText = OFFalse;}
+            // check if empty
+            else if (ocrResult == "") {blockText = OFFalse;}
+            // check if only special characters
+            else if (isSpecialCharactersOnly(ocrResult)) {blockText = OFFalse;}
 
-                // check if only blank space
-                if (ocrResult.find_first_not_of(' \\t\\n\\v\\f\\r') == std::string::npos) {blockText = OFFalse;}
-                // check if empty
-                else if (ocrResult == "") {blockText = OFFalse;}
-                // check if only special characters
-                else if (isSpecialCharactersOnly(ocrResult)) {blockText = OFFalse;}
-
-                else if (lessThanFourChars(ocrResult)) {
-                    blockText = OFFalse;
-                }
-//                else {
+            else if (lessThanFourChars(ocrResult)) {
+                blockText = OFFalse;
+            }
+//                else if {
 //                    // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
 //                }
 
-                if (blockText) {
-                    std::cout << ocrResult << "location x:" << box->x << " y: " << box->y << "\n";
-
-                    // Draw the rectangle on the original image
-                    cv::Rect rect(box->x, box->y, box->w, box->h);
+            if (blockText) {
+                std::cout << ocrResult << "location x:" << box->x << " y: " << box->y << "\n";
+                cv::Rect rect(box->x, box->y, box->w, box->h);
+                // Draw the rectangle on the original image for each slice
+                for (std::size_t n = 0; n < slices.size(); n++) {
                     cv::rectangle(slices[n], rect, cv::Scalar(0, 255, 0));
-                    // save the box to vector
-                    boxesToMask.push_back(box);
                 }
-
-                boxDestroy(&box);
-
+                // save the box to vector
+                boxesToMask.push_back(box);
             }
-            //cv::namedWindow("edited image", cv::WINDOW_AUTOSIZE);
-            //cv::imshow("edited image", slices[n]);
-            //cv::waitKey(0);
+
+            boxDestroy(&box);
 
         }
-        else {boxesToMask.push_back(NULL);}
-        // add boxes for this slice to the overall vector
-        sliceBoxes.push_back(boxesToMask);
+
+
     }
+    else {boxesToMask.push_back(NULL);}
+    // add boxes for this slice to the overall vector
+    sliceBoxes.push_back(boxesToMask);
 
     api->End();
   delete api;
@@ -396,6 +393,8 @@ Uint8* ImageEditor::getRawJpegData(DcmPixelData* pixelData){
 }
 
 OFBool ImageEditor::changeToOriginalFormat(DcmDataset &dataset) {
+    // if we want to use JPEG-lS https://support.dcmtk.org/docs/mod_dcmjpls.html
+
     DJEncoderRegistration::registerCodecs();
     DJ_RPLossy params;
     if (dataset.chooseRepresentation(dataset.getOriginalXfer(), &params).good() && dataset.canWriteXfer(dataset.getOriginalXfer())){
