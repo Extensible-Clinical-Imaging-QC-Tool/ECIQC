@@ -18,10 +18,10 @@ namespace po = boost::program_options;
 
 int main(int argc, char** argv){
 
-Uint8 ReceiverPortNumber;
+Uint16 ReceiverPortNumber;
 OFString ReceiverPortName;
 OFString ReceiverAETitle;
-Uint8 SenderPortNumber;
+Uint16 SenderPortNumber;
 OFString SenderPortName;
 OFString SenderAETitle;
 
@@ -30,10 +30,10 @@ try {
     ECIQC.add_options()
         ("help", "produce help message")
         ("SenderAETitle", po::value<OFString>(&SenderAETitle)->default_value("TEST-SCU"), "set Sender AE Title")
-        ("SenderPortNumber", po::value<Uint8>(&SenderPortNumber)->default_value(11112), "set Sender Port Number")
+        ("SenderPortNumber", po::value<Uint16>(&SenderPortNumber)->default_value(11112), "set Sender Port Number")
         ("SenderPortName", po::value<OFString>(&SenderPortName)->default_value("localhost"),"set Sender Port Name")
         ("ReceiverAETitle", po::value<OFString>(&ReceiverAETitle)->default_value("MOVESCP"), "set Receiver AE Title")
-        ("ReceiverPortNumber", po::value<Uint8>(&ReceiverPortNumber)->default_value(104), "set Receiver Port Number")
+        ("ReceiverPortNumber", po::value<Uint16>(&ReceiverPortNumber)->default_value(104), "set Receiver Port Number")
         ("ReceiverPortName", po::value<OFString>(&ReceiverPortName)->default_value("www.dicomserver.co.uk"), "set Receiver Port Name");
         
         
@@ -49,7 +49,7 @@ try {
     
     if (vm.count("SenderPortNumber")) {
             cout << "Sender Port Number was set to " 
-                 << vm["SenderPortNumber"].as<Uint8>() << ".\n";
+                 << vm["SenderPortNumber"].as<Uint16>() << ".\n";
         } else {
             cout << "Sender Port Number was not set.\n";
         }
@@ -62,7 +62,7 @@ try {
         }
     if (vm.count("RecieverPortNumber")) {
             cout << "Receiver Port Number was set to " 
-                 << vm["ReceiverPortNumber"].as<Uint8>() << ".\n";
+                 << vm["ReceiverPortNumber"].as<Uint16>() << ".\n";
         } else {
             cout << "Receiver Port Number was not set.\n";
         }
@@ -91,13 +91,23 @@ try {
     scu.addPresentationContext(UID_VerificationSOPClass, ts); 
     // Initialize network / 
     OFCondition result = scu.initNetwork(); 
+    if (result.bad())
+        throw "Network initialization failed!";
+
     //Negotiate association 
     result = scu.negotiateAssociation();
+    if (result.bad())
+        throw "Association negotiation failed!";
 
     //Check whether the server is listening//
     result = scu.sendECHORequest(0);
+    if (result.bad())
+        throw "Send ECHO Request failed!";
+
     //Release association 
     result = scu.releaseAssociation();
+    if (result.bad())
+        throw "Association release failed!";
     
 
 }
