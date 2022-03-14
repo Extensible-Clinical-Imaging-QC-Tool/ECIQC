@@ -40,14 +40,14 @@ Uint16* pixelData;
 //
 TEST_CASE("Test for reading DICOM images and converting to MAT object for openCV","[DR]") {
 
-//    OFString filePath = OFString("../DICOM_Images/GEMS_IMG/2021_NOV/18/_C103258/LBIAGEG2");
-    OFString filePath = OFString("../DICOM_Images/GEMS_IMG/2019_MAR/20/_C130056/J3KD2EG2");
+    OFString filePath = OFString("../DICOM_Images/GEMS_IMG/2021_NOV/18/_C103258/LBIAGEG2");
+   // OFString filePath = OFString("../DICOM_Images/GEMS_IMG/2019_MAR/20/_C130056/J3KD2EG2");
     ImageEditor* dicomTest = new ImageEditor(filePath);
     std::cout << dicomTest->getSlices()[0].size() << std::endl;
     std::cout << dicomTest->getSlices()[0].channels() << std::endl;
     cv::namedWindow( "Final window", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    cv::imshow( "Final window", dicomTest->getSlices()[0]);
-    cv::waitKey(0);
+    //cv::imshow( "Final window", dicomTest->getSlices()[0]);
+    //cv::waitKey(0);
     // Display the saved image to the dataset
     dicomTest->displayFirstFrame();
 }

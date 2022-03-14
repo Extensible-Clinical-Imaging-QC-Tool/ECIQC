@@ -6,6 +6,7 @@
 #include "dcmtk/dcmjpeg/dipijpeg.h"    /* for dcmimage JPEG plugin */
 #include "dcmtk/dcmjpeg/djencode.h" // encode JPEGs
 #include "dcmtk/dcmjpeg/djrplol.h"
+#include "dcmtk/dcmjpeg/djrploss.h"
 #include "dcmtk/dcmdata/dcpxitem.h"
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include <vector>
@@ -190,6 +191,7 @@ bool ImageEditor::loadPixelData() {
         }
     }
 
+    // convert uncompressed dset to JPEG
 
         // monochrome images
     else if(samplesPerPixel == 1){
@@ -205,6 +207,9 @@ bool ImageEditor::loadPixelData() {
                 }
             }
         }
+
+    changeToOriginalFormat(*uncompressedDset);
+
     return true;
 }
 
@@ -212,7 +217,7 @@ void ImageEditor::displayFirstFrame(){
     DJDecoderRegistration::registerCodecs(EDC_photometricInterpretation, EUC_default, EPC_default, false, false, true);
 
     // create a DicomImage
-    DicomImage * image = new DicomImage(dset, dset->getCurrentXfer());
+    DicomImage * image = new DicomImage(uncompressedDset, uncompressedDset->getCurrentXfer());
     // gets pixel data, after modality has been applied
     Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
     cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
@@ -392,8 +397,7 @@ Uint8* ImageEditor::getRawJpegData(DcmPixelData* pixelData){
 
 OFBool ImageEditor::changeToOriginalFormat(DcmDataset &dataset) {
     DJEncoderRegistration::registerCodecs();
-    DJ_RPLossless params; // default params
-
+    DJ_RPLossy params;
     if (dataset.chooseRepresentation(dataset.getOriginalXfer(), &params).good() && dataset.canWriteXfer(dataset.getOriginalXfer())){
         DJEncoderRegistration::cleanup();
         return true;
