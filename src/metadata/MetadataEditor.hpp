@@ -232,9 +232,8 @@ public:
 
   // EDITS
 
-// TODO: do we need to be able to modify types other than OFString? i.e. sInt, lInt etc.? Currently can only set a tag value to an OFString?
   /** Modifies or inserts a value at a tag
-   * @param newValue denotes new value of tag
+   * @param newValue denotes new string value of tag
    * @param only_overwrite if true, only existing tags are processed. If false,
    *        any not existing tag is inserted
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
@@ -242,7 +241,7 @@ public:
   OFCondition modify(OFString newValue, OFBool only_overwrite);
 
   /** Modifies or inserts a value at a tag 
-   * @param newValue denotes new value of tag
+   * @param newValue denotes new string value of tag
    * @param otherTagString holds the desired tag in (group, element) string form
    * @param only_overwrite if true, only existing tags are processed. If false,
    *        any not existing tag is inserted
@@ -252,14 +251,40 @@ public:
                      OFBool only_overwrite);
 
   /** Modifies or inserts a value at a tag 
-   * @param newValue denotes new value of tag
+   * @param newValue denotes new string value of tag
    * @param otherTagKey holds the desired tag as a DcmTagKey
    * @param only_overwrite if true, only existing tags are processed. If false,
    *        any not existing tag is inserted
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
   OFCondition modify(OFString newValue, DcmTagKey otherTagKey,
-                     OFBool only_overwrite); 
+                     OFBool only_overwrite);
+
+  /** Modifies or inserts a value at a tag
+   * @param newValue denotes new numeric value of tag
+   * @param only_overwrite if true, only existing tags are processed. If false,
+   *        any not existing tag is inserted
+   * @return OFCondition which has status EC_Normal if everything is OK, else an error
+   */
+  OFCondition modify(double newValue, OFBool only_overwrite);
+
+  /** Modifies or inserts a value at a tag
+   * @param newValue denotes new numeric value of tag
+   * @param otherTagString holds the desired tag in (group, element) string form
+   * @param only_overwrite if true, only existing tags are processed. If false,
+   *        any not existing tag is inserted
+   * @return OFCondition which has status EC_Normal if everything is OK, else an error
+   */
+  OFCondition modify(double newValue, OFString otherTagString, OFBool only_overwrite);
+
+  /** Modifies or inserts a value at a tag
+   * @param newValue denotes new numeric value of tag
+   * @param otherTagKey holds the desired tag as a DcmTagKey
+   * @param only_overwrite if true, only existing tags are processed. If false,
+   *        any not existing tag is inserted
+   * @return OFCondition which has status EC_Normal if everything is OK, else an error
+   */
+  OFCondition modify(double newValue, DcmTagKey otherTagKey, OFBool only_overwrite);
 
 //  TODO: function for overwriting according to current value (e.g. DOB 19810605 -> 19810101 per Chris' email)
 //  OFCondition editValue(); - using regex?

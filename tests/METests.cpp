@@ -50,6 +50,9 @@ std::vector<OFString> newNames = {
     "Sidri Able"//"testName3",
 };
 
+DcmTagKey dblNameTagKey = DCM_RealWorldValueIntercept;
+DcmTagKey uint16NameTagKey = DCM_BitsAllocated;
+
 // Create test .dcm file
 OFCondition res = makeTestDICOMFile();
 MetadataEditor meObj{"test.dcm"};
@@ -58,21 +61,21 @@ TEST_CASE("Test for CHECKING tag EXISTENCE","[ME]") {
 
   meObj.setTag(nameTagString);
 
-  CHECK(meObj.exists());
-  CHECK(meObj.exists(nameTagKey));
-  CHECK(meObj.exists(nameTagString));
-  CHECK_FALSE(meObj.exists(retiredTagKey));
-  CHECK_FALSE(meObj.exists(retiredTagString));
+  CHECK(meObj.exists().good());
+  CHECK(meObj.exists(nameTagKey).good());
+  CHECK(meObj.exists(nameTagString).good());
+  CHECK_FALSE(meObj.exists(retiredTagKey).good());
+  CHECK_FALSE(meObj.exists(retiredTagString).good());
 }
 
 TEST_CASE("Test for DELETING DICOM elements","[ME]") {
 
-  CHECK(meObj.exists(nameTagKey));
+  CHECK(meObj.exists(nameTagKey).good());
   OFCondition result = meObj.deleteTag(nameTagString, OFFalse, OFFalse);
   if (result.bad()) {
     std::cout << "DL " << result.text() << "**" << std::endl;
   }
-  CHECK_FALSE(meObj.exists(nameTagKey));
+  CHECK_FALSE(meObj.exists(nameTagKey).good());
 }
 
 TEST_CASE("Test for CREATING/MODIFYING DICOM elements","[ME]") {
@@ -87,7 +90,7 @@ TEST_CASE("Test for CREATING/MODIFYING DICOM elements","[ME]") {
 
 
   // Creating
-  CHECK_FALSE(meObj.exists(nameTagKey));
+  CHECK_FALSE(meObj.exists(nameTagKey).good());
   resultCond.push_back(meObj.modify(newNames[0], nameTagKey, OFFalse));
   meObj.dset->findAndGetOFString(nameTagKey, name);
   CHECK(name == newNames[0]);
@@ -114,13 +117,24 @@ TEST_CASE("Test for CREATING/MODIFYING DICOM elements","[ME]") {
 
 TEST_CASE("Test for REGEX MATCHING","[ME]") {
   // IN PROGRESS :: Implementation in MetadataEditor.cpp
-  std::string str1 = "TEsting";
-  std::string str2 = "String for TEsting regex";
-  OFString str_expr1 = "[a-z]+[A-Z][a-z]+[0-9]"; // testNameX
+//  std::string str1 = "TEsting";
+//  std::string str2 = "String for TEsting regex";
+  OFString str_expr1 = "[A-Z][a-z]+\\s[A-Z][a-z]+"; // Sidri Able
+  OFString str_expr2 = "[a-z]+[A-Z]*[a-z]+[0-9]*"; // Does not match - would match testName[number]
 
   //std::cout << "here";
   OFString writtenTag = "DCM_PatientName";
 
+  OFCondition flag;
+  CHECK(meObj.match(str_expr1, flag).good());
+  CHECK_FALSE(meObj.match(str_expr2, flag).good());
+
+  CHECK(meObj.match(nameTagString,str_expr1, flag).good());
+  CHECK_FALSE(meObj.match(nameTagString, str_expr2, flag).good());
+
+  CHECK(meObj.match(nameTagKey,str_expr1, flag).good());
+  CHECK_FALSE(meObj.match(nameTagKey, str_expr2, flag).good());
+//  std::cout << "Match output " << meObj.match(str_expr1, flag).text();
 }
 
 
@@ -151,6 +165,20 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
 
   //dset->print(COUT);
   
+}
+
+TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {
+    OFCondition flag;
+    meObj.setTag(nameTagString);
+
+    CHECK(meObj.equals(newNames[2], flag).good());
+    CHECK(meObj.equals(nameTagKey, newNames[2], flag).good());
+    CHECK(meObj.equals(nameTagString, newNames[2], flag).good());
+
+    CHECK(meObj.equals(dblNameTagKey, 2342.03487523, flag).good());
+    CHECK_FALSE(meObj.equals(dblNameTagKey, 2342.03, flag).good());
+    CHECK(meObj.equals(uint16NameTagKey, 16, flag).good());
+    CHECK_FALSE(meObj.equals(uint16NameTagKey, 16.001, flag).good());
 }
 
 
