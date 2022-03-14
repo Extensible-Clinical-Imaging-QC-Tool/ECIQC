@@ -22,20 +22,20 @@ int main(int argc, char** argv){
 Uint16 ReceiverPortNumber;
 OFString ReceiverPortName;
 OFString ReceiverAETitle;
-Uint16 SenderPortNumber;
-OFString SenderPortName;
+//Uint16 SenderPortNumber;
+//OFString SenderPortName;
 OFString SenderAETitle;
 
 try {
     po::options_description ECIQC("Options");
     ECIQC.add_options()
         ("help", "produce help message")
-        ("SenderAETitle", po::value<OFString>(&SenderAETitle)->default_value("TEST-SCU"), "set Sender AE Title")
-        ("SenderPortNumber", po::value<Uint16>(&SenderPortNumber)->default_value(11112), "set Sender Port Number")
-        ("SenderPortName", po::value<OFString>(&SenderPortName)->default_value("localhost"),"set Sender Port Name")
-        ("ReceiverAETitle", po::value<OFString>(&ReceiverAETitle)->default_value("MOVESCP"), "set Receiver AE Title")
-        ("ReceiverPortNumber", po::value<Uint16>(&ReceiverPortNumber)->default_value(104), "set Receiver Port Number")
-        ("ReceiverPortName", po::value<OFString>(&ReceiverPortName)->default_value("www.dicomserver.co.uk"), "set Receiver Port Name");
+        ("SenderAETitle", po::value<OFString>(&SenderAETitle)->default_value("TestSCU"), "set Sender AE Title")
+        //("SenderPortNumber", po::value<Uint16>(&SenderPortNumber)->default_value(104), "set Sender Port Number")
+        //("SenderPortName", po::value<OFString>(&SenderPortName)->default_value("localhost"),"set Sender Port Name")
+        ("ReceiverAETitle", po::value<OFString>(&ReceiverAETitle)->default_value("TestSCP"), "set Receiver AE Title")
+        ("ReceiverPortNumber", po::value<Uint16>(&ReceiverPortNumber)->default_value(11112), "set Receiver Port Number")
+        ("ReceiverPortName", po::value<OFString>(&ReceiverPortName)->default_value("localhost"), "set Receiver Port Name");
         
         
     po::variables_map vm;
@@ -54,7 +54,7 @@ try {
         } else {
             cout << "Sender Application Entity Title was not set.\n";
         } 
-    
+    /*
     if (vm.count("SenderPortNumber")) {
             cout << "Sender Port Number was set to " 
                  << vm["SenderPortNumber"].as<Uint16>() << ".\n";
@@ -68,6 +68,7 @@ try {
         } else {
             cout << "Sender Port Name was not set.\n";
         }
+    */
 
     if (vm.count("ReceiverAETitle")) {
             cout << "Receiver Application Entity Title was set to " 
@@ -103,6 +104,13 @@ try {
     log.removeAllAppenders();
     log.addAppender(logfile);
     log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
+    //Initiate Receiver
+    OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
+    Receiver pool(ReceiverPortNumber, ReceiverAETitle);
+    pool.setpointer(pt);  
+
+     //Start listening
+    pool.start();
 
     //Execute C-ECHO Request with SCU
     Sender scu(SenderAETitle, ReceiverPortName, ReceiverPortNumber, ReceiverAETitle);
@@ -111,6 +119,9 @@ try {
     scu.setPeerHostName(ReceiverPortName); 
     scu.setPeerPort(ReceiverPortNumber); 
     scu.setPeerAETitle(ReceiverAETitle);
+
+   
+
     // Define presentation contexts, propose all uncompressed transfer syntaxes 
     OFList<OFString> ts; 
     ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
@@ -143,18 +154,13 @@ try {
 
     //Execute C-STORE Request with SCU
     //C-STORE Request for US MultiFrame Images, JPEG Baseline Process 1 - Error: not enough disk space on the disk
-    OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
-    Receiver pool(ReceiverPortNumber, ReceiverAETitle);
-    pool.setpointer(pt);  
+    
     // Define a separate transfer syntax needed for the X-ray image
     OFList<OFString> xfer;
     xfer.push_back(UID_LittleEndianImplicitTransferSyntax);
     //Define a separate transfer syntax needed for multiframe US image
     OFList<OFString> xfer2;
     xfer2.push_back(UID_JPEGProcess1TransferSyntax);
-
-    //Start listening
-    pool.start();
 
     // configure SCU 
     scu.addPresentationContext(UID_CTImageStorage, ts); 
@@ -188,7 +194,7 @@ try {
 
     //Assemble and send C-STORE request. Check if C-STORE was successful.
     Uint16 rspStatusCode = 0;
-    result = scu.sendSTORERequest(0, /*"../DICOM_Images/testtext.dcm"*/ 0,/*0*/data, rspStatusCode = 0);;
+    result = scu.sendSTORERequest(0, /*"../DICOM_Images/testtext.dcm"*/ 0,/*0*/data, rspStatusCode );;
     if (result.bad()){   
         status = data->saveFile("../DICOM_Images/archive_1.dcm");
         if (status.bad())
@@ -209,7 +215,7 @@ try {
 
     //Assemble and send C-STORE request. Check if C-STORE was successful.
     rspStatusCode = 0;
-    result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data2, rspStatusCode = 0);;
+    result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data2, rspStatusCode );;
     if (result.bad()){   
         status = data2->saveFile("../DICOM_Images/archive_2.dcm");
         if (status.bad())
@@ -225,7 +231,7 @@ try {
 
     /*Request shutdown and stop listening. */ 
     pool.request_stop();
-    pool.join();
+    //pool.join();
     
     }
     
