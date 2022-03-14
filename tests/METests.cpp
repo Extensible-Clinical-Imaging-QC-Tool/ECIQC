@@ -50,8 +50,13 @@ std::vector<OFString> newNames = {
     "Sidri Able"//"testName3",
 };
 
+OFString dblNameTagString = "(0040,9224)";
 DcmTagKey dblNameTagKey = DCM_RealWorldValueIntercept;
+double dblValue = 2342.03487523;
+OFString uint16NameTagString = "(0028,0100)";
 DcmTagKey uint16NameTagKey = DCM_BitsAllocated;
+int uintValue = 16;
+double checkPerturbation = 1e-3;
 
 // Create test .dcm file
 OFCondition res = makeTestDICOMFile();
@@ -175,12 +180,61 @@ TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {
     CHECK(meObj.equals(nameTagKey, newNames[2], flag).good());
     CHECK(meObj.equals(nameTagString, newNames[2], flag).good());
 
-    CHECK(meObj.equals(dblNameTagKey, 2342.03487523, flag).good());
-    CHECK_FALSE(meObj.equals(dblNameTagKey, 2342.03, flag).good());
-    CHECK(meObj.equals(uint16NameTagKey, 16, flag).good());
-    CHECK_FALSE(meObj.equals(uint16NameTagKey, 16.001, flag).good());
+    meObj.setTag(dblNameTagString);
+    CHECK(meObj.equals(dblValue, flag).good());
+    CHECK_FALSE(meObj.equals(dblValue-checkPerturbation, flag).good());
+
+    CHECK(meObj.equals(dblNameTagString, dblValue, flag).good());
+    CHECK_FALSE(meObj.equals(dblNameTagString, dblValue-checkPerturbation, flag).good());
+    CHECK(meObj.equals(uint16NameTagString, uintValue, flag).good());
+    CHECK_FALSE(meObj.equals(uint16NameTagString, uintValue+checkPerturbation, flag).good());
+
+    CHECK(meObj.equals(dblNameTagKey, dblValue, flag).good());
+    CHECK_FALSE(meObj.equals(dblNameTagKey, dblValue-checkPerturbation, flag).good());
+    CHECK(meObj.equals(uint16NameTagKey, uintValue, flag).good());
+    CHECK_FALSE(meObj.equals(uint16NameTagKey, uintValue+checkPerturbation, flag).good());
 }
 
+TEST_CASE("Test for CHECKING tag GREATER OR LESS THAN","[ME]") {
+    OFCondition flag;
+    meObj.setTag(uint16NameTagString);
 
+//  'This' tag
+    CHECK(meObj.greaterOrLessThan(uintValue-checkPerturbation, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uintValue+checkPerturbation, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uintValue, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uintValue, OFFalse, flag).good());
+
+//  String tags
+    CHECK(meObj.greaterOrLessThan(dblNameTagString, dblValue-checkPerturbation, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(dblNameTagString, dblValue+checkPerturbation, OFTrue, flag).good());
+    CHECK(meObj.greaterOrLessThan(dblNameTagString, dblValue+checkPerturbation, OFFalse, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(dblNameTagString, dblValue-checkPerturbation, OFFalse, flag).good());
+    CHECK(meObj.greaterOrLessThan(uint16NameTagString, uintValue-checkPerturbation, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uint16NameTagString, uintValue+checkPerturbation, OFTrue, flag).good());
+    CHECK(meObj.greaterOrLessThan(uint16NameTagString, uintValue+checkPerturbation, OFFalse, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uint16NameTagString, uintValue-checkPerturbation, OFFalse, flag).good());
+//  Strict inequalities
+    CHECK_FALSE(meObj.greaterOrLessThan(dblNameTagString, dblValue, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(dblNameTagString, dblValue, OFFalse, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uint16NameTagString, uintValue, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uint16NameTagString, uintValue, OFFalse, flag).good());
+
+
+//  Dicom key tags
+    CHECK(meObj.greaterOrLessThan(dblNameTagKey, dblValue-checkPerturbation, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(dblNameTagKey, dblValue+checkPerturbation, OFTrue, flag).good());
+    CHECK(meObj.greaterOrLessThan(dblNameTagKey, dblValue+checkPerturbation, OFFalse, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(dblNameTagKey, dblValue-checkPerturbation, OFFalse, flag).good());
+    CHECK(meObj.greaterOrLessThan(uint16NameTagKey, uintValue-checkPerturbation, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uint16NameTagKey, uintValue+checkPerturbation, OFTrue, flag).good());
+    CHECK(meObj.greaterOrLessThan(uint16NameTagKey, uintValue+checkPerturbation, OFFalse, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uint16NameTagKey, uintValue-checkPerturbation, OFFalse, flag).good());
+//  Strict inequalities
+    CHECK_FALSE(meObj.greaterOrLessThan(dblNameTagKey, dblValue, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(dblNameTagKey, dblValue, OFFalse, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uint16NameTagKey, uintValue, OFTrue, flag).good());
+    CHECK_FALSE(meObj.greaterOrLessThan(uint16NameTagKey, uintValue, OFFalse, flag).good());
+}
 
 /* Code for running selective tests " {path to unit_tests} [ME] "*/
