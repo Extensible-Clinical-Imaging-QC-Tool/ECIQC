@@ -123,7 +123,7 @@ public:
    */
   OFCondition match(DcmTagKey otherTagKey, OFString str_expr, OFCondition &flag, const unsigned long pos = 0);
 
-// TODO: add REMOVE and CLEAR functions(?), and OVERWRITE (editing according current value, e.g. DOB anonymisation)
+// TODO: add CLEAR function, and OVERWRITE (editing according current value, e.g. DOB anonymisation)
 // TODO: Implement append, prepend.
 
 // TODO: should string equals be case-sensitive or not? Could add flag for this?

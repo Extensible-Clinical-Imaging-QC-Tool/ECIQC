@@ -163,13 +163,16 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
   meObj.setTag(tag_b);
   OFCondition cond = meObj.copy(retiredTagKey, posFrom, posTo, copyToThis, replace);
   std::cout<< cond.text() << std::endl;
+  CHECK(cond.bad()); // Cannot copy from retiredTagKey - check copy fails
   meObj.dset->findAndGetElement(tag_a, ele1);
   meObj.dset->findAndGetElement(tag_b, ele2);
   ele1->print(std::cout);
   ele2->print(std::cout);
 
   //dset->print(COUT);
-  
+
+  /* TODO: add a successful copy with copyToThis = OFTrue and = OFFalse, for both strings and numbers
+     - ideally all types of number. Also using both otherTagString and otherTagKey */
 }
 
 TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {
@@ -195,9 +198,9 @@ TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {
     CHECK_FALSE(meObj.equals(uint16NameTagKey, uintValue+checkPerturbation, flag).good());
 }
 
-TEST_CASE("Test for CHECKING tag GREATER OR LESS THAN","[ME]") {
+TEST_CASE("Test for CHECKING tag GREATER THAN and LESS THAN","[ME]") {
     OFCondition flag;
-    meObj.setTag(uint16NameTagString);
+    meObj.setTag(uint16NameTagKey); // Changed to set tag by key to increase test coverage
 
 //  'This' tag
     CHECK(meObj.greaterOrLessThan(uintValue-checkPerturbation, OFTrue, flag).good());
