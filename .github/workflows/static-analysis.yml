@@ -3,7 +3,7 @@ name: Static analysis checks
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
       - '**'

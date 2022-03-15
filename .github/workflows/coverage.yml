@@ -1,5 +1,4 @@
-
-name: "Unit test coverage"
+name: "Unit tests: Coverage"
 
 on:
   push:
