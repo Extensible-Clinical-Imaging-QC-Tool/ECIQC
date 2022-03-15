@@ -746,6 +746,130 @@ OFCondition MetadataEditor::copy(OFString otherTagString, const unsigned long po
     return copy(otherTagKey, posFrom, posTo, copyToThis, replace, searchIntoSub);
 }
 
+OFCondition MetadataEditor::append(OFString appendValue, OFCondition &flag, const unsigned long pos) {
+    if (exists(OFFalse).good()) {
+
+        OFString oldValue;
+        flag = dset->findAndGetOFString(tagKey, oldValue, pos);
+        if (flag.bad()) {
+            return flag;
+        }
+        OFString newValue = (oldValue + appendValue).c_str();
+        OFCondition resultCond =
+                modifyOrInsertPath(tagString, newValue, OFTrue);
+        return resultCond;
+
+    } else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "element specified by the tag does not exist or is not a string");
+    }
+}
+
+OFCondition MetadataEditor::append(OFString appendValue, OFString otherTagString, OFCondition &flag, const unsigned long pos) {
+    if (exists(otherTagString,OFFalse).good()) {
+        DcmTagKey otherTagKey;
+        flag = stringToKey(otherTagString, otherTagKey);
+        if (flag.bad()) {
+            std::cout << flag.text() << std::endl;
+            return flag;
+        }
+
+        OFString oldValue;
+        flag = dset->findAndGetOFString(otherTagKey, oldValue, pos);
+        if (flag.bad()) {
+            return flag;
+        }
+        OFString newValue = (oldValue + appendValue).c_str();
+        OFCondition resultCond =
+                modifyOrInsertPath(tagString, newValue, OFTrue);
+        return resultCond;
+
+    } else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "element specified by the tag does not exist or is not a string");
+    }
+}
+
+OFCondition MetadataEditor::append(OFString appendValue, DcmTagKey otherTagKey, OFCondition &flag, const unsigned long pos) {
+    if (exists(otherTagKey,OFFalse).good()) {
+        OFString oldValue;
+        flag = dset->findAndGetOFString(otherTagKey, oldValue, pos);
+        if (flag.bad()) {
+            return flag;
+        }
+        OFString newValue = (oldValue + appendValue).c_str();
+        OFCondition resultCond =
+                modifyOrInsertPath(tagString, newValue, OFTrue);
+        return resultCond;
+
+    } else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "element specified by the tag does not exist or is not a string");
+    }
+}
+
+OFCondition MetadataEditor::prepend(OFString prependValue, OFCondition &flag, const unsigned long pos) {
+    if (exists(OFFalse).good()) {
+
+        OFString oldValue;
+        flag = dset->findAndGetOFString(tagKey, oldValue, pos);
+        if (flag.bad()) {
+            return flag;
+        }
+        OFString newValue = (prependValue + oldValue).c_str();
+        OFCondition resultCond =
+                modifyOrInsertPath(tagString, newValue, OFTrue);
+        return resultCond;
+
+    } else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "element specified by the tag does not exist or is not a string");
+    }
+}
+
+OFCondition MetadataEditor::prepend(OFString prependValue, OFString otherTagString, OFCondition &flag, const unsigned long pos) {
+    if (exists(otherTagString,OFFalse).good()) {
+        DcmTagKey otherTagKey;
+        flag = stringToKey(otherTagString, otherTagKey);
+        if (flag.bad()) {
+            std::cout << flag.text() << std::endl;
+            return flag;
+        }
+
+        OFString oldValue;
+        flag = dset->findAndGetOFString(otherTagKey, oldValue, pos);
+        if (flag.bad()) {
+            return flag;
+        }
+        OFString newValue = (oldValue + prependValue).c_str();
+        OFCondition resultCond =
+                modifyOrInsertPath(tagString, newValue, OFTrue);
+        return resultCond;
+
+    } else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "element specified by the tag does not exist or is not a string");
+    }
+}
+
+OFCondition MetadataEditor::prepend(OFString prependValue, DcmTagKey otherTagKey, OFCondition &flag, const unsigned long pos) {
+    if (exists(otherTagKey,OFFalse).good()) {
+        OFString oldValue;
+        flag = dset->findAndGetOFString(otherTagKey, oldValue, pos);
+        if (flag.bad()) {
+            return flag;
+        }
+        OFString newValue = (oldValue + prependValue).c_str();
+        OFCondition resultCond =
+                modifyOrInsertPath(tagString, newValue, OFTrue);
+        return resultCond;
+
+    } else {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "element specified by the tag does not exist or is not a string");
+    }
+}
+
 ////////////////////////////////////////////////////////////////////
 /*                    Private Member Functions                    */
 ////////////////////////////////////////////////////////////////////

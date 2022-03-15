@@ -295,7 +295,7 @@ public:
    * @param appendValue is the string to append to the current value
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition append(OFString appendValue);
+  OFCondition append(OFString appendValue, OFCondition &flag, const unsigned long pos = 0);
 
   /** Appends a string on to the end of the current value at a tag
    *
@@ -303,7 +303,7 @@ public:
    * @param otherTagString holds the desired tag in (group, element) string form
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition append(OFString appendValue, OFString otherTagString);
+  OFCondition append(OFString appendValue, OFString otherTagString, OFCondition &flag, const unsigned long pos = 0);
 
   /** Appends a string on to the end of the current value at a tag
    *
@@ -311,14 +311,14 @@ public:
    * @param otherTagKey holds the desired tag as a DcmTagKey
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition append(OFString appendValue, DcmTagKey otherTagKey);
+  OFCondition append(OFString appendValue, DcmTagKey otherTagKey, OFCondition &flag, const unsigned long pos = 0);
 
   /** Appends a string on to the start of the current value at a tag
    *
    * @param prependValue is the string to prepend to the current value
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition prepend(OFString prependValue);
+  OFCondition prepend(OFString prependValue, OFCondition &flag, const unsigned long pos = 0);
 
   /** Appends a string on to the start of the current value at a tag
    *
@@ -326,7 +326,7 @@ public:
    * @param otherTagString holds the desired tag in (group, element) string form
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition prepend(OFString prependValue, OFString otherTagString);
+  OFCondition prepend(OFString prependValue, OFString otherTagString, OFCondition &flag, const unsigned long pos = 0);
 
   /** Appends a string on to the start of the current value at a tag
    *
@@ -334,7 +334,7 @@ public:
    * @param otherTagKey holds the desired tag as a DcmTagKey
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition prepend(OFString prependValue, DcmTagKey otherTagKey);
+  OFCondition prepend(OFString prependValue, DcmTagKey otherTagKey, OFCondition &flag, const unsigned long pos = 0);
 
 
   /** Exclusive method for copying data from tags and using them too overwrite or insert
