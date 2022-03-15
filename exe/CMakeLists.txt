@@ -1,4 +1,4 @@
-add_executable(qctool CliTools.cpp)
+add_executable(qctool CLI3.cpp)
 target_link_libraries(qctool PRIVATE qctool_lib)
 
 # boost as a required dependency for mylib

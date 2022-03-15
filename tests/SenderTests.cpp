@@ -1,6 +1,5 @@
 #include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */ 
 #include "dcmtk/dcmnet/diutil.h" 
-#include "dcmtk/oflog/oflog.h"
 #include "dcmtk/oflog/fileap.h"
 #include "catch.hpp"
 
@@ -9,6 +8,7 @@
 
 #include "../src/communication/sender.hpp"
 #include "../src/communication/receiver.hpp"
+/*
 
 using namespace cpp_template;
 
@@ -18,6 +18,7 @@ static OFLogger my_Logger = OFLog::getLogger("dcmtk.apps." OFFIS_CONSOLE_APPLICA
 
 static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
   OFFIS_DCMTK_VERSION " " OFFIS_DCMTK_RELEASEDATE " $";
+  */
 
 
     
@@ -26,33 +27,33 @@ static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
 TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
 
   /* specify log pattern */
-    OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-    /* Denote that a log file should be used that is appended to. The file is re-created every
-       time the code gets to this point.
-     */
-    dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("ST.log"));
-    //logfile->setLayout(OFmove(layout));
+  OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
+  /* Denote that a log file should be used that is appended to. The file is re-created every
+      time the code gets to this point.
+    */
+  dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("ST.log"));
+  //logfile->setLayout(OFmove(layout));
 
-    /* make sure that only the file logger is used */
-    dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
-    log.removeAllAppenders();
-    log.addAppender(logfile);
-    log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
+  /* make sure that only the file logger is used */
+  dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
+  log.removeAllAppenders();
+  log.addAppender(logfile);
+  log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
 
   /* Setup DICOM connection parameters */ 
   
-  OFString ae_title = "TEST-SCU";
-  OFString peer_hostname = "www.dicomserver.co.uk";
+  std::string ae_title = "TEST-SCU";
+  std::string peer_hostname = "www.dicomserver.co.uk";
   Uint16 peer_port = 11112;
-  OFString peer_aetitle = "MOVESCP";
+  std::string peer_aetitle = "MOVESCP";
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle); 
   // set AE titles 
-  scu.setAETitle(ae_title); 
-  scu.setPeerHostName(peer_hostname); 
+  scu.setAETitle(ae_title.c_str()); 
+  scu.setPeerHostName(peer_hostname.c_str()); 
   scu.setPeerPort(peer_port); 
-  scu.setPeerAETitle(peer_aetitle); 
+  scu.setPeerAETitle(peer_aetitle.c_str()); 
   // Define presentation contexts, propose all uncompressed transfer syntaxes 
-  OFList<OFString> ts; 
+  OFList< OFString> ts; 
   ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
   ts.push_back(UID_BigEndianExplicitTransferSyntax); 
   ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
@@ -84,28 +85,28 @@ TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
 TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
 
   /* specify log pattern */
-    OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-    /* Denote that a log file should be used that is appended to. The file is re-created every
-       time the code gets to this point.
-     */
-    dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS.log"));
-    //logfile->setLayout(OFmove(layout));
+  OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
+  /* Denote that a log file should be used that is appended to. The file is re-created every
+      time the code gets to this point.
+  */
+  dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS.log"));
+  //logfile->setLayout(OFmove(layout));
 
-    /* make sure that only the file logger is used */
-    dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
-    log.removeAllAppenders();
-    log.addAppender(logfile);
-    log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
+  /* make sure that only the file logger is used */
+  dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
+  log.removeAllAppenders();
+  log.addAppender(logfile);
+  log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
   OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
   Receiver pool(104, "MOVESCP");
   pool.setpointer(pt);
   
 
     /* Setup DICOM connection parameters */
-  OFString ae_title = "TEST-SCU";/*"StoreTestSCU";*/
-  OFString peer_hostname = "www.dicomserver.co.uk";
+  std::string ae_title = "TEST-SCU";/*"StoreTestSCU";*/
+  std::string peer_hostname = "www.dicomserver.co.uk";
   Uint16 peer_port = 104;
-  OFString peer_aetitle = "MOVESCP";/*"TestSCP";*/
+  std::string peer_aetitle = "MOVESCP";/*"TestSCP";*/
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);  
    
    
@@ -123,10 +124,10 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   pool.start();
 
   // configure SCU 
-  scu.setAETitle(ae_title); 
-  scu.setPeerHostName(peer_hostname); 
+  scu.setAETitle(ae_title.c_str()); 
+  scu.setPeerHostName(peer_hostname.c_str()); 
   scu.setPeerPort(peer_port); 
-  scu.setPeerAETitle(peer_aetitle);
+  scu.setPeerAETitle(peer_aetitle.c_str());
   scu.setVerbosePCMode(OFTrue);
   scu.addPresentationContext(UID_CTImageStorage, ts); 
   scu.addPresentationContext(UID_MRImageStorage, ts); 
@@ -156,7 +157,7 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data, rspStatusCode = 0);
   CHECK(result.bad());
   if (result.bad()){   
-    status = data->saveFile("../DICOM_Images/Archive_1.dcm");
+    status = data->saveFile("../DICOM_Images/archive_1.dcm");
     CHECK(status.good());
     }
     
@@ -174,28 +175,28 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
 
 TEST_CASE("Test Successful C-STORE Association with SCU","[STS2]"){
   /* specify log pattern */
-    OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-    /* Denote that a log file should be used that is appended to. The file is re-created every
-       time the code gets to this point.
-     */
-    dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS2.log"));
-    //logfile->setLayout(OFmove(layout));
+  OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
+  /* Denote that a log file should be used that is appended to. The file is re-created every
+      time the code gets to this point.
+  */
+  dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS2.log"));
+  //logfile->setLayout(OFmove(layout));
 
-    /* make sure that only the file logger is used */
-    dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
-    log.removeAllAppenders();
-    log.addAppender(logfile);
-    log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
+  /* make sure that only the file logger is used */
+  dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
+  log.removeAllAppenders();
+  log.addAppender(logfile);
+  log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
   OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
   Receiver pool(104, "MOVESCP");
   pool.setpointer(pt);
   
 
     /* Setup DICOM connection parameters */
-  OFString ae_title = "TEST-SCU";/*"StoreTestSCU";*/
-  OFString peer_hostname = "www.dicomserver.co.uk";
+  std::string ae_title = "TEST-SCU";/*"StoreTestSCU";*/
+  std::string peer_hostname = "www.dicomserver.co.uk";
   Uint16 peer_port = 104;
-  OFString peer_aetitle = "MOVESCP";/*"TestSCP";*/
+  std::string peer_aetitle = "MOVESCP";/*"TestSCP";*/
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);  
    
    
@@ -213,10 +214,10 @@ TEST_CASE("Test Successful C-STORE Association with SCU","[STS2]"){
   pool.start();
 
   // configure SCU 
-  scu.setAETitle(ae_title); 
-  scu.setPeerHostName(peer_hostname); 
+  scu.setAETitle(ae_title.c_str()); 
+  scu.setPeerHostName(peer_hostname.c_str()); 
   scu.setPeerPort(peer_port); 
-  scu.setPeerAETitle(peer_aetitle);
+  scu.setPeerAETitle(peer_aetitle.c_str());
   scu.setVerbosePCMode(OFTrue);
   scu.addPresentationContext(UID_CTImageStorage, ts); 
   scu.addPresentationContext(UID_MRImageStorage, ts); 
