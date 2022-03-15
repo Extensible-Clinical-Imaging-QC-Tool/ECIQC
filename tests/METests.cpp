@@ -142,39 +142,6 @@ TEST_CASE("Test for REGEX MATCHING","[ME]") {
 //  std::cout << "Match output " << meObj.match(str_expr1, flag).text();
 }
 
-
-TEST_CASE("Test for COPYING DICOM values","[ME]") {
-  // IN PROGRESS
-
-  DcmTagKey tag_a =
-      /*DCM_ImagerPixelSpacing; DCM_RequestedProcedureDescription*/ DCM_PatientName;
-  DcmTagKey tag_b = DCM_ImagerPixelSpacing; /*DCM_BitsStored;*/
-  DcmElement *ele1, *ele2;
-  meObj.dset->findAndGetElement(tag_a, ele1);
-  meObj.dset->findAndGetElement(tag_b, ele2);
-  ele1->print(std::cout);
-  ele2->print(std::cout);
-
-  const unsigned long posTo = 0;
-  const unsigned long posFrom = 0;
-  OFBool replace = OFFalse;
-  OFBool copyToThis = OFTrue;
-
-  meObj.setTag(tag_b);
-  OFCondition cond = meObj.copy(retiredTagKey, posFrom, posTo, copyToThis, replace);
-  std::cout<< cond.text() << std::endl;
-  CHECK(cond.bad()); // Cannot copy from retiredTagKey - check copy fails
-  meObj.dset->findAndGetElement(tag_a, ele1);
-  meObj.dset->findAndGetElement(tag_b, ele2);
-  ele1->print(std::cout);
-  ele2->print(std::cout);
-
-  //dset->print(COUT);
-
-  /* TODO: add a successful copy with copyToThis = OFTrue and = OFFalse, for both strings and numbers
-     - ideally all types of number. Also using both otherTagString and otherTagKey */
-}
-
 TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {
     OFCondition flag;
     meObj.setTag(nameTagString);
@@ -254,6 +221,91 @@ TEST_CASE("Test for CHECKING tag APPEND and PREPEND","[ME]"){
     OFString test3 = "test3";
     meObj.append(test3, nameTagKey, flag);
     CHECK(meObj.equals(newNames[2] + test1 + test2 + test3, flag).good());
+}
+
+TEST_CASE("Test for COPYING DICOM values","[ME]") {
+    // IN PROGRESS
+
+    DcmTagKey NameTag =
+            /*DCM_ImagerPixelSpacing; DCM_RequestedProcedureDescription*/ DCM_PatientName;
+    DcmTagKey PixelTag = DCM_ImagerPixelSpacing; /*DCM_BitsStored;*/
+    DcmTagKey FieldTag = DCM_FieldOfViewOrigin;
+    DcmTagKey BitsTag = DCM_BitsAllocated;
+    DcmTagKey HighBitTag = DCM_HighBit;
+    DcmTagKey InterceptTag = DCM_RealWorldValueIntercept;
+    DcmTagKey SlopeTag = DCM_RealWorldValueSlope;
+
+    OFString str_NameTag = "(0010,0010)";
+    OFString str_PixelTag = "(0018,2264)";
+    OFString str_FieldTag = "(0018,7030)";
+    OFString str_BitsTag = "(0028,0100)";
+    OFString str_HighBitTag = "(0028,0102)";
+    OFString str_InterceptTag = "(0040,9224)";
+    OFString str_SlopeTag = "(0040,9225)";
+
+    OFString str_name, str_pixel, str_field;
+    Uint16 int_bits, int_highbit;
+    Float64 dbl_intercept, dbl_slope;
+
+    const unsigned long posTo = 0;
+    const unsigned long posFrom = 0;
+    OFBool replace = OFFalse;
+    OFBool copyToThis = OFTrue;
+
+//  Test you can't copy from retiredTagKey
+    meObj.setTag(PixelTag);
+    OFCondition cond = meObj.copy(retiredTagKey, posFrom, posTo, copyToThis, replace);
+    CHECK(cond.bad()); // Cannot copy from retiredTagKey - check copy fails
+
+//  Test you can't copy from retiredTagString
+    meObj.setTag(PixelTag);
+    cond = meObj.copy(retiredTagString, posFrom, posTo, copyToThis, replace);
+    CHECK(cond.bad()); // Cannot copy from retiredTagKey - check copy fails
+
+//  Testing copy UInt16, copyToThis == OFFalse, replace == OFTrue, using OFString tag
+    meObj.setTag(BitsTag);
+    meObj.dset->findAndGetUint16(BitsTag, int_bits);
+    meObj.dset->findAndGetUint16(HighBitTag, int_highbit);
+    CHECK_FALSE(int_bits==int_highbit); // elements are different before copy
+
+    cond = meObj.copy(str_HighBitTag, posFrom, posTo, !copyToThis, !replace);
+    CHECK(cond.good()); // copy without error
+
+    meObj.dset->findAndGetUint16(BitsTag, int_bits);
+    meObj.dset->findAndGetUint16(HighBitTag, int_highbit);
+    CHECK(int_bits==int_highbit); // elements match after copy
+
+//  Testing copy Float64, copyToThis == OFTrue, replace == OFFalse, using DcmTagKey
+    meObj.setTag(InterceptTag);
+    meObj.dset->findAndGetFloat64(InterceptTag, dbl_intercept);
+    meObj.dset->findAndGetFloat64(SlopeTag, dbl_slope);
+    CHECK_FALSE(dbl_intercept==dbl_slope); // elements are different before copy
+
+    cond = meObj.copy(SlopeTag, posFrom, posTo, copyToThis, replace);
+    CHECK(cond.good()); // copy without error
+
+    meObj.dset->findAndGetFloat64(InterceptTag, dbl_intercept);
+    meObj.dset->findAndGetFloat64(SlopeTag, dbl_slope);
+    CHECK(dbl_intercept==dbl_slope); // elements match after copy
+
+//  Testing copy StringArray, copyToThis == OFTrue, replace == OFFalse, using DcmTagKey
+    meObj.setTag(PixelTag);
+    meObj.dset->findAndGetOFStringArray(PixelTag, str_pixel);
+    meObj.dset->findAndGetOFStringArray(FieldTag, str_field);
+    CHECK_FALSE(str_pixel==str_field); // elements are different before copy
+
+    cond = meObj.copy(FieldTag, posFrom, posTo, copyToThis, replace);
+    CHECK(cond.good()); // copy without error
+    cond = meObj.copy(FieldTag, posFrom+1, posTo+1, copyToThis, replace);
+    CHECK(cond.good()); // copy without error
+
+    meObj.dset->findAndGetOFStringArray(PixelTag, str_pixel);
+    meObj.dset->findAndGetOFStringArray(FieldTag, str_field);
+    CHECK_FALSE(str_pixel==str_field); // elements shouldn't match after non-replace
+
+    std::size_t posn = str_pixel.find(str_field);
+    CHECK(posn==0); //str_field is found at position 0 in str_pixel
+
 }
 
 /* Code for running selective tests " {path to unit_tests} [ME] "*/

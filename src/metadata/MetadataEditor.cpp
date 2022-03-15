@@ -109,34 +109,6 @@ OFCondition MetadataEditor::modify(OFString newValue, DcmTagKey otherTagKey,
   return resultCond;
 }
 
-// Modify for numeric values - need to finish this somehow
-OFCondition MetadataEditor::modify(double newValue, OFBool only_overwrite){
-  OFCondition resultCond;
-  DcmElement *thisElement;
-
-  if (exists(OFFalse).bad()) {
-      // Tag doesn't exist so create then assign value.
-      if (only_overwrite) {
-          return makeOFCondition(OFM_dcmdata, 23, OF_error,
-                                 "tag does not exist in DICOM file");
-      }
-      else {
-//          TODO: somehow modify to numeric value, can't use mdfdsman (modifyOrInsertPath accepts OFString only)
-//          When creating the tag, do we check VR or do we get to decide it?
-//          Remove then PutAndInsertFloat64 (etc.) or something...?
-      }
-  }
-
-  dset->findAndGetElement(tagKey, thisElement, OFFalse);
-  DcmTag thisTag{thisElement->getTag()};
-  OFCondition resGet;
-  OFCondition resCompare;
-  Float64 thisValue;
-
-//  TODO: finish this, something like in COPY and double EQUALS using switch on current value type
-
-}
-
 // Check if the value at 'this' tag matches the regex expression
 OFCondition MetadataEditor::match(OFString str_expr, OFCondition &flag, const unsigned long pos) {
   // Ensure the element specified by the tag exists before matching
@@ -733,7 +705,7 @@ OFCondition MetadataEditor::copy(DcmTagKey otherTagKey, const unsigned long posF
 OFCondition MetadataEditor::copy(OFString otherTagString, const unsigned long posFrom,
                                  const unsigned long posTo, OFBool copyToThis,
                                  OFBool replace, OFBool searchIntoSub) {
-    if (exists(otherTagString,OFFalse).good()) {
+    if (exists(otherTagString,OFFalse).bad()) {
         return makeOFCondition(OFM_dcmdata, 23, OF_error,
                                "tag does not exist in DICOM file");
     }
