@@ -45,7 +45,7 @@ TEST_CASE("Test for reading DICOM images and converting to MAT object for openCV
     ImageEditor* dicomTest = new ImageEditor(filePath);
     std::cout << dicomTest->getSlices()[0].size() << std::endl;
     std::cout << dicomTest->getSlices()[0].channels() << std::endl;
-    cv::namedWindow( "Final window", cv::WINDOW_AUTOSIZE );// Create a window for display.
+//    cv::namedWindow( "Final window", cv::WINDOW_AUTOSIZE );// Create a window for display.
     //cv::imshow( "Final window", dicomTest->getSlices()[0]);
     //cv::waitKey(0);
     // Display the saved image to the dataset

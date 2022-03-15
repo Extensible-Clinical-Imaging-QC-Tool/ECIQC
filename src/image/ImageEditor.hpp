@@ -34,9 +34,7 @@ public:
      */
     DcmDataset* pathToDataset(OFString file_path);
 
-    void runEditing();
 
-    OFCondition saveImage();
 
     /**
      * Checks text is all letters. Combined with digitsOnly, can check for a mixture of letters and numbers

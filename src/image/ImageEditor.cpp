@@ -8,7 +8,6 @@
 #include "dcmtk/dcmjpeg/djrplol.h"
 #include "dcmtk/dcmjpeg/djrploss.h"
 #include "dcmtk/dcmdata/dcpxitem.h"
-#include <dcmtk/dcmpstat/dcmpstat.h>
 #include <vector>
 #include <tesseract/baseapi.h>
 #include <string>
@@ -55,22 +54,20 @@ bool ImageEditor::loadPixelData() {
     unsigned short samplesPerPixel;
     unsigned int frameSize;
     unsigned long cvType;
-    // copy of dset to be used for decompression
-    uncompressedDset = new DcmDataset(*dset);
     DcmElement * pixelElement {NULL};
     DcmPixelData * pixelData {NULL};
     DcmPixelSequence * pixelSequence {NULL};
     OFCondition result {EC_Normal};
-    E_TransferSyntax xfer = uncompressedDset->getCurrentXfer();
+    E_TransferSyntax xfer = dset->getCurrentXfer();
 
 
     // load in data
-    uncompressedDset->findAndGetUint16(DCM_BitsAllocated, bitDepth);
-    uncompressedDset->findAndGetUint16(DCM_SamplesPerPixel, samplesPerPixel);
-    uncompressedDset->findAndGetUint16(DCM_Rows, nRows);
-    uncompressedDset->findAndGetUint16(DCM_Columns, nCols);
-    uncompressedDset->findAndGetLongInt(DCM_NumberOfFrames, nImgs);
-    uncompressedDset->findAndGetUint16(DCM_PixelRepresentation, isSigned);
+    dset->findAndGetUint16(DCM_BitsAllocated, bitDepth);
+    dset->findAndGetUint16(DCM_SamplesPerPixel, samplesPerPixel);
+    dset->findAndGetUint16(DCM_Rows, nRows);
+    dset->findAndGetUint16(DCM_Columns, nCols);
+    dset->findAndGetLongInt(DCM_NumberOfFrames, nImgs);
+    dset->findAndGetUint16(DCM_PixelRepresentation, isSigned);
 
     // if NumberOfFrames is 0 then set nImgs to 1 (single frame image)
     if (nImgs==0) {
@@ -79,19 +76,19 @@ bool ImageEditor::loadPixelData() {
     // change representation format to little endian if compressed
     if (xfer!=0 && xfer!=1 && xfer!=2 && xfer!=3) {
         // change to little endian format
-        if (! decompressDataset(*uncompressedDset) ) {
+        if (! decompressDataset(*dset) ) {
             std::cerr << "Error decomporessing dataset of format: " << xfer;
             return false;
         }
     }
 
-    result = uncompressedDset->findAndGetElement(DCM_PixelData, pixelElement);
+    result = dset->findAndGetElement(DCM_PixelData, pixelElement);
     if (result.bad() || pixelElement == NULL){
         return false;
     }
     pixelData = OFstatic_cast(DcmPixelData*, pixelElement);
-    unsigned long length = pixelData->getLength(uncompressedDset->getCurrentXfer());
-    pixelData->getUncompressedFrameSize(uncompressedDset, frameSize);
+    unsigned long length = pixelData->getLength(dset->getCurrentXfer());
+    pixelData->getUncompressedFrameSize(dset, frameSize);
     OFString decompressedColorModel;
 
     // colour images
@@ -104,7 +101,7 @@ bool ImageEditor::loadPixelData() {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
                     Uint8 *buffer = new Uint8[frameSize];
-                    pixelData->getUncompressedFrame(uncompressedDset, frame, fragmentStart, buffer, frameSize,
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
                                                     decompressedColorModel);
                     cv::Mat slice = cv::Mat(nRows, nCols, CV_8UC3, buffer).clone();
                     slices.push_back(slice);
@@ -123,7 +120,7 @@ bool ImageEditor::loadPixelData() {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
                     Sint16 *buffer = new Sint16[frameSize];
-                    pixelData->getUncompressedFrame(uncompressedDset, frame, fragmentStart, buffer, frameSize,
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
                                                     decompressedColorModel);
                     cv::Mat slice = cv::Mat(nRows, nCols, CV_16S, buffer).clone();
                     // convert to unsigned
@@ -137,7 +134,7 @@ bool ImageEditor::loadPixelData() {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
                     Uint16 *buffer = new Uint16[frameSize];
-                    pixelData->getUncompressedFrame(uncompressedDset, frame, fragmentStart, buffer, frameSize,
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
                                                     decompressedColorModel);
                     cv::Mat slice = cv::Mat(nRows, nCols, CV_16U, buffer).clone();
                     // convert to unsigned
@@ -148,13 +145,12 @@ bool ImageEditor::loadPixelData() {
 
     }
     else{std::cerr << "incompatible channel number"; return false;}
-    // delete the uncompressed dset
 
     // display the original image
-    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    cv::imshow( "Unedited Image", slices[0]);
-    cv::waitKey(0);
-    //cv::destroyAllWindows();
+//    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+//    cv::imshow( "Unedited Image", slices[0]);
+//    cv::waitKey(0);
+//    cv::destroyAllWindows();
 
     // run preprocessing step
     prePro();
@@ -173,8 +169,7 @@ bool ImageEditor::loadPixelData() {
     // get JPEG data from compressed dset
     DcmElement * compressedPixelElement {NULL};
     DcmPixelData * compressedPixelData {NULL};
-    dset->findAndGetElement(DCM_PixelData, compressedPixelElement);
-    compressedPixelData = OFstatic_cast(DcmPixelData*, compressedPixelElement);
+
 
     //Uint8* firstCompressedFrame = getRawJpegData(compressedPixelData);
     // colour images
@@ -191,24 +186,23 @@ bool ImageEditor::loadPixelData() {
         }
     }
 
-    // convert uncompressed dset to JPEG
-
-        // monochrome images
+    // monochrome images
     else if(samplesPerPixel == 1){
         // 16 bit images
         if (bitDepth == 16) {
             // signed int
             if (isSigned) {
-
+                // TODO implement
             }
             // unsigned 16 bit
             else {
-
+                // TODO implement
                 }
             }
         }
 
-    changeToOriginalFormat(*uncompressedDset);
+    // change back to original (likely jpeg) format
+    changeToOriginalFormat(*dset);
 
     return true;
 }
@@ -217,26 +211,15 @@ void ImageEditor::displayFirstFrame(){
     DJDecoderRegistration::registerCodecs(EDC_photometricInterpretation, EUC_default, EPC_default, false, false, true);
 
     // create a DicomImage
-    DicomImage * image = new DicomImage(uncompressedDset, uncompressedDset->getCurrentXfer());
+    DicomImage * image = new DicomImage(dset, dset->getCurrentXfer());
     // gets pixel data, after modality has been applied
     Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
-    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
-    cv::waitKey(0);
+//    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
+//    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
+//    cv::waitKey(0);
     DJDecoderRegistration::cleanup();
 
 }
-
-
-void ImageEditor::runEditing(){
-    // Preprocess image using thresholding
-    prePro();
-   coverText();
-   //savePixelData();
-}
-
-
-
 
 // Do we need to distinguish "lettersOnly" with mixed alpha-numeric strings?
 OFBool ImageEditor::lettersOnly(std::string text){
@@ -308,9 +291,6 @@ void ImageEditor::coverText(){
             else if (lessThanFourChars(ocrResult)) {
                 blockText = OFFalse;
             }
-//                else if {
-//                    // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
-//                }
 
             if (blockText) {
                 std::cout << ocrResult << "location x:" << box->x << " y: " << box->y << "\n";
@@ -322,12 +302,8 @@ void ImageEditor::coverText(){
                 // save the box to vector
                 boxesToMask.push_back(box);
             }
-
             boxDestroy(&box);
-
         }
-
-
     }
     else {boxesToMask.push_back(NULL);}
     // add boxes for this slice to the overall vector
@@ -350,7 +326,6 @@ const std::vector<cv::Mat> &ImageEditor::getImageProcessingSlices() const {
 /*                    Private Member Functions                    */
 /////////////////////////////////////////////////////////
 
-OFBool Image;
 
 OFBool ImageEditor::decompressDataset(DcmDataset &dataset) {
 
@@ -441,9 +416,9 @@ void ImageEditor::prePro(){
         }
     }
 
-    cv::namedWindow( "Average Threshold", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    cv::imshow("Average Threshold", averageImage);
-    cv::waitKey(0);
+//    cv::namedWindow( "Average Threshold", cv::WINDOW_AUTOSIZE );// Create a window for display.
+//    cv::imshow("Average Threshold", averageImage);
+//    cv::waitKey(0);
 
 }
 
