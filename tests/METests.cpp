@@ -240,4 +240,20 @@ TEST_CASE("Test for CHECKING tag GREATER THAN and LESS THAN","[ME]") {
     CHECK_FALSE(meObj.greaterOrLessThan(uint16NameTagKey, uintValue, OFFalse, flag).good());
 }
 
+TEST_CASE("Test for CHECKING tag APPEND and PREPEND","[ME]"){
+    meObj.setTag(DCM_PatientName);
+    OFCondition flag;
+    OFString test1 = "test1";
+    meObj.append(test1, flag);
+    CHECK(meObj.equals(newNames[2] + test1, flag).good());
+
+    OFString test2 = "test2";
+    meObj.append(test2, nameTagString, flag);
+    CHECK(meObj.equals(newNames[2] + test1 + test2, flag).good());
+
+    OFString test3 = "test3";
+    meObj.append(test3, nameTagKey, flag);
+    CHECK(meObj.equals(newNames[2] + test1 + test2 + test3, flag).good());
+}
+
 /* Code for running selective tests " {path to unit_tests} [ME] "*/
