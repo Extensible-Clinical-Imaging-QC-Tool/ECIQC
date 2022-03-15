@@ -137,12 +137,12 @@ OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list)
 /*                        Receiver class                                   */
 /* *********************************************************************** */
 
-Receiver::Receiver(Uint16 port, OFString aetitle)
+Receiver::Receiver(Uint16 port, std::string aetitle)
 {
         // Configure SCP port
         getConfig().setPort(port);
         // Configure SCP name
-        getConfig().setAETitle(aetitle);
+        getConfig().setAETitle(aetitle.c_str());
         // Set number of threads
         setMaxThreads(2);
         getConfig().setConnectionBlockingMode(DUL_NOBLOCK);
@@ -185,9 +185,9 @@ void Receiver::run()
 
 // ----------------------------------------------------------------------------
 
-void Receiver::setaetitle(OFString ae_title) 
+void Receiver::setaetitle(std::string ae_title) 
 {
-    getConfig().setAETitle(ae_title);
+    getConfig().setAETitle(ae_title.c_str());
 }
 
 // ----------------------------------------------------------------------------

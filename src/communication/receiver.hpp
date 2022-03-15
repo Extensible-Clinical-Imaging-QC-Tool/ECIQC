@@ -65,7 +65,8 @@ public:
     OFCondition result;
     
     /** Constructor. */
-    Receiver(Uint16 port, OFString aetitle);
+    Receiver(Uint16 port, std::string aetitle);
+    OFString aetitle = aetitle.c_str();
 
     /** Destructor. */
     virtual ~Receiver();
@@ -76,7 +77,7 @@ public:
     /** Set AE Title. 
      *  @param ae_title AE Title to be used by the SCP.
      */ 
-    void setaetitle(OFString ae_title);
+    void setaetitle(std::string ae_title);
 
     /** Set Port to listen on. 
      *  @param port Port to be used by the SCP. Default is "11112".

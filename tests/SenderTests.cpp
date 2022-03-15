@@ -42,18 +42,18 @@ TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
 
   /* Setup DICOM connection parameters */ 
   
-  OFString ae_title = "TEST-SCU";
-  OFString peer_hostname = "www.dicomserver.co.uk";
+  std::string ae_title = "TEST-SCU";
+  std::string peer_hostname = "www.dicomserver.co.uk";
   Uint16 peer_port = 11112;
-  OFString peer_aetitle = "MOVESCP";
+  std::string peer_aetitle = "MOVESCP";
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle); 
   // set AE titles 
-  scu.setAETitle(ae_title); 
-  scu.setPeerHostName(peer_hostname); 
+  scu.setAETitle(ae_title.c_str()); 
+  scu.setPeerHostName(peer_hostname.c_str()); 
   scu.setPeerPort(peer_port); 
-  scu.setPeerAETitle(peer_aetitle); 
+  scu.setPeerAETitle(peer_aetitle.c_str()); 
   // Define presentation contexts, propose all uncompressed transfer syntaxes 
-  OFList<OFString> ts; 
+  OFList< OFString> ts; 
   ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
   ts.push_back(UID_BigEndianExplicitTransferSyntax); 
   ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
@@ -103,10 +103,10 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   
 
     /* Setup DICOM connection parameters */
-  OFString ae_title = "TEST-SCU";/*"StoreTestSCU";*/
-  OFString peer_hostname = "www.dicomserver.co.uk";
+  std::string ae_title = "TEST-SCU";/*"StoreTestSCU";*/
+  std::string peer_hostname = "www.dicomserver.co.uk";
   Uint16 peer_port = 104;
-  OFString peer_aetitle = "MOVESCP";/*"TestSCP";*/
+  std::string peer_aetitle = "MOVESCP";/*"TestSCP";*/
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);  
    
    
@@ -124,10 +124,10 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   pool.start();
 
   // configure SCU 
-  scu.setAETitle(ae_title); 
-  scu.setPeerHostName(peer_hostname); 
+  scu.setAETitle(ae_title.c_str()); 
+  scu.setPeerHostName(peer_hostname.c_str()); 
   scu.setPeerPort(peer_port); 
-  scu.setPeerAETitle(peer_aetitle);
+  scu.setPeerAETitle(peer_aetitle.c_str());
   scu.setVerbosePCMode(OFTrue);
   scu.addPresentationContext(UID_CTImageStorage, ts); 
   scu.addPresentationContext(UID_MRImageStorage, ts); 
@@ -193,10 +193,10 @@ TEST_CASE("Test Successful C-STORE Association with SCU","[STS2]"){
   
 
     /* Setup DICOM connection parameters */
-  OFString ae_title = "TEST-SCU";/*"StoreTestSCU";*/
-  OFString peer_hostname = "www.dicomserver.co.uk";
+  std::string ae_title = "TEST-SCU";/*"StoreTestSCU";*/
+  std::string peer_hostname = "www.dicomserver.co.uk";
   Uint16 peer_port = 104;
-  OFString peer_aetitle = "MOVESCP";/*"TestSCP";*/
+  std::string peer_aetitle = "MOVESCP";/*"TestSCP";*/
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);  
    
    
@@ -214,10 +214,10 @@ TEST_CASE("Test Successful C-STORE Association with SCU","[STS2]"){
   pool.start();
 
   // configure SCU 
-  scu.setAETitle(ae_title); 
-  scu.setPeerHostName(peer_hostname); 
+  scu.setAETitle(ae_title.c_str()); 
+  scu.setPeerHostName(peer_hostname.c_str()); 
   scu.setPeerPort(peer_port); 
-  scu.setPeerAETitle(peer_aetitle);
+  scu.setPeerAETitle(peer_aetitle.c_str());
   scu.setVerbosePCMode(OFTrue);
   scu.addPresentationContext(UID_CTImageStorage, ts); 
   scu.addPresentationContext(UID_MRImageStorage, ts); 

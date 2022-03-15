@@ -11,8 +11,8 @@ specific setX() functions */
 // Constructor ()
 // 2 config files, 2*(port number and port name)
 
-Conductor::Conductor(/*OFString cfp1, OFString cfp2,*/ Uint8 rPortNum,
-                     OFString rPortName, Uint8 sPortNum, OFString sPortName)
+Conductor::Conductor(/*std::string cfp1, std::string cfp2,*/ Uint8 rPortNum,
+                     std::string rPortName, Uint8 sPortNum, std::string sPortName)
     : /*p1(/*cfp1*//*), p2(/*cfp2*//*),*/ r(rPortNum, rPortName)
       /*sender(PortNum, PortName)*/ 
       {}
@@ -45,7 +45,7 @@ void Conductor::run() {
 
     // Validation Parser
 
-    /* OFString mode = 'val' ;
+    /* std::string mode = 'val' ;
     p1.setDicomFile(pDset);
     OFBool pass = p1.pRun(mode);
     s(qPortNum, qPortName);

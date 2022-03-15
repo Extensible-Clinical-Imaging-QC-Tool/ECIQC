@@ -1,7 +1,7 @@
 #include <iostream>
 #include <iterator>
 #include <vector>
-#include <string>
+#include <exception>
 #include <boost/program_options.hpp>
 #include "dcmtk/config/osconfig.h"
 #include "dcmtk/ofstd/ofstring.h"
@@ -9,7 +9,7 @@
 #include "../src/communication/sender.hpp"
 #include "communication/receiver.hpp"
 //#include "conductor.hpp"
-#include <exception>
+
 
 using std::cerr;
 using std::cout;
@@ -17,29 +17,35 @@ using std::endl;
 using std::exception;
 namespace po = boost::program_options;
 
+
+
+
 int main(int argc, char** argv){
 
+//Variables that will store parsed values.
 Uint16 ReceiverPortNumber;
-OFString ReceiverPortName;
-OFString ReceiverAETitle;
+std::string ReceiverPortName;
+std::string ReceiverAETitle;
 //Uint16 SenderPortNumber;
-//OFString SenderPortName;
-OFString SenderAETitle;
+//std::string SenderPortName;
+std::string SenderAETitle;
 
+
+//Setup options
 try {
     po::options_description ECIQC("Options");
     ECIQC.add_options()
         ("help", "produce help message")
-        ("SenderAETitle", po::value<OFString>(&SenderAETitle)->default_value("TestSCU"), "set Sender AE Title")
+        ("SenderAETitle", po::value<std::string>(&SenderAETitle)->default_value("TestSCU"), "set Sender AE Title")
         //("SenderPortNumber", po::value<Uint16>(&SenderPortNumber)->default_value(104), "set Sender Port Number")
-        //("SenderPortName", po::value<OFString>(&SenderPortName)->default_value("localhost"),"set Sender Port Name")
-        ("ReceiverAETitle", po::value<OFString>(&ReceiverAETitle)->default_value("TestSCP"), "set Receiver AE Title")
+        //("SenderPortName", po::value<std::string>(&SenderPortName)->default_value("localhost"),"set Sender Port Name")
+        ("ReceiverAETitle", po::value<std::string>(&ReceiverAETitle)->default_value("TestSCP"), "set Receiver AE Title")
         ("ReceiverPortNumber", po::value<Uint16>(&ReceiverPortNumber)->default_value(11112), "set Receiver Port Number")
-        ("ReceiverPortName", po::value<OFString>(&ReceiverPortName)->default_value("localhost"), "set Receiver Port Name");
+        ("ReceiverPortName", po::value<std::string>(&ReceiverPortName)->default_value("localhost"), "set Receiver Port Name");
         
         
+    
     po::variables_map vm;
-    //po::store(po::parse_command_line(argc, argv, ECIQC), vm); // use this if want user to enter configuration settings as arguments from command line directly
     po::store(po::parse_command_line(argc, argv, ECIQC),vm); 
     po::notify(vm);
 
@@ -50,7 +56,7 @@ try {
 
      if (vm.count("SenderAETitle")) {
             cout << "Sender Application Entity Title was set to " 
-                 << vm["SenderAETitle"].as<OFString>() << ".\n";
+                 << vm["SenderAETitle"].as<std::string >() << ".\n" ;
         } else {
             cout << "Sender Application Entity Title was not set.\n";
         } 
@@ -64,7 +70,7 @@ try {
     
     if (vm.count("SenderPortName")) {
             cout << "Sender Port Name was set to " 
-                 << vm["SenderPortName"].as<OFString>() << ".\n";
+                 << vm["SenderPortName"].as<std::string>() << ".\n";
         } else {
             cout << "Sender Port Name was not set.\n";
         }
@@ -72,7 +78,7 @@ try {
 
     if (vm.count("ReceiverAETitle")) {
             cout << "Receiver Application Entity Title was set to " 
-                 << vm["ReceiverAETitle"].as<OFString>() << ".\n";
+                 << vm["ReceiverAETitle"].as<std::string>() << ".\n";
         } else {
             cout << "Receiver Application Entity Title was not set.\n";
         } 
@@ -83,12 +89,14 @@ try {
         } else {
             cout << "Receiver Port Number was not set.\n";
         }
+
     if (vm.count("ReceiverPortName")) {
             cout << "Receiver Port Name was set to " 
-                 << vm["ReceiverPortName"].as<OFString>() << ".\n";
+                 << vm["ReceiverPortName"].as<std::string>() << ".\n";
         } else {
             cout << "Receiver Port Name was not set.\n";
-        }   
+        } 
+  
 
     //Specify log pattern in .log file.
     
@@ -115,10 +123,10 @@ try {
     //Execute C-ECHO Request with SCU
     Sender scu(SenderAETitle, ReceiverPortName, ReceiverPortNumber, ReceiverAETitle);
     // set AE titles 
-    scu.setAETitle(SenderAETitle); 
-    scu.setPeerHostName(ReceiverPortName); 
+    scu.setAETitle(SenderAETitle.c_str()); 
+    scu.setPeerHostName(ReceiverPortName.c_str()); 
     scu.setPeerPort(ReceiverPortNumber); 
-    scu.setPeerAETitle(ReceiverAETitle);
+    scu.setPeerAETitle(ReceiverAETitle.c_str());
 
    
 
@@ -148,12 +156,9 @@ try {
     result = scu.releaseAssociation();
     if (result.bad())
         throw "Association Released failed!";
-        
-    
-    
 
     //Execute C-STORE Request with SCU
-    //C-STORE Request for US MultiFrame Images, JPEG Baseline Process 1 - Error: not enough disk space on the disk
+    //C-STORE Request for US MultiFrame Images, JPEG Baseline Process 1
     
     // Define a separate transfer syntax needed for the X-ray image
     OFList<OFString> xfer;
@@ -231,7 +236,7 @@ try {
 
     /*Request shutdown and stop listening. */ 
     pool.request_stop();
-    //pool.join();
+    pool.join();
     
     }
     
