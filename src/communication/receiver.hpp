@@ -1,7 +1,6 @@
 #ifndef RECEIVER_H
 #define RECEIVER_H
 
-#include <string>
 #include <dcmtk/dcmnet/scppool.h>
 #include <dcmtk/dcmnet/scpthrd.h>
 #include "poolbase.h"
@@ -67,7 +66,7 @@ public:
     
     /** Constructor. */
     Receiver(Uint16 port, std::string aetitle);
-    OFString aetitle = aetitle.c_str();
+    //OFString aetitle = aetitle.c_str();
 
     /** Destructor. */
     virtual ~Receiver();
