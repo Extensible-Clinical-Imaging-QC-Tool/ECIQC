@@ -1,8 +1,8 @@
 # Extensible Clinical Imaging Quality Control Tool
 
 [![codecov](https://codecov.io/gh/Extensible-Clinical-Imaging-QC-Tool/ECIQC/branch/main/graph/badge.svg?token=KUDHVB07FW)](https://codecov.io/gh/Extensible-Clinical-Imaging-QC-Tool/ECIQC)
-[![Unit Tests: Ubuntu](https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC/actions/workflows/Unittests_Ubuntu.yml/badge.svg)](https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC/actions/workflows/Unittests_Ubuntu.yml)
-[![Unit Tests: macOS](https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC/actions/workflows/Unittests_macOS.yml/badge.svg)](https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC/actions/workflows/Unittests_macOS.yml)
+[![Ubuntu](https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC/actions/workflows/Unittests_Ubuntu.yml/badge.svg)](https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC/actions/workflows/Unittests_Ubuntu.yml)
+[![macOS](https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC/actions/workflows/Unittests_macOS.yml/badge.svg)](https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC/actions/workflows/Unittests_macOS.yml)
 
 ## Overview
 
