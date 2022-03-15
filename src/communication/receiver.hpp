@@ -1,6 +1,7 @@
 #ifndef RECEIVER_H
 #define RECEIVER_H
 
+#include <string>
 #include <dcmtk/dcmnet/scppool.h>
 #include <dcmtk/dcmnet/scpthrd.h>
 #include "poolbase.h"
