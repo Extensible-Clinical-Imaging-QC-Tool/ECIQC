@@ -1,4 +1,4 @@
-name: "Unit tests: Coverage"
+name: Code Coverage
 
 on:
   push:
@@ -10,6 +10,9 @@ on:
   workflow_dispatch:
     branches:
       - '**'
+
+ignore:
+  - "lib"
 
 jobs:
 
