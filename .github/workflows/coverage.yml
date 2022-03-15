@@ -1,16 +1,15 @@
-
-name: "Unit test coverage"
+name: "Unit tests: Coverage"
 
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
     branches:
       - '**'
-
-ignore: 
-  - "libs/**/*"
+  workflow_dispatch:
+    branches:
+      - '**'
 
 jobs:
 
