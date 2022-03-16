@@ -10,14 +10,14 @@
 // ----------------------------------------------------------------------------
 
 DQDBaseSCPPool::DQDBaseSCPPool()
-  : m_criticalSection(),
+  : m_dset(), 
+    m_criticalSection(),
     m_workersBusy(),
     m_workersIdle(),
     m_cfg(),
     m_maxWorkers(5),
     m_sourcelist(),
     m_peeraelist(),
-    m_dset(),
     m_runMode( LISTEN )
     // not implemented yet: m_workersBusyTimeout(60),
     // not implemented yet: m_waiting(),
