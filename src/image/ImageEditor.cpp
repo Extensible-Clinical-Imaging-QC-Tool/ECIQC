@@ -217,9 +217,9 @@ void ImageEditor::displayFirstFrame(){
     std::unique_ptr<DicomImage> image = std::make_unique<DicomImage>(dset, dset->getCurrentXfer());
     // gets pixel data, after modality has been applied
     Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
-    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
-    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
-    cv::waitKey(0);
+//    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
+//    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
+//    cv::waitKey(0);
     DJDecoderRegistration::cleanup();
 
 }
