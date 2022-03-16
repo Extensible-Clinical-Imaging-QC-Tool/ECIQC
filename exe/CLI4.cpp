@@ -1,0 +1,11 @@
+#include <iostream>
+#include <iterator>
+#include <vector>
+#include <exception>
+#include <boost/program_options.hpp>
+#include "dcmtk/config/osconfig.h"
+#include "dcmtk/ofstd/ofstring.h"
+#include "dcmtk/oflog/fileap.h"
+#include "../src/communication/sender.hpp"
+#include "../src/communication/receiver.hpp"
+//#include "conductor.hpp"
