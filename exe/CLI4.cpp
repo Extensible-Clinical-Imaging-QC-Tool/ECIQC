@@ -8,6 +8,7 @@
 #include "dcmtk/oflog/fileap.h"
 #include "../src/communication/sender.hpp"
 #include "../src/communication/receiver.hpp"
+#include <stdexcept>
 
 #ifdef WITH_THREADS
 
@@ -142,10 +143,8 @@ pool.start();
   for (OFVector<TestSCU*>::iterator it3 = scus.begin(); it3 != scus.end(); ++it3)
       {
         (*it3)->join();
-        if ((*it3)->result.good())  
-            throw "Assoiation was successful";
         if ((*it3)->result.bad())  
-            throw "Association was not succesfful";
+            throw std::invalid_argument("Association was not succesfful");
         delete *it3;
       };
   
@@ -154,6 +153,10 @@ pool.start();
   pool.join();
 }
  
+     catch(const char* txtError){
+        cerr << "error: " << txtError << "\n";
+    }
+    
     catch(exception& e) {
         cerr << "error: " << e.what() << "\n";
         return 1;
