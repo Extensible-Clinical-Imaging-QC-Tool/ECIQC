@@ -123,9 +123,6 @@ public:
    */
   OFCondition match(const DcmTagKey& otherTagKey, const OFString& str_expr, OFCondition &flag, unsigned long pos = 0);
 
-// TODO: add CLEAR function, and OVERWRITE (editing according current value, e.g. DOB anonymisation)
-
-// TODO: should string equals be case-sensitive or not? This can be covered by a regex match
   /** Checks if value at a tag matches a string exactly
    *
    * @param str_expr string to be matched
@@ -145,11 +142,12 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the string exactly
    */
-  OFCondition equals(const OFString& otherTagString, const OFString& str_expr, OFCondition &flag, unsigned long pos = 0);
+  OFCondition equals(const OFString& otherTagString, const OFString& str_expr, OFCondition &flag,
+                     unsigned long pos = 0);
 
   /** Checks if value at a tag matches a string exactly
    *
-   * @param otherTagKey holds the desired tag in (group, element) string form
+   * @param otherTagKey holds the desired tag as a DcmTagKey
    * @param str_expr string to be matched
    * @param flag a reference intended to store the result of the retrieval of the value
    *        at the specified tag. It should hold EC_Normal if all goes well
@@ -183,7 +181,7 @@ public:
 
   /** Checks if value at a tag matches a value exactly
    *
-   * @param otherTagKey holds the desired tag in (group, element) string form
+   * @param otherTagKey holds the desired tag as a DcmTagKey
    * @param compare_value double to be matched
    * @param flag a reference intended to store the result of the retrieval of the value
    *        at the specified tag. It should hold EC_Normal if all goes well
@@ -206,7 +204,7 @@ public:
 
   /** Check if value at a tag is less than a given value
     *
-    * @param otherTagKey holds the desired tag in (group, element) string form
+    * @param otherTagKey holds the desired tag as a DcmTagKey
     * @param compare_value double to compare value at tag with
     * @param greaterThan if OFTRUE, value at tag will be checked for being greater than compare_value, otherwise will be
     * checked for less than.
@@ -215,7 +213,8 @@ public:
     * @param pos holds the index of the desired value. Useful for tags where VM > 1
     * @return OFCondition representing whether or not the value is less than the given double
     */
-  OFCondition greaterOrLessThan(const DcmTagKey& otherTagKey, Float64 compare_value, OFBool greaterThan, OFCondition &flag, unsigned long pos = 0);
+  OFCondition greaterOrLessThan(const DcmTagKey& otherTagKey, Float64 compare_value, OFBool greaterThan,
+                                OFCondition &flag, unsigned long pos = 0);
 
   /** Check if value at a tag is less than a given value
    *
@@ -228,7 +227,8 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value is less than the given double
    */
-  OFCondition greaterOrLessThan(const OFString& otherTagString, Float64 compare_value, OFBool greaterThan, OFCondition &flag, unsigned long pos = 0);
+  OFCondition greaterOrLessThan(const OFString& otherTagString, Float64 compare_value, OFBool greaterThan,
+                                OFCondition &flag, unsigned long pos = 0);
 
   // EDITS
 
@@ -267,6 +267,8 @@ public:
   /** Appends a string on to the end of the current value at a tag
    *
    * @param appendValue is the string to append to the current value
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
   OFCondition append(const OFString& appendValue, OFCondition &flag, unsigned long pos = 0);
@@ -275,21 +277,29 @@ public:
    *
    * @param appendValue is the string to append to the current value
    * @param otherTagString holds the desired tag in (group, element) string form
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition append(const OFString& appendValue, const OFString& otherTagString, OFCondition &flag, unsigned long pos = 0);
+  OFCondition append(const OFString& appendValue, const OFString& otherTagString, OFCondition &flag,
+                     unsigned long pos = 0);
 
   /** Appends a string on to the end of the current value at a tag
    *
    * @param appendValue is the string to append to the current value
    * @param otherTagKey holds the desired tag as a DcmTagKey
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition append(const OFString& appendValue, const DcmTagKey& otherTagKey, OFCondition &flag, unsigned long pos = 0);
+  OFCondition append(const OFString& appendValue, const DcmTagKey& otherTagKey, OFCondition &flag,
+                     unsigned long pos = 0);
 
   /** Appends a string on to the start of the current value at a tag
    *
    * @param prependValue is the string to prepend to the current value
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
   OFCondition prepend(const OFString& prependValue, OFCondition &flag, unsigned long pos = 0);
@@ -298,17 +308,35 @@ public:
    *
    * @param prependValue is the string to prepend to the current value
    * @param otherTagString holds the desired tag in (group, element) string form
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition prepend(const OFString& prependValue, const OFString& otherTagString, OFCondition &flag, unsigned long pos = 0);
+  OFCondition prepend(const OFString& prependValue, const OFString& otherTagString, OFCondition &flag,
+                      unsigned long pos = 0);
 
   /** Appends a string on to the start of the current value at a tag
    *
    * @param prependValue is the string to prepend to the current value
    * @param otherTagKey holds the desired tag as a DcmTagKey
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition prepend(const OFString& prependValue, const DcmTagKey& otherTagKey, OFCondition &flag, unsigned long pos = 0);
+  OFCondition prepend(const OFString& prependValue, const DcmTagKey& otherTagKey, OFCondition &flag,
+                      unsigned long pos = 0);
+
+/* Regex expression to match, part of expression to overwrite, what to overwrite with?
+ * e.g. "([0-9]{4})([0-9]{4})", 2, "0101"
+ * could replace the 2nd half of DOB with "0101"
+ * using s = currentValue, e = "([0-9]{4})([0-9]{4})" and
+ * std::regex_replace (std::back_inserter(result), s.begin(), s.end(), e, "$1"+overwriteString)
+ */
+  OFCondition overwrite();
+
+  OFCondition overwrite(const OFString& otherTagString);
+
+  OFCondition overwrite(const DcmTagKey& otherTagKey);
 
 
   /** Exclusive method for copying data from tags and using them too overwrite or insert

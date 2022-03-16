@@ -89,6 +89,7 @@ OFCondition MetadataEditor::exists(const OFString& otherTagString, OFBool search
 }
 
 // Allows editing the value at the current or a different tag
+// Use newValue = NULL to "clear" the value at a tag
 OFCondition MetadataEditor::modify(const OFString& newValue, OFBool only_overwrite) {
   OFCondition resultCond =
       modifyOrInsertPath(tagString, newValue, only_overwrite);
@@ -318,7 +319,8 @@ OFCondition MetadataEditor::equals(Float64 compare_value, OFCondition &flag, con
     return resGet;
 }
 
-OFCondition MetadataEditor::equals(const DcmTagKey& otherTagKey, Float64 compare_value, OFCondition &flag, const unsigned long pos){
+OFCondition MetadataEditor::equals(const DcmTagKey& otherTagKey, Float64 compare_value, OFCondition &flag,
+                                   const unsigned long pos){
     // Ensure the element specified by the tag exists before matching
     DcmElement *thisElement;
 
@@ -395,7 +397,8 @@ OFCondition MetadataEditor::equals(const DcmTagKey& otherTagKey, Float64 compare
     return resGet;
 }
 
-OFCondition MetadataEditor::equals(const OFString& otherTagString, Float64 compare_value, OFCondition &flag, const unsigned long pos){
+OFCondition MetadataEditor::equals(const OFString& otherTagString, Float64 compare_value, OFCondition &flag,
+                                   const unsigned long pos){
     // Ensure the element specified by the tag exists before matching
     DcmElement *thisElement;
 
@@ -413,7 +416,8 @@ OFCondition MetadataEditor::equals(const OFString& otherTagString, Float64 compa
     return MetadataEditor::equals(otherTagKey, compare_value, flag, pos);
 }
 
-OFCondition MetadataEditor::greaterOrLessThan(Float64 compare_value, OFBool greaterThan, OFCondition &flag, const unsigned long pos){
+OFCondition MetadataEditor::greaterOrLessThan(Float64 compare_value, OFBool greaterThan, OFCondition &flag,
+                                              const unsigned long pos){
     // Ensure the element specified by the tag exists before matching
     DcmElement *thisElement = nullptr;
 
@@ -739,7 +743,8 @@ OFCondition MetadataEditor::append(const OFString& appendValue, OFCondition &fla
     }
 }
 
-OFCondition MetadataEditor::append(const OFString& appendValue, const OFString& otherTagString, OFCondition &flag, const unsigned long pos) {
+OFCondition MetadataEditor::append(const OFString& appendValue, const OFString& otherTagString, OFCondition &flag,
+                                   const unsigned long pos) {
     if (exists(otherTagString,OFFalse).good()) {
         DcmTagKey otherTagKey;
         flag = stringToKey(otherTagString, otherTagKey);
@@ -764,7 +769,8 @@ OFCondition MetadataEditor::append(const OFString& appendValue, const OFString& 
     }
 }
 
-OFCondition MetadataEditor::append(const OFString& appendValue, const DcmTagKey& otherTagKey, OFCondition &flag, const unsigned long pos) {
+OFCondition MetadataEditor::append(const OFString& appendValue, const DcmTagKey& otherTagKey, OFCondition &flag,
+                                   const unsigned long pos) {
     if (exists(otherTagKey,OFFalse).good()) {
         OFString oldValue;
         flag = dset->findAndGetOFString(otherTagKey, oldValue, pos);
@@ -782,7 +788,8 @@ OFCondition MetadataEditor::append(const OFString& appendValue, const DcmTagKey&
     }
 }
 
-OFCondition MetadataEditor::prepend(const OFString& prependValue, OFCondition &flag, const unsigned long pos) {
+OFCondition MetadataEditor::prepend(const OFString& prependValue, OFCondition &flag,
+                                    const unsigned long pos) {
     if (exists(OFFalse).good()) {
 
         OFString oldValue;
@@ -801,7 +808,8 @@ OFCondition MetadataEditor::prepend(const OFString& prependValue, OFCondition &f
     }
 }
 
-OFCondition MetadataEditor::prepend(const OFString& prependValue, const OFString& otherTagString, OFCondition &flag, const unsigned long pos) {
+OFCondition MetadataEditor::prepend(const OFString& prependValue, const OFString& otherTagString, OFCondition &flag,
+                                    const unsigned long pos) {
     if (exists(otherTagString,OFFalse).good()) {
         DcmTagKey otherTagKey;
         flag = stringToKey(otherTagString, otherTagKey);
@@ -826,7 +834,8 @@ OFCondition MetadataEditor::prepend(const OFString& prependValue, const OFString
     }
 }
 
-OFCondition MetadataEditor::prepend(const OFString& prependValue, const DcmTagKey& otherTagKey, OFCondition &flag, const unsigned long pos) {
+OFCondition MetadataEditor::prepend(const OFString& prependValue, const DcmTagKey& otherTagKey, OFCondition &flag,
+                                    const unsigned long pos) {
     if (exists(otherTagKey,OFFalse).good()) {
         OFString oldValue;
         flag = dset->findAndGetOFString(otherTagKey, oldValue, pos);
