@@ -266,8 +266,6 @@ void ImageEditor::coverText(){
     api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY, NULL, 0, &pars_vec, &pars_values, false);
     api->SetPageSegMode(tesseract::PSM_SPARSE_TEXT);
 
-    // vector of boxes for masking
-    std::vector<Box*> boxesToMask;
     // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
     api->SetImage(averageImage.data, averageImage.cols, averageImage.rows, 1, averageImage.step);
     Boxa *boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
@@ -275,43 +273,37 @@ void ImageEditor::coverText(){
     if (boxes) {
         // loop over each box found
         for (int i = 0; i < boxes->n; i++) {
+
             BOX *box = boxaGetBox(boxes, i, L_CLONE);
 
             // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
             api->SetRectangle(box->x, box->y, box->w, box->h);
-            std::string ocrResult = api->GetUTF8Text();
-            int conf = api->MeanTextConf();
+            std::unique_ptr<std::string> ocrResultPtr = std::make_unique<std::string>(api->GetUTF8Text());
             OFBool blockText = OFTrue;
 
             // checks on text content
             // check if only blank space
-            if (ocrResult.find_first_not_of(' \\t\\n\\v\\f\\r') == std::string::npos) {blockText = OFFalse;}
+            if (ocrResultPtr->find_first_not_of(' \\t\\n\\v\\f\\r') == std::string::npos) {blockText = OFFalse;}
             // check if empty
-            else if (ocrResult == "") {blockText = OFFalse;}
+            else if (*ocrResultPtr == "") {blockText = OFFalse;}
             // check if only special characters
-            else if (isSpecialCharactersOnly(ocrResult)) {blockText = OFFalse;}
+            else if (isSpecialCharactersOnly(*ocrResultPtr)) {blockText = OFFalse;}
 
-            else if (lessThanFourChars(ocrResult)) {
+            else if (lessThanFourChars(*ocrResultPtr)) {
                 blockText = OFFalse;
             }
 
             if (blockText) {
-                std::cout << ocrResult << "location x:" << box->x << " y: " << box->y << "\n";
+                std::cout << *ocrResultPtr << "location x:" << box->x << " y: " << box->y << "\n";
                 cv::Rect rect(box->x, box->y, box->w, box->h);
                 // Draw the rectangle on the original image for each slice
                 for (std::size_t n = 0; n < slices.size(); n++) {
                     cv::rectangle(slices[n], rect, cv::Scalar(0, 255, 0));
                 }
-                // save the box to vector
-                boxesToMask.push_back(box);
             }
             boxDestroy(&box);
         }
     }
-    else {boxesToMask.push_back(NULL);}
-    // add boxes for this slice to the overall vector
-    sliceBoxes.push_back(boxesToMask);
-
     api->End();
 }
 

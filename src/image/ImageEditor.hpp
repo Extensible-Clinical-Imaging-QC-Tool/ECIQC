@@ -87,8 +87,6 @@ private:
     DcmDataset *uncompressedDset;
     // vector of slices for multi slice images
     std::vector <cv::Mat> slices;
-    // vector of vector of Boxs. Outer vector representes slice, inner vector is boxes to be masked
-    std::vector< std::vector<BOX*>> sliceBoxes;
 
     cv::Mat averageImage;
 public:
