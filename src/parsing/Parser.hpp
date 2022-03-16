@@ -3,8 +3,8 @@
 
 #include <string>
 #include <iostream>
-#include <nlohmann/json.hpp>
-#include "metadata/MetadataEditor.hpp"
+#include "../../libs/nlohmann_json/single_include/nlohmann/json.hpp"
+#include "../metadata/MetadataEditor.hpp"
 #include "WorkerParameters.hpp"
 
 using json = nlohmann::json;
