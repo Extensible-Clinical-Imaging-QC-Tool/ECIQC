@@ -22,14 +22,7 @@
 Validator::Validator(const char *fname)
 { 
     file_name = fname;
-    //DcmFileFormat *file;
-
-    // Delete old dfile and free memory 
-    //delete file;
-    // TODO use a smart pointer for this
-    file = new DcmFileFormat();
-    dataset = file->getDataset();
-
+    file =  std::make_unique<DcmFileFormat>();
     OFCondition status;
     
     /*
