@@ -35,7 +35,7 @@ jobs:
           mkdir memory_san_dir
       - name: address sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_ADDRESS=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_MEMCHECK=ON
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: address_san_dir

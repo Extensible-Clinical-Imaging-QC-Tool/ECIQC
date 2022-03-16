@@ -6,6 +6,7 @@ DICOM_Images/*
 Testing/
 build/
 cmake-build-*
+address_san_dir/
 
 # Prerequisites
 *.d

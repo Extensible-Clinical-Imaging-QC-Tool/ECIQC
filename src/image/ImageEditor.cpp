@@ -49,7 +49,11 @@ bool ImageEditor::loadPixelData() {
     unsigned short nRows;
     unsigned short nCols;
     unsigned short isSigned;
+<<<<<<< HEAD
     long int nImgs;
+=======
+    long int nImgs = -1;
+>>>>>>> 89b159f908024100545515b463709b23b7f73d76
     unsigned short bitDepth;
     unsigned short samplesPerPixel;
     unsigned int frameSize;

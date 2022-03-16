@@ -168,8 +168,8 @@ if (QCTool_ENABLE_MEMCHECK)
                                     -fsanitize=address 
                                     -fsanitize-address-use-after-scope
                                     )
-        target_compile_options(mylib PUBLIC -O1 -g -fno-omit-frame-pointer ${QCTool_MEMCHECK_FLAGS})
-        target_link_libraries(mylib PUBLIC -g ${QCTool_MEMCHECK_FLAGS})
+        target_compile_options(qctool_lib PUBLIC -O1 -g -fno-omit-frame-pointer ${QCTool_MEMCHECK_FLAGS})
+        target_link_libraries(qctool_lib PUBLIC -g ${QCTool_MEMCHECK_FLAGS})
     else()
         message(FATAL_ERROR "clang compiler required with QCTool_MEMCHECK: found ${CMAKE_CXX_COMPILER_ID}")
     endif()
