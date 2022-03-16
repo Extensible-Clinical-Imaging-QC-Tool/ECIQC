@@ -11,16 +11,17 @@ public:
   Conductor( std::string SenderAETitle, Uint16 SenderPortNumber, std::string SenderPortName, 
             std::string ReceiverAETitle, Uint16 ReceiverPortNumber, std::string ReceiverPortName);
             
+            
   
   void setOptional();
-  // Receiver
+  
 
   void run();
 
-
+  ~Conductor();
   /** members */
-  Receiver scp();
-  Sender scu();
+  Receiver scp;
+  Sender scu;
   std::string SenderAETitle;
   Uint16 SenderPortNumber;
   std::string SenderPortName;

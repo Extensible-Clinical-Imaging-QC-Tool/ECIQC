@@ -11,9 +11,13 @@
 
 // Receiver Tests
 
-TEST_CASE("Test Conductor config")
+TEST_CASE("Test Conductor config", "[CT]")
 {
-
+    Conductor conductor("TestSCU", 104, "localhost","TestSCP", 11112, "localhost");
+    //conductor.scp;
+    conductor.run();
+    CHECK(conductor.scp.getConfig().getAETitle() == "TestSCP");
+    CHECK(conductor.scu.getAETitle() == "TestSCU");
 }
 
 
