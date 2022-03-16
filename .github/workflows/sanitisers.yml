@@ -3,8 +3,11 @@ name: Sanitiser checks
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
+    branches:
+      - '**'
+  workflow_dispatch:
     branches:
       - '**'
 

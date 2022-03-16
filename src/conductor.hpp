@@ -8,8 +8,10 @@
 class Conductor {
 public:
   /** Constructor */
-  Conductor(OFString cfp1, OFString cfp2, Uint8 rPortNum, OFString rPortName,
-            Uint8 sPortNum, OFString sPortName);
+  Conductor(/*std::string cfp1, std::string cfp2,*/ Uint8 rPortNum, std::string rPortName,
+            Uint8 sPortNum, std::string sPortName);
+  OFString rPortName = rPortName.c_str();
+  OFString sPortName = sPortName.c_str();
   void setOptional();
   // Receiver
 
@@ -17,11 +19,11 @@ public:
 
 
   /** members */
-  Parser p1;
-  Parser p2;
   Receiver r;
+  //Parser p1;
+  //Parser p2;
   /* Sender s; */
-  OFString sPortNum, sPortName, qPortNum, qPortName;
+  //std::string sPortNum, sPortName, qPortNum, qPortName;
   /** functions */
 
   // Parser
