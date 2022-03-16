@@ -813,7 +813,7 @@ OFCondition MetadataEditor::prepend(OFString prependValue, OFString otherTagStri
         if (flag.bad()) {
             return flag;
         }
-        OFString newValue = (oldValue + prependValue).c_str();
+        OFString newValue = (prependValue + oldValue).c_str();
         OFCondition resultCond =
                 modifyOrInsertPath(tagString, newValue, OFTrue);
         return resultCond;
@@ -831,7 +831,7 @@ OFCondition MetadataEditor::prepend(OFString prependValue, DcmTagKey otherTagKey
         if (flag.bad()) {
             return flag;
         }
-        OFString newValue = (oldValue + prependValue).c_str();
+        OFString newValue = (prependValue + oldValue).c_str();
         OFCondition resultCond =
                 modifyOrInsertPath(tagString, newValue, OFTrue);
         return resultCond;

@@ -211,16 +211,28 @@ TEST_CASE("Test for CHECKING tag APPEND and PREPEND","[ME]"){
     meObj.setTag(DCM_PatientName);
     OFCondition flag;
     OFString test1 = "test1";
+    OFString test2 = "test2";
+    OFString test3 = "test3";
+
+//    Appends:
     meObj.append(test1, flag);
     CHECK(meObj.equals(newNames[2] + test1, flag).good());
 
-    OFString test2 = "test2";
     meObj.append(test2, nameTagString, flag);
     CHECK(meObj.equals(newNames[2] + test1 + test2, flag).good());
 
-    OFString test3 = "test3";
     meObj.append(test3, nameTagKey, flag);
     CHECK(meObj.equals(newNames[2] + test1 + test2 + test3, flag).good());
+
+//    Prepends:
+    meObj.prepend(test1, flag);
+    CHECK(meObj.equals(test1 + newNames[2] + test1 + test2 + test3, flag).good());
+
+    meObj.prepend(test2, nameTagString, flag);
+    CHECK(meObj.equals(test2 + test1 + newNames[2] + test1 + test2 + test3, flag).good());
+
+    meObj.prepend(test3, nameTagKey, flag);
+    CHECK(meObj.equals(test3 + test2 + test1 + newNames[2] + test1 + test2 + test3, flag).good());
 }
 
 TEST_CASE("Test for COPYING DICOM values","[ME]") {
