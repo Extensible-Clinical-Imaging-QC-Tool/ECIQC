@@ -6,9 +6,9 @@
 #include "dcmtk/config/osconfig.h"
 #include "dcmtk/ofstd/ofstring.h"
 #include "dcmtk/oflog/fileap.h"
-#include "../src/communication/sender.hpp"
-#include "communication/receiver.hpp"
-//#include "conductor.hpp"
+//#include "../src/communication/sender.hpp"
+//#include "../src/communication/receiver.hpp"
+#include "conductor.hpp"
 
 
 using std::cerr;
@@ -26,8 +26,8 @@ int main(int argc, char** argv){
 Uint16 ReceiverPortNumber;
 std::string ReceiverPortName;
 std::string ReceiverAETitle;
-//Uint16 SenderPortNumber;
-//std::string SenderPortName;
+Uint16 SenderPortNumber;
+std::string SenderPortName;
 std::string SenderAETitle;
 
 
@@ -37,8 +37,8 @@ try {
     ECIQC.add_options()
         ("help", "produce help message")
         ("SenderAETitle", po::value<std::string>(&SenderAETitle)->default_value("TestSCU"), "set Sender AE Title")
-        //("SenderPortNumber", po::value<Uint16>(&SenderPortNumber)->default_value(104), "set Sender Port Number")
-        //("SenderPortName", po::value<std::string>(&SenderPortName)->default_value("localhost"),"set Sender Port Name")
+        ("SenderPortNumber", po::value<Uint16>(&SenderPortNumber)->default_value(104), "set Sender Port Number")
+        ("SenderPortName", po::value<std::string>(&SenderPortName)->default_value("localhost"),"set Sender Port Name")
         ("ReceiverAETitle", po::value<std::string>(&ReceiverAETitle)->default_value("TestSCP"), "set Receiver AE Title")
         ("ReceiverPortNumber", po::value<Uint16>(&ReceiverPortNumber)->default_value(11112), "set Receiver Port Number")
         ("ReceiverPortName", po::value<std::string>(&ReceiverPortName)->default_value("localhost"), "set Receiver Port Name");
@@ -60,7 +60,7 @@ try {
         } else {
             cout << "Sender Application Entity Title was not set.\n";
         } 
-    /*
+    
     if (vm.count("SenderPortNumber")) {
             cout << "Sender Port Number was set to " 
                  << vm["SenderPortNumber"].as<Uint16>() << ".\n";
@@ -74,7 +74,7 @@ try {
         } else {
             cout << "Sender Port Name was not set.\n";
         }
-    */
+    
 
     if (vm.count("ReceiverAETitle")) {
             cout << "Receiver Application Entity Title was set to " 
@@ -112,6 +112,17 @@ try {
     log.removeAllAppenders();
     log.addAppender(logfile);
     log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
+    
+    /*
+    //Conductor
+    Conductor conductor(SenderAETitle, SenderPortNumber, SenderPortName, ReceiverAETitle,ReceiverPortNumber, ReceiverPortName);
+    conductor.run();
+
+}
+*/
+    //Check association negotiation
+
+    
     //Initiate Receiver
     OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
     Receiver pool(ReceiverPortNumber, ReceiverAETitle);
@@ -139,24 +150,24 @@ try {
     scu.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel, ts); 
     scu.addPresentationContext(UID_VerificationSOPClass, ts); 
     // Initialize network / 
-    OFCondition result = scu.initNetwork(); 
-    if (result.bad())
+    OFCondition result1 = scu.initNetwork(); 
+    if (result1.bad())
         throw "Network initialization failed!";
     //Negotiate association 
-    result = scu.negotiateAssociation();
-    if (result.bad())
+    OFCondition result2 = scu.negotiateAssociation();
+    if (result2.bad())
         throw "Association negotiation failed!";
 
     //Check whether the server is listening//
-    result = scu.sendECHORequest(0);
-    if (result.bad())
+    OFCondition result3 = scu.sendECHORequest(0);
+    if (result3.bad())
         throw "Send ECHO Request failed!";
     //Release association 
     
-    result = scu.releaseAssociation();
-    if (result.bad())
+    OFCondition result4 = scu.releaseAssociation();
+    if (result4.bad())
         throw "Association Released failed!";
-
+    /*
     //Execute C-STORE Request with SCU
     //C-STORE Request for US MultiFrame Images, JPEG Baseline Process 1
     
@@ -173,9 +184,9 @@ try {
     scu.addPresentationContext(UID_DigitalXRayImageStorageForPresentation, xfer); 
     scu.addPresentationContext(UID_UltrasoundMultiframeImageStorage, xfer2);
 
-    /* Initialize network */ 
+    //Initialize network 
     
-    result = scu.initNetwork(); 
+    OFCondition result = scu.initNetwork(); 
     if (result.bad())
         throw "Network initialization failed!";
     
@@ -199,7 +210,7 @@ try {
 
     //Assemble and send C-STORE request. Check if C-STORE was successful.
     Uint16 rspStatusCode = 0;
-    result = scu.sendSTORERequest(0, /*"../DICOM_Images/testtext.dcm"*/ 0,/*0*/data, rspStatusCode );;
+    result = scu.sendSTORERequest(0, 0,data, rspStatusCode );
     if (result.bad()){   
         status = data->saveFile("../DICOM_Images/archive_1.dcm");
         if (status.bad())
@@ -208,7 +219,7 @@ try {
 
     //Second attempt for successful C-STORE association
 
-    /*Extracting data from dicom file.*/ 
+    //Extracting data from dicom file.
     DcmFileFormat dfile2;
     result = dfile2.loadFile("../DICOM_Images/1-01.dcm");
     if (result.bad())
@@ -220,7 +231,7 @@ try {
 
     //Assemble and send C-STORE request. Check if C-STORE was successful.
     rspStatusCode = 0;
-    result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data2, rspStatusCode );;
+    result = scu.sendSTORERequest(0,  0,data2, rspStatusCode );
     if (result.bad()){   
         status = data2->saveFile("../DICOM_Images/archive_2.dcm");
         if (status.bad())
@@ -234,10 +245,10 @@ try {
         throw "Association release failed!";
 
 
-    /*Request shutdown and stop listening. */ 
+    //Request shutdown and stop listening. 
     pool.request_stop();
     pool.join();
-    
+    */
     }
     
  

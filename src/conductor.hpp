@@ -1,17 +1,17 @@
 #ifndef CONDUCTOR_H
 #define CONDUCTOR_H
 // #include
-#include "parsing/Parser.hpp"
+//#include "parsing/Parser.hpp"
 #include "communication/receiver.hpp"
-/* #include "Sender.hpp" */
+#include "communication/sender.hpp"
 
 class Conductor {
 public:
   /** Constructor */
-  Conductor(/*std::string cfp1, std::string cfp2,*/ Uint8 rPortNum, std::string rPortName,
-            Uint8 sPortNum, std::string sPortName);
-  OFString rPortName = rPortName.c_str();
-  OFString sPortName = sPortName.c_str();
+  Conductor( std::string SenderAETitle, Uint16 SenderPortNumber, std::string SenderPortName, 
+            std::string ReceiverAETitle, Uint16 ReceiverPortNumber, std::string ReceiverPortName);
+            
+  
   void setOptional();
   // Receiver
 
@@ -19,7 +19,14 @@ public:
 
 
   /** members */
-  Receiver r;
+  Receiver scp();
+  Sender scu();
+  std::string SenderAETitle;
+  Uint16 SenderPortNumber;
+  std::string SenderPortName;
+  std::string ReceiverAETitle;
+  Uint16 ReceiverPortNumber;
+  std::string ReceiverPortName;
   //Parser p1;
   //Parser p2;
   /* Sender s; */

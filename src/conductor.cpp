@@ -1,7 +1,13 @@
 // #include
-#include "conductor.hpp"
+
+
 #include <dcmtk/config/osconfig.h>
 #include <iostream>
+#include <exception>
+#include "conductor.hpp"
+
+
+
 
 /* In between command line and constructor, have something that
 separates the compulsory and optional variables. Constructor only
@@ -11,12 +17,12 @@ specific setX() functions */
 // Constructor ()
 // 2 config files, 2*(port number and port name)
 
-Conductor::Conductor(/*std::string cfp1, std::string cfp2,*/ Uint8 rPortNum,
-                     std::string rPortName, Uint8 sPortNum, std::string sPortName)
-    : /*p1(/*cfp1*//*), p2(/*cfp2*//*),*/ r(rPortNum, rPortName)
-      /*sender(PortNum, PortName)*/ 
-      {}
-
+Conductor::Conductor( std::string SenderAETitle,  Uint16 SenderPortNumber, std::string SenderPortName,
+                     std::string ReceiverAETitle, Uint16 ReceiverPortNumber, std::string ReceiverPortName){
+      //Declare SCU and SCP parameters
+       
+      }
+ 
 // set optional variables
 void Conductor::setOptional(/*all optional variables */) {
   /* setStorage() */
@@ -36,11 +42,54 @@ void Conductor::setOptional(/*all optional variables */) {
 // Sender
 
 void Conductor::run() {
+    
+    
     // Receiver starts listening
     OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
+    Receiver scp(ReceiverPortNumber, ReceiverAETitle);
+    scp.setpointer(pDset);
+    scp.start();
 
-    r.setpointer(pDset);
-    r.start();
+    //Execute C-ECHO Request with SCU
+    //set SCU parameters
+    Sender scu(SenderAETitle, ReceiverPortName, ReceiverPortNumber, ReceiverAETitle);
+    scu.setAETitle(SenderAETitle.c_str()); 
+    scu.setPeerHostName(ReceiverPortName.c_str()); 
+    scu.setPeerPort(ReceiverPortNumber); 
+    scu.setPeerAETitle(ReceiverAETitle.c_str());
+
+    //Define presentation contexts, propose all uncompressed TS
+    OFList<OFString> ts;
+    ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
+    ts.push_back(UID_BigEndianExplicitTransferSyntax); 
+    ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
+    scu.addPresentationContext(UID_FINDStudyRootQueryRetrieveInformationModel, ts); 
+    scu.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel, ts); 
+    scu.addPresentationContext(UID_VerificationSOPClass, ts); 
+
+    //Initialize network
+    OFCondition result1 = scu.initNetwork();
+    if (result1.bad())
+        throw "Network initialization failed!";
+
+    //Negotiate association
+    OFCondition result2 = scu.negotiateAssociation();
+    if (result2.bad())
+        throw "Association negotiation failed!";
+
+
+    //Check whether server is listening
+    OFCondition result3 = scu.sendECHORequest(0);
+    if (result3.bad())
+        throw "Send ECHO Request failed!";
+
+    //Release association
+    OFCondition result4 = scu.releaseAssociation();
+    if (result4.bad())
+        throw "Association Released failed!";
+
+
+
 
 
     // Validation Parser
