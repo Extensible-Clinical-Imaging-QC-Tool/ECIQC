@@ -49,14 +49,14 @@ bool ImageEditor::loadPixelData() {
     unsigned short nRows;
     unsigned short nCols;
     unsigned short isSigned;
-    long int nImgs {NULL};
+    long int nImgs = 0;
     unsigned short bitDepth;
     unsigned short samplesPerPixel;
     unsigned int frameSize;
-    unsigned long cvType;
+    // unsigned long cvType;
     DcmElement * pixelElement {NULL};
     DcmPixelData * pixelData {NULL};
-    DcmPixelSequence * pixelSequence {NULL};
+    // DcmPixelSequence * pixelSequence {NULL};
     OFCondition result {EC_Normal};
     E_TransferSyntax xfer = dset->getCurrentXfer();
 
@@ -170,8 +170,8 @@ bool ImageEditor::loadPixelData() {
     cv::vconcat(slices, combined);
 
     // get JPEG data from compressed dset
-    DcmElement * compressedPixelElement {NULL};
-    DcmPixelData * compressedPixelData {NULL};
+    // DcmElement * compressedPixelElement {NULL};
+    // DcmPixelData * compressedPixelData {NULL};
 
 
     //Uint8* firstCompressedFrame = getRawJpegData(compressedPixelData);
@@ -216,7 +216,7 @@ void ImageEditor::displayFirstFrame(){
     // create a DicomImage
     std::unique_ptr<DicomImage> image = std::make_unique<DicomImage>(dset, dset->getCurrentXfer());
     // gets pixel data, after modality has been applied
-    Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
+    // Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
 //    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
 //    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
 //    cv::waitKey(0);
@@ -283,7 +283,7 @@ void ImageEditor::coverText(){
 
             // checks on text content
             // check if only blank space
-            if (ocrResultPtr->find_first_not_of(' \\t\\n\\v\\f\\r') == std::string::npos) {blockText = OFFalse;}
+            if (ocrResultPtr->find_first_not_of(" \\t\\n\\v\\f\\r") == std::string::npos) {blockText = OFFalse;}
             // check if empty
             else if (*ocrResultPtr == "") {blockText = OFFalse;}
             // check if only special characters
