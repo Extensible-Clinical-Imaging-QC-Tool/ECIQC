@@ -100,10 +100,11 @@ bool ImageEditor::loadPixelData() {
             if (!isSigned) {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
-                    Uint8 *buffer = new Uint8[frameSize];
-                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
+
+                    std::unique_ptr<Uint8 []> buffer = std::make_unique<Uint8 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
                                                     decompressedColorModel);
-                    cv::Mat slice = cv::Mat(nRows, nCols, CV_8UC3, buffer).clone();
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_8UC3, buffer.get()).clone();
                     slices.push_back(slice);
                 }
             }
@@ -119,10 +120,11 @@ bool ImageEditor::loadPixelData() {
             if (isSigned) {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
-                    Sint16 *buffer = new Sint16[frameSize];
-                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
+
+                    std::unique_ptr<Sint16 []> buffer = std::make_unique<Sint16 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
                                                     decompressedColorModel);
-                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16S, buffer).clone();
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16S, buffer.get()).clone();
                     // convert to unsigned
                     slice = slice + 32768;
                     slice.convertTo(slice, CV_16U);
@@ -133,10 +135,11 @@ bool ImageEditor::loadPixelData() {
             else {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
-                    Uint16 *buffer = new Uint16[frameSize];
-                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer, frameSize,
+
+                    std::unique_ptr<Uint16 []> buffer = std::make_unique<Uint16 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
                                                     decompressedColorModel);
-                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16U, buffer).clone();
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16U, buffer.get()).clone();
                     // convert to unsigned
                     slices.push_back(slice);
                 }
@@ -211,12 +214,12 @@ void ImageEditor::displayFirstFrame(){
     DJDecoderRegistration::registerCodecs(EDC_photometricInterpretation, EUC_default, EPC_default, false, false, true);
 
     // create a DicomImage
-    DicomImage * image = new DicomImage(dset, dset->getCurrentXfer());
+    std::unique_ptr<DicomImage> image = std::make_unique<DicomImage>(dset, dset->getCurrentXfer());
     // gets pixel data, after modality has been applied
     Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
-//    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
-//    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
-//    cv::waitKey(0);
+    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
+    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
+    cv::waitKey(0);
     DJDecoderRegistration::cleanup();
 
 }
@@ -256,7 +259,7 @@ OFBool ImageEditor::lessThanFourChars(std::string text){
 // }
 
 void ImageEditor::coverText(){
-  tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
+    std::unique_ptr<tesseract::TessBaseAPI> api = std::make_unique<tesseract::TessBaseAPI>();
     // Stop tesseract using dictionaries for word recogntion
     std::vector<std::string> pars_vec {"load_system_dawg", "load_freq_dawg"};
     std::vector<std::string> pars_values{"0", "0"};
@@ -310,7 +313,6 @@ void ImageEditor::coverText(){
     sliceBoxes.push_back(boxesToMask);
 
     api->End();
-  delete api;
 }
 
 const std::vector<cv::Mat> &ImageEditor::getSlices() const {
