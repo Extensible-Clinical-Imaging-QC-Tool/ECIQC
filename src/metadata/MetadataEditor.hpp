@@ -33,13 +33,13 @@ public:
    * a DICOM file is provided 
    * @param file_path holds the path to the DICOM file
    */
-  MetadataEditor(const OFString& file_path);
+  explicit MetadataEditor(const OFString& file_path);
 
   /** Constructor to hand the scenario where a DICOM dataset
    * is passed directly to the class
    * @param dataset holds a pointer to a DICOM dataset
    */
-  MetadataEditor(DcmDataset* dataset);
+  explicit MetadataEditor(DcmDataset* dataset);
 
   /** Creates a DICOM dataset using the DICOM file at the specified 
    * path
@@ -101,7 +101,7 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the REGEX
    */
-  OFCondition match(const OFString& str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition match(const OFString& str_expr, OFCondition &flag, unsigned long pos = 0);
 
   /** Checks if the value at a tag matches a REGEX
    * @param otherTagString holds the desired tag in (group, element) string form
@@ -111,7 +111,7 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the REGEX
    */
-  OFCondition match(const OFString& otherTagString, const OFString& str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition match(const OFString& otherTagString, const OFString& str_expr, OFCondition &flag, unsigned long pos = 0);
 
   /** Checks if the value at a tag matches a REGEX
    * @param otherTagKey holds the desired tag as a DcmTagKey
@@ -121,12 +121,11 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the REGEX
    */
-  OFCondition match(const DcmTagKey& otherTagKey, const OFString& str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition match(const DcmTagKey& otherTagKey, const OFString& str_expr, OFCondition &flag, unsigned long pos = 0);
 
 // TODO: add CLEAR function, and OVERWRITE (editing according current value, e.g. DOB anonymisation)
-// TODO: Implement append, prepend.
 
-// TODO: should string equals be case-sensitive or not? Could add flag for this?
+// TODO: should string equals be case-sensitive or not? This can be covered by a regex match
   /** Checks if value at a tag matches a string exactly
    *
    * @param str_expr string to be matched
@@ -135,7 +134,7 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the string exactly
    */
-  OFCondition equals(const OFString& str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition equals(const OFString& str_expr, OFCondition &flag, unsigned long pos = 0);
 
   /** Checks if value at a tag matches a string exactly
    *
@@ -146,7 +145,7 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the string exactly
    */
-  OFCondition equals(const OFString& otherTagString, const OFString& str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition equals(const OFString& otherTagString, const OFString& str_expr, OFCondition &flag, unsigned long pos = 0);
 
   /** Checks if value at a tag matches a string exactly
    *
@@ -157,9 +156,10 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the string exactly
    */
-  OFCondition equals(const DcmTagKey& otherTagKey, const OFString& str_expr, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition equals(const DcmTagKey& otherTagKey, const OFString& str_expr, OFCondition &flag, unsigned long pos = 0);
 
   // TODO: is Float64 the best type for comparison in equals and greater/less than????
+
   /** Checks if value at a tag matches a value exactly
    *
    * @param compare_value double to be matched
@@ -168,7 +168,7 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the double exactly
    */
-  OFCondition equals(Float64 compare_value, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition equals(Float64 compare_value, OFCondition &flag, unsigned long pos = 0);
 
   /** Checks if value at a tag matches a value exactly
    *
@@ -179,7 +179,7 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the double exactly
    */
-  OFCondition equals(const OFString& otherTagString, Float64 compare_value, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition equals(const OFString& otherTagString, Float64 compare_value, OFCondition &flag, unsigned long pos = 0);
 
   /** Checks if value at a tag matches a value exactly
    *
@@ -190,7 +190,7 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value matches the double exactly
    */
-  OFCondition equals(const DcmTagKey& otherTagKey, Float64 compare_value, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition equals(const DcmTagKey& otherTagKey, Float64 compare_value, OFCondition &flag, unsigned long pos = 0);
 
   /** Check if value at a tag is greater or less than a given value
    *
@@ -202,7 +202,7 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value is less than the given double
    */
-  OFCondition greaterOrLessThan(Float64 compare_value, OFBool greaterThan, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition greaterOrLessThan(Float64 compare_value, OFBool greaterThan, OFCondition &flag, unsigned long pos = 0);
 
   /** Check if value at a tag is less than a given value
     *
@@ -215,7 +215,7 @@ public:
     * @param pos holds the index of the desired value. Useful for tags where VM > 1
     * @return OFCondition representing whether or not the value is less than the given double
     */
-  OFCondition greaterOrLessThan(const DcmTagKey& otherTagKey, Float64 compare_value, OFBool greaterThan, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition greaterOrLessThan(const DcmTagKey& otherTagKey, Float64 compare_value, OFBool greaterThan, OFCondition &flag, unsigned long pos = 0);
 
   /** Check if value at a tag is less than a given value
    *
@@ -228,7 +228,7 @@ public:
    * @param pos holds the index of the desired value. Useful for tags where VM > 1
    * @return OFCondition representing whether or not the value is less than the given double
    */
-  OFCondition greaterOrLessThan(const OFString& otherTagString, Float64 compare_value, OFBool greaterThan, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition greaterOrLessThan(const OFString& otherTagString, Float64 compare_value, OFBool greaterThan, OFCondition &flag, unsigned long pos = 0);
 
   // EDITS
 
@@ -260,32 +260,6 @@ public:
   OFCondition modify(const OFString& newValue, const DcmTagKey& otherTagKey,
                      OFBool only_overwrite);
 
-  /** Modifies or inserts a value at a tag
-   * @param newValue denotes new numeric value of tag
-   * @param only_overwrite if true, only existing tags are processed. If false,
-   *        any not existing tag is inserted
-   * @return OFCondition which has status EC_Normal if everything is OK, else an error
-   */
-  OFCondition modify(double newValue, OFBool only_overwrite);
-
-  /** Modifies or inserts a value at a tag
-   * @param newValue denotes new numeric value of tag
-   * @param otherTagString holds the desired tag in (group, element) string form
-   * @param only_overwrite if true, only existing tags are processed. If false,
-   *        any not existing tag is inserted
-   * @return OFCondition which has status EC_Normal if everything is OK, else an error
-   */
-  OFCondition modify(double newValue, OFString otherTagString, OFBool only_overwrite);
-
-  /** Modifies or inserts a value at a tag
-   * @param newValue denotes new numeric value of tag
-   * @param otherTagKey holds the desired tag as a DcmTagKey
-   * @param only_overwrite if true, only existing tags are processed. If false,
-   *        any not existing tag is inserted
-   * @return OFCondition which has status EC_Normal if everything is OK, else an error
-   */
-  OFCondition modify(double newValue, DcmTagKey otherTagKey, OFBool only_overwrite);
-
 //  TODO: function for overwriting according to current value (e.g. DOB 19810605 -> 19810101 per Chris' email)
 //  OFCondition editValue(); - using regex?
 
@@ -295,7 +269,7 @@ public:
    * @param appendValue is the string to append to the current value
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition append(const OFString& appendValue, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition append(const OFString& appendValue, OFCondition &flag, unsigned long pos = 0);
 
   /** Appends a string on to the end of the current value at a tag
    *
@@ -303,7 +277,7 @@ public:
    * @param otherTagString holds the desired tag in (group, element) string form
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition append(const OFString& appendValue, const OFString& otherTagString, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition append(const OFString& appendValue, const OFString& otherTagString, OFCondition &flag, unsigned long pos = 0);
 
   /** Appends a string on to the end of the current value at a tag
    *
@@ -311,14 +285,14 @@ public:
    * @param otherTagKey holds the desired tag as a DcmTagKey
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition append(const OFString& appendValue, const DcmTagKey& otherTagKey, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition append(const OFString& appendValue, const DcmTagKey& otherTagKey, OFCondition &flag, unsigned long pos = 0);
 
   /** Appends a string on to the start of the current value at a tag
    *
    * @param prependValue is the string to prepend to the current value
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition prepend(const OFString& prependValue, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition prepend(const OFString& prependValue, OFCondition &flag, unsigned long pos = 0);
 
   /** Appends a string on to the start of the current value at a tag
    *
@@ -326,7 +300,7 @@ public:
    * @param otherTagString holds the desired tag in (group, element) string form
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition prepend(const OFString& prependValue, const OFString& otherTagString, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition prepend(const OFString& prependValue, const OFString& otherTagString, OFCondition &flag, unsigned long pos = 0);
 
   /** Appends a string on to the start of the current value at a tag
    *
@@ -334,7 +308,7 @@ public:
    * @param otherTagKey holds the desired tag as a DcmTagKey
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition prepend(const OFString& prependValue, const DcmTagKey& otherTagKey, OFCondition &flag, const unsigned long pos = 0);
+  OFCondition prepend(const OFString& prependValue, const DcmTagKey& otherTagKey, OFCondition &flag, unsigned long pos = 0);
 
 
   /** Exclusive method for copying data from tags and using them too overwrite or insert
@@ -349,7 +323,7 @@ public:
    *         it is inserted at the specified tag in the specified position (VM = VM + 1)
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition copy(const DcmTagKey& otherTagKey, const unsigned long posTo = 0, const unsigned long posFrom = 0,
+  OFCondition copy(const DcmTagKey& otherTagKey, unsigned long posTo = 0, unsigned long posFrom = 0,
                       OFBool copyToThis = OFTrue,
                       OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue);
 
@@ -365,7 +339,7 @@ public:
    *         it is inserted at the specified tag in the specified position (VM = VM + 1)
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition copy(const OFString& otherTagString, const unsigned long posTo = 0, const unsigned long posFrom = 0,
+  OFCondition copy(const OFString& otherTagString, unsigned long posTo = 0, unsigned long posFrom = 0,
                      OFBool copyToThis = OFTrue,
                      OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue);
 
