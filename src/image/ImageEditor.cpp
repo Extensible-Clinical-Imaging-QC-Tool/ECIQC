@@ -261,9 +261,9 @@ OFBool ImageEditor::lessThanFourChars(std::string text){
 void ImageEditor::coverText(){
     std::unique_ptr<tesseract::TessBaseAPI> api = std::make_unique<tesseract::TessBaseAPI>();
     // Stop tesseract using dictionaries for word recogntion
-    //std::vector<std::string> pars_vec {"load_system_dawg", "load_freq_dawg"};
-    //std::vector<std::string> pars_values{"0", "0"};
-    api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
+    std::vector<std::string> pars_vec {"load_system_dawg", "load_freq_dawg"};
+    std::vector<std::string> pars_values{"0", "0"};
+    api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY, NULL, 0, &pars_vec, &pars_values, false);
     api->SetPageSegMode(tesseract::PSM_SPARSE_TEXT);
 
     // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
