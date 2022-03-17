@@ -24,7 +24,7 @@ jobs:
           bash scripts/install_dependencies.sh
 
       - name: install analysers
-        run: sudo apt install clang-10
+        #run: sudo apt install clang-10
 
       - name: make build directories
         run: |
@@ -40,7 +40,7 @@ jobs:
           ./unit_tests
         working-directory: address_san_dir
         env:
-          CXX: clang++-10
+          CXX: g++-9
 
       - name: leak sanitiser
         run: |
