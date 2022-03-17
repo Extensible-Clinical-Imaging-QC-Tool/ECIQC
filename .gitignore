@@ -52,3 +52,6 @@ c_cpp_properties.json
 
 # Mac Files
 .DS_Store
+
+# Images for presentation
+presentation
