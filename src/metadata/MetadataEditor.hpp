@@ -156,8 +156,6 @@ public:
    */
   OFCondition equals(const DcmTagKey& otherTagKey, const OFString& str_expr, OFCondition &flag, unsigned long pos = 0);
 
-  // TODO: is Float64 the best type for comparison in equals and greater/less than????
-
   /** Checks if value at a tag matches a value exactly
    *
    * @param compare_value double to be matched
@@ -232,6 +230,7 @@ public:
 
   // EDITS
 
+//  TODO: MODIFY USING VALUE AT ANOTHER KEY?
   /** Modifies or inserts a value at a tag
    * @param newValue denotes new string value of tag
    * @param only_overwrite if true, only existing tags are processed. If false,
@@ -260,9 +259,7 @@ public:
   OFCondition modify(const OFString& newValue, const DcmTagKey& otherTagKey,
                      OFBool only_overwrite);
 
-//  TODO: function for overwriting according to current value (e.g. DOB 19810605 -> 19810101 per Chris' email)
-//  OFCondition editValue(); - using regex?
-
+// TODO: APPEND AND PREPEND USING VALUE AT ANOTHER KEY?
 
   /** Appends a string on to the end of the current value at a tag
    *
@@ -326,17 +323,27 @@ public:
   OFCondition prepend(const OFString& prependValue, const DcmTagKey& otherTagKey, OFCondition &flag,
                       unsigned long pos = 0);
 
-/* Regex expression to match, part of expression to overwrite, what to overwrite with?
- * e.g. "([0-9]{4})([0-9]{4})", 2, "0101"
+/* Regex expression to match, what to overwrite with:
+ * e.g. "([0-9]{4})([0-9]{4})", "D"
  * could replace the 2nd half of DOB with "0101"
  * using s = currentValue, e = "([0-9]{4})([0-9]{4})" and
- * std::regex_replace (std::back_inserter(result), s.begin(), s.end(), e, "$1"+overwriteString)
+ * std::regex_replace (std::back_inserter(result), s.begin(), s.end(), e, "replaceString")
  */
-  OFCondition overwrite();
 
-  OFCondition overwrite(const OFString& otherTagString);
+// TODO: OVERWRITE USING VALUE AT ANOTHER KEY?
 
-  OFCondition overwrite(const DcmTagKey& otherTagKey);
+/** Replace part of string (specified by regex) with something else
+ *
+ * @param str_expr
+ * @param replace
+ * @param overwriteString
+ * @return
+ */
+  OFCondition overwrite(const OFString& str_expr, const OFString& replaceString);
+
+  OFCondition overwrite(const OFString& otherTagString, const OFString& str_expr, const OFString& replaceString);
+
+  OFCondition overwrite(const DcmTagKey& otherTagKey, const OFString& str_expr, const OFString& replaceString);
 
 
   /** Exclusive method for copying data from tags and using them too overwrite or insert

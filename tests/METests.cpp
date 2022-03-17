@@ -57,6 +57,8 @@ OFString uint16NameTagString = "(0028,0100)";
 DcmTagKey uint16NameTagKey = DCM_BitsAllocated;
 int uintValue = 16;
 double checkPerturbation = 1e-3;
+OFString ModelNameTagString = "(0018,702b)";
+DcmTagKey ModelNameTagKey = DCM_DetectorManufacturerModelName;
 
 // Create test .dcm file
 OFCondition res = makeTestDICOMFile();
@@ -318,6 +320,60 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
     std::size_t posn = str_pixel.find(str_field);
     CHECK(posn==0); //str_field is found at position 0 in str_pixel
 
+}
+
+TEST_CASE("Test for OVERWRITE of values using regex", "[ME]"){
+    meObj.setTag(ModelNameTagKey);
+    OFCondition flag;
+
+    // Check we can replace part of "this" tag
+    DcmTagKey ModelTag = DCM_DetectorManufacturerModelName;
+    OFString str_model;
+    OFString str_expr_1 = "[0-9]{4}";
+    OFString replaceString_1 = "0101";
+    meObj.dset->findAndGetOFString(ModelTag, str_model);
+    CHECK(str_model == "PIXIUM4600");
+    flag = meObj.overwrite(str_expr_1, replaceString_1);
+    CHECK(flag.good());
+    meObj.dset->findAndGetOFString(ModelTag, str_model);
+    CHECK(str_model == "PIXIUM"+replaceString_1);
+
+    // Check we can replace part of another tag given a string
+    OFString replaceString_2 = "zxxxz";
+    flag = meObj.overwrite(ModelNameTagString, str_expr_1, replaceString_2);
+    CHECK(flag.good());
+    meObj.dset->findAndGetOFString(ModelTag, str_model);
+    CHECK(str_model == "PIXIUM"+replaceString_2);
+
+    // Check we can replace part of another tag given a key
+    OFString str_expr_2 = "([A-Z]+)([a-z]+)";
+    OFString replaceString_3 = "$01$01$02$02";
+    flag = meObj.overwrite(ModelNameTagKey, str_expr_2, replaceString_3);
+    CHECK(flag.good());
+    meObj.dset->findAndGetOFString(ModelTag, str_model);
+    CHECK(str_model == "PIXIUMPIXIUM"+replaceString_2+replaceString_2);
+}
+
+TEST_CASE("Test for FAILS of OVERWRITE of values using regex", "[ME]"){
+    meObj.setTag(retiredTagString);
+    OFCondition flag;
+
+    // Check we can't replace part of "this" tag
+    OFString str_expr_1 = "[0-9]{4}";
+    OFString replaceString_1 = "0101";
+    flag = meObj.overwrite(str_expr_1, replaceString_1);
+    CHECK_FALSE(flag.good());
+
+    // Check we can replace part of another tag given a string
+    OFString replaceString_2 = "zxxxz";
+    flag = meObj.overwrite(retiredTagString, str_expr_1, replaceString_2);
+    CHECK_FALSE(flag.good());
+
+    // Check we can replace part of another tag given a key
+    OFString str_expr_2 = "([A-Z]+)([a-z]+)";
+    OFString replaceString_3 = "$01$01$02$02";
+    flag = meObj.overwrite(retiredTagKey, str_expr_2, replaceString_3);
+    CHECK_FALSE(flag.good());
 }
 
 /* Code for running selective tests " {path to unit_tests} [ME] "*/

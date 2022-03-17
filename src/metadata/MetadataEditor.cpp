@@ -4,7 +4,7 @@
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include "MetadataEditor.hpp"
 
-
+// TODO: AUDIT TRAIL OF VALIDATION AND ALL CHANGES MADE
 
 // Constructor(s)
 MetadataEditor::MetadataEditor() { }
@@ -851,6 +851,89 @@ OFCondition MetadataEditor::prepend(const OFString& prependValue, const DcmTagKe
         return makeOFCondition(OFM_dcmdata, 23, OF_error,
                                "element specified by the tag does not exist or is not a string");
     }
+}
+
+OFCondition MetadataEditor::overwrite(const OFString& str_expr, const OFString& replaceString){
+    if (exists(OFFalse).bad()) {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "tag does not exist in DICOM file");
+    }
+
+    OFString currentValue;
+    OFCondition flag = dset->findAndGetOFString(tagKey, currentValue);
+    if (flag.bad()){
+        return flag;
+    }
+
+    std::regex expr(str_expr.c_str());
+    std::string repl = replaceString.c_str();
+    std::string curr = currentValue.c_str();
+    std::string newValue;
+    std::regex_replace(std::back_inserter(newValue), curr.begin(), curr.end(), expr, repl);
+
+    const char *newValueChar = newValue.c_str();
+    OFString newVal = OFString(newValueChar, strlen(newValueChar));
+
+    if (newVal == currentValue){
+        return makeOFCondition(OFM_dcmdata, 23, OF_ok, "string not modified");
+    }
+    return modify(newVal, OFTrue);
+}
+
+OFCondition MetadataEditor::overwrite(const OFString& otherTagString, const OFString& str_expr, const OFString& replaceString){
+    if (exists(otherTagString, OFFalse).bad()) {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "tag does not exist in DICOM file");
+    }
+
+    OFString currentValue;
+    DcmTagKey otherTagKey;
+    OFCondition resultCond = stringToKey(otherTagString, otherTagKey);
+    OFCondition flag = dset->findAndGetOFString(otherTagKey, currentValue);
+    if (flag.bad()){
+        return flag;
+    }
+
+    std::regex expr(str_expr.c_str());
+    std::string repl = replaceString.c_str();
+    std::string curr = currentValue.c_str();
+    std::string newValue;
+    std::regex_replace(std::back_inserter(newValue), curr.begin(), curr.end(), expr, repl);
+
+    const char *newValueChar = newValue.c_str();
+    OFString newVal = OFString(newValueChar, strlen(newValueChar));
+
+    if (newVal == currentValue){
+        return makeOFCondition(OFM_dcmdata, 23, OF_ok, "string not modified");
+    }
+    return modify(newVal, otherTagString, OFTrue);
+}
+
+OFCondition MetadataEditor::overwrite(const DcmTagKey& otherTagKey, const OFString& str_expr, const OFString& replaceString){
+    if (exists(otherTagKey, OFFalse).bad()) {
+        return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                               "tag does not exist in DICOM file");
+    }
+
+    OFString currentValue;
+    OFCondition flag = dset->findAndGetOFString(otherTagKey, currentValue);
+    if (flag.bad()){
+        return flag;
+    }
+
+    std::regex expr(str_expr.c_str());
+    std::string repl = replaceString.c_str();
+    std::string curr = currentValue.c_str();
+    std::string newValue;
+    std::regex_replace(std::back_inserter(newValue), curr.begin(), curr.end(), expr, repl);
+
+    const char *newValueChar = newValue.c_str();
+    OFString newVal = OFString(newValueChar, strlen(newValueChar));
+
+    if (newVal == currentValue){
+        return makeOFCondition(OFM_dcmdata, 23, OF_ok, "string not modified");
+    }
+    return modify(newVal, otherTagKey, OFTrue);
 }
 
 ////////////////////////////////////////////////////////////////////
