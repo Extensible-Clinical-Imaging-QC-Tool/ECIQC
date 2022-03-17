@@ -14,6 +14,7 @@
 /**Constructor.*/
 Sender::Sender(std::string SenderAETitle, std::string ReceiverPortName, Uint16 ReceiverPortNumber, std::string ReceiverAETitle){
     
+    //Methods to set SCU parameters.
     setAETitle(SenderAETitle.c_str()); 
     setPeerHostName(ReceiverPortName.c_str()); 
     setPeerPort(ReceiverPortNumber); 
@@ -35,7 +36,7 @@ Sender::Sender(std::string SenderAETitle, std::string ReceiverPortName, Uint16 R
     OFList<OFString> xfer2;
     xfer2.push_back(UID_JPEGProcess1TransferSyntax);
 
-    //Configure SCU to include more PCs
+    //Configure SCU to include more PCs for other SOPs
     addPresentationContext(UID_CTImageStorage, ts); 
     addPresentationContext(UID_MRImageStorage, ts); 
     addPresentationContext(UID_DigitalXRayImageStorageForPresentation, xfer); 

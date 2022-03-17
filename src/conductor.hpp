@@ -21,6 +21,7 @@ public:
   ~Conductor();
   /** members */
   Receiver scp;
+  Receiver testSCP;
   Sender scu;
   std::string SenderAETitle;
   Uint16 SenderPortNumber;
