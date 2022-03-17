@@ -3,11 +3,8 @@ name: Sanitiser checks
 on:
   push:
     branches:
-      - main
+      - master
   pull_request:
-    branches:
-      - '**'
-  workflow_dispatch:
     branches:
       - '**'
 
@@ -26,8 +23,8 @@ jobs:
         run: |
           bash scripts/install_dependencies.sh
 
-      #- name: install analysers
-        #run: sudo apt install clang-10
+      - name: install analysers
+        run: sudo apt install clang-10
 
       - name: make build directories
         run: |
@@ -43,7 +40,7 @@ jobs:
           ./unit_tests
         working-directory: address_san_dir
         env:
-          CXX: g++-9
+          CXX: clang++-10
 
       - name: leak sanitiser
         run: |
