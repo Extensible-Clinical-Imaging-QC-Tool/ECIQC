@@ -80,7 +80,7 @@ void Parser::run() {
                     the result of all operations specified within this array */
                     const auto& nested_ops = base[tag.key()]["checks"][0][action.key()][0];
                     for(const auto& ops: nested_ops.items()) {
-                        std::cout << "\t\t Key: " << ops.key() << '\t\t' << "Value: " << ops.value() << std::endl;
+                        std::cout << "\t\t Key: " << ops.key() << "\t\t" << "Value: " << ops.value() << std::endl;
 
                         sub_instruction = ops.key().c_str();
 

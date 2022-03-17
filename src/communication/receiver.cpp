@@ -137,12 +137,12 @@ OFCondition ReceiverThread::setpeerAETitles(const OFList<OFString>& peerae_list)
 /*                        Receiver class                                   */
 /* *********************************************************************** */
 
-Receiver::Receiver(Uint16 port, OFString aetitle)
-{
+Receiver::Receiver(Uint16 port, std::string aetitle)
+{       OFString title= OFString(aetitle.c_str());
         // Configure SCP port
         getConfig().setPort(port);
         // Configure SCP name
-        getConfig().setAETitle(aetitle);
+        getConfig().setAETitle(title);
         // Set number of threads
         setMaxThreads(2);
         getConfig().setConnectionBlockingMode(DUL_NOBLOCK);
@@ -161,7 +161,7 @@ Receiver::Receiver(Uint16 port, OFString aetitle)
         ts.push_back(UID_BigEndianExplicitTransferSyntax);
         ts.push_back(UID_JPEGProcess14SV1TransferSyntax);
         ts.push_back(UID_JPEGProcess1TransferSyntax);
-        for (size_t n = 0; n < numberOfDcmLongSCUStorageSOPClassUIDs; n++)
+        for (size_t n = 0; n < (size_t) numberOfDcmLongSCUStorageSOPClassUIDs; n++)
         {
             getConfig().addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], ts);
         }
@@ -185,9 +185,9 @@ void Receiver::run()
 
 // ----------------------------------------------------------------------------
 
-void Receiver::setaetitle(OFString ae_title) 
+void Receiver::setaetitle(std::string ae_title) 
 {
-    getConfig().setAETitle(ae_title);
+    getConfig().setAETitle(ae_title.c_str());
 }
 
 // ----------------------------------------------------------------------------
