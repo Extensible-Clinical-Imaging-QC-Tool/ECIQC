@@ -259,7 +259,8 @@ OFBool ImageEditor::lessThanFourChars(std::string text){
 // }
 
 void ImageEditor::coverText(){
-    std::unique_ptr<tesseract::TessBaseAPI> api = std::make_unique<tesseract::TessBaseAPI>();
+    tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
+    // std::unique_ptr<tesseract::TessBaseAPI> api = std::make_unique<tesseract::TessBaseAPI>();
     // Stop tesseract using dictionaries for word recogntion
     std::vector<std::string> pars_vec {"load_system_dawg", "load_freq_dawg"};
     std::vector<std::string> pars_values{"0", "0"};
@@ -305,6 +306,7 @@ void ImageEditor::coverText(){
         }
     }
     api->End();
+    delete api;
 }
 
 const std::vector<cv::Mat> &ImageEditor::getSlices() const {
