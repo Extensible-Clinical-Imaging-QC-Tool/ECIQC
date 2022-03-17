@@ -21,7 +21,7 @@ TEST_CASE("Test parser dset setting","[NP]") {
 
 }
 
-TEST_CASE("Test parser parsing","[NP]") {
-    pObj.run();
-}
+//TEST_CASE("Test parser parsing","[NP]") {
+//    pObj.run();
+//}
 
