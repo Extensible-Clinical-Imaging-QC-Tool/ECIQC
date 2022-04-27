@@ -6,7 +6,7 @@
 
 struct WorkerParameters {
     OFString value, otherTagString, str_expr;
-
+    // TODO: double value? for editing a numeric field?
     DcmTagKey otherTagKey;
 
     OFCondition flag = OFCondition();

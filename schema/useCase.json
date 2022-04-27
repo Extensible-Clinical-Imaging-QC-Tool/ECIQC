@@ -1,56 +1,66 @@
 {
-
-
     "(0010,0010)": {
         "tagName": "PatientName",
         "vr": "CS",
         "description": "check if patient is called 'bob' and change, if so.",
-        "operations": [
-            "EQUAL": {
-                "tag": "(0010,0011)",
-                "value": "bob",
-                "IF_TRUE": {
-                    "OVERWRITE": {
-                        "tag": "",
-                        "value": "Robert"
+        "operations": {
+                "EQUAL": {
+                    "tag": "(0010,0011)",
+                    "value": "bob",
+                    "IF_TRUE": {
+                        "OVERWRITE": {
+                            "tag": "",
+                            "value": "Robert"
+                        }
                     }
+                },
+                "COPY": {
+                    "fromTag": "(0020,0010)",
+                    "toTag": ""
                 }
-            },
-            "COPY": {
-                "fromTag": "(0020,0010)",
-                "toTag": ""
             }
-        ]
     },
-
     "(0020,0010)": {
         "tagName": "PatientAge",
         "vr": "AS",
-        "operations": [
-            "OVERWRITE": {
-                "tag": "(0010,0011)",
-                "value": "56"
-            },
-            "AND": {
-                "subOperations": [
-                "GREATER_THAN":{
-                    "tag": "", 
-                    "value": 43
+        "operations": {
+                "OVERWRITE": {
+                    "tag": "(0010,0011)",
+                    "value": "56"
                 },
-                "LESS_THAN": {
-                    "tag":"",
-                    "value": 43
-                }
-            ],
-            "if_true": "",
-            "if_false": {
-                "REMOVE": {
-                    "tag": ""
-                }
+                "AND": {
+                        "GREATER_THAN": {
+                            "tag": "",
+                            "value": 43
+                        },
+                        "LESS_THAN": {
+                            "tag": "",
+                            "value": 80
+                        },
+                        "IF_FALSE": {
+                            "REMOVE": {
+                                "tag": ""
+                            }
+                        }
+                    }
             }
-        ]
+    },
+    "(0010,0040)": {
+        "tagName": "PatientSex",
+        "vr": "CS",
+        "description": "Checks patient sex not empty and clears if it is",
+        "operations": {
+                "NOT": {
+                    "EQUAL": {
+                        "tag": "",
+                        "value": ""
+                    },
+                    "IF_TRUE": {
+                        "CLEAR": {
+                            "tag": ""
+                        }
+                    }
+                }
+        }
     }
-
-
-
 }
