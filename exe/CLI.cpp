@@ -104,7 +104,7 @@ try {
     /* Denote that a log file should be used that is appended to. The file is re-created every
         time the code gets to this point.
     */
-    dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("CLI3.log"));
+    dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("CLI.log"));
     //logfile->setLayout(OFmove(layout));
 
     /* make sure that only the file logger is used */
