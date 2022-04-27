@@ -57,6 +57,18 @@ $ make
 ```bash
 $ ctest --output-on-failure
 ```
+
+## Command Line Interface (CLI) Tool 
+- An interface containing a simple application to receive and send DICOM images. To use the CLI, run the code from the source directory:
+
+```bash
+./build/exe/qctool
+```
+- To configure sender and receiver parameters, run the code:
+- 
+```bash
+./build/exe/qctool --help
+```
 ## Feedback and suggestions
 
 If you have any feedback or suggestions about this project, please get in touch or open an issue.
