@@ -37,6 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "testDcmMaker.cpp"
 #include "catch.hpp"
 #include <regex>
+#include <dcmtk/dcmpstat/dcmpstat.h>
 
 
 OFString name;
@@ -64,6 +65,17 @@ DcmTagKey ModelNameTagKey = DCM_DetectorManufacturerModelName;
 OFCondition res = makeTestDICOMFile();
 MetadataEditor meObj{"test.dcm"};
 
+DcmFileFormat test_dfile;
+OFString test_filepath = "test.dcm";
+OFCondition test_dset_load = test_dfile.loadFile(test_filepath.c_str());
+DcmDataset* test_dset = test_dfile.getDataset();
+
+TEST_CASE("Test for creating ME object using dataset", "[ME]") {
+  MetadataEditor meObj_test{test_dset};
+  meObj_test.setTag(nameTagString);
+  CHECK(meObj_test.exists().good());
+}
+
 TEST_CASE("Test for CHECKING tag EXISTENCE","[ME]") {
 
   meObj.setTag(nameTagString);
@@ -73,6 +85,16 @@ TEST_CASE("Test for CHECKING tag EXISTENCE","[ME]") {
   CHECK(meObj.exists(nameTagString).good());
   CHECK_FALSE(meObj.exists(retiredTagKey).good());
   CHECK_FALSE(meObj.exists(retiredTagString).good());
+}
+
+TEST_CASE("Test for GETTING tag key", "[ME]") {
+  DcmTagKey nameTagKeyTest = meObj.getTagKey();
+  CHECK(nameTagKeyTest == nameTagKey);
+}
+
+TEST_CASE("Test for GETTING tag string", "[ME]") {
+  OFString nameTagStringTest = meObj.getTagString();
+  CHECK(nameTagStringTest == nameTagString);
 }
 
 TEST_CASE("Test for DELETING DICOM elements","[ME]") {
@@ -325,6 +347,11 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
 TEST_CASE("Test for OVERWRITE of values using regex", "[ME]"){
     meObj.setTag(ModelNameTagKey);
     OFCondition flag;
+    DcmTagKey DOB_TagKey;
+
+    OFString reg_expr = "([0-9]{4})([0-9]{4})";
+    OFString replace_with = "$010101";
+    meObj.overwrite(DOB_TagKey, reg_expr, replace_with);
 
     // Check we can replace part of "this" tag
     DcmTagKey ModelTag = DCM_DetectorManufacturerModelName;
