@@ -61,6 +61,9 @@ double checkPerturbation = 1e-3;
 OFString ModelNameTagString = "(0018,702b)";
 DcmTagKey ModelNameTagKey = DCM_DetectorManufacturerModelName;
 
+OFString badTagStr = "(0008, 0080)";
+DcmTagKey badKey = DCM_InstitutionName;
+
 // Create test .dcm file
 OFCondition res = makeTestDICOMFile();
 MetadataEditor meObj{"test.dcm"};
@@ -166,13 +169,29 @@ TEST_CASE("Test for REGEX MATCHING","[ME]") {
 //  std::cout << "Match output " << meObj.match(str_expr1, flag).text();
 }
 
+TEST_CASE("Test for FAILED MATCH", "[ME]") {
+  OFString str_expr1 = "[A-Z][a-z]+\\s[A-Z][a-z]+"; // Sidri Able
+  OFCondition flag;
+
+  meObj.setTag(badKey);
+  CHECK_FALSE(meObj.match(str_expr1, flag).good());
+
+  meObj.setTag(nameTagString);
+  CHECK_FALSE(meObj.match(badTagStr, str_expr1, flag).good());
+  CHECK_FALSE(meObj.match(badKey, str_expr1, flag).good());
+}
+
 TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {
     OFCondition flag;
     meObj.setTag(nameTagString);
+    OFString badString = "Not a match";
 
     CHECK(meObj.equals(newNames[2], flag).good());
     CHECK(meObj.equals(nameTagKey, newNames[2], flag).good());
     CHECK(meObj.equals(nameTagString, newNames[2], flag).good());
+    CHECK_FALSE(meObj.equals(badString, flag).good());
+    CHECK_FALSE(meObj.equals(nameTagKey, badString, flag).good());
+    CHECK_FALSE(meObj.equals(nameTagString, badString, flag).good());
 
     meObj.setTag(dblNameTagString);
     CHECK(meObj.equals(dblValue, flag).good());
@@ -187,6 +206,22 @@ TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {
     CHECK_FALSE(meObj.equals(dblNameTagKey, dblValue-checkPerturbation, flag).good());
     CHECK(meObj.equals(uint16NameTagKey, uintValue, flag).good());
     CHECK_FALSE(meObj.equals(uint16NameTagKey, uintValue+checkPerturbation, flag).good());
+}
+
+TEST_CASE("Test for TAG EQUALS function failures","[ME]") {
+  OFCondition flag;
+  meObj.setTag(badKey);
+  OFString badString = "Not a match";
+
+  CHECK_FALSE(meObj.equals(badString, flag).good());
+  CHECK_FALSE(meObj.equals(DCM_InstitutionName, badString, flag).good());
+  CHECK_FALSE(meObj.equals(badTagStr, badString, flag).good());
+
+  CHECK_FALSE(meObj.equals(dblValue-checkPerturbation, flag).good());
+  CHECK_FALSE(meObj.equals(badTagStr, dblValue-checkPerturbation, flag).good());
+  CHECK_FALSE(meObj.equals(badTagStr, uintValue+checkPerturbation, flag).good());
+  CHECK_FALSE(meObj.equals(badKey, dblValue-checkPerturbation, flag).good());
+  CHECK_FALSE(meObj.equals(badKey, uintValue+checkPerturbation, flag).good());
 }
 
 TEST_CASE("Test for CHECKING tag GREATER THAN and LESS THAN","[ME]") {
