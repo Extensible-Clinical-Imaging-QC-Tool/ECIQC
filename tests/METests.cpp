@@ -73,10 +73,26 @@ OFString test_filepath = "test.dcm";
 OFCondition test_dset_load = test_dfile.loadFile(test_filepath.c_str());
 DcmDataset* test_dset = test_dfile.getDataset();
 
+OFString test_filepath_fail = "testfail.dcm";
+
 TEST_CASE("Test for creating ME object using dataset", "[ME]") {
   MetadataEditor meObj_test{test_dset};
   meObj_test.setTag(nameTagString);
   CHECK(meObj_test.exists().good());
+}
+
+TEST_CASE("Test for file opening fail", "[ME]") {
+
+  std::ostringstream oss;
+  std::streambuf* p_cout_streambuf = std::cout.rdbuf();
+  std::cout.rdbuf(oss.rdbuf());
+  MetadataEditor meObj_test{test_filepath_fail};
+
+  std::cout.rdbuf(p_cout_streambuf); // restore
+  // test your oss content...
+  CHECK(oss);
+  CHECK(oss.str() == "Loading file into dataset manager: testfail.dcm\nError loading file: No such file or directory");
+  std::cout << oss.str();
 }
 
 TEST_CASE("Test for CHECKING tag EXISTENCE","[ME]") {
@@ -172,6 +188,7 @@ TEST_CASE("Test for REGEX MATCHING","[ME]") {
 TEST_CASE("Test for FAILED MATCH", "[ME]") {
   OFString str_expr1 = "[A-Z][a-z]+\\s[A-Z][a-z]+"; // Sidri Able
   OFCondition flag;
+  OFString badString = "Not a match";
 
   meObj.setTag(badKey);
   CHECK_FALSE(meObj.match(str_expr1, flag).good());
@@ -179,6 +196,8 @@ TEST_CASE("Test for FAILED MATCH", "[ME]") {
   meObj.setTag(nameTagString);
   CHECK_FALSE(meObj.match(badTagStr, str_expr1, flag).good());
   CHECK_FALSE(meObj.match(badKey, str_expr1, flag).good());
+
+  CHECK_FALSE(meObj.match(badString, str_expr1, flag).good());
 }
 
 TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {

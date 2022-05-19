@@ -138,7 +138,6 @@ OFCondition MetadataEditor::match(const OFString& otherTagString, const OFString
     DcmTagKey otherTagKey;
     flag = stringToKey(otherTagString, otherTagKey);
     if (flag.bad()) {
-      std::cout << flag.text() << std::endl;
       return flag;
     }
     flag = dset->findAndGetOFString(otherTagKey, str,pos);
@@ -203,7 +202,6 @@ OFCondition MetadataEditor::equals(const OFString& otherTagString, const OFStrin
         DcmTagKey otherTagKey;
         flag = stringToKey(otherTagString, otherTagKey);
         if (flag.bad()) {
-            std::cout << flag.text() << std::endl;
             return flag;
         }
         flag = dset->findAndGetOFString(otherTagKey, str,pos);
