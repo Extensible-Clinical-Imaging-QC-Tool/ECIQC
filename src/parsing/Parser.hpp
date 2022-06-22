@@ -19,7 +19,7 @@ class Parser {
         /** Default constructor for the class. 
          * REMOVE ME
          */
-        Parser();
+        // Parser();
 
 
         /** Constructor for the class. A path to a configuration file must be provided
@@ -66,7 +66,7 @@ class Parser {
          * boolean operators where the next step is dependent on the result of several actions #
          * the 
          */
-        void run();
+        DcmDataset* parse();
 
         /* temp function for testing purposes */
         DcmDataset* tempGetDset();
