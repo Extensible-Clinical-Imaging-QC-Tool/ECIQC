@@ -149,8 +149,8 @@ void Conductor::run() {
     //Execute C-ECHO Request with test SCP (Sender Class)
     //Create a test SCP to receive C-ECHO and C-STORE requests.
     //Receiver testSCP(ReceiverPortNumber,ReceiverAETitle);
-    OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
-    testSCP.setpointer(pt);
+    //OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
+    testSCP.setpointer(pDset);
     testSCP.start();
     /*
     struct TestSCP : DQDSCPPool<ReceiverThread, DQDBaseSCPPool, DQDBaseSCPPool::DQDBaseSCPWorker>, OFThread {
