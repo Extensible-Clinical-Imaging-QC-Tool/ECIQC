@@ -4,6 +4,7 @@
 //#include "parsing/Parser.hpp"
 #include "communication/receiver.hpp"
 #include "communication/sender.hpp"
+#include "parsing/Parser.hpp"
 
 class Conductor {
 public:

@@ -145,6 +145,39 @@ void Conductor::run() {
 
     scp.request_stop();
     scp.join();
+//TODO: Include Parser class
+    OFString config = "../schema/useCase.json";
+    Parser parser{config};
+
+    OFshared_ptr<OFList<DcmDataset>> passed_pDset;
+    OFshared_ptr<OFList<DcmDataset>> quarantine_pDset;
+
+    // Loop through DcmDatasets:
+    while (! pDset->empty())
+        {
+            // Remove first item 
+            DcmDataset* dset = &(pDset->front());
+            parser.setDicomDset(dset);
+            
+            DcmDataset* edited_dset = parser.parse();
+
+            OFString quarantine_tag = "(0000,0000)";
+
+            OFBool quar_bool;
+            // OFString quarStrKey;
+            // DcmTagKey quarTagKey;
+            // stringToKey(quarStrKey, quarTagKey);
+            // dset->findAndGetOFString(quarTagKey, quar_bool);
+            if (quar_bool == 1){
+                // edited_dset into passed_pDset
+            }
+            else {
+                // edited_dset into quarantine_pDset
+            }
+            // decide whether to store in passed/quarantine
+            // check for a "quarantine" flag
+            pDset->pop_front();
+        };
 
     //Execute C-ECHO Request with test SCP (Sender Class)
     //Create a test SCP to receive C-ECHO and C-STORE requests.
