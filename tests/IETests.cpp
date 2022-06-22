@@ -49,7 +49,7 @@ TEST_CASE("Test for reading DICOM images and converting to MAT object for openCV
 //    cv::imshow( "Final window", dicomTest->getSlices()[0]);
 //    cv::waitKey(0);
     // Display the saved image to the dataset
-    dicomTest.displayFirstFrame();
+    //dicomTest.displayFirstFrame();
 }
 //
 
