@@ -163,7 +163,7 @@ if (QCTool_ENABLE_CLANG_TIDY)
       message(STATUS "clang-tidy not found.")
     else()
       message(STATUS "clang-tidy found: ${CLANG_TIDY_EXE}")
-      set_target_properties(mylib PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
+      set_target_properties(qctool_lib PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_EXE}")
     endif()
 endif()
 
