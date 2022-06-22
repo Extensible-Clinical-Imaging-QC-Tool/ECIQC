@@ -22,13 +22,7 @@
 Validator::Validator(const char *fname)
 { 
     file_name = fname;
-    DcmFileFormat *file;
-
-    // Delete old dfile and free memory 
-    delete file;
-    file = new DcmFileFormat();
-    dataset = file->getDataset();
-
+    file =  std::make_unique<DcmFileFormat>();
     OFCondition status;
     
     /*
@@ -53,7 +47,7 @@ Validator::Validator(const char *fname)
     } else if (status.bad()) {
         std::cout << "class Constructor error: " << status.text() << std::endl;
     }
-};
+}
 
 Validator::Validator(DcmDataset *dset) 
 {
@@ -104,7 +98,8 @@ OFBool Validator::dicomFormatValidation()
     const char *fname = file_name;
     FILE* f = NULL;
 
-    if (fname && (strlen(fname) > 0)) f = fopen(fname, "rb"); { 
+    if (fname && (strlen(fname) > 0)) f = fopen(fname, "rb"); 
+    { 
         if (f == 0) {
             validated = OFFalse;
         } else {
@@ -138,7 +133,7 @@ OFBool Validator::dicomFormatValidation()
 
     //  if the file passes return OFTrue otherwise OFFalse
     return validated;
-};
+}
 
 // Validate the existence of a tag 
 // (tag key)
@@ -166,7 +161,7 @@ OFBool Validator::validateTag(const DcmTagKey &key)
     }
     
     return validated;
-};
+}
 
 // Validate the existence of a tag 
 // (tag name)
@@ -194,7 +189,7 @@ OFBool Validator::validateTag(OFString tag_name)
     }
     
     return validated;
-};
+}
 
 // Validate the existence of a tag and whether it has a non-empty value
 // (tag key)
@@ -222,7 +217,7 @@ OFBool Validator::validateTagValue(const DcmTagKey &key)
     }
     
     return validated;
-};
+}
 
 // Validate the existence of a tag and whether it has a non-empty value
 // (tag name)
@@ -250,7 +245,7 @@ OFBool Validator::validateTagValue(OFString tag_name)
     }
     
     return validated;
-};
+}
 
 // Validate the existence, non-empty value, and range of a tag 
 // (tag key)
@@ -315,7 +310,7 @@ OFBool Validator::validateTagValueRange(const DcmTagKey &key,
     }
     
     return validated;
-};
+}
 
 // Validate the existence, non-empty value, and range of a tag 
 // (tag name)
@@ -378,7 +373,7 @@ OFBool Validator::validateTagValueRange(OFString tag_name,
     }
     
     return validated;
-};
+}
 
 /*  Writes the output of all the validations to a
 *   text file. 
@@ -389,7 +384,7 @@ void Validator::validationFileWriter()
     std::ofstream out("output.txt");
     out << validation_results;
     out.close();
-}; 
+}
 
 /*  Writes the output of all the validations to an
 *   Unlimited Text tag.
@@ -399,7 +394,7 @@ void Validator::validationOutputTagWriter()
     // Text Value is a tag with a VR of Unlimited Text
     // (0040,A160)	UT	Text Value
     dataset->putAndInsertOFStringArray(DCM_TextValue, validation_results);
-}; 
+}
 
 /* Get the tag key from the tag name using the DCMTK data dictionary
  *

@@ -90,6 +90,7 @@ void Parser::run() {
         // Tag Level 
         for(const auto& checkList: base[tag.key()]["operations"].items()) {
             for(const auto& action: checkList.value().items()) {
+
                 std::cout <<"\t action : "<< action.key() <<'\n'<< "\t action parameters: " << action.value()<< std::endl;
                 parseOperation(action.key().c_str(), action.value());
 
@@ -129,6 +130,7 @@ void Parser::run() {
 //
 //                // Create a WorkerParameters object
 //                // Call Worker
+
 
             }
         }

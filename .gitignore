@@ -6,6 +6,7 @@ DICOM_Images/*
 Testing/
 build/
 cmake-build-*
+address_san_dir/
 
 # Prerequisites
 *.d
@@ -51,3 +52,6 @@ c_cpp_properties.json
 
 # Mac Files
 .DS_Store
+
+# Images for presentation
+presentation

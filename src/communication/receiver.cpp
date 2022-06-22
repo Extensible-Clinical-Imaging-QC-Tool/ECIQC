@@ -161,7 +161,7 @@ Receiver::Receiver(Uint16 port, std::string aetitle)
         ts.push_back(UID_BigEndianExplicitTransferSyntax);
         ts.push_back(UID_JPEGProcess14SV1TransferSyntax);
         ts.push_back(UID_JPEGProcess1TransferSyntax);
-        for (size_t n = 0; n < numberOfDcmLongSCUStorageSOPClassUIDs; n++)
+        for (size_t n = 0; n < (size_t) numberOfDcmLongSCUStorageSOPClassUIDs; n++)
         {
             getConfig().addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], ts);
         }

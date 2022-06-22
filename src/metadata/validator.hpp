@@ -4,12 +4,13 @@
 // Packages to include
 #include <dcmtk/config/osconfig.h> 
 #include <dcmtk/dcmpstat/dcmpstat.h>
+#include <memory>
 
 class Validator
 {
     // Attributes
     private:
-        DcmFileFormat *file;
+        std::unique_ptr<DcmFileFormat> file;
 
     public:
         const char *file_name;
