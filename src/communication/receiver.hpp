@@ -66,7 +66,6 @@ public:
     
     /** Constructor. */
     Receiver(Uint16 port, std::string aetitle);
-    //OFString aetitle = aetitle.c_str();
 
     /** Destructor. */
     virtual ~Receiver();
