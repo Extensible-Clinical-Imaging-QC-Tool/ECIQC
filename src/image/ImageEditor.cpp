@@ -216,10 +216,10 @@ void ImageEditor::displayFirstFrame(){
     // create a DicomImage
     std::unique_ptr<DicomImage> image = std::make_unique<DicomImage>(dset, dset->getCurrentXfer());
     // gets pixel data, after modality has been applied
-    // Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
-//    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
-//    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
-//    cv::waitKey(0);
+     Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
+    cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
+    cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
+    cv::waitKey(0);
     DJDecoderRegistration::cleanup();
 
 }
@@ -304,6 +304,7 @@ void ImageEditor::coverText(){
             boxDestroy(&box);
         }
     }
+    cv::imwrite("../presentation/otsuText.png", slices[0]);
     api->End();
 }
 
@@ -365,7 +366,7 @@ OFBool ImageEditor::changeToOriginalFormat(DcmDataset &dataset) {
     // if we want to use JPEG-lS https://support.dcmtk.org/docs/mod_dcmjpls.html
 
     DJEncoderRegistration::registerCodecs();
-    DJ_RPLossy params;
+    DJ_RPLossless params;
     if (dataset.chooseRepresentation(dataset.getOriginalXfer(), &params).good() && dataset.canWriteXfer(dataset.getOriginalXfer())){
         DJEncoderRegistration::cleanup();
         return true;
@@ -398,17 +399,20 @@ void ImageEditor::prePro(){
         }
         double C {2};
         cv::bitwise_not(imageProcessingSlices[i], imageProcessingSlices[i]);
-        cv::adaptiveThreshold(imageProcessingSlices[i], imageProcessingSlices[i], 255, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 17, C);
+        cv::threshold(imageProcessingSlices[i], imageProcessingSlices[i], 0, 255, cv::THRESH_OTSU);
 
     }
 
     // Create an average image
-    for (std::size_t i = 0; i < imageProcessingSlices.size(); i++) {
-        if (i == 0){averageImage = imageProcessingSlices[0];}
-        else {
-            cv::bitwise_and(averageImage, imageProcessingSlices[i], averageImage);
-        }
-    }
+//    for (std::size_t i = 0; i < imageProcessingSlices.size(); i++) {
+//        if (i == 0){averageImage = imageProcessingSlices[0];}
+//        else {
+//            cv::bitwise_and(averageImage, imageProcessingSlices[i], averageImage);
+//        }
+//    }
+    averageImage = imageProcessingSlices[0];
+    cv::imwrite("../presentation/otsuThresh.png", imageProcessingSlices[0]);
+
 
 //    cv::namedWindow( "Average Threshold", cv::WINDOW_AUTOSIZE );// Create a window for display.
 //    cv::imshow("Average Threshold", averageImage);
