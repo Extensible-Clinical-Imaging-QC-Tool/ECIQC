@@ -21,3 +21,4 @@ comment:
 
 ignore:
   - "lib"
+  - "**/mdfdsman.cc"

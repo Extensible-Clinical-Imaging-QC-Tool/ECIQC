@@ -37,6 +37,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "testDcmMaker.cpp"
 #include "catch.hpp"
 #include <regex>
+#include <dcmtk/dcmpstat/dcmpstat.h>
 
 
 OFString name;
@@ -60,9 +61,39 @@ double checkPerturbation = 1e-3;
 OFString ModelNameTagString = "(0018,702b)";
 DcmTagKey ModelNameTagKey = DCM_DetectorManufacturerModelName;
 
+OFString badTagStr = "(0008, 0080)";
+DcmTagKey badKey = DCM_InstitutionName;
+
 // Create test .dcm file
 OFCondition res = makeTestDICOMFile();
 MetadataEditor meObj{"test.dcm"};
+
+DcmFileFormat test_dfile;
+OFString test_filepath = "test.dcm";
+OFCondition test_dset_load = test_dfile.loadFile(test_filepath.c_str());
+DcmDataset* test_dset = test_dfile.getDataset();
+
+OFString test_filepath_fail = "testfail.dcm";
+
+TEST_CASE("Test for creating ME object using dataset", "[ME]") {
+  MetadataEditor meObj_test{test_dset};
+  meObj_test.setTag(nameTagString);
+  CHECK(meObj_test.exists().good());
+}
+
+TEST_CASE("Test for file opening fail", "[ME]") {
+
+  std::ostringstream oss;
+  std::streambuf* p_cout_streambuf = std::cout.rdbuf();
+  std::cout.rdbuf(oss.rdbuf());
+  MetadataEditor meObj_test{test_filepath_fail};
+
+  std::cout.rdbuf(p_cout_streambuf); // restore
+  // test your oss content...
+  CHECK(oss);
+  CHECK(oss.str() == "Loading file into dataset manager: testfail.dcm\nError loading file: No such file or directory");
+  std::cout << oss.str();
+}
 
 TEST_CASE("Test for CHECKING tag EXISTENCE","[ME]") {
 
@@ -73,6 +104,16 @@ TEST_CASE("Test for CHECKING tag EXISTENCE","[ME]") {
   CHECK(meObj.exists(nameTagString).good());
   CHECK_FALSE(meObj.exists(retiredTagKey).good());
   CHECK_FALSE(meObj.exists(retiredTagString).good());
+}
+
+TEST_CASE("Test for GETTING tag key", "[ME]") {
+  DcmTagKey nameTagKeyTest = meObj.getTagKey();
+  CHECK(nameTagKeyTest == nameTagKey);
+}
+
+TEST_CASE("Test for GETTING tag string", "[ME]") {
+  OFString nameTagStringTest = meObj.getTagString();
+  CHECK(nameTagStringTest == nameTagString);
 }
 
 TEST_CASE("Test for DELETING DICOM elements","[ME]") {
@@ -144,13 +185,32 @@ TEST_CASE("Test for REGEX MATCHING","[ME]") {
 //  std::cout << "Match output " << meObj.match(str_expr1, flag).text();
 }
 
+TEST_CASE("Test for FAILED MATCH", "[ME]") {
+  OFString str_expr1 = "[A-Z][a-z]+\\s[A-Z][a-z]+"; // Sidri Able
+  OFCondition flag;
+  OFString badString = "Not a match";
+
+  meObj.setTag(badKey);
+  CHECK_FALSE(meObj.match(str_expr1, flag).good());
+
+  meObj.setTag(nameTagString);
+  CHECK_FALSE(meObj.match(badTagStr, str_expr1, flag).good());
+  CHECK_FALSE(meObj.match(badKey, str_expr1, flag).good());
+
+  CHECK_FALSE(meObj.match(badString, str_expr1, flag).good());
+}
+
 TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {
     OFCondition flag;
     meObj.setTag(nameTagString);
+    OFString badString = "Not a match";
 
     CHECK(meObj.equals(newNames[2], flag).good());
     CHECK(meObj.equals(nameTagKey, newNames[2], flag).good());
     CHECK(meObj.equals(nameTagString, newNames[2], flag).good());
+    CHECK_FALSE(meObj.equals(badString, flag).good());
+    CHECK_FALSE(meObj.equals(nameTagKey, badString, flag).good());
+    CHECK_FALSE(meObj.equals(nameTagString, badString, flag).good());
 
     meObj.setTag(dblNameTagString);
     CHECK(meObj.equals(dblValue, flag).good());
@@ -165,6 +225,22 @@ TEST_CASE("Test for CHECKING tag EQUALITY","[ME]") {
     CHECK_FALSE(meObj.equals(dblNameTagKey, dblValue-checkPerturbation, flag).good());
     CHECK(meObj.equals(uint16NameTagKey, uintValue, flag).good());
     CHECK_FALSE(meObj.equals(uint16NameTagKey, uintValue+checkPerturbation, flag).good());
+}
+
+TEST_CASE("Test for TAG EQUALS function failures","[ME]") {
+  OFCondition flag;
+  meObj.setTag(badKey);
+  OFString badString = "Not a match";
+
+  CHECK_FALSE(meObj.equals(badString, flag).good());
+  CHECK_FALSE(meObj.equals(DCM_InstitutionName, badString, flag).good());
+  CHECK_FALSE(meObj.equals(badTagStr, badString, flag).good());
+
+  CHECK_FALSE(meObj.equals(dblValue-checkPerturbation, flag).good());
+  CHECK_FALSE(meObj.equals(badTagStr, dblValue-checkPerturbation, flag).good());
+  CHECK_FALSE(meObj.equals(badTagStr, uintValue+checkPerturbation, flag).good());
+  CHECK_FALSE(meObj.equals(badKey, dblValue-checkPerturbation, flag).good());
+  CHECK_FALSE(meObj.equals(badKey, uintValue+checkPerturbation, flag).good());
 }
 
 TEST_CASE("Test for CHECKING tag GREATER THAN and LESS THAN","[ME]") {
@@ -325,6 +401,11 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
 TEST_CASE("Test for OVERWRITE of values using regex", "[ME]"){
     meObj.setTag(ModelNameTagKey);
     OFCondition flag;
+    DcmTagKey DOB_TagKey;
+
+    OFString reg_expr = "([0-9]{4})([0-9]{4})";
+    OFString replace_with = "$010101";
+    meObj.overwrite(DOB_TagKey, reg_expr, replace_with);
 
     // Check we can replace part of "this" tag
     DcmTagKey ModelTag = DCM_DetectorManufacturerModelName;
