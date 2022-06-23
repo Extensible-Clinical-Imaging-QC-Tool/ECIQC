@@ -28,9 +28,9 @@
  */
 
 using json = nlohmann::json;
-Parser::Parser(){
-    std::cout << "REMOVE ME";
-}
+// Parser::Parser(){
+//     std::cout << "REMOVE ME";
+// }
 
 Parser::Parser(OFString configFpath) {
 
@@ -75,7 +75,7 @@ DcmDataset* Parser::tempGetDset() {
 
 
 //TODO What happens to the OFCondition results of the operations
-void Parser::run() {
+DcmDataset* Parser::parse() {
 
     int i = 0;
     for(const auto& tag: base.items()) {

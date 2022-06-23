@@ -138,12 +138,12 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   OFCondition result = scu.initNetwork(); 
   CHECK(result.good());
 
-  OFCondition status = scu.addDicomFile("../DICOM_Images/testtext.dcm", ERM_fileOnly,false);
+  OFCondition status = scu.addDicomFile("../DICOM_Images/test2.dcm", ERM_fileOnly,false);
   CHECK(status.good());
 
   /*Extracting data from dicom file.*/ 
   DcmFileFormat dfile;
-  result = dfile.loadFile("../DICOM_Images/testtext.dcm");
+  result = dfile.loadFile("../DICOM_Images/test2.dcm");
   CHECK (result.good());
   DcmDataset *data = dfile.getDataset();
   CHECK(data!= NULL);
@@ -154,7 +154,7 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
 
   /*Assemble and send C-STORE request. Check if C-STORE was successful.*/
   Uint16 rspStatusCode = 0;
-  result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data, rspStatusCode = 0);
+  result = scu.sendSTORERequest(0, "../DICOM_Images/test1",0, rspStatusCode = 0);
   CHECK(result.bad());
   if (result.bad()){   
     status = data->saveFile("../DICOM_Images/archive_1.dcm");
