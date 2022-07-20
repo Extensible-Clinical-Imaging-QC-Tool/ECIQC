@@ -557,14 +557,71 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
           }
           break;
         }
-            //stringstream from(action.values().)
-        // Action Level
-
-
-        default: {
-            COUT << "default \n";
+        case EQUAL: {
+          OFCondition flag;
+          if (params.value != ""){
+            if(params.otherTagString.c_str() == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
+              editor.equals(params.value, flag, params.pos);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+              editor.equals(params.otherTagKey, params.value, flag, params.pos);
+            } else if (params.otherTagString.c_str() != "") {
+              editor.equals(params.otherTagString, params.value, flag, params.pos);
+            }
+          }
+          else if (params.compareValue != 0){
+            if(params.otherTagString.c_str() == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
+              editor.equals(params.compareValue, flag, params.pos);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+              editor.equals(params.otherTagKey, params.compareValue, flag, params.pos);
+            } else if (params.otherTagString.c_str() != "") {
+              editor.equals(params.otherTagString, params.compareValue, flag, params.pos);
+            }
+          }
+          else {
+            break;
+          }
         }
-        // Check options
+        // Less or greater than the same, up to a flag to signify which
+        case LESS_THAN:
+        case GREATER_THAN: {
+          OFCondition flag;
+          OFBool greaterThan = instruction == GREATER_THAN;
+          if(params.otherTagString.c_str() == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            editor.greaterOrLessThan(params.compareValue, greaterThan, flag, params.pos);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            editor.greaterOrLessThan(params.otherTagKey, params.compareValue, greaterThan, flag, params.pos);
+          } else if (params.otherTagString.c_str() != "") {
+            editor.greaterOrLessThan(params.otherTagString, params.compareValue, greaterThan, flag, params.pos);
+          }
+          break;
+        }
+        case EXIST: {
+          if(params.otherTagString.c_str() == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            editor.exists(params.searchIntoSub);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            editor.exists(params.otherTagKey, params.searchIntoSub);
+          } else if (params.otherTagString.c_str() != "") {
+            editor.exists(params.otherTagString, params.searchIntoSub);
+          }
+        }
+        case REGEX:{
+          OFCondition flag;
+          if(params.otherTagString.c_str() == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            editor.match(params.str_expr, flag, params.pos);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            editor.match(params.otherTagKey, params.str_expr, flag, params.pos);
+          } else if (params.otherTagString.c_str() != "") {
+            editor.match(params.otherTagString, params.str_expr, flag, params.pos);
+          }
+          break;
+        }
+        default: {
+            COUT << "default\nno action specified";
+        }
     }
-    
 } 
