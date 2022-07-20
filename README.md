@@ -72,7 +72,7 @@ ctest --output-on-failure
 ./build/exe/qctool
 ```
 - To configure sender and receiver parameters, run the code:
-- 
+
 ```bash
 ./build/exe/qctool --help
 ```
