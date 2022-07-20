@@ -52,21 +52,12 @@ class Parser {
          */
         DcmDataset* pathToDset(OFString path);
 
-        /** Performs the action specified by instruction using the parameters stored in
-         * 'parameters'
-         * @param instruction holds the name of the desired action 
-         * @param params a struct containing the arguments specified in the config file
-         * @return OFCondition which has status EC_Normal if everything is OK, else an error
-         */
-        OFCondition worker(OFString instruction, WorkerParameters params);
-
-
         /** Main loop that parses config file and calls worker to perform the required actions.
          * It also stores the results of each action and congregates results in the case of #
          * boolean operators where the next step is dependent on the result of several actions #
          * the 
          */
-        DcmDataset* parse();
+        OFCondition parse();
 
         /* temp function for testing purposes */
         DcmDataset* tempGetDset();
@@ -90,7 +81,7 @@ class Parser {
          * @return OFCondition returns the result of the operation - this will always be "OK" because the check has
          * already been made, so the action will be performed. OFCondition returned for consistency with parseOperation.
          */
-        OFCondition parseTorF(OFBool trueOrFalse, const json& params);
+        OFCondition parseTorF(OFBool trueOrFalse, const json& params, OFString thisTagString);
 
         /** Performs an operation based on the parameters passed in from the config .json file.
          *
@@ -100,7 +91,7 @@ class Parser {
          * @return OFCondition returns the result of the operation - checks can be true or false (status OK or not,
          * actions will always return OK after being performed.
          */
-        OFCondition parseOperation(OFString instruction, const json& params);
+        OFCondition parseOperation(OFString instruction, const json& params, OFString thisTagString);
 
         /** Maps the string form of the actions to the enum. This is required because
          * you can only use integral types as switch cases in switch loops. Therefore 
