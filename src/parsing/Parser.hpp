@@ -132,7 +132,7 @@ class Parser {
          * @param params WorkerParameters object containing parameters for the check or action to be performed.
          * @return OFCondition with result of check or or action.
          */
-        OFCondition worker(int instruction, WorkerParameters params);
+        OFCondition worker(int instruction, WorkerParameters params, OFString thisTag);
 };
 
 #endif

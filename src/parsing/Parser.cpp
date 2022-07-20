@@ -8,6 +8,9 @@
 #include <set>
 #include "parsing/Parser.hpp"
 
+// Define again???
+#define PRV_PrivateQuar DcmTag(0x1333, 0x0052, EVR_IS)
+
 /*
  * Logical operators:
  * AND
@@ -156,9 +159,8 @@ enum ArgumentsEnum {
     posFrom,
     posTo,
     pos,
-
-
-    tag
+    tag,
+    replaceString
 };
 
 enum ActionsEnum {
@@ -202,8 +204,8 @@ int Parser::resolveArguments(OFString param) {
         {  "posFrom", posFrom  },
         {  "posTo", posTo  },
         {  "pos", pos  },
-
-        {  "tag", tag }
+        {  "tag", tag },
+        {  "replaceString", replaceString }
     };
 
     auto itr = argStrings.find(param);
@@ -338,6 +340,11 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
                 paramStruct.pos = arg.get<unsigned long>();
                 break;
 
+            case replaceString:
+                /* code */
+                paramStruct.replaceString = OFString(arg.get<std::string>().c_str());
+                break;
+
             case 404: /*Not a possible argument*/
                 /* code */
                 
@@ -429,87 +436,129 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params){
             std::cout << "\t Key : " << instruction << "params : " << params << std::endl;
 
             paramStruct = WPMaker(params);
-            // TODO: call worker to perform check
+            // TODO: call worker to perform check,  add "this tag" to worker call
             return parseTorF(check_result, params);
         }
         case (INSERT | REMOVE | CLEAR | COPY | OVERWRITE | UPDATE | APPEND | PREPEND): {
             std::cout << "\t Key : " << instruction << "params : " << params << std::endl;
             paramStruct = WPMaker(params);
-            // TODO: call worker to perform action
+            // TODO: call worker to perform action, add "this tag" to worker call
             return EC_Normal; // Return normal once actions have been performed
         }
     }
 }
 
-/*
-OFCondition Parser::worker(int instruction, WorkerParameters params) {
 
-
+OFCondition Parser::worker(int instruction, WorkerParameters params, OFString thisTag) {
     switch(instruction) {
         // Editing options
         //action.
 
         // INSERT and UPDATE are the same up to the only_overwrite parameter - confirmed by email from Chris
-        case (INSERT | UPDATE):
+        case INSERT:
+        case UPDATE:
             // Arguments
 
             //TODO Check that params contains the required arguments for this case
 
-            params.only_overwrite = (resolveActions(instruction.c_str()) == INSERT) ?  OFFalse : OFTrue;
+            params.only_overwrite = (instruction == INSERT) ?  OFFalse : OFTrue;
             //params.newValue = action.value().value;
 
-            if(action.values().tag == "") {
+            if(params.otherTagString.c_str() == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
                 // No 'otherTag' provided therefore perfom operation on 'thisTag'
-                editor.modify(params.newValue, params.only_overwrite);
-            } else if(action.value().tag[0] == "D") {
+                editor.modify(params.value, params.only_overwrite);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
                 // Tag is provided in word form
-                OFString j;
-            } else {
-                newValue = 4;
-                // Tag is provided as (group, element)
-                // TODO ensure Tag is in (group,element) form, or take g&e and add (,)
-                otherTagString = action.values().tag;
-                editor.modify(newValue, only_overwrite, otherTagString);
-
+                editor.modify(params.value, params.otherTagKey, params.only_overwrite);
+            } else if (params.otherTagString.c_str() != "") {
+              if (strlen(params.otherTagString.c_str())==11) {
+                editor.modify(params.value, params.otherTagString, params.only_overwrite);
+              }
             }
             break;
-        
-
         case CLEAR: {
             OFBool only_overwrite = OFTrue;
-            newValue = "";
+            OFString newValue = NULL;
 
-            if(action.values().tag == "") {
+            if(params.otherTagString.c_str() == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
                 editor.modify(newValue, only_overwrite);
-            } else if(action.values().tag[0] == "D") {
-
-            } else {
-                otherTagString = action.values().tag;
-                editor.modify(newValue, only_overwrite, otherTagString);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+              editor.modify(newValue, params.otherTagKey, only_overwrite);
+            } else if (params.otherTagString.c_str() != "") {
+              editor.modify(newValue, params.otherTagString, only_overwrite);
             }
-
             break;
         }
 
         case REMOVE: {
-            OFBool all_tags = False;
-            OFBool ignore_missing_tags = True;
+            OFBool all_tags = OFFalse;
+            OFBool ignore_missing_tags = OFTrue;
 
-            editor.deleteTag(tag_path, all_tags, ignore_missing_tags);
-            editor.get 
-
+            if(params.otherTagString.c_str() == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
+              editor.deleteTag(thisTag, all_tags, ignore_missing_tags);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+              OFString otherTagString = params.otherTagKey.toString();
+              editor.deleteTag(otherTagString, all_tags, ignore_missing_tags);
+            } else if (params.otherTagString.c_str() != "") {
+              editor.deleteTag(params.otherTagString, all_tags, ignore_missing_tags);
+            }
             break;
         }
-        // TODO Complete
         case COPY: {
-            copyToThis = (action.values().toTag == "") ? OFTrue : OFFalse;
-            int posFrom, posTo;
-
+          if(params.otherTagString.c_str() == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            std::cout << "No other tag provided for copy";
             break;
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            OFString otherTagString = params.otherTagKey.toString();
+            editor.copy(params.otherTagKey, params.posTo, params.posFrom,
+                        params.copyToThis, params.searchIntoSub,params.replace);
+          } else if (params.otherTagString.c_str() != "") {
+            editor.copy(params.otherTagString, params.posTo, params.posFrom,
+                        params.copyToThis, params.searchIntoSub,params.replace);
+          }
+          break;
+        }
+        case OVERWRITE: {
+          if(params.otherTagString.c_str() == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            editor.overwrite(params.str_expr, params.replaceString);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            editor.overwrite(params.otherTagKey, params.str_expr, params.replaceString);
+          } else if (params.otherTagString.c_str() != "") {
+            editor.overwrite(params.otherTagString, params.str_expr, params.replaceString);
+          }
+          break;
+        }
+        case APPEND: {
+          OFCondition flag;
+          if(params.otherTagString.c_str() == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            editor.append(params.value, flag, params.pos);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            editor.append(params.value, params.otherTagKey, flag, params.pos);
+          } else if (params.otherTagString.c_str() != "") {
+            editor.append(params.value, params.otherTagString, flag, params.pos);
+          }
+          break;
+        }
+        case PREPEND: {
+          OFCondition flag;
+          if(params.otherTagString.c_str() == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            editor.prepend(params.value, flag, params.pos);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            editor.prepend(params.value, params.otherTagKey, flag, params.pos);
+          } else if (params.otherTagString.c_str() != "") {
+            editor.prepend(params.value, params.otherTagString, flag, params.pos);
+          }
+          break;
         }
             //stringstream from(action.values().)
         // Action Level
-
 
 
         default: {
@@ -519,4 +568,3 @@ OFCondition Parser::worker(int instruction, WorkerParameters params) {
     }
     
 } 
-*/

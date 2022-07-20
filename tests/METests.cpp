@@ -38,7 +38,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "catch.hpp"
 #include <regex>
 #include <dcmtk/dcmpstat/dcmpstat.h>
-
+#include <iostream>
 
 OFString name;
 OFString nameTagString = "(0010,0010)";

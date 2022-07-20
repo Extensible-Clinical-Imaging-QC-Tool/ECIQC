@@ -6,7 +6,7 @@
 #include <exception>
 #include "conductor.hpp"
 
-
+#define PRV_PrivateQuar DcmTag(0x1333, 0x0052, EVR_IS)
 
 
 /* In between command line and constructor, have something that
@@ -151,6 +151,8 @@ void Conductor::run() {
 
     OFshared_ptr<OFList<DcmDataset>> passed_pDset;
     OFshared_ptr<OFList<DcmDataset>> quarantine_pDset;
+    DcmTagKey quarTagKey = PRV_PrivateQuar;
+    OFString quar_bool_str;
 
     // Loop through DcmDatasets:
     while (! pDset->empty())
@@ -163,12 +165,8 @@ void Conductor::run() {
 
             OFString quarantine_tag = "(0000,0000)";
 
-            OFBool quar_bool;
-            // OFString quarStrKey;
-            // DcmTagKey quarTagKey;
-            // stringToKey(quarStrKey, quarTagKey);
-            // dset->findAndGetOFString(quarTagKey, quar_bool);
-            if (quar_bool == 1){
+            dset->findAndGetOFString(quarTagKey, quar_bool_str);
+            if (quar_bool_str == 1 || quar_bool_str == "1"){
                 // edited_dset into passed_pDset
             }
             else {
