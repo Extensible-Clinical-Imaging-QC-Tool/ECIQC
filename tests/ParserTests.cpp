@@ -18,10 +18,9 @@ TEST_CASE("Test parser dset setting","[NP]") {
     DcmDataset* temp = pObj.currentDataset;
     COUT << temp;
     temp->print(COUT);
-
 }
 
-//TEST_CASE("Test parser parsing","[NP]") {
-//    pObj.run();
-//}
+TEST_CASE("Test parsing name change", "[NP]") {
+
+}
 

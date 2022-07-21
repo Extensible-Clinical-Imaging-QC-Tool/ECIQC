@@ -1,0 +1,23 @@
+{
+    "(0010,0010)": {
+        "tagName": "PatientName",
+        "vr": "CS",
+        "description": "check if patient is called 'bob' and change, if so.",
+        "operations": {
+                "EQUAL": {
+                    "tag": "(0010,0011)",
+                    "value": "bob",
+                    "IF_TRUE": {
+                        "OVERWRITE": {
+                            "tag": "",
+                            "value": "Robert"
+                        }
+                    }
+                },
+                "COPY": {
+                    "fromTag": "(0020,0010)",
+                    "toTag": ""
+                }
+            }
+    }
+}
