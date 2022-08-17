@@ -65,7 +65,7 @@ make
 ctest --output-on-failure
 ```
 
-#### MAC OS 
+#### Mac OS 
 
 - Download ECIQC github repository
 
