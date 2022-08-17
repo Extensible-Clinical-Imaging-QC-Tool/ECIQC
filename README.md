@@ -76,6 +76,22 @@ ctest --output-on-failure
 ```bash
 ./build/exe/qctool --help
 ```
+#### MAC OS 
+
+- Download ECIQC github repository
+
+```bash
+git clone https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC.git
+cd ECIQC/
+```
+
+- Install [CMake](https://cmake.org/download/) and a C++ compiler and other dependencies.
+  This can be done using the install_dependencies file found in /scripts.
+
+```bash
+brew install dcmtk boost cmake opencv tesseract
+```
+
 
 ## Feedback and suggestions
 
