@@ -13,6 +13,7 @@
 // start catch.hpp
 
 
+
 #define CATCH_VERSION_MAJOR 2
 #define CATCH_VERSION_MINOR 2
 #define CATCH_VERSION_PATCH 2
@@ -4717,13 +4718,19 @@ namespace Catch {
 // end catch_context.h
 // start catch_debugger.h
 
+
 namespace Catch {
     bool isDebuggerActive();
 }
 
 #ifdef CATCH_PLATFORM_MAC
 
-    #define CATCH_TRAP() __asm__("int $3\n" : : ) /* NOLINT */
+    #if defined(__i386__) || defined(__x86_64__)
+        #define CATCH_TRAP() __asm__("int $3\n" : : ) /* NOLINT */
+    #elif defined(__aarch64__)
+        #define CATCH_TRAP()  __asm__(".inst 0xd4200000")
+    #endif
+
 
 #elif defined(CATCH_PLATFORM_LINUX)
     // If we can use inline assembler, do it because this allows us to break
