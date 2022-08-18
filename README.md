@@ -81,6 +81,28 @@ cd ECIQC/
 brew install dcmtk boost cmake opencv tesseract
 ```
 
+- Make a build directory and configure the project. E.g. Assuming you are in a
+  directory containing the source code:
+
+```bash
+mkdir build
+cd build
+cmake ..
+```
+
+- Compile the project
+
+```bash
+make
+```
+
+- Run all the tests using CTest (this is bundled with CMake)
+
+```bash
+ctest --output-on-failure
+```
+
+
 ## Command Line Interface (CLI) Tool 
 - An interface containing a simple application to receive and send DICOM images. To use the CLI, run the code from the source directory:
 
