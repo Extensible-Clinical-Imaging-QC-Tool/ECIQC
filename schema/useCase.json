@@ -5,7 +5,7 @@
         "description": "check if patient is called 'bob' and change, if so.",
         "operations": {
                 "EQUAL": {
-                    "tag": "(0010,0011)",
+                    "otherTagString": "(0010,0011)",
                     "value": "bob",
                     "IF_TRUE": {
                         "OVERWRITE": {
@@ -25,21 +25,21 @@
         "vr": "AS",
         "operations": {
                 "OVERWRITE": {
-                    "tag": "(0010,0011)",
+                    "otherTagString": "(0010,0011)",
                     "value": "56"
                 },
                 "AND": {
                         "GREATER_THAN": {
-                            "tag": "",
+                            "otherTagString": "",
                             "value": 43
                         },
                         "LESS_THAN": {
-                            "tag": "",
+                            "otherTagString": "",
                             "value": 80
                         },
                         "IF_FALSE": {
                             "REMOVE": {
-                                "tag": ""
+                                "otherTagString": ""
                             }
                         }
                     }
@@ -52,12 +52,12 @@
         "operations": {
                 "NOT": {
                     "EQUAL": {
-                        "tag": "",
+                        "otherTagString": "",
                         "value": ""
                     },
                     "IF_TRUE": {
                         "CLEAR": {
-                            "tag": ""
+                            "otherTagString": ""
                         }
                     }
                 }

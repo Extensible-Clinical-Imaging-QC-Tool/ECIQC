@@ -14,9 +14,9 @@ using json = nlohmann::json;
 class Parser {
 
     public:
-        
-        
-        /** Default constructor for the class. 
+
+
+        /** Default constructor for the class.
          * REMOVE ME
          */
         // Parser();
@@ -24,9 +24,9 @@ class Parser {
 
         /** Constructor for the class. A path to a configuration file must be provided
          *
-         * @param configFpath 
+         * @param configFpath
          */
-        Parser(OFString configFpath);
+        explicit Parser(OFString configFpath);
 
         /** Sets the data member dset using a DcmDataset
          * 
@@ -57,11 +57,7 @@ class Parser {
          * boolean operators where the next step is dependent on the result of several actions #
          * the 
          */
-        OFCondition parse();
-
-        /* temp function for testing purposes */
-        DcmDataset* tempGetDset();
-
+        DcmDataset* parse();
 
         // JSON object that holds the config file 
         json base;

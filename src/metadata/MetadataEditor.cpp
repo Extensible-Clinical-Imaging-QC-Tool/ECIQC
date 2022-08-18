@@ -10,11 +10,17 @@
 MetadataEditor::MetadataEditor() { }
 
 MetadataEditor::MetadataEditor(DcmDataset* dataset) {
+  std::cout << "set dataset from DcmDataset" << std::endl;
   dset = dataset;
 }
 
 MetadataEditor::MetadataEditor(const OFString& file_path) {
+  std::cout << "set dataset from path" << std::endl;
   dset = pathToDataset(file_path);
+
+  DcmElement *thisElement;
+  dset->findAndGetElement(DCM_PatientName, thisElement);
+  std::cout << "patient name:\t" << thisElement << std::endl;
 }
 
 
@@ -51,7 +57,9 @@ OFString MetadataEditor::getTagString() { return tagString; }
 
 // Does  'this' tag exist?
 OFCondition MetadataEditor::exists(OFBool searchIntoSub) {
+  std::cout << "Inside exists\t" << tagKey << std::endl;
   OFBool result = dset->tagExists(tagKey, searchIntoSub);
+  std::cout << "Exists checked\t" << result << std::endl;
 //  return result;
   if (result){
       return makeOFCondition(OFM_dcmdata, 23, OF_ok, "This tag does exist");
@@ -177,11 +185,15 @@ OFCondition MetadataEditor::match(const DcmTagKey& otherTagKey, const OFString& 
 
 OFCondition MetadataEditor::equals(const OFString& str_expr, OFCondition &flag, const unsigned long pos){
     // Ensure the element specified by the tag exists before matching
+    std::cout << "Inside equals" << std::endl;
     if (exists(OFFalse).good()) {
+        std::cout << "Tag exists" << std::endl;
         OFString str;
         flag = dset->findAndGetOFString(tagKey, str,pos);
+        std::cout << "Got value\t" << str << std::endl;
 
         std::string expr = str_expr.c_str();
+        std::cout << "Got expr\t" << expr << std::endl;
         if (str.c_str() == expr) {
             return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value specified by the tag matches the string");
         } else {
@@ -189,6 +201,7 @@ OFCondition MetadataEditor::equals(const OFString& str_expr, OFCondition &flag, 
                                    "Value specified by the tag doesn't match the string");
         }
     } else {
+        std::cout << "Tag doesn't exist?" << std::endl;
         return makeOFCondition(OFM_dcmdata, 23, OF_error,
                                "element specified by the tag does not exist or is not a string");
     }
