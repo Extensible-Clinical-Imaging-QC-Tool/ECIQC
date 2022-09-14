@@ -34,9 +34,7 @@ public:
      */
     DcmDataset* pathToDataset(OFString file_path);
 
-    void runEditing();
 
-    OFCondition saveImage();
 
     /**
      * Checks text is all letters. Combined with digitsOnly, can check for a mixture of letters and numbers
@@ -89,8 +87,8 @@ private:
     DcmDataset *uncompressedDset;
     // vector of slices for multi slice images
     std::vector <cv::Mat> slices;
-    // vector of vector of Boxs. Outer vector representes slice, inner vector is boxes to be masked
-    std::vector< std::vector<BOX*>> sliceBoxes;
+
+    cv::Mat averageImage;
 public:
     const std::vector<cv::Mat> &getSlices() const;
 
@@ -133,6 +131,8 @@ private:
     void * getSlicesPtr();
 
     Uint8 *getRawJpegData(DcmPixelData *pixelData);
+
+    OFBool isSpecialCharactersOnly(std::string text);
 };
 
 #endif // ImageEditor_H_

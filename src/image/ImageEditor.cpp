@@ -6,8 +6,8 @@
 #include "dcmtk/dcmjpeg/dipijpeg.h"    /* for dcmimage JPEG plugin */
 #include "dcmtk/dcmjpeg/djencode.h" // encode JPEGs
 #include "dcmtk/dcmjpeg/djrplol.h"
+#include "dcmtk/dcmjpeg/djrploss.h"
 #include "dcmtk/dcmdata/dcpxitem.h"
-#include <dcmtk/dcmpstat/dcmpstat.h>
 #include <vector>
 #include <tesseract/baseapi.h>
 #include <string>
@@ -49,27 +49,25 @@ bool ImageEditor::loadPixelData() {
     unsigned short nRows;
     unsigned short nCols;
     unsigned short isSigned;
-    long int nImgs {NULL};
+    long int nImgs = -1;
     unsigned short bitDepth;
     unsigned short samplesPerPixel;
     unsigned int frameSize;
-    unsigned long cvType;
-    // copy of dset to be used for decompression
-    uncompressedDset = new DcmDataset(*dset);
+    // unsigned long cvType;
     DcmElement * pixelElement {NULL};
     DcmPixelData * pixelData {NULL};
-    DcmPixelSequence * pixelSequence {NULL};
+    // DcmPixelSequence * pixelSequence {NULL};
     OFCondition result {EC_Normal};
-    E_TransferSyntax xfer = uncompressedDset->getCurrentXfer();
+    E_TransferSyntax xfer = dset->getCurrentXfer();
 
 
     // load in data
-    uncompressedDset->findAndGetUint16(DCM_BitsAllocated, bitDepth);
-    uncompressedDset->findAndGetUint16(DCM_SamplesPerPixel, samplesPerPixel);
-    uncompressedDset->findAndGetUint16(DCM_Rows, nRows);
-    uncompressedDset->findAndGetUint16(DCM_Columns, nCols);
-    uncompressedDset->findAndGetLongInt(DCM_NumberOfFrames, nImgs);
-    uncompressedDset->findAndGetUint16(DCM_PixelRepresentation, isSigned);
+    dset->findAndGetUint16(DCM_BitsAllocated, bitDepth);
+    dset->findAndGetUint16(DCM_SamplesPerPixel, samplesPerPixel);
+    dset->findAndGetUint16(DCM_Rows, nRows);
+    dset->findAndGetUint16(DCM_Columns, nCols);
+    dset->findAndGetLongInt(DCM_NumberOfFrames, nImgs);
+    dset->findAndGetUint16(DCM_PixelRepresentation, isSigned);
 
     // if NumberOfFrames is 0 then set nImgs to 1 (single frame image)
     if (nImgs==0) {
@@ -78,19 +76,19 @@ bool ImageEditor::loadPixelData() {
     // change representation format to little endian if compressed
     if (xfer!=0 && xfer!=1 && xfer!=2 && xfer!=3) {
         // change to little endian format
-        if (! decompressDataset(*uncompressedDset) ) {
+        if (! decompressDataset(*dset) ) {
             std::cerr << "Error decomporessing dataset of format: " << xfer;
             return false;
         }
     }
 
-    result = uncompressedDset->findAndGetElement(DCM_PixelData, pixelElement);
+    result = dset->findAndGetElement(DCM_PixelData, pixelElement);
     if (result.bad() || pixelElement == NULL){
         return false;
     }
     pixelData = OFstatic_cast(DcmPixelData*, pixelElement);
-    unsigned long length = pixelData->getLength(uncompressedDset->getCurrentXfer());
-    pixelData->getUncompressedFrameSize(uncompressedDset, frameSize);
+    unsigned long length = pixelData->getLength(dset->getCurrentXfer());
+    pixelData->getUncompressedFrameSize(dset, frameSize);
     OFString decompressedColorModel;
 
     // colour images
@@ -102,10 +100,11 @@ bool ImageEditor::loadPixelData() {
             if (!isSigned) {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
-                    Uint8 *buffer = new Uint8[frameSize];
-                    pixelData->getUncompressedFrame(uncompressedDset, frame, fragmentStart, buffer, frameSize,
+
+                    std::unique_ptr<Uint8 []> buffer = std::make_unique<Uint8 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
                                                     decompressedColorModel);
-                    cv::Mat slice = cv::Mat(nRows, nCols, CV_8UC3, buffer).clone();
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_8UC3, buffer.get()).clone();
                     slices.push_back(slice);
                 }
             }
@@ -121,10 +120,11 @@ bool ImageEditor::loadPixelData() {
             if (isSigned) {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
-                    Sint16 *buffer = new Sint16[frameSize];
-                    pixelData->getUncompressedFrame(uncompressedDset, frame, fragmentStart, buffer, frameSize,
+
+                    std::unique_ptr<Sint16 []> buffer = std::make_unique<Sint16 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
                                                     decompressedColorModel);
-                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16S, buffer).clone();
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16S, buffer.get()).clone();
                     // convert to unsigned
                     slice = slice + 32768;
                     slice.convertTo(slice, CV_16U);
@@ -135,10 +135,11 @@ bool ImageEditor::loadPixelData() {
             else {
                 unsigned int fragmentStart{0};
                 for (int frame = 0; frame < nImgs; frame++) {
-                    Uint16 *buffer = new Uint16[frameSize];
-                    pixelData->getUncompressedFrame(uncompressedDset, frame, fragmentStart, buffer, frameSize,
+
+                    std::unique_ptr<Uint16 []> buffer = std::make_unique<Uint16 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
                                                     decompressedColorModel);
-                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16U, buffer).clone();
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16U, buffer.get()).clone();
                     // convert to unsigned
                     slices.push_back(slice);
                 }
@@ -147,13 +148,12 @@ bool ImageEditor::loadPixelData() {
 
     }
     else{std::cerr << "incompatible channel number"; return false;}
-    // delete the uncompressed dset
 
     // display the original image
-    //cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    //cv::imshow( "Unedited Image", slices[0]);
-    //cv::waitKey(0);
-    //cv::destroyAllWindows();
+//    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+//    cv::imshow( "Unedited Image", slices[0]);
+//    cv::waitKey(0);
+//    cv::destroyAllWindows();
 
     // run preprocessing step
     prePro();
@@ -170,10 +170,9 @@ bool ImageEditor::loadPixelData() {
     cv::vconcat(slices, combined);
 
     // get JPEG data from compressed dset
-    DcmElement * compressedPixelElement {NULL};
-    DcmPixelData * compressedPixelData {NULL};
-    dset->findAndGetElement(DCM_PixelData, compressedPixelElement);
-    compressedPixelData = OFstatic_cast(DcmPixelData*, compressedPixelElement);
+    // DcmElement * compressedPixelElement {NULL};
+    // DcmPixelData * compressedPixelData {NULL};
+
 
     //Uint8* firstCompressedFrame = getRawJpegData(compressedPixelData);
     // colour images
@@ -184,27 +183,30 @@ bool ImageEditor::loadPixelData() {
             if (!isSigned) {
                 Uint8 * mergedSlices = combined.data;
                 // insert array back into DcmPixelData
-                //pixelData->putUint8Array(mergedSlices, length);
+                pixelData->putUint8Array(mergedSlices, length);
 
             }
         }
     }
 
-
-        // monochrome images
+    // monochrome images
     else if(samplesPerPixel == 1){
         // 16 bit images
         if (bitDepth == 16) {
             // signed int
             if (isSigned) {
-
+                // TODO implement
             }
             // unsigned 16 bit
             else {
-
+                // TODO implement
                 }
             }
         }
+
+    // change back to original (likely jpeg) format
+    changeToOriginalFormat(*dset);
+
     return true;
 }
 
@@ -212,26 +214,15 @@ void ImageEditor::displayFirstFrame(){
     DJDecoderRegistration::registerCodecs(EDC_photometricInterpretation, EUC_default, EPC_default, false, false, true);
 
     // create a DicomImage
-    DicomImage * image = new DicomImage(dset, dset->getCurrentXfer());
+    std::unique_ptr<DicomImage> image = std::make_unique<DicomImage>(dset, dset->getCurrentXfer());
     // gets pixel data, after modality has been applied
-    Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
+     Uint16* pixelData = (Uint16 *)(image->getOutputData(8, 0));
     cv::namedWindow("saved image", cv::WINDOW_AUTOSIZE);
     cv::imshow("saved image", cv::Mat(image->getHeight(), image->getWidth(), CV_8UC3, pixelData ));
     cv::waitKey(0);
     DJDecoderRegistration::cleanup();
 
 }
-
-
-void ImageEditor::runEditing(){
-    // Preprocess image using thresholding
-    prePro();
-   coverText();
-   //savePixelData();
-}
-
-
-
 
 // Do we need to distinguish "lettersOnly" with mixed alpha-numeric strings?
 OFBool ImageEditor::lettersOnly(std::string text){
@@ -243,8 +234,17 @@ auto ImageEditor::digitsOnly(std::string text) -> OFBool{
                   [](char c){ return isdigit(c) != 0; });
 }
 
+OFBool  ImageEditor::isSpecialCharactersOnly(std::string text){
+    return std::regex_match(text, std::regex("[^a-zA-Z0-9]+"));
+}
+
+
 OFBool ImageEditor::lessThanFourChars(std::string text){
-  return text.length() < 4;
+    text.erase(std::remove_if(text.begin(), text.end(), isspace), text.end());
+    text.erase(std::remove(text.begin(), text.end(), '\n'), text.end());
+    std::cout << text << "length: " << text.length() << "\n";
+
+    return text.length() < 4;
 }
 
 
@@ -259,54 +259,53 @@ OFBool ImageEditor::lessThanFourChars(std::string text){
 // }
 
 void ImageEditor::coverText(){
-  tesseract::TessBaseAPI *api = new tesseract::TessBaseAPI();
-  api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY);
-  api->SetPageSegMode(tesseract::PSM_AUTO);
-    for (std::size_t i = 0; i < imageProcessingSlices.size(); i++) {
-        // vector of boxes for this slice
-        std::vector<Box*> boxesToMask;
-        // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
-        api->SetImage(imageProcessingSlices[i].data, imageProcessingSlices[i].cols, imageProcessingSlices[i].rows, 1, imageProcessingSlices[i].step);
-        Boxa *boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
-        // ensure text has been found
-        if (boxes) {
-            // loop over each box found
-            for (int i = 0; i < boxes->n; i++) {
-                BOX *box = boxaGetBox(boxes, i, L_CLONE);
+    std::unique_ptr<tesseract::TessBaseAPI> api = std::make_unique<tesseract::TessBaseAPI>();
+    // Stop tesseract using dictionaries for word recogntion
+    std::vector<std::string> pars_vec {"load_system_dawg", "load_freq_dawg"};
+    std::vector<std::string> pars_values{"0", "0"};
+    api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY, NULL, 0, &pars_vec, &pars_values, false);
+    api->SetPageSegMode(tesseract::PSM_SPARSE_TEXT);
 
-                // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
-                api->SetRectangle(box->x, box->y, box->w, box->h);
-                std::string ocrResult = api->GetUTF8Text();
-                OFBool blockText = OFTrue;
+    // Argument '1' refers to bytes per pixel - pre-processed image will be greyscale
+    api->SetImage(averageImage.data, averageImage.cols, averageImage.rows, 1, averageImage.step);
+    Boxa *boxes = api->GetComponentImages(tesseract::RIL_TEXTLINE, true, NULL, NULL);
+    // ensure text has been found
+    if (boxes) {
+        // loop over each box found
+        for (int i = 0; i < boxes->n; i++) {
 
-                if (digitsOnly(ocrResult)) {
-                    // TODO: check for exclusions - digit strings to be blocked, otherwise retain them
-                    blockText = OFFalse;
-                } else if (lessThanFourChars(ocrResult)) {
-                    // TODO: check for exclusions - short text/mixed strings to be blocked, otherwise retain them
-                    blockText = OFFalse;
-                } else {
-                    // TODO: check for exclusions - len>=4 text/mixed strings to be retained instead of automatically blocked
-                }
+            BOX *box = boxaGetBox(boxes, i, L_CLONE);
 
-                if (blockText) {
-                    // Draw the rectangle on the original image
-                    cv::Rect rect(box->x, box->y, box->w, box->h);
-                    cv::rectangle(slices[i], rect, cv::Scalar(0, 255, 0));
-                    // save the box to vector
-                    boxesToMask.push_back(box);
-                }
+            // "Zoom in" on each bit of text, check it should be blocked, and if so, cover with a rectangle
+            api->SetRectangle(box->x, box->y, box->w, box->h);
+            std::unique_ptr<std::string> ocrResultPtr = std::make_unique<std::string>(api->GetUTF8Text());
+            OFBool blockText = OFTrue;
 
-                boxDestroy(&box);
+            // checks on text content
+            // check if only blank space
+            if (ocrResultPtr->find_first_not_of(" \\t\\n\\v\\f\\r") == std::string::npos) {blockText = OFFalse;}
+            // check if empty
+            else if (*ocrResultPtr == "") {blockText = OFFalse;}
+            // check if only special characters
+            else if (isSpecialCharactersOnly(*ocrResultPtr)) {blockText = OFFalse;}
 
+            else if (lessThanFourChars(*ocrResultPtr)) {
+                blockText = OFFalse;
             }
+
+            if (blockText) {
+                std::cout << *ocrResultPtr << "location x:" << box->x << " y: " << box->y << "\n";
+                cv::Rect rect(box->x, box->y, box->w, box->h);
+                // Draw the rectangle on the original image for each slice
+                for (std::size_t n = 0; n < slices.size(); n++) {
+                    cv::rectangle(slices[n], rect, cv::Scalar(0, 255, 0));
+                }
+            }
+            boxDestroy(&box);
         }
-        else {boxesToMask.push_back(NULL);}
-        // add boxes for this slice to the overall vector
-        sliceBoxes.push_back(boxesToMask);
     }
-  api->End();
-  delete api;
+    cv::imwrite("../presentation/otsuText.png", slices[0]);
+    api->End();
 }
 
 const std::vector<cv::Mat> &ImageEditor::getSlices() const {
@@ -322,7 +321,6 @@ const std::vector<cv::Mat> &ImageEditor::getImageProcessingSlices() const {
 /*                    Private Member Functions                    */
 /////////////////////////////////////////////////////////
 
-OFBool Image;
 
 OFBool ImageEditor::decompressDataset(DcmDataset &dataset) {
 
@@ -365,9 +363,10 @@ Uint8* ImageEditor::getRawJpegData(DcmPixelData* pixelData){
 }
 
 OFBool ImageEditor::changeToOriginalFormat(DcmDataset &dataset) {
-    DJEncoderRegistration::registerCodecs();
-    DJ_RPLossless params; // default params
+    // if we want to use JPEG-lS https://support.dcmtk.org/docs/mod_dcmjpls.html
 
+    DJEncoderRegistration::registerCodecs();
+    DJ_RPLossless params;
     if (dataset.chooseRepresentation(dataset.getOriginalXfer(), &params).good() && dataset.canWriteXfer(dataset.getOriginalXfer())){
         DJEncoderRegistration::cleanup();
         return true;
@@ -398,10 +397,26 @@ void ImageEditor::prePro(){
         if ( imageProcessingSlices[i].depth() == CV_16U ) {
             cv::normalize(imageProcessingSlices[i], imageProcessingSlices[i], 0., 255., cv::NORM_MINMAX, CV_8UC1);
         }
+        double C {2};
+        cv::bitwise_not(imageProcessingSlices[i], imageProcessingSlices[i]);
         cv::threshold(imageProcessingSlices[i], imageProcessingSlices[i], 0, 255, cv::THRESH_OTSU);
-        //cv::namedWindow( "Threshold window", cv::WINDOW_AUTOSIZE );// Create a window for display.
-        //cv::imshow("Threshold window", imageProcessingSlices[i]);
+
     }
+
+    // Create an average image
+//    for (std::size_t i = 0; i < imageProcessingSlices.size(); i++) {
+//        if (i == 0){averageImage = imageProcessingSlices[0];}
+//        else {
+//            cv::bitwise_and(averageImage, imageProcessingSlices[i], averageImage);
+//        }
+//    }
+    averageImage = imageProcessingSlices[0];
+    cv::imwrite("../presentation/otsuThresh.png", imageProcessingSlices[0]);
+
+
+//    cv::namedWindow( "Average Threshold", cv::WINDOW_AUTOSIZE );// Create a window for display.
+//    cv::imshow("Average Threshold", averageImage);
+//    cv::waitKey(0);
 
 }
 

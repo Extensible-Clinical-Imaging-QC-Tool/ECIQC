@@ -30,6 +30,13 @@ and with the following C++ compilers/toolchains:
 
 #### Linux
 
+- Download ECIQC github repository
+
+```bash
+git clone https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC.git
+cd ECIQC/
+```
+
 - Install [CMake](https://cmake.org/download/) and a C++ compiler and other dependencies.
   This can be done using the install_dependencies file found in /scripts.
 
@@ -58,6 +65,44 @@ make
 ctest --output-on-failure
 ```
 
+#### Mac OS 
+
+- Download ECIQC github repository
+
+```bash
+git clone https://github.com/Extensible-Clinical-Imaging-QC-Tool/ECIQC.git
+cd ECIQC/
+```
+
+- Install [CMake](https://cmake.org/download/) and a C++ compiler and other dependencies.
+  This can be done using the install_dependencies file found in /scripts.
+
+```bash
+brew install dcmtk boost cmake opencv tesseract
+```
+
+- Make a build directory and configure the project. E.g. Assuming you are in a
+  directory containing the source code:
+
+```bash
+mkdir build
+cd build
+cmake ..
+```
+
+- Compile the project
+
+```bash
+make
+```
+
+- Run all the tests using CTest (this is bundled with CMake)
+
+```bash
+ctest --output-on-failure
+```
+
+
 ## Command Line Interface (CLI) Tool 
 - An interface containing a simple application to receive and send DICOM images. To use the CLI, run the code from the source directory:
 
@@ -65,7 +110,7 @@ ctest --output-on-failure
 ./build/exe/qctool
 ```
 - To configure sender and receiver parameters, run the code:
-- 
+
 ```bash
 ./build/exe/qctool --help
 ```

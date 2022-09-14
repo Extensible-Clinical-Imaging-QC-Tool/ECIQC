@@ -90,6 +90,7 @@ DcmDataset* Parser::parse() {
         std::cout << "Individual tag level: \n" << i << tag.key() << '\t' << base[tag.key()]["operations"] << '\n' << std::endl;
         i++;
         // Tag Level 
+
         for(const auto& action: base[tag.key()]["operations"].items()) {
             //for(const auto& action: checkList.value().items()) {
               std::cout <<"\t action : "<< action.key() <<'\n'<< "\t action parameters: " << action.value()<< std::endl;
@@ -99,6 +100,7 @@ DcmDataset* Parser::parse() {
                 allResults = makeOFCondition(OFM_dcmdata, 22, OF_error,"Some checks failed");
               }
             //}
+
         }
     }
     return currentDataset;
