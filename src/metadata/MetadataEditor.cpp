@@ -7,7 +7,7 @@
 // TODO: AUDIT TRAIL OF VALIDATION AND ALL CHANGES MADE
 
 // Constructor(s)
-MetadataEditor::MetadataEditor() { }
+MetadataEditor::MetadataEditor() {}
 
 MetadataEditor::MetadataEditor(DcmDataset* dataset) {
   std::cout << "set dataset from DcmDataset" << std::endl;
@@ -16,26 +16,26 @@ MetadataEditor::MetadataEditor(DcmDataset* dataset) {
 
 MetadataEditor::MetadataEditor(const OFString& file_path) {
   std::cout << "set dataset from path" << std::endl;
-  dset = pathToDataset(file_path);
-
-  DcmElement *thisElement;
-  dset->findAndGetElement(DCM_PatientName, thisElement);
-  std::cout << "patient name:\t" << thisElement << std::endl;
+  OFCondition result = setDset(file_path);
+  if (result.bad()) {
+    std::cout << "Error loading file: " << file_path << result.text();
+  }
 }
 
+void MetadataEditor::setDset(DcmDataset* dataset) {
+  std::cout << "set dataset from DcmDataset" << std::endl;
+  dset = dataset;
+}
+
+OFCondition MetadataEditor::setDset(const OFString& file_path) {
+  std::cout << "set dataset from path" << std::endl;
+  OFCondition result = loadFile(file_path.c_str());
+  return result;
+}
 
 ////////////////////////////////////////////////////////////////////
 /*                    Public Member Functions                     */
 ////////////////////////////////////////////////////////////////////
-
-DcmDataset* MetadataEditor::pathToDataset(const OFString& file_path) {
-  OFCondition result = loadFile(file_path.c_str());
-  if (result.bad()) {
-    std::cout << "Error loading file: " << result.text();
-  }
-  return getDataset();
-}
-
 
 
 // Set the tag data members
@@ -57,7 +57,7 @@ OFString MetadataEditor::getTagString() { return tagString; }
 
 // Does  'this' tag exist?
 OFCondition MetadataEditor::exists(OFBool searchIntoSub) {
-  std::cout << "Inside exists\t" << tagKey << std::endl;
+  std::cout << "Inside exists\t" << tagKey << searchIntoSub << std::endl;
   OFBool result = dset->tagExists(tagKey, searchIntoSub);
   std::cout << "Exists checked\t" << result << std::endl;
 //  return result;
@@ -192,9 +192,10 @@ OFCondition MetadataEditor::equals(const OFString& str_expr, OFCondition &flag, 
         flag = dset->findAndGetOFString(tagKey, str,pos);
         std::cout << "Got value\t" << str << std::endl;
 
-        std::string expr = str_expr.c_str();
-        std::cout << "Got expr\t" << expr << std::endl;
-        if (str.c_str() == expr) {
+//        std::string expr = str_expr.c_str();
+        std::cout << "Got expr\t" << str_expr << std::endl;
+        std::cout << "compare\t" << str_expr.compare(str) << std::endl;
+        if (str_expr.compare(str) == 0) {
             return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value specified by the tag matches the string");
         } else {
             return makeOFCondition(OFM_dcmdata, 23, OF_error,
@@ -870,25 +871,35 @@ OFCondition MetadataEditor::overwrite(const OFString& str_expr, const OFString& 
                                "tag does not exist in DICOM file");
     }
 
-    OFString currentValue;
-    OFCondition flag = dset->findAndGetOFString(tagKey, currentValue);
-    if (flag.bad()){
-        return flag;
+    if (str_expr.length() == 0) {
+      return modify(replaceString, OFTrue);
+    }
+    else {
+      return makeOFCondition(OFM_dcmdata, 23, OF_error,
+                             "Regex not implemented");
     }
 
-    std::regex expr(str_expr.c_str());
-    std::string repl = replaceString.c_str();
-    std::string curr = currentValue.c_str();
-    std::string newValue;
-    std::regex_replace(std::back_inserter(newValue), curr.begin(), curr.end(), expr, repl);
+//    Deprecated code for regex replace:
 
-    const char *newValueChar = newValue.c_str();
-    OFString newVal = OFString(newValueChar, strlen(newValueChar));
+//    OFString currentValue;
+//    OFCondition flag = dset->findAndGetOFString(tagKey, currentValue);
+//    if (flag.bad()){
+//        return flag;
+//    }
 
-    if (newVal == currentValue){
-        return makeOFCondition(OFM_dcmdata, 23, OF_ok, "string not modified");
-    }
-    return modify(newVal, OFTrue);
+//    std::regex expr(str_expr.c_str());
+//    std::string repl = replaceString.c_str();
+//    std::string curr = currentValue.c_str();
+//    std::string newValue;
+////    std::regex_replace(std::back_inserter(newValue), curr.begin(), curr.end(), expr, repl);
+//
+//    const char *newValueChar = newValue.c_str();
+//    OFString newVal = OFString(newValueChar, strlen(newValueChar));
+//
+//    if (newVal == currentValue){
+//        return makeOFCondition(OFM_dcmdata, 23, OF_ok, "string not modified");
+//    }
+
 }
 
 OFCondition MetadataEditor::overwrite(const OFString& otherTagString, const OFString& str_expr, const OFString& replaceString){

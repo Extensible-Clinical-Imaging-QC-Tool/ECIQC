@@ -59,10 +59,14 @@ Parser::Parser(OFString configFpath) {
 
 void Parser::setDicomDset(DcmDataset* dset) { 
     currentDataset = dset;
+    editor.setDset(dset);
+
 }
 
 void Parser::setDicomDset(OFString path) {
-    currentDataset = editor.pathToDataset(path);
+    OFCondition result = editor.setDset(path);
+    // TODO: Check for error
+    currentDataset = editor.dset;
 }
 
 DcmDataset* Parser::getDicomDset() {
@@ -381,7 +385,7 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params,
         }
         case IF_TRUE:
         case IF_FALSE: {
-            std::cout << "in if true if false, params:\n" << params;
+            std::cout << "in if true if false, params:\n" << params <<std::endl;
             for(const auto& nested_ops: params.items()){
                 nested_key = nested_ops.key().c_str();
                 nested_parameters = nested_ops.value();
@@ -498,6 +502,8 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
         case OVERWRITE: {
           if(params.otherTagString == "" &&
               params.otherTagKey == DCM_PatientBreedDescription) {
+            std::cout << "in right loop" << std::endl;
+//            std::cout << "Start:" << params.str_expr << ":End" << std::endl;
             return editor.overwrite(params.str_expr, params.replaceString);
           } else if(params.otherTagKey != DCM_PatientBreedDescription) {
             return editor.overwrite(params.otherTagKey, params.str_expr, params.replaceString);

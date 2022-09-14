@@ -10,7 +10,7 @@ OFString testPath = "test.dcm";
 //OFString schemaPath = "../schema/useCase.json";
 OFString pName;
 
-MetadataEditor meObjChecks{testPath};
+//MetadataEditor meObjChecks{testPath};
 //Parser pObj{schemaPath};
 
 // DCM tags
@@ -33,15 +33,10 @@ TEST_CASE("Test parsing name change", "[NP]") {
     pObj->setDicomDset(testPath);
 
     OFCondition flag;
-    meObjChecks.setTag(nameKey);
-    CHECK(meObjChecks.equals("John Doe", flag).good());
     DcmDataset* dset = pObj->parse();
 
-    //MetadataEditor* meObjEdited{dset};
-    //CHECK(meObjEdited.equals("John Doe", flag).bad());
-    //CHECK(meObjEdited.equals("Robert", flag).good());
+    CHECK(pObj->editor.equals("Robert", flag).good());
 
-    //delete meObjEdited;
     delete pObj;
 }
 

@@ -29,26 +29,27 @@ public:
    */
   MetadataEditor();
 
+  MetadataEditor(DcmDataset* dataset);
+
+  MetadataEditor(const OFString& file_path);
+
   /** Constructor to handle the scenario where a path to
    * a DICOM file is provided 
    * @param file_path holds the path to the DICOM file
    */
-  explicit MetadataEditor(const OFString& file_path);
+  //explicit MetadataEditor(const OFString& file_path);
 
   /** Constructor to hand the scenario where a DICOM dataset
    * is passed directly to the class
    * @param dataset holds a pointer to a DICOM dataset
    */
-  explicit MetadataEditor(DcmDataset* dataset);
+  //explicit MetadataEditor(DcmDataset* dataset);
 
-  /** Creates a DICOM dataset using the DICOM file at the specified 
-   * path
-   * @param file_path holds the path to the DICOM file
-   * @return a pointer to the created DcmDataset
-   */
-  DcmDataset* pathToDataset(const OFString& file_path);
+  void setDset(DcmDataset* dataset);
 
-  /** Sets the class' tagKey data member using a tag string. 
+  OFCondition setDset(const OFString& file_path);
+
+  /** Sets the class' tagKey data member using a tag string.
    * @param str holds the tag in (group, element) as a string 
    * @return EC_Normal, if conversion from str -> DcmTagKey was successful
    */
@@ -398,7 +399,7 @@ private:
   // Will hold, in string form, the tag that will be modified unless specified otherwise
   OFString tagString;
   // Will hold, as a DcmTagKey, the tag that will be modified unless specified otherwise
-  DcmTagKey tagKey; 
+  DcmTagKey tagKey = DcmTagKey(0010, 0010);
 };
 
 #endif // METADATAEDITOR_H_
