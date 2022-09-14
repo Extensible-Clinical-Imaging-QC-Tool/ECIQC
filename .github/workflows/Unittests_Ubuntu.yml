@@ -1,4 +1,4 @@
-name: "Unit tests: Ubuntu"
+name: "Unit tests: Ubuntu + Coverage"
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
 jobs:
 
   build-and-test:
-    name: Unit tests on Ubuntu
+    name: Unit test coverage
     runs-on: ubuntu-20.04
 
     steps:
@@ -22,23 +22,34 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v2
 
+      - name: update sudo apt 
+        run: sudo apt-get update 
+        
       - name: install dependencies
         run: |
           bash scripts/install_dependencies.sh
+      
+      - name: install tools
+        run: sudo apt install g++-10 lcov libcurl4-openssl-dev
 
       - name: make build directory
         run: mkdir build_dir
 
-      - name: cmake configure
-        run: cmake .. -DCMAKE_BUILD_TYPE=Debug
+      - name: run unit tests with coverage
+        run: |
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_COVERAGE=ON
+          cmake --build . --parallel 2 --target unit_tests
+          ctest -j2 --output-on-failure
         working-directory: build_dir
         env:
-          CXX: g++-9
+          CXX: g++-10
 
-      - name: cmake build
-        run: cmake --build . --parallel 2 --target unit_tests
-        working-directory: build_dir
-
-      - name: cmake test
-        run: ctest -j2 --output-on-failure
+      - name: upload coverage results
+        run: |
+          lcov --directory . --capture --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' '*/tests/*' --output-file coverage.info
+          lcov --list coverage.info
+          bash <(curl https://codecov.io/bash) -f coverage.info
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODE_COV_TOKEN}}
         working-directory: build_dir
