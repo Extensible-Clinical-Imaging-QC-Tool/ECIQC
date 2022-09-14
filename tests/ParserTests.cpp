@@ -33,7 +33,7 @@ TEST_CASE("Test parsing name change", "[NP]") {
     pObj->setDicomDset(testPath);
 
     OFCondition flag;
-    DcmDataset* dset = pObj->parse();
+    pObj->parse();
 
     CHECK(pObj->editor.equals("Robert", flag).good());
 

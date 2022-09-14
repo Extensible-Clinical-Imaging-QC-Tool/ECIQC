@@ -426,6 +426,7 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params,
         }
         default: {
             std::cout << "default\n";
+            return EC_Normal;
         }
     }
 }
@@ -608,8 +609,8 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
         }
         default: {
             COUT << "default\nno action specified";
-            return makeOFCondition(OFM_dcmdata, 22, OF_error,"No operation provided");
         }
     }
+    return makeOFCondition(OFM_dcmdata, 22, OF_error,"No operation performed");
 }
 

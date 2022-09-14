@@ -410,8 +410,6 @@ OFCondition MetadataEditor::equals(const DcmTagKey& otherTagKey, Float64 compare
 OFCondition MetadataEditor::equals(const OFString& otherTagString, Float64 compare_value, OFCondition &flag,
                                    const unsigned long pos){
     // Ensure the element specified by the tag exists before matching
-    DcmElement *thisElement;
-
     if (exists(otherTagString,OFFalse).bad()) {
         return makeOFCondition(OFM_dcmdata, 23, OF_error,
                                "tag does not exist in DICOM file");
@@ -604,8 +602,6 @@ OFCondition MetadataEditor::greaterOrLessThan(const DcmTagKey& otherTagKey, Floa
 OFCondition MetadataEditor::greaterOrLessThan(const OFString& otherTagString, Float64 compare_value, OFBool greaterThan,
                                               OFCondition &flag, const unsigned long pos) {
     // Ensure the element specified by the tag exists before matching
-    DcmElement *thisElement;
-
     if (exists(otherTagString,OFFalse).bad()) {
         return makeOFCondition(OFM_dcmdata, 23, OF_error,
                                "tag does not exist in DICOM file");
