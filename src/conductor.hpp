@@ -1,9 +1,11 @@
 #ifndef CONDUCTOR_H
 #define CONDUCTOR_H
 // #include
-//#include "parsing/Parser.hpp"
 #include "communication/receiver.hpp"
 #include "communication/sender.hpp"
+#include "parsing/Parser.hpp"
+#include "dcmtk/config/osconfig.h"
+#include "dcmtk/dcmdata/dctk.h"
 
 class Conductor {
 public:

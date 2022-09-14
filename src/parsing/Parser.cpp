@@ -8,6 +8,9 @@
 #include <set>
 #include "parsing/Parser.hpp"
 
+// Define again???
+#define PRV_PrivateQuar DcmTag(0x1333, 0x0052, EVR_IS)
+
 /*
  * Logical operators:
  * AND
@@ -28,9 +31,9 @@
  */
 
 using json = nlohmann::json;
-Parser::Parser(){
-    std::cout << "REMOVE ME";
-}
+// Parser::Parser(){
+//     std::cout << "REMOVE ME";
+// }
 
 Parser::Parser(OFString configFpath) {
 
@@ -50,33 +53,31 @@ Parser::Parser(OFString configFpath) {
     }
 }
 
-
 ////////////////////////////////////////////////////////////////////
 /*                    Public Member Functions                     */
 ////////////////////////////////////////////////////////////////////
 
 void Parser::setDicomDset(DcmDataset* dset) { 
     currentDataset = dset;
+    editor.setDset(dset);
+
 }
 
 void Parser::setDicomDset(OFString path) {
-    currentDataset = editor.pathToDataset(path);
+    OFCondition result = editor.setDset(path);
+    // TODO: Check for error
+    currentDataset = editor.dset;
 }
 
 DcmDataset* Parser::getDicomDset() {
     return currentDataset;
 }
 
-/* temp function */
-DcmDataset* Parser::tempGetDset() {
-   return editor.pathToDataset("../tests/test.dcm");
-}
-
-
 
 //TODO What happens to the OFCondition results of the operations
-void Parser::run() {
-
+DcmDataset* Parser::parse() {
+    OFCondition allResults; //If any operation returns bad OFCondition, move to quar
+    allResults = EC_Normal;
     int i = 0;
     for(const auto& tag: base.items()) {
         OFString  instruction, sub_instruction;
@@ -85,57 +86,26 @@ void Parser::run() {
         std::cout << "One item's value: " << tag.value()  << std::endl;
 
         editor.setTag(tag.key().c_str());
+        std::cout << "\tTag set:\t" << editor.getTagString() << std::endl;
         std::cout << "Individual tag level: \n" << i << tag.key() << '\t' << base[tag.key()]["operations"] << '\n' << std::endl;
         i++;
         // Tag Level 
-        for(const auto& checkList: base[tag.key()]["operations"].items()) {
-            for(const auto& action: checkList.value().items()) {
 
-                std::cout <<"\t action : "<< action.key() <<'\n'<< "\t action parameters: " << action.value()<< std::endl;
-                parseOperation(action.key().c_str(), action.value());
+        for(const auto& action: base[tag.key()]["operations"].items()) {
+            //for(const auto& action: checkList.value().items()) {
+              std::cout <<"\t action : "<< action.key() <<'\n'<< "\t action parameters: " << action.value()<< std::endl;
+              OFCondition actionResult;
+              actionResult = parseOperation(action.key().c_str(), action.value(), tag.key().c_str());
+              if (actionResult.bad()){
+                allResults = makeOFCondition(OFM_dcmdata, 22, OF_error,"Some checks failed");
+              }
+            //}
 
-//// parseOperation (in private methods) should be able to replace all of below
-
-//                instruction = action.key().c_str();
-////              If this is an array, then instruction must be "AND", "OR" or "NOT".
-//                if(checkList.value()[action.key()].is_array()) {
-//                    /* If true, then the instruction is an operation that must be performed on
-//                    the result of all operations specified within this array */
-//                    const auto& nested_ops = base[tag.key()]["operations"][0][action.key()][0];
-//                    for(const auto& ops: nested_ops.items()) {
-//                        std::cout << "\t\t Key: " << ops.key() << '\t\t' << "Value: " << ops.value() << std::endl;
-//
-//                        sub_instruction = ops.key().c_str();
-//
-//                        /* TODO call worker to perform the specified action and store the result
-//                            Perhaps use  the .size() method to create a vector containing booleans
-//                            and then perform the operation on them */
-//
-//
-//                    }
-//
-////              Otherwise, must be either a check with an action if T/F, or actions with no checks
-//                } else {
-//
-//                    const auto& parameters = base[tag.key()]["operations"][0][action.key()];
-//                    //std::cout << instruction << std::endl;
-//                    //std::cout << parameters.at("value") << std::endl;
-//                    //std::cout << parameters.items().begin().key() << std::endl;
-//                    //std::cout << parameters.items().begin().value() << std::endl;
-//
-//
-//                    WorkerParameters paramStruct =  WPMaker(parameters);
-////                  Need Worker to differentiate between checks and actions (for IF_TRUE/FALSE)
-//                }
-//
-//                // Create a WorkerParameters object
-//                // Call Worker
-
-
-            }
         }
     }
+    return currentDataset;
 }
+DcmDataset *Parser::pathToDset(OFString path) { return nullptr; }
 
 ////////////////////////////////////////////////////////////////////
 /*                    Private Member Functions                    */
@@ -158,9 +128,8 @@ enum ArgumentsEnum {
     posFrom,
     posTo,
     pos,
-
-
-    tag
+    tag,
+    replaceString
 };
 
 enum ActionsEnum {
@@ -204,8 +173,8 @@ int Parser::resolveArguments(OFString param) {
         {  "posFrom", posFrom  },
         {  "posTo", posTo  },
         {  "pos", pos  },
-
-        {  "tag", tag }
+        {  "tag", tag },
+        {  "replaceString", replaceString }
     };
 
     auto itr = argStrings.find(param);
@@ -258,20 +227,15 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
     for(const auto& param: param_object.items()) { 
         OFString argName = OFString(param.key().c_str());
         const auto& arg = param.value();
-        //std::cout << "inWorkerParameters\n" << "\t\t\t ARGNAME: " << argName << std::endl;
+        std::cout << "inWorkerParameters\n" << "\t\t\t ARGNAME: " << argName << std::endl;
         
-        //std::cout << "\t\t\t ARGVAL: " << arg << std::endl;
+        std::cout << "\t\t\t ARGVAL: " << arg << std::endl;
         switch (resolveArguments(argName)) {
-            /*
-            case tag: {
-                (tag == "") ? 
-
-                break;
-            }
-            */
             case otherTagString: {
                 /* code */
                 paramStruct.otherTagString = OFString(arg.get<std::string>().c_str());
+                std::cout << "set other tag string\t" << "X" << OFString(arg.get<std::string>().c_str()) << "X" << std::endl;
+                std::cout << "set other tag string\t" << "X" << paramStruct.otherTagString.c_str() << "X" << std::endl;
                 }
                 break;
             case otherTagKey: {
@@ -340,6 +304,11 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
                 paramStruct.pos = arg.get<unsigned long>();
                 break;
 
+            case replaceString:
+                /* code */
+                paramStruct.replaceString = OFString(arg.get<std::string>().c_str());
+                break;
+
             case 404: /*Not a possible argument*/
                 /* code */
                 
@@ -347,10 +316,6 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
 
             default:
                break;
-
-            //case /* constant-expression */:
-            //    /* code */
-            //    break;
         }
 
     }
@@ -359,12 +324,12 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
 
 }
 
-OFCondition Parser::parseTorF(OFBool trueOrFalse, const json& params){
+OFCondition Parser::parseTorF(OFBool trueOrFalse, const json& params, OFString thisTagString){
     if (trueOrFalse == OFTrue && params.contains("IF_TRUE")){
-        return parseOperation("IF_TRUE", params.at("IF_TRUE"));
+        return parseOperation("IF_TRUE", params.at("IF_TRUE"), thisTagString);
     }
     else if (trueOrFalse == OFFalse && params.contains("IF_FALSE")) {
-        return parseOperation("IF_FALSE", params.at("IF_FALSE"));
+        return parseOperation("IF_FALSE", params.at("IF_FALSE"), thisTagString);
     }
     return EC_Normal;
 }
@@ -372,12 +337,14 @@ OFCondition Parser::parseTorF(OFBool trueOrFalse, const json& params){
 // TODO: Add logging of checks and actions performed to output to user (and store in a dicom tag?)
 // TODO: Use MetadataEditor for checks and actions
 
-OFCondition Parser::parseOperation(OFString instruction, const json& params){
+OFCondition Parser::parseOperation(OFString instruction, const json& params,
+                                   OFString thisTagString){
     int enumerated_inst = resolveActions(instruction);
     OFBool check_result;
     OFString nested_key;
     json nested_parameters = {};
     WorkerParameters paramStruct;
+    std::cout << enumerated_inst << "\t" << instruction << "\n";
     switch (enumerated_inst){
         case AND: {
             check_result = OFTrue;
@@ -386,12 +353,12 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params){
                 nested_parameters = nested_ops.value();
                 if (nested_key != "IF_TRUE" && nested_key != "IF_FALSE") {
                     std::cout << "AND CHECK \t\t Key : " << nested_key << "params : " << nested_parameters << std::endl;
-                    if (parseOperation(nested_key, nested_parameters).bad()) {
+                    if (parseOperation(nested_key, nested_parameters, thisTagString).bad()) {
                         check_result = OFFalse;
                     }
                 }
             }
-            return parseTorF(check_result, params);
+            return parseTorF(check_result, params, thisTagString);
         }
         case OR: {
             check_result = OFFalse;
@@ -400,12 +367,12 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params){
                 nested_parameters = nested_ops.value();
                 if (nested_key != "IF_TRUE" && nested_key != "IF_FALSE"){
                     std::cout << "OR CHECK \t\t Key : " << nested_key << "params : " << nested_parameters << std::endl;
-                    if (parseOperation(nested_key,nested_parameters).good()){
+                    if (parseOperation(nested_key,nested_parameters, thisTagString).good()){
                         check_result = OFTrue;
                     }
                 }
             }
-            return parseTorF(check_result, params);
+            return parseTorF(check_result, params, thisTagString);
         }
         case NOT: {
             for(const auto& nested_ops: params.items()){
@@ -413,112 +380,236 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params){
                 nested_parameters = nested_ops.value();
                 if (nested_key != "IF_TRUE" && nested_key != "IF_FALSE") {
                     std::cout << "NOT CHECK \t\t Key : " << nested_key << "params : " << nested_parameters << std::endl;
-                    check_result = parseOperation(nested_key, nested_parameters).bad();
+                    check_result = parseOperation(nested_key, nested_parameters, thisTagString).bad();
                 }
             }
-            return parseTorF(check_result, params);
+            return parseTorF(check_result, params, thisTagString);
         }
-        case (IF_TRUE | IF_FALSE): {
+        case IF_TRUE:
+        case IF_FALSE: {
+            std::cout << "in if true if false, params:\n" << params <<std::endl;
             for(const auto& nested_ops: params.items()){
                 nested_key = nested_ops.key().c_str();
                 nested_parameters = nested_ops.value();
                 std::cout << "Key : " << nested_key << "params : " << nested_parameters << std::endl;
-                parseOperation(nested_key,nested_parameters);
+                parseOperation(nested_key, nested_parameters, thisTagString);
             }
             return EC_Normal; // Doesn't matter what this returns - actions have been done above
         }
-        case (EQUAL | LESS_THAN | GREATER_THAN | EXIST | REGEX): {
-            std::cout << "\t Key : " << instruction << "params : " << params << std::endl;
+        case EQUAL:
+        case LESS_THAN:
+        case GREATER_THAN:
+        case EXIST:
+        case REGEX: {
+            std::cout << "\t Key : " << instruction << "\n\tparams : " << params << std::endl;
 
             paramStruct = WPMaker(params);
-            // TODO: call worker to perform check
-            return parseTorF(check_result, params);
+            std::cout << "\tmake worker params" << std::endl;
+            OFCondition check_output = worker(enumerated_inst, paramStruct, thisTagString);
+            std::cout << "\trun worker" << std::endl;
+            check_result = check_output.good();
+            std::cout << "\tcheck result" << check_result << std::endl;
+            return parseTorF(check_result, params, thisTagString);
         }
-        case (INSERT | REMOVE | CLEAR | COPY | OVERWRITE | UPDATE | APPEND | PREPEND): {
+        case INSERT:
+        case REMOVE:
+        case CLEAR:
+        case COPY:
+        case OVERWRITE:
+        case UPDATE:
+        case APPEND:
+        case PREPEND: {
             std::cout << "\t Key : " << instruction << "params : " << params << std::endl;
             paramStruct = WPMaker(params);
-            // TODO: call worker to perform action
-            return EC_Normal; // Return normal once actions have been performed
+            OFCondition action_output = worker(enumerated_inst, paramStruct, thisTagString);
+            return action_output; // Return normal once actions have been performed
+        }
+        default: {
+            std::cout << "default\n";
         }
     }
 }
 
-/*
-OFCondition Parser::worker(int instruction, WorkerParameters params) {
 
-
+OFCondition Parser::worker(int instruction, WorkerParameters params, OFString thisTag) {
+    std::cout << "\tstart worker\t" << instruction << "\t" << thisTag << std::endl;
     switch(instruction) {
-        // Editing options
-        //action.
+        //TODO Check that params contains the required arguments for each case
 
         // INSERT and UPDATE are the same up to the only_overwrite parameter - confirmed by email from Chris
-        case (INSERT | UPDATE):
+        case INSERT:
+        case UPDATE:
             // Arguments
-
-            //TODO Check that params contains the required arguments for this case
-
-            params.only_overwrite = (resolveActions(instruction.c_str()) == INSERT) ?  OFFalse : OFTrue;
+            params.only_overwrite = (instruction == INSERT) ?  OFFalse : OFTrue;
             //params.newValue = action.value().value;
 
-            if(action.values().tag == "") {
+            if(params.otherTagString == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
                 // No 'otherTag' provided therefore perfom operation on 'thisTag'
-                editor.modify(params.newValue, params.only_overwrite);
-            } else if(action.value().tag[0] == "D") {
+                return editor.modify(params.value, params.only_overwrite);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
                 // Tag is provided in word form
-                OFString j;
-            } else {
-                newValue = 4;
-                // Tag is provided as (group, element)
-                // TODO ensure Tag is in (group,element) form, or take g&e and add (,)
-                otherTagString = action.values().tag;
-                editor.modify(newValue, only_overwrite, otherTagString);
-
+                return editor.modify(params.value, params.otherTagKey, params.only_overwrite);
+            } else if (params.otherTagString != "") {
+              if (strlen(params.otherTagString.c_str())==11) {
+                return editor.modify(params.value, params.otherTagString, params.only_overwrite);
+              }
             }
             break;
-        
-
         case CLEAR: {
             OFBool only_overwrite = OFTrue;
-            newValue = "";
+            OFString newValue = NULL;
 
-            if(action.values().tag == "") {
-                editor.modify(newValue, only_overwrite);
-            } else if(action.values().tag[0] == "D") {
-
-            } else {
-                otherTagString = action.values().tag;
-                editor.modify(newValue, only_overwrite, otherTagString);
+            if(params.otherTagString == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
+              return editor.modify(newValue, only_overwrite);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+              return editor.modify(newValue, params.otherTagKey, only_overwrite);
+            } else if (params.otherTagString != "") {
+              return editor.modify(newValue, params.otherTagString, only_overwrite);
             }
-
             break;
         }
 
         case REMOVE: {
-            OFBool all_tags = False;
-            OFBool ignore_missing_tags = True;
+            OFBool all_tags = OFFalse;
+            OFBool ignore_missing_tags = OFTrue;
 
-            editor.deleteTag(tag_path, all_tags, ignore_missing_tags);
-            editor.get 
-
+            if(params.otherTagString == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
+              return editor.deleteTag(thisTag, all_tags, ignore_missing_tags);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+              OFString otherTagString = params.otherTagKey.toString();
+              return editor.deleteTag(otherTagString, all_tags, ignore_missing_tags);
+            } else if (params.otherTagString != "") {
+              return editor.deleteTag(params.otherTagString, all_tags, ignore_missing_tags);
+            }
             break;
         }
-        // TODO Complete
         case COPY: {
-            copyToThis = (action.values().toTag == "") ? OFTrue : OFFalse;
-            int posFrom, posTo;
-
+          if(params.otherTagString == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            std::cout << "No other tag provided for copy";
             break;
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            OFString otherTagString = params.otherTagKey.toString();
+            return editor.copy(params.otherTagKey, params.posTo, params.posFrom,
+                        params.copyToThis, params.searchIntoSub,params.replace);
+          } else if (params.otherTagString != "") {
+            return editor.copy(params.otherTagString, params.posTo, params.posFrom,
+                        params.copyToThis, params.searchIntoSub,params.replace);
+          }
+          break;
         }
-            //stringstream from(action.values().)
-        // Action Level
-
-
-
+        case OVERWRITE: {
+          if(params.otherTagString == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            return editor.overwrite(params.str_expr, params.replaceString);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            return editor.overwrite(params.otherTagKey, params.str_expr, params.replaceString);
+          } else if (params.otherTagString != "") {
+            return editor.overwrite(params.otherTagString, params.str_expr, params.replaceString);
+          }
+          break;
+        }
+        case APPEND: {
+          OFCondition flag;
+          if(params.otherTagString == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            return editor.append(params.value, flag, params.pos);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            return editor.append(params.value, params.otherTagKey, flag, params.pos);
+          } else if (params.otherTagString != "") {
+            return editor.append(params.value, params.otherTagString, flag, params.pos);
+          }
+          break;
+        }
+        case PREPEND: {
+          OFCondition flag;
+          if(params.otherTagString == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            return editor.prepend(params.value, flag, params.pos);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            return editor.prepend(params.value, params.otherTagKey, flag, params.pos);
+          } else if (params.otherTagString != "") {
+            return editor.prepend(params.value, params.otherTagString, flag, params.pos);
+          }
+          break;
+        }
+        case EQUAL: {
+          std::cout << "\t\t in EQUAL" << std::endl;
+          OFCondition flag;
+          if (params.value != ""){
+            std::cout << "\t\t Value != blank" << std::endl;
+            std::cout << "\t\t Other tag string" << params.otherTagString << std::endl;
+            if(params.otherTagString == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
+              std::cout << "\t\tNo otherTagString" << std::endl;
+              std::cout << "\t\tvalue" << params.value << std::endl;
+              std::cout << "\t\tpos" << params.pos << std::endl;
+              std::cout << "\t\tget tag " << editor.getTagString() << std::endl;
+              return editor.equals(params.value, flag, params.pos);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+              return editor.equals(params.otherTagKey, params.value, flag, params.pos);
+            } else if (params.otherTagString != "") {
+              return editor.equals(params.otherTagString, params.value, flag, params.pos);
+            }
+          }
+          else if (params.compareValue != 0){
+            if(params.otherTagString == "" &&
+                params.otherTagKey == DCM_PatientBreedDescription) {
+              return editor.equals(params.compareValue, flag, params.pos);
+            } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+              return editor.equals(params.otherTagKey, params.compareValue, flag, params.pos);
+            } else if (params.otherTagString != "") {
+              return editor.equals(params.otherTagString, params.compareValue, flag, params.pos);
+            }
+          }
+          else {
+            break;
+          }
+        }
+        // Less or greater than the same, up to a flag to signify which
+        case LESS_THAN:
+        case GREATER_THAN: {
+          OFCondition flag;
+          OFBool greaterThan = instruction == GREATER_THAN;
+          if(params.otherTagString == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            return editor.greaterOrLessThan(params.compareValue, greaterThan, flag, params.pos);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            return editor.greaterOrLessThan(params.otherTagKey, params.compareValue, greaterThan, flag, params.pos);
+          } else if (params.otherTagString != "") {
+            return editor.greaterOrLessThan(params.otherTagString, params.compareValue, greaterThan, flag, params.pos);
+          }
+          break;
+        }
+        case EXIST: {
+          if(params.otherTagString == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            return editor.exists(params.searchIntoSub);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            return editor.exists(params.otherTagKey, params.searchIntoSub);
+          } else if (params.otherTagString != "") {
+            return editor.exists(params.otherTagString, params.searchIntoSub);
+          }
+        }
+        case REGEX:{
+          OFCondition flag;
+          if(params.otherTagString == "" &&
+              params.otherTagKey == DCM_PatientBreedDescription) {
+            return editor.match(params.str_expr, flag, params.pos);
+          } else if(params.otherTagKey != DCM_PatientBreedDescription) {
+            return editor.match(params.otherTagKey, params.str_expr, flag, params.pos);
+          } else if (params.otherTagString != "") {
+            return editor.match(params.otherTagString, params.str_expr, flag, params.pos);
+          }
+          break;
+        }
         default: {
-            COUT << "default \n";
+            COUT << "default\nno action specified";
+            return makeOFCondition(OFM_dcmdata, 22, OF_error,"No operation provided");
         }
-        // Check options
     }
-    
-} 
-*/
+}
+

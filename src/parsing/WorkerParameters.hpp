@@ -5,9 +5,9 @@
 #define WORKERPARAMETERS_H_
 
 struct WorkerParameters {
-    OFString value, otherTagString, str_expr;
-    // TODO: double value? for editing a numeric field?
-    DcmTagKey otherTagKey;
+    OFString value, otherTagString, str_expr, replaceString;
+    DcmTagKey otherTagKey = DCM_PatientBreedDescription; //dummy tag for humans
+    Float64 compareValue = 0;
 
     OFCondition flag = OFCondition();
 
