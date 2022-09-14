@@ -10,12 +10,10 @@
 MetadataEditor::MetadataEditor() {}
 
 MetadataEditor::MetadataEditor(DcmDataset* dataset) {
-  std::cout << "set dataset from DcmDataset" << std::endl;
-  dset = dataset;
+  setDset(dataset);
 }
 
 MetadataEditor::MetadataEditor(const OFString& file_path) {
-  std::cout << "set dataset from path" << std::endl;
   OFCondition result = setDset(file_path);
   if (result.bad()) {
     std::cout << "Error loading file: " << file_path << result.text();
@@ -23,13 +21,14 @@ MetadataEditor::MetadataEditor(const OFString& file_path) {
 }
 
 void MetadataEditor::setDset(DcmDataset* dataset) {
-  std::cout << "set dataset from DcmDataset" << std::endl;
+//   std::cout << "set dataset from DcmDataset" << std::endl;
   dset = dataset;
 }
 
 OFCondition MetadataEditor::setDset(const OFString& file_path) {
-  std::cout << "set dataset from path" << std::endl;
+//   std::cout << "set dataset from path: " << file_path << std::endl;
   OFCondition result = loadFile(file_path.c_str());
+  dset = getDataset();
   return result;
 }
 
@@ -57,9 +56,9 @@ OFString MetadataEditor::getTagString() { return tagString; }
 
 // Does  'this' tag exist?
 OFCondition MetadataEditor::exists(OFBool searchIntoSub) {
-  std::cout << "Inside exists\t" << tagKey << searchIntoSub << std::endl;
   OFBool result = dset->tagExists(tagKey, searchIntoSub);
   std::cout << "Exists checked\t" << result << std::endl;
+
 //  return result;
   if (result){
       return makeOFCondition(OFM_dcmdata, 23, OF_ok, "This tag does exist");
@@ -187,7 +186,6 @@ OFCondition MetadataEditor::equals(const OFString& str_expr, OFCondition &flag, 
     // Ensure the element specified by the tag exists before matching
     std::cout << "Inside equals" << std::endl;
     if (exists(OFFalse).good()) {
-        std::cout << "Tag exists" << std::endl;
         OFString str;
         flag = dset->findAndGetOFString(tagKey, str,pos);
         std::cout << "Got value\t" << str << std::endl;
@@ -870,36 +868,31 @@ OFCondition MetadataEditor::overwrite(const OFString& str_expr, const OFString& 
         return makeOFCondition(OFM_dcmdata, 23, OF_error,
                                "tag does not exist in DICOM file");
     }
+    // Regex replace
+    if (str_expr.length() != 0) {
+        OFString currentValue;
+        OFCondition flag = dset->findAndGetOFString(tagKey, currentValue);
+        if (flag.bad()){
+            return flag;
+        }
 
-    if (str_expr.length() == 0) {
-      return modify(replaceString, OFTrue);
+        std::regex expr(str_expr.c_str());
+        std::string repl = replaceString.c_str();
+        std::string curr = currentValue.c_str();
+        std::string newValue;
+        std::regex_replace(std::back_inserter(newValue), curr.begin(), curr.end(), expr, repl);
+
+        const char *newValueChar = newValue.c_str();
+        OFString newVal = OFString(newValueChar, strlen(newValueChar));
+
+        if (newVal == currentValue){
+            return makeOFCondition(OFM_dcmdata, 23, OF_ok, "string not modified");
+        }
+        return modify(newVal, OFTrue);
     }
     else {
-      return makeOFCondition(OFM_dcmdata, 23, OF_error,
-                             "Regex not implemented");
+        return modify(replaceString, OFTrue);
     }
-
-//    Deprecated code for regex replace:
-
-//    OFString currentValue;
-//    OFCondition flag = dset->findAndGetOFString(tagKey, currentValue);
-//    if (flag.bad()){
-//        return flag;
-//    }
-
-//    std::regex expr(str_expr.c_str());
-//    std::string repl = replaceString.c_str();
-//    std::string curr = currentValue.c_str();
-//    std::string newValue;
-////    std::regex_replace(std::back_inserter(newValue), curr.begin(), curr.end(), expr, repl);
-//
-//    const char *newValueChar = newValue.c_str();
-//    OFString newVal = OFString(newValueChar, strlen(newValueChar));
-//
-//    if (newVal == currentValue){
-//        return makeOFCondition(OFM_dcmdata, 23, OF_ok, "string not modified");
-//    }
-
 }
 
 OFCondition MetadataEditor::overwrite(const OFString& otherTagString, const OFString& str_expr, const OFString& replaceString){

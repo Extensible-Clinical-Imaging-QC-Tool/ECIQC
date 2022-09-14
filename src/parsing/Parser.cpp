@@ -502,8 +502,6 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
         case OVERWRITE: {
           if(params.otherTagString == "" &&
               params.otherTagKey == DCM_PatientBreedDescription) {
-            std::cout << "in right loop" << std::endl;
-//            std::cout << "Start:" << params.str_expr << ":End" << std::endl;
             return editor.overwrite(params.str_expr, params.replaceString);
           } else if(params.otherTagKey != DCM_PatientBreedDescription) {
             return editor.overwrite(params.otherTagKey, params.str_expr, params.replaceString);

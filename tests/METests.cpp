@@ -66,14 +66,13 @@ DcmTagKey badKey = DCM_InstitutionName;
 
 // Create test .dcm file
 OFCondition res = makeTestDICOMFile();
-MetadataEditor meObj{"test.dcm"};
-
-DcmFileFormat test_dfile;
 OFString test_filepath = "test.dcm";
+DcmFileFormat test_dfile;
 OFCondition test_dset_load = test_dfile.loadFile(test_filepath.c_str());
 DcmDataset* test_dset = test_dfile.getDataset();
-
 OFString test_filepath_fail = "testfail.dcm";
+
+MetadataEditor meObj{test_filepath};
 
 TEST_CASE("Test for creating ME object using dataset", "[ME]") {
   MetadataEditor meObj_test{test_dset};
@@ -81,10 +80,11 @@ TEST_CASE("Test for creating ME object using dataset", "[ME]") {
   CHECK(meObj_test.exists().good());
 }
 
-// TODO
-//TEST_CASE("Test for file opening fail", "[ME]") {
-//
-//}
+TEST_CASE("Test for SETTING ME dset using file path", "[ME]") {
+  MetadataEditor meObj_test{};
+  CHECK(meObj_test.setDset(test_filepath).good());
+  CHECK(meObj_test.dset != NULL);
+}
 
 TEST_CASE("Test for SETTING tag key", "[ME]"){
   CHECK(meObj.setTag(nameTagString).good());
@@ -96,10 +96,10 @@ TEST_CASE("Test for CHECKING tag EXISTENCE","[ME]") {
   meObj.setTag(nameTagString);
 
   CHECK(meObj.exists().good());
-//  CHECK(meObj.exists(nameTagKey).good());
-//  CHECK(meObj.exists(nameTagString).good());
-//  CHECK_FALSE(meObj.exists(retiredTagKey).good());
-//  CHECK_FALSE(meObj.exists(retiredTagString).good());
+  CHECK(meObj.exists(nameTagKey).good());
+  CHECK(meObj.exists(nameTagString).good());
+  CHECK_FALSE(meObj.exists(retiredTagKey).good());
+  CHECK_FALSE(meObj.exists(retiredTagString).good());
 }
 
 

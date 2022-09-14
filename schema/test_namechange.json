@@ -10,7 +10,7 @@
                 "IF_TRUE": {
                     "OVERWRITE": {
                         "tag": "",
-                        "value": "Robert"
+                        "replaceString": "Robert"
                     }
                 }
             }
