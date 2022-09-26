@@ -10,8 +10,8 @@
 class Conductor {
 public:
   /** Constructor */
-  Conductor( std::string SenderAETitle, Uint16 SenderPortNumber, std::string SenderPortName, 
-            std::string ReceiverAETitle, Uint16 ReceiverPortNumber, std::string ReceiverPortName);
+  Conductor(  std::string SenderAETitle, std::string PeerAETitle,  Uint16 PeerPortNumber, std::string PeerPortName,
+                     std::string ReceiverAETitle, Uint16 ReceiverPortNumber);
             
             
   
@@ -23,14 +23,14 @@ public:
   ~Conductor();
   /** members */
   Receiver scp;
-  Receiver testSCP;
   Sender scu;
   std::string SenderAETitle;
-  Uint16 SenderPortNumber;
-  std::string SenderPortName;
+  std::string PeerAETitle;
+  Uint16 PeerPortNumber;
+  std::string PeerPortName;
   std::string ReceiverAETitle;
   Uint16 ReceiverPortNumber;
-  std::string ReceiverPortName;
+ 
   //Parser p1;
   //Parser p2;
   /* Sender s; */

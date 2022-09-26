@@ -36,10 +36,10 @@ try {
     po::options_description ECIQC("Options");
     ECIQC.add_options()
         ("help", "produce help message")
-        ("SenderAETitle", po::value<std::string>(&SenderAETitle)->default_value("TestSCU"), "set Sender AE Title")
+        ("SenderAETitle", po::value<std::string>(&SenderAETitle)->default_value("testSCU"), "set Sender AE Title")
         ("SenderPortNumber", po::value<Uint16>(&SenderPortNumber)->default_value(104), "set Sender Port Number")
         ("SenderPortName", po::value<std::string>(&SenderPortName)->default_value("localhost"),"set Sender Port Name")
-        ("ReceiverAETitle", po::value<std::string>(&ReceiverAETitle)->default_value("TestSCP"), "set Receiver AE Title")
+        ("ReceiverAETitle", po::value<std::string>(&ReceiverAETitle)->default_value("testSCP"), "set Receiver AE Title")
         ("ReceiverPortNumber", po::value<Uint16>(&ReceiverPortNumber)->default_value(11112), "set Receiver Port Number")
         ("ReceiverPortName", po::value<std::string>(&ReceiverPortName)->default_value("localhost"), "set Receiver Port Name");
         
