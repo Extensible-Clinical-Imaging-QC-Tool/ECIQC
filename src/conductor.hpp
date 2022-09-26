@@ -20,6 +20,8 @@ public:
 
   void run();
 
+  void stop();
+
   ~Conductor();
   /** members */
   Receiver scp;

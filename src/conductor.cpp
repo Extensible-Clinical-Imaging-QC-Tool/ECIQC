@@ -32,13 +32,13 @@ void Conductor::run() {
     // Receiver starts listenings
 
     // Execute C-STORE Request with TestSCU
-    OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
-    scp.setpointer(pDset);
+    OFshared_ptr<OFList<DcmDataset>>  received_pDset(new OFList<DcmDataset>);
+    scp.setpointer(received_pDset);
 
     //Receiver listen
     scp.start();
 
-    OFStandard::sleep(5);
+    OFStandard::sleep(10);
 
 
 // //TODO: Include Parser class
@@ -77,17 +77,18 @@ void Conductor::run() {
  
  
     //Initialize network
+    std::cout<<received_pDset->size()<<"\n";
     OFCondition result1 = scu.initNetwork();
     if (result1.bad())
       throw "Network initialization failed!";
     
-    std::cout << "Help!"<< "\n";
+ 
     //Negotiate association
     OFCondition result2 = scu.negotiateAssociation();
     if (result2.bad())
       throw "Association negotiation failed!";
 
-
+   std::cout << "Help!"<< "\n";
     //Check whether server is listening
     OFCondition result3 = scu.sendECHORequest(0);
     if (result3.bad())
@@ -107,10 +108,10 @@ void Conductor::run() {
     if (result5.bad())
         throw "Network initialization failed!";
     
-    while (! passed_pDset ->empty())
+    while (! received_pDset ->empty())
     {
    // Remove first item 
-    DcmDataset* passed_dset = &(passed_pDset->front());
+    DcmDataset* passed_dset = &(received_pDset->front());
 
 
     // Negotiate Association  
@@ -134,54 +135,53 @@ void Conductor::run() {
     if (result11.bad())
         throw "Association release failed!";
 
-    passed_pDset->pop_front();
+    received_pDset->pop_front();
 
     } 
 
 
-//Execute second C-STORE Request with SCU
-    //C-STORE Request for quarantine_pDset
+// //Execute second C-STORE Request with SCU
+//     //C-STORE Request for quarantine_pDset
 
-    //Initialize network 
+//     //Initialize network 
     
-    OFCondition result12 = scu.initNetwork(); 
-    if (result12.bad())
-        throw "Network initialization failed!";
+//     OFCondition result12 = scu.initNetwork(); 
+//     if (result12.bad())
+//         throw "Network initialization failed!";
     
-    while (! quarantine_pDset ->empty())
-    {
-   // Remove first item 
-    DcmDataset* quarantine_dset = &(quarantine_pDset->front());
+//     while (! quarantine_pDset ->empty())
+//     {
+//    // Remove first item 
+//     DcmDataset* quarantine_dset = &(quarantine_pDset->front());
 
 
-    // Negotiate Association  
+//     // Negotiate Association  
     
-    OFCondition result13 = scu.negotiateAssociation(); 
-    if (result13.bad())
-        throw "Association negotiation failed!";
+//     OFCondition result13 = scu.negotiateAssociation(); 
+//     if (result13.bad())
+//         throw "Association negotiation failed!";
 
-    //Assemble and send first C-STORE request. Check if C-STORE was successful.
-    Uint16 rspStatusCode = 0;
-    OFCondition result14 = scu.sendSTORERequest(0, 0,quarantine_dset, rspStatusCode );
-    if (result14.bad()){   
-        OFCondition status = quarantine_dset->saveFile("../DICOM_Images/archive_2.dcm");
-        if (status.bad())
-            throw "Failed to save quarantine file after failure of C-STORE Request!";
-        }
+//     //Assemble and send first C-STORE request. Check if C-STORE was successful.
+//     Uint16 rspStatusCode = 0;
+//     OFCondition result14 = scu.sendSTORERequest(0, 0,quarantine_dset, rspStatusCode );
+//     if (result14.bad()){   
+//         OFCondition status = quarantine_dset->saveFile("../DICOM_Images/archive_2.dcm");
+//         if (status.bad())
+//             throw "Failed to save quarantine file after failure of C-STORE Request!";
+//         }
 
 
-    //Release association. 
-    OFCondition result15 = scu.releaseAssociation();
-    if (result15.bad())
-        throw "Association release failed!";
+//     //Release association. 
+//     OFCondition result15 = scu.releaseAssociation();
+//     if (result15.bad())
+//         throw "Association release failed!";
 
-    quarantine_pDset->pop_front();
+//     quarantine_pDset->pop_front();
 
-    } 
+//     } 
 
-    ~pDset;
-    scp.request_stop();
-    scp.join();
+// ~pDset;
+    
 
     
     // Validation Parser
@@ -198,6 +198,12 @@ void Conductor::run() {
 
       s(sPortNum, sPortName);
     */
+}
+
+void Conductor::stop() {
+    scp.request_stop();
+    scp.join();
+
 }
 // ---------------------------------------------------------------------------------------------------------
     Conductor::~Conductor(){}

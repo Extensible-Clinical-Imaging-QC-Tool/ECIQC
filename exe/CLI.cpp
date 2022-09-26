@@ -24,11 +24,12 @@ int main(int argc, char** argv){
 
 //Variables that will store parsed values.
 Uint16 ReceiverPortNumber;
-std::string ReceiverPortName;
+
 std::string ReceiverAETitle;
-Uint16 SenderPortNumber;
-std::string SenderPortName;
+Uint16 PeerPortNumber;
+std::string PeerPortName;
 std::string SenderAETitle;
+std::string PeerAETitle;
 
 
 //Setup options
@@ -37,11 +38,11 @@ try {
     ECIQC.add_options()
         ("help", "produce help message")
         ("SenderAETitle", po::value<std::string>(&SenderAETitle)->default_value("testSCU"), "set Sender AE Title")
-        ("SenderPortNumber", po::value<Uint16>(&SenderPortNumber)->default_value(104), "set Sender Port Number")
-        ("SenderPortName", po::value<std::string>(&SenderPortName)->default_value("localhost"),"set Sender Port Name")
+        ("PeerAETitle", po::value<std::string>(&PeerAETitle)->default_value("ConductorSCU"), "set PeerAE Title")
+        ("PeerPortNumber", po::value<Uint16>(&PeerPortNumber)->default_value(104), "set Peer Port Number")
+        ("PeerPortName", po::value<std::string>(&PeerPortName)->default_value("localhost"),"set Peer Port Name")
         ("ReceiverAETitle", po::value<std::string>(&ReceiverAETitle)->default_value("testSCP"), "set Receiver AE Title")
-        ("ReceiverPortNumber", po::value<Uint16>(&ReceiverPortNumber)->default_value(11112), "set Receiver Port Number")
-        ("ReceiverPortName", po::value<std::string>(&ReceiverPortName)->default_value("localhost"), "set Receiver Port Name");
+        ("ReceiverPortNumber", po::value<Uint16>(&ReceiverPortNumber)->default_value(11112), "set Receiver Port Number");
         
         
     
@@ -61,18 +62,25 @@ try {
             cout << "Sender Application Entity Title was not set.\n";
         } 
     
-    if (vm.count("SenderPortNumber")) {
-            cout << "Sender Port Number was set to " 
-                 << vm["SenderPortNumber"].as<Uint16>() << ".\n";
+    if (vm.count("PeerAETitle")) {
+            cout << "Peer Application Entity Title was set to " 
+                 << vm["PeerAETitle"].as<std::string >() << ".\n" ;
         } else {
-            cout << "Sender Port Number was not set.\n";
+            cout << "Peer Application Entity Title was not set.\n";
+        } 
+
+    if (vm.count("PeerPortNumber")) {
+            cout << "Peer Port Number was set to " 
+                 << vm["PeerPortNumber"].as<Uint16>() << ".\n";
+        } else {
+            cout << "Peer Port Number was not set.\n";
         }
     
-    if (vm.count("SenderPortName")) {
-            cout << "Sender Port Name was set to " 
-                 << vm["SenderPortName"].as<std::string>() << ".\n";
+    if (vm.count("PeerPortName")) {
+            cout << "Peer Port Name was set to " 
+                 << vm["PeerPortName"].as<std::string>() << ".\n";
         } else {
-            cout << "Sender Port Name was not set.\n";
+            cout << "Peer Port Name was not set.\n";
         }
     
 
@@ -90,12 +98,7 @@ try {
             cout << "Receiver Port Number was not set.\n";
         }
 
-    if (vm.count("ReceiverPortName")) {
-            cout << "Receiver Port Name was set to " 
-                 << vm["ReceiverPortName"].as<std::string>() << ".\n";
-        } else {
-            cout << "Receiver Port Name was not set.\n";
-        } 
+    
   
 
     //Specify log pattern in .log file.
@@ -115,7 +118,7 @@ try {
     
     
     //Conductor
-    Conductor conductor(SenderAETitle, SenderPortNumber, SenderPortName, ReceiverAETitle,ReceiverPortNumber, ReceiverPortName);
+    Conductor conductor(SenderAETitle, PeerAETitle, PeerPortNumber, PeerPortName, ReceiverAETitle,ReceiverPortNumber);
     conductor.run();
 
 }
