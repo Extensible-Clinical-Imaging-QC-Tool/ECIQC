@@ -17,10 +17,8 @@ public:
   
   void setOptional();
   
-  void initialise();
   void run();
-
-  void stop();
+  void pipeline(DcmDataset& dataset);
 
   ~Conductor();
   /** members */
@@ -33,6 +31,10 @@ public:
   std::string ReceiverAETitle;
   Uint16 ReceiverPortNumber;
   OFshared_ptr<OFList<DcmDataset>>  m_received_pDset;
+
+private:
+  void int_handler(int dummy);
+  volatile int m_keep_running;
  
   //Parser p1;
   //Parser p2;

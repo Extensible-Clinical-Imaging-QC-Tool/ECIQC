@@ -2,6 +2,7 @@
 #include <iostream>
 #include <exception>
 #include "conductor.hpp"
+#include <signal.h>
 
 #define PRV_PrivateQuar DcmTag(0x1333, 0x0052, EVR_IS)
 
@@ -18,6 +19,7 @@ Conductor::Conductor( std::string SenderAETitle, std::string PeerAETitle,  Uint1
                      std::string ReceiverAETitle, Uint16 ReceiverPortNumber)
                      :scu(SenderAETitle, PeerPortName, PeerPortNumber,PeerAETitle),
                       scp(ReceiverPortNumber, ReceiverAETitle), 
+                      m_keep_running(1)
                       m_received_pDset()
                       {
 
@@ -28,14 +30,37 @@ void Conductor::setOptional(/*all optional variables */) {
   /* setStorage() */
 }
 
-void Conductor::initialise() {
+void Conductor::int_handler(int dummy) {
+    m_keep_running = 0;
+}
+
+void Conductor::pipeline(DcmDataset &dataset) {
+    // calls parser
+    // calls meta editror...
+    //
+    // sends dataset to either quarantine or receiver
+}
+
+void Conductor::run() {
     // Execute C-STORE Request with TestSCU
     OFshared_ptr<OFList<DcmDataset>>  received_pDset(new OFList<DcmDataset>);
     m_received_pDset = received_pDset;
     scp.setpointer(m_received_pDset);
 
+   signal(SIGINT, int_handler);
     //Receiver listen
     scp.start();
+    m_keep_running = 1;
+    while (m_keep_running) {
+        while (m_received_pDset->size() > 0) {
+            DcmDataset& dataset = m_received_pDset->front(); 
+            pipeline(dataset);
+            // aquire lock
+            m_received_pDset->pop_front()
+            // release lock
+        }
+        OFStandard::sleep(1);
+    }
     
     //OFStandard::sleep(5);
 
