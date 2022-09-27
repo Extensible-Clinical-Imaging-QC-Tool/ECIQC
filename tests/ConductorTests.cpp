@@ -10,7 +10,7 @@
 
 
 #ifdef WITH_THREADS
-TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Dataset","[CT]"){
+TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datasets","[CT]"){
 
     // Create a storage SCU that can send C-STORE requests.
     struct TestStorageSCU : DcmStorageSCU, OFThread {
@@ -23,20 +23,20 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
 
     // Images to be sent
     result1 = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
-    result2 = sendSTORERequest(0, "../DICOM_Images/1-1copy.dcm", 0, rspStatusCode);
+    result2 = sendSTORERequest(0, "../DICOM_Images/test2.dcm", 0, rspStatusCode);
     releaseAssociation();
         }
     };
 
-    //Instantiate receiver class (Receiver class)
-    Receiver testSCP(104, "testSCP");
+    // //Instantiate receiver class (Receiver class)
+    // Receiver testSCP(5035, "testSCP");
 
-    // Execute C-STORE Request with TestSCU
-    OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
-    testSCP.setpointer(pDset);
+    // // Execute C-STORE Request with TestSCU
+    // OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
+    // testSCP.setpointer(pDset);
 
-    //Receiver listen
-    //testSCP.start();
+    // //Receiver listen
+    // testSCP.start();
 
     
     // Define presentation contexts for SCU
@@ -48,6 +48,7 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
     OFList<OFString> ts;
     ts.push_back(UID_LittleEndianImplicitTransferSyntax);
 
+    
 
       // Configure SCUs.
     OFVector<TestStorageSCU*> scus2(1);
@@ -66,15 +67,16 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
             (*testSCU)->initNetwork();
         }
     
-
     //Instantiate conductor class 
-    Conductor conductor("ConductorSCU","testSCP",104,"localhost","ConductorSCP",11112);
-    conductor.run();
+    Conductor conductor("ConductorSCU","testSCP",5035,"localhost","ConductorSCP",11112);
+    conductor.initialise();
+    
 
     // Start test SCUs
     for (OFVector<TestStorageSCU*>::const_iterator it2 = scus2.begin(); it2 != scus2.end(); ++it2)
             (*it2)->start();
 
+    
     // Check if C-STORE was successful
     for (OFVector<TestStorageSCU*>::iterator it3 = scus2.begin(); it3 != scus2.end(); ++it3)
         {
@@ -82,14 +84,18 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
             if((*it3)->result1.bad())
                 throw "First C-STORE request failed!";
             if((*it3)->result2.bad())
-                throw "Second C-STORE requests failed!";
+                throw "Second C-STORE request failed!";
             delete *it3;
         };
 
-    pDset->size();
-    testSCP.start();
-    testSCP.request_stop();
-    testSCP.join();
+    conductor.run();
+    
+    // std::cout<<"Test Receiver pDset size ="<<pDset->size()<<"\n";
+    // pDset->size();
+    
+    
+    // testSCP.request_stop();
+    // testSCP.join();
 
     conductor.stop();
 

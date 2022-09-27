@@ -17,7 +17,8 @@ specific setX() functions */
 Conductor::Conductor( std::string SenderAETitle, std::string PeerAETitle,  Uint16 PeerPortNumber, std::string PeerPortName,
                      std::string ReceiverAETitle, Uint16 ReceiverPortNumber)
                      :scu(SenderAETitle, PeerPortName, PeerPortNumber,PeerAETitle),
-                      scp(ReceiverPortNumber, ReceiverAETitle)
+                      scp(ReceiverPortNumber, ReceiverAETitle), 
+                      m_received_pDset()
                       {
 
                       }
@@ -27,26 +28,27 @@ void Conductor::setOptional(/*all optional variables */) {
   /* setStorage() */
 }
 
-void Conductor::run() {
-    
-    // Receiver starts listenings
-
+void Conductor::initialise() {
     // Execute C-STORE Request with TestSCU
     OFshared_ptr<OFList<DcmDataset>>  received_pDset(new OFList<DcmDataset>);
-    scp.setpointer(received_pDset);
+    m_received_pDset = received_pDset;
+    scp.setpointer(m_received_pDset);
 
     //Receiver listen
     scp.start();
+    
+    //OFStandard::sleep(5);
 
-    OFStandard::sleep(10);
+    std::cout<<"Conductor receiver (initialise) pDset size ="<<m_received_pDset->size()<<"\n";
+}
 
-
+void Conductor::run() {
 // //TODO: Include Parser class
 //     OFString config = "../schema/useCase.json";
 //     Parser parser{config};
 
-    OFshared_ptr<OFList<DcmDataset>> passed_pDset;
-     OFshared_ptr<OFList<DcmDataset>> quarantine_pDset;
+    //  OFshared_ptr<OFList<DcmDataset>> passed_pDset;
+    //  OFshared_ptr<OFList<DcmDataset>> quarantine_pDset;
 //     DcmTagKey quarTagKey = PRV_PrivateQuar;
 //     OFString quar_bool_str;
 
@@ -75,71 +77,72 @@ void Conductor::run() {
 
 //C-ECHO Request(Sender Class)
  
- 
-    //Initialize network
-    std::cout<<received_pDset->size()<<"\n";
-    OFCondition result1 = scu.initNetwork();
-    if (result1.bad())
-      throw "Network initialization failed!";
+
+        std::cout<<"Conductor receiver (run) pDset size ="<<m_received_pDset->size()<<"\n";
+//     while (! received_pDset ->empty())
+//     {
+//     OFCondition result1 = scu.initNetwork();
+//     if (result1.bad())
+//       throw "Network initialization failed!";
     
  
-    //Negotiate association
-    OFCondition result2 = scu.negotiateAssociation();
-    if (result2.bad())
-      throw "Association negotiation failed!";
+//     //Negotiate association
+//     OFCondition result2 = scu.negotiateAssociation();
+//     if (result2.bad())
+//       throw "Association negotiation failed!";
 
-   std::cout << "Help!"<< "\n";
-    //Check whether server is listening
-    OFCondition result3 = scu.sendECHORequest(0);
-    if (result3.bad())
-        throw "Send ECHO Request failed!";
+//    std::cout << "Help!"<< "\n";
 
-    //Release association
-    OFCondition result4 = scu.releaseAssociation();
-    if (result4.bad())
-        throw "Association Released failed!";
+//     //Check whether server is listening
+//     OFCondition result3 = scu.sendECHORequest(0);
+//     if (result3.bad())
+//         throw "Send ECHO Request failed!";
 
-//Execute first C-STORE Request with SCU
-    //C-STORE Request for passed_pDset
+//     //Release association
+//     OFCondition result4 = scu.releaseAssociation();
+//     if (result4.bad())
+//         throw "Association Released failed!";
 
-    //Initialize network 
+// //Execute first C-STORE Request with SCU
+//     //C-STORE Request for passed_pDset
+
+//     //Initialize network 
     
-    OFCondition result5 = scu.initNetwork(); 
-    if (result5.bad())
-        throw "Network initialization failed!";
+//     OFCondition result5 = scu.initNetwork(); 
+//     if (result5.bad())
+//         throw "Network initialization failed!";
     
-    while (! received_pDset ->empty())
-    {
-   // Remove first item 
-    DcmDataset* passed_dset = &(received_pDset->front());
-
-
-    // Negotiate Association  
     
-    OFCondition result7 = scu.negotiateAssociation(); 
-    if (result7.bad())
-        throw "Association negotiation failed!";
-
-    //Assemble and send first C-STORE request. Check if C-STORE was successful.
-    Uint16 rspStatusCode = 0;
-    OFCondition result8 = scu.sendSTORERequest(0, 0,passed_dset, rspStatusCode );
-    if (result8.bad()){   
-        OFCondition status = passed_dset->saveFile("../DICOM_Images/archive_1.dcm");
-        if (status.bad())
-            throw "Failed to save passed file after failure of C-STORE Request!";
-        }
+//    // Remove first item 
+//     DcmDataset* passed_dset = &(received_pDset->front());
 
 
-    //Release association. 
-    OFCondition result11 = scu.releaseAssociation();
-    if (result11.bad())
-        throw "Association release failed!";
+//     // Negotiate Association  
+    
+//     OFCondition result7 = scu.negotiateAssociation(); 
+//     if (result7.bad())
+//         throw "Association negotiation failed!";
 
-    received_pDset->pop_front();
+//     //Assemble and send first C-STORE request. Check if C-STORE was successful.
+//     Uint16 rspStatusCode = 0;
+//     OFCondition result8 = scu.sendSTORERequest(0, 0,passed_dset, rspStatusCode );
+//     if (result8.bad()){   
+//         OFCondition status = passed_dset->saveFile("../DICOM_Images/archive_1.dcm");
+//         if (status.bad())
+//             throw "Failed to save passed file after failure of C-STORE Request!";
+//         }
 
-    } 
+//     std::cout<<"Conductor Receiver pDset size = "<<received_pDset->size()<<"\n";
+//     //Release association. 
+//     OFCondition result11 = scu.releaseAssociation();
+//     if (result11.bad())
+//         throw "Association release failed!";
 
+//     received_pDset->pop_front();
 
+//     } 
+
+    
 // //Execute second C-STORE Request with SCU
 //     //C-STORE Request for quarantine_pDset
 
@@ -201,6 +204,7 @@ void Conductor::run() {
 }
 
 void Conductor::stop() {
+    std::cout<<"Conductor pDset size ="<<m_received_pDset->size()<<"\n";
     scp.request_stop();
     scp.join();
 

@@ -17,7 +17,7 @@ public:
   
   void setOptional();
   
-
+  void initialise();
   void run();
 
   void stop();
@@ -32,6 +32,7 @@ public:
   std::string PeerPortName;
   std::string ReceiverAETitle;
   Uint16 ReceiverPortNumber;
+  OFshared_ptr<OFList<DcmDataset>>  m_received_pDset;
  
   //Parser p1;
   //Parser p2;
