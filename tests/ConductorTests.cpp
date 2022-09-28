@@ -69,7 +69,7 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
     
     //Instantiate conductor class 
     Conductor conductor("ConductorSCU","testSCP",5035,"localhost","ConductorSCP",11112);
-    conductor.initialise();
+    conductor.run();
     
 
     // Start test SCUs
@@ -97,7 +97,7 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
     // testSCP.request_stop();
     // testSCP.join();
 
-    conductor.stop();
+ 
 
     // delete &(*pDset);
     

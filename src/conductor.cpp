@@ -19,7 +19,7 @@ Conductor::Conductor( std::string SenderAETitle, std::string PeerAETitle,  Uint1
                      std::string ReceiverAETitle, Uint16 ReceiverPortNumber)
                      :scu(SenderAETitle, PeerPortName, PeerPortNumber,PeerAETitle),
                       scp(ReceiverPortNumber, ReceiverAETitle), 
-                      m_keep_running(1)
+                      m_keep_running(1)  ,
                       m_received_pDset()
                       {
 
@@ -29,7 +29,6 @@ Conductor::Conductor( std::string SenderAETitle, std::string PeerAETitle,  Uint1
 void Conductor::setOptional(/*all optional variables */) {
   /* setStorage() */
 }
-
 void Conductor::int_handler(int dummy) {
     m_keep_running = 0;
 }
@@ -40,14 +39,12 @@ void Conductor::pipeline(DcmDataset &dataset) {
     //
     // sends dataset to either quarantine or receiver
 }
-
 void Conductor::run() {
     // Execute C-STORE Request with TestSCU
     OFshared_ptr<OFList<DcmDataset>>  received_pDset(new OFList<DcmDataset>);
     m_received_pDset = received_pDset;
     scp.setpointer(m_received_pDset);
-
-   signal(SIGINT, int_handler);
+    signal(SIGINT, int_handler);
     //Receiver listen
     scp.start();
     m_keep_running = 1;
@@ -62,12 +59,14 @@ void Conductor::run() {
         OFStandard::sleep(1);
     }
     
+
+    
     //OFStandard::sleep(5);
 
     std::cout<<"Conductor receiver (initialise) pDset size ="<<m_received_pDset->size()<<"\n";
-}
 
-void Conductor::run() {
+
+
 // //TODO: Include Parser class
 //     OFString config = "../schema/useCase.json";
 //     Parser parser{config};
@@ -226,13 +225,12 @@ void Conductor::run() {
 
       s(sPortNum, sPortName);
     */
-}
 
-void Conductor::stop() {
+
+
     std::cout<<"Conductor pDset size ="<<m_received_pDset->size()<<"\n";
     scp.request_stop();
     scp.join();
-
 }
 // ---------------------------------------------------------------------------------------------------------
     Conductor::~Conductor(){}
