@@ -40,6 +40,8 @@ void Conductor::pipeline(DcmDataset &dataset) {
     //
     // sends dataset to either quarantine or receiver
 }
+
+
 void Conductor::run() {
     // Execute C-STORE Request with TestSCU
     OFshared_ptr<OFList<DcmDataset>>  received_pDset(new OFList<DcmDataset>);
@@ -47,14 +49,20 @@ void Conductor::run() {
     scp.setpointer(m_received_pDset);
     
     signal (SIGINT,sig_handler);
-    
+
     sig_atomic_t m_keep_running = 1;
+
+    //scp.start();
+
+    //scp.detach();
+     //Receiver listens
+    scp.start();
     while (m_keep_running) {
-        //Receiver listens
-        scp.start();
+        std::cout << "pDSet size = " << m_received_pDset->size() << "\n";
         while (m_received_pDset->size() > 0) {
+            //std::cout << "pDSet size = " << m_received_pDset->size() << "\n";
             DcmDataset& dataset = m_received_pDset->front(); 
-            pipeline(dataset);
+            //pipeline(dataset);
             // aquire lock
             m_received_pDset->pop_front();
             // release lock

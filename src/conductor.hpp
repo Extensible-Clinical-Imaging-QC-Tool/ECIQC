@@ -8,7 +8,7 @@
 #include "dcmtk/dcmdata/dctk.h"
 #include <signal.h>
 
-class Conductor {
+class Conductor : public OFThread {
 public:
   /** Constructor */
   Conductor(  std::string SenderAETitle, std::string PeerAETitle,  Uint16 PeerPortNumber, std::string PeerPortName,
@@ -33,7 +33,7 @@ public:
   Uint16 ReceiverPortNumber;
   OFshared_ptr<OFList<DcmDataset>>  m_received_pDset;
 
-//private:
+private:
   static void sig_handler(sig_atomic_t);
   static volatile sig_atomic_t m_keep_running ;
  

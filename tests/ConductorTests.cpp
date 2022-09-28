@@ -4,7 +4,6 @@
 #include "catch.hpp"
 #include <exception>
 
-
 #include <dcmtk/config/osconfig.h>
 #include "../src/conductor.hpp"
 
@@ -28,15 +27,23 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
         }
     };
 
-    // //Instantiate receiver class (Receiver class)
-    // Receiver testSCP(5035, "testSCP");
 
-    // // Execute C-STORE Request with TestSCU
-    // OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
-    // testSCP.setpointer(pDset);
+    struct TestConductor : Conductor, OFThread {
+        TestConductor( );
+        protected:
+        void run(){
+            run();
+        }
+    };
+    //Instantiate receiver class (Receiver class)
+    Receiver testSCP(5035, "testSCP");
 
-    // //Receiver listen
-    // testSCP.start();
+    // Execute C-STORE Request with TestSCU
+    OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
+    testSCP.setpointer(pDset);
+
+    //Receiver listen
+    testSCP.start();
 
     
     // Define presentation contexts for SCU
@@ -68,8 +75,8 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
         }
     
     //Instantiate conductor class 
-    Conductor conductor("ConductorSCU","testSCP",5035,"localhost","ConductorSCP",11112);
-    conductor.run();
+    Conductor testconductor("ConductorSCU","testSCP",5035,"localhost","ConductorSCP",11112);
+    testconductor.start();
     
 
     // Start test SCUs
@@ -87,10 +94,6 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
                 throw "Second C-STORE request failed!";
             delete *it3;
         };
-
-    conductor.run();
-    
-    // std::cout<<"Test Receiver pDset size ="<<pDset->size()<<"\n";
     // pDset->size();
     
     
@@ -111,7 +114,6 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
 //     CHECK(conductor.scp.getConfig().getAETitle() == "TestSCP");
 //     CHECK(conductor.scu.getAETitle() == "TestSCU");
 // }
-
 
 
 #endif
