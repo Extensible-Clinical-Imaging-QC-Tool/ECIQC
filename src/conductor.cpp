@@ -2,7 +2,7 @@
 #include <iostream>
 #include <exception>
 #include "conductor.hpp"
-#include <signal.h>
+
 
 #define PRV_PrivateQuar DcmTag(0x1333, 0x0052, EVR_IS)
 
@@ -19,7 +19,7 @@ Conductor::Conductor( std::string SenderAETitle, std::string PeerAETitle,  Uint1
                      std::string ReceiverAETitle, Uint16 ReceiverPortNumber)
                      :scu(SenderAETitle, PeerPortName, PeerPortNumber,PeerAETitle),
                       scp(ReceiverPortNumber, ReceiverAETitle), 
-                      m_keep_running(1)  ,
+                      /*m_keep_running () ,*/
                       m_received_pDset()
                       {
 
@@ -29,8 +29,9 @@ Conductor::Conductor( std::string SenderAETitle, std::string PeerAETitle,  Uint1
 void Conductor::setOptional(/*all optional variables */) {
   /* setStorage() */
 }
-void Conductor::int_handler(int dummy) {
-    m_keep_running = 0;
+void Conductor::sig_handler(sig_atomic_t _) {
+    (void)_;
+    sig_atomic_t m_keep_running = 0;
 }
 
 void Conductor::pipeline(DcmDataset &dataset) {
@@ -44,28 +45,22 @@ void Conductor::run() {
     OFshared_ptr<OFList<DcmDataset>>  received_pDset(new OFList<DcmDataset>);
     m_received_pDset = received_pDset;
     scp.setpointer(m_received_pDset);
-    signal(SIGINT, int_handler);
-    //Receiver listen
-    scp.start();
-    m_keep_running = 1;
+    
+    signal (SIGINT,sig_handler);
+    
+    sig_atomic_t m_keep_running = 1;
     while (m_keep_running) {
+        //Receiver listens
+        scp.start();
         while (m_received_pDset->size() > 0) {
             DcmDataset& dataset = m_received_pDset->front(); 
             pipeline(dataset);
             // aquire lock
-            m_received_pDset->pop_front()
+            m_received_pDset->pop_front();
             // release lock
         }
         OFStandard::sleep(1);
     }
-    
-
-    
-    //OFStandard::sleep(5);
-
-    std::cout<<"Conductor receiver (initialise) pDset size ="<<m_received_pDset->size()<<"\n";
-
-
 
 // //TODO: Include Parser class
 //     OFString config = "../schema/useCase.json";
@@ -100,9 +95,7 @@ void Conductor::run() {
 //         };.
 
 //C-ECHO Request(Sender Class)
- 
 
-        std::cout<<"Conductor receiver (run) pDset size ="<<m_received_pDset->size()<<"\n";
 //     while (! received_pDset ->empty())
 //     {
 //     OFCondition result1 = scu.initNetwork();
@@ -225,8 +218,6 @@ void Conductor::run() {
 
       s(sPortNum, sPortName);
     */
-
-
 
     std::cout<<"Conductor pDset size ="<<m_received_pDset->size()<<"\n";
     scp.request_stop();

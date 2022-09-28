@@ -6,6 +6,7 @@
 #include "parsing/Parser.hpp"
 #include "dcmtk/config/osconfig.h"
 #include "dcmtk/dcmdata/dctk.h"
+#include <signal.h>
 
 class Conductor {
 public:
@@ -32,9 +33,9 @@ public:
   Uint16 ReceiverPortNumber;
   OFshared_ptr<OFList<DcmDataset>>  m_received_pDset;
 
-private:
-  void int_handler(int dummy);
-  volatile int m_keep_running;
+//private:
+  static void sig_handler(sig_atomic_t);
+  static volatile sig_atomic_t m_keep_running ;
  
   //Parser p1;
   //Parser p2;
