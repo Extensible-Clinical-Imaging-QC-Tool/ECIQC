@@ -1,0 +1,19 @@
+{
+    "(0028,0102)": {
+        "tagName": "HighBit",
+        "vr": "US",
+        "description": "Check if high bit is 11 and change to 12",
+        "operations": {
+            "EQUAL": {
+                "otherTagString": "",
+                "value": "11",
+                "IF_TRUE": {
+                    "OVERWRITE": {
+                        "tag": "",
+                        "replaceString": "12"
+                    }
+                }
+            }
+        }
+    }
+}

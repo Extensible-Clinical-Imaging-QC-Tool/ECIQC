@@ -1,0 +1,19 @@
+{
+    "(0010,0010)": {
+        "tagName": "PatientName",
+        "vr": "CS",
+        "description": "check if patient is called 'bob' and change, if so.",
+        "operations": {
+            "EQUAL": {
+                "otherTagString": "",
+                "value": "John Doe",
+                "IF_TRUE": {
+                    "OVERWRITE": {
+                        "tag": "",
+                        "replaceString": "Robert"
+                    }
+                }
+            }
+        }
+    }
+}
