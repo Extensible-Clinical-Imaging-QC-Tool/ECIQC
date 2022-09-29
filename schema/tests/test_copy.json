@@ -1,0 +1,12 @@
+{
+    "(0032,1060)": {
+        "tagName": "PatientName",
+        "vr": "CS",
+        "description": "check if patient is called 'bob' and change, if so.",
+        "operations": {
+            "COPY": {
+                "otherTagString": "(0010,0010)"
+            }
+        }
+    }
+}

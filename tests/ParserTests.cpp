@@ -30,7 +30,7 @@ OFString schemaPath;
 //}
 
 TEST_CASE("Test parsing name change", "[NP]") {
-    schemaPath = "../schema/test_namechange.json";
+    schemaPath = "../schema/tests/test_namechange.json";
     Parser* pObj = new Parser{schemaPath};
     pObj->setDicomDset(testPath);
 
@@ -43,7 +43,7 @@ TEST_CASE("Test parsing name change", "[NP]") {
 }
 
 TEST_CASE("Test parsing UInt16 change", "[NP]") {
-  schemaPath = "../schema/test_uintchange.json";
+  schemaPath = "../schema/tests/test_uintchange.json";
   Parser* pObj = new Parser{schemaPath};
   pObj->setDicomDset(testPath);
 
@@ -56,7 +56,7 @@ TEST_CASE("Test parsing UInt16 change", "[NP]") {
 }
 
 TEST_CASE("Test parsing Float64 change", "[NP]") {
-  schemaPath = "../schema/test_floatchange.json";
+  schemaPath = "../schema/tests/test_floatchange.json";
   Parser* pObj = new Parser{schemaPath};
   pObj->setDicomDset(testPath);
 
@@ -69,7 +69,7 @@ TEST_CASE("Test parsing Float64 change", "[NP]") {
 }
 
 TEST_CASE("Test parsing AND with REMOVE", "[NP]") {
-  schemaPath = "../schema/test_and.json";
+  schemaPath = "../schema/tests/test_and.json";
   Parser* pObj = new Parser{schemaPath};
   pObj->setDicomDset(testPath);
 
@@ -82,7 +82,7 @@ TEST_CASE("Test parsing AND with REMOVE", "[NP]") {
 }
 
 TEST_CASE("Test parsing OR with REMOVE", "[NP]") {
-  schemaPath = "../schema/test_or.json";
+  schemaPath = "../schema/tests/test_or.json";
   Parser* pObj = new Parser{schemaPath};
   pObj->setDicomDset(testPath);
 
@@ -90,6 +90,59 @@ TEST_CASE("Test parsing OR with REMOVE", "[NP]") {
   pObj->parse();
 
   CHECK(pObj->editor.exists().bad());
+
+  delete pObj;
+}
+
+TEST_CASE("Test parsing INSERT", "[NP]") {
+  schemaPath = "../schema/tests/test_insert.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.exists().good());
+  CHECK(pObj->editor.equals(100, flag).good());
+
+  delete pObj;
+}
+
+TEST_CASE("Test parsing UPDATE", "[NP]") {
+  schemaPath = "../schema/tests/test_update.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.equals(101, flag).good());
+
+  delete pObj;
+}
+
+TEST_CASE("Test parsing CLEAR", "[NP]") {
+  schemaPath = "../schema/tests/test_clear.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.equals("", flag).good());
+
+  delete pObj;
+}
+
+TEST_CASE("Test parsing COPY", "[NP]") {
+  schemaPath = "../schema/tests/test_copy.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.equals("John Doe", flag).good());
 
   delete pObj;
 }
