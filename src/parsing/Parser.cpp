@@ -129,7 +129,8 @@ enum ArgumentsEnum {
     posTo,
     pos,
     tag,
-    replaceString
+    replaceString,
+    compareValue
 };
 
 enum ActionsEnum {
@@ -174,7 +175,8 @@ int Parser::resolveArguments(OFString param) {
         {  "posTo", posTo  },
         {  "pos", pos  },
         {  "tag", tag },
-        {  "replaceString", replaceString }
+        {  "replaceString", replaceString },
+        {  "compareValue", compareValue }
     };
 
     auto itr = argStrings.find(param);
@@ -307,6 +309,11 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
             case replaceString:
                 /* code */
                 paramStruct.replaceString = OFString(arg.get<std::string>().c_str());
+                break;
+
+            case compareValue:
+                /* code */
+                paramStruct.compareValue = arg.get<Float64>();
                 break;
 
             case 404: /*Not a possible argument*/
@@ -473,11 +480,13 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
         }
 
         case REMOVE: {
+            std::cout << "\t IN REMOVE\n";
             OFBool all_tags = OFFalse;
             OFBool ignore_missing_tags = OFTrue;
 
             if(params.otherTagString == "" &&
                 params.otherTagKey == DCM_PatientBreedDescription) {
+              std::cout << "\t othertagstring blank\n" << thisTag << "\n";
               return editor.deleteTag(thisTag, all_tags, ignore_missing_tags);
             } else if(params.otherTagKey != DCM_PatientBreedDescription) {
               OFString otherTagString = params.otherTagKey.toString();
@@ -573,10 +582,15 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
         // Less or greater than the same, up to a flag to signify which
         case LESS_THAN:
         case GREATER_THAN: {
+          std::cout << "\tin less_than\t";
           OFCondition flag;
           OFBool greaterThan = instruction == GREATER_THAN;
           if(params.otherTagString == "" &&
               params.otherTagKey == DCM_PatientBreedDescription) {
+            std::cout << "\tno other tag string\n";
+            OFCondition temp = editor.greaterOrLessThan(params.compareValue, greaterThan, flag, params.pos);
+            std::cout << "\tcondition output" << temp.text() << "\n";
+            std::cout << "\t compare value" << params.compareValue << "\n";
             return editor.greaterOrLessThan(params.compareValue, greaterThan, flag, params.pos);
           } else if(params.otherTagKey != DCM_PatientBreedDescription) {
             return editor.greaterOrLessThan(params.otherTagKey, params.compareValue, greaterThan, flag, params.pos);

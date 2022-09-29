@@ -64,6 +64,7 @@ OFCondition MetadataEditor::exists(OFBool searchIntoSub) {
       return makeOFCondition(OFM_dcmdata, 23, OF_ok, "This tag does exist");
   }
   else {
+      std::cout << "tag does not exist";
       return makeOFCondition(OFM_dcmdata, 23, OF_error, "This tag does not exist");
   }
 }

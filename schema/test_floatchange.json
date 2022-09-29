@@ -1,16 +1,16 @@
 {
-    "(0028,0102)": {
-        "tagName": "HighBit",
+    "(0040,9224)": {
+        "tagName": "RealWorldValueIntercept",
         "vr": "US",
-        "description": "Check if high bit is 11 and change to 12",
+        "description": "Check if intercept is less than 2500 and change to 2000.5",
         "operations": {
-            "EQUAL": {
+            "LESS_THAN": {
                 "otherTagString": "",
-                "value": "11",
+                "compareValue": 2500,
                 "IF_TRUE": {
                     "OVERWRITE": {
                         "tag": "",
-                        "replaceString": "12"
+                        "replaceString": "2000.5"
                     }
                 }
             }

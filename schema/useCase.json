@@ -31,11 +31,11 @@
                 "AND": {
                         "GREATER_THAN": {
                             "otherTagString": "",
-                            "value": 43
+                            "compareValue": 43
                         },
                         "LESS_THAN": {
                             "otherTagString": "",
-                            "value": 80
+                            "compareValue": 80
                         },
                         "IF_FALSE": {
                             "REMOVE": {

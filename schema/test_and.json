@@ -1,16 +1,21 @@
 {
-    "(0010,0010)": {
-        "tagName": "PatientName",
+    "(0028,0100)": {
+        "tagName": "BitsAllocated",
         "vr": "CS",
-        "description": "check if patient is called 'bob' and change, if so.",
+        "description": "Check if BitsAllocated between certain numbers, remove if so",
         "operations": {
-            "EQUAL": {
-                "otherTagString": "",
-                "value": "John Doe",
+            "AND": {
+                "GREATER_THAN": {
+                    "otherTagString": "",
+                    "compareValue": 10
+                },
+                "LESS_THAN": {
+                    "otherTagString": "",
+                    "compareValue": 20
+                },
                 "IF_TRUE": {
-                    "OVERWRITE": {
-                        "tag": "",
-                        "replaceString": "Robert"
+                    "REMOVE": {
+                        "otherTagString": ""
                     }
                 }
             }

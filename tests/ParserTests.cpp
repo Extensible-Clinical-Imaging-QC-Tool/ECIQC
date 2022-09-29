@@ -16,6 +16,8 @@ OFString pName;
 // DCM tags
 DcmTagKey nameKey = DCM_PatientName;
 
+OFString schemaPath;
+
 //TEST_CASE("Test parser object instantiation","[NP]") {
 //    std::cout << pObj.base.begin().key();
 //}
@@ -28,7 +30,7 @@ DcmTagKey nameKey = DCM_PatientName;
 //}
 
 TEST_CASE("Test parsing name change", "[NP]") {
-    OFString schemaPath = "../schema/test_namechange.json";
+    schemaPath = "../schema/test_namechange.json";
     Parser* pObj = new Parser{schemaPath};
     pObj->setDicomDset(testPath);
 
@@ -40,3 +42,41 @@ TEST_CASE("Test parsing name change", "[NP]") {
     delete pObj;
 }
 
+TEST_CASE("Test parsing UInt16 change", "[NP]") {
+  schemaPath = "../schema/test_uintchange.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.equals(12, flag).good());
+
+  delete pObj;
+}
+
+TEST_CASE("Test parsing Float64 change", "[NP]") {
+  schemaPath = "../schema/test_floatchange.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.equals(2000.5, flag).good());
+
+  delete pObj;
+}
+
+TEST_CASE("Test parsing AND with REMOVE", "[NP]") {
+  schemaPath = "../schema/test_and.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.exists().bad());
+
+  delete pObj;
+}
