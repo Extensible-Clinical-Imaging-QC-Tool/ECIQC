@@ -1,17 +1,17 @@
 {
-    "(0028,0102)": {
-        "tagName": "HighBit",
+    "(0028,0100)": {
+        "tagName": "BitsAllocated",
         "vr": "CS",
         "description": "Check if BitsAllocated between certain numbers, remove if so",
         "operations": {
-            "OR": {
-                "GREATER_THAN": {
-                    "otherTagString": "",
-                    "compareValue": 100
-                },
+            "AND": {
                 "GREATER_THAN": {
                     "otherTagString": "",
                     "compareValue": 10
+                },
+                "LESS_THAN": {
+                    "otherTagString": "",
+                    "compareValue": 20
                 },
                 "IF_TRUE": {
                     "REMOVE": {

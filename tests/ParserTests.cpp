@@ -80,3 +80,16 @@ TEST_CASE("Test parsing AND with REMOVE", "[NP]") {
 
   delete pObj;
 }
+
+TEST_CASE("Test parsing OR with REMOVE", "[NP]") {
+  schemaPath = "../schema/test_or.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.exists().bad());
+
+  delete pObj;
+}
