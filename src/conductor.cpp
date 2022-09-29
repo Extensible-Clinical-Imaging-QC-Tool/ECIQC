@@ -6,6 +6,7 @@
 
 #define PRV_PrivateQuar DcmTag(0x1333, 0x0052, EVR_IS)
 
+volatile sig_atomic_t Conductor::m_keep_running = 1;
 
 /* In between command line and constructor, have something that
 separates the compulsory and optional variables. Constructor only
@@ -31,7 +32,7 @@ void Conductor::setOptional(/*all optional variables */) {
 }
 void Conductor::sig_handler(sig_atomic_t _) {
     (void)_;
-    sig_atomic_t m_keep_running = 0;
+    m_keep_running = 0;
 }
 
 void Conductor::pipeline(DcmDataset &dataset) {
@@ -49,8 +50,6 @@ void Conductor::run() {
     scp.setpointer(m_received_pDset);
     
     signal (SIGINT,sig_handler);
-
-    sig_atomic_t m_keep_running = 1;
 
     //scp.start();
 

@@ -28,22 +28,22 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
     };
 
 
-    struct TestConductor : Conductor, OFThread {
-        TestConductor( );
-        protected:
-        void run(){
-            run();
-        }
-    };
-    //Instantiate receiver class (Receiver class)
-    Receiver testSCP(5035, "testSCP");
+    // struct TestConductor : Conductor, OFThread {
+    //     TestConductor( );
+    //     protected:
+    //     void run(){
+    //         run();
+    //     }
+    // };
+    // //Instantiate receiver class (Receiver class)
+    // Receiver testSCP(5035, "testSCP");
 
-    // Execute C-STORE Request with TestSCU
-    OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
-    testSCP.setpointer(pDset);
+    // // Execute C-STORE Request with TestSCU
+    // OFshared_ptr<OFList<DcmDataset>>  pDset(new OFList<DcmDataset>);
+    // testSCP.setpointer(pDset);
 
-    //Receiver listen
-    testSCP.start();
+    // //Receiver listen
+    // testSCP.start();
 
     
     // Define presentation contexts for SCU
@@ -76,7 +76,7 @@ TEST_CASE("Test Conductor in sending C-STORE Request for a list of Passed Datase
     
     //Instantiate conductor class 
     Conductor testconductor("ConductorSCU","testSCP",5035,"localhost","ConductorSCP",11112);
-    testconductor.start();
+    testconductor.run();
     
 
     // Start test SCUs

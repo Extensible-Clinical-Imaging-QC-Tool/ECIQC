@@ -35,7 +35,7 @@ public:
 
 private:
   static void sig_handler(sig_atomic_t);
-  static volatile sig_atomic_t m_keep_running ;
+  static volatile sig_atomic_t m_keep_running;
  
   //Parser p1;
   //Parser p2;
