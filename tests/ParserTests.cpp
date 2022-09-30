@@ -146,3 +146,29 @@ TEST_CASE("Test parsing COPY", "[NP]") {
 
   delete pObj;
 }
+
+TEST_CASE("Test parsing EXIST with APPEND", "[NP]") {
+  schemaPath = "../schema/tests/test_existappend.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.equals("John DoeJohn", flag).good());
+
+  delete pObj;
+}
+
+TEST_CASE("Test parsing REGEX with PREPEND", "[NP]") {
+  schemaPath = "../schema/tests/test_regexprepend.json";
+  Parser* pObj = new Parser{schemaPath};
+  pObj->setDicomDset(testPath);
+
+  OFCondition flag;
+  pObj->parse();
+
+  CHECK(pObj->editor.equals("JohnJohn Doe", flag).good());
+
+  delete pObj;
+}

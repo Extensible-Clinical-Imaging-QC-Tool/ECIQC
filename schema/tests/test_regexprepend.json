@@ -1,0 +1,19 @@
+{
+    "(0010,0010)": {
+        "tagName": "BitsAllocated",
+        "vr": "CS",
+        "description": "Check if BitsAllocated between certain numbers, remove if so",
+        "operations": {
+            "REGEX": {
+                "otherTagString": "",
+                "str_expr": "^[a-zA-Z].*[\\s\\.]*$",
+                "IF_TRUE": {
+                    "PREPEND": {
+                        "otherTagString": "",
+                        "value": "John"
+                    }
+                }
+            }
+        }
+    }
+}

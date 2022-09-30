@@ -613,6 +613,7 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
           OFCondition flag;
           if(params.otherTagString == "" &&
               params.otherTagKey == DCM_PatientBreedDescription) {
+            std::cout << "\t in REGEX no other tag string";
             return editor.match(params.str_expr, flag, params.pos);
           } else if(params.otherTagKey != DCM_PatientBreedDescription) {
             return editor.match(params.otherTagKey, params.str_expr, flag, params.pos);
