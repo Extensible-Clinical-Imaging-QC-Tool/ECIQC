@@ -102,7 +102,18 @@ target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}" PUBLIC nlohmann_js
 
 # dcmtk as a required dependency for mylib
 find_package(DCMTK REQUIRED)
-target_link_libraries(qctool_lib PUBLIC DCMTK::DCMTK)
+
+option(
+    USE_DCMTK_TARGETS 
+    "use DCMTK target DCMTK::DCMTK rather than DCMTK_LIBRARIES list"
+    FALSE
+)
+if (USE_DCMTK_TARGETS)
+    target_link_libraries(qctool_lib PUBLIC DCMTK::DCMTK)
+else()
+    target_link_libraries(qctool_lib PUBLIC "${DCMTK_LIBRARIES}")
+    target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
+endif()
 
 # opencv as arequired dependency
 find_package( OpenCV REQUIRED )
