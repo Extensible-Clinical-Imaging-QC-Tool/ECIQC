@@ -101,10 +101,8 @@ target_include_directories(qctool_lib PRIVATE "${Boost_INCLUDE_DIR}")
 target_link_libraries(qctool_lib PRIVATE "${Boost_LIBRARIES}" PUBLIC nlohmann_json::nlohmann_json)
 
 # dcmtk as a required dependency for mylib
-
 find_package(DCMTK REQUIRED)
-target_link_libraries(qctool_lib PUBLIC "${DCMTK_LIBRARIES}")
-target_include_directories(qctool_lib PUBLIC "${DCMTK_INCLUDE_DIRS}")
+target_link_libraries(qctool_lib PUBLIC DCMTK::DCMTK)
 
 # opencv as arequired dependency
 find_package( OpenCV REQUIRED )
