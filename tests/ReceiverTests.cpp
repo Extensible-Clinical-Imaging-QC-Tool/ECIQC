@@ -102,11 +102,7 @@ TEST_CASE("Test C-ECHO Association","[RT]"){
 // This tests handling of C-STORE Association
 TEST_CASE("Test C-STORE Association","[RT]"){
 
-
-
   OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
-  
-
   Receiver pool(11112, "TestSCP");
   pool.setpointer(pt);
   
