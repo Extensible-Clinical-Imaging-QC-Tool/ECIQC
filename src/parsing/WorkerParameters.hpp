@@ -14,7 +14,7 @@ struct WorkerParameters {
     OFBool only_overwrite;
     
     OFBool searchIntoSub = OFFalse;
-    OFBool copyToThis = OFFalse;
+    OFBool copyToThis = OFTrue;
     OFBool replace = OFTrue;
 
     unsigned long pos = 0UL;

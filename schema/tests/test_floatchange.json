@@ -1,0 +1,19 @@
+{
+    "(0040,9224)": {
+        "tagName": "RealWorldValueIntercept",
+        "vr": "US",
+        "description": "Check if intercept is less than 2500 and change to 2000.5",
+        "operations": {
+            "LESS_THAN": {
+                "otherTagString": "",
+                "compareValue": 2500,
+                "IF_TRUE": {
+                    "OVERWRITE": {
+                        "tag": "",
+                        "replaceString": "2000.5"
+                    }
+                }
+            }
+        }
+    }
+}

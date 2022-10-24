@@ -1,0 +1,398 @@
+DEBUG - Configured a total of 1 presentation contexts for SCU
+DEBUG - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.4
+Our Implementation Version Name:   OFFIS_DCMTK_364
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    TestSCU
+Called Application Name:     SCP
+Responding Application Name: SCP
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - Association Received: localhost
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - PDU Type: Associate Request, PDU Length: 228 + 6 bytes PDU header
+  01  00  00  00  00  e4  00  01  00  00  53  43  50  20  20  20
+  20  20  20  20  20  20  20  20  20  20  54  65  73  74  53  43
+  55  20  20  20  20  20  20  20  20  20  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  20  00  00  45  01  00  ff  00  30  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  31
+  40  00  00  13  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  2e  31  40  00  00  11  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  50  00  00  3a
+  51  00  00  04  00  00  40  00  52  00  00  1b  31  2e  32  2e
+  32  37  36  2e  30  2e  37  32  33  30  30  31  30  2e  33  2e
+  30  2e  33  2e  36  2e  34  55  00  00  0f  4f  46  46  49  53
+  5f  44  43  4d  54  4b  5f  33  36  34
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - DQDBaseSCPPool: Starting new DcmSCP worker thread
+INFO - Association Received localhost: TestSCU -> SCP
+INFO - Incoming Association Request:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.4
+Our Implementation Version Name:   OFFIS_DCMTK_364
+Their Implementation Class UID:    1.2.276.0.7230010.3.0.3.6.4
+Their Implementation Version Name: OFFIS_DCMTK_364
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    TestSCU
+Called Application Name:     SCP
+Responding Application Name: 
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16384
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+DEBUG - Constructing Associate AC PDU
+DEBUG - DcmSCP: Association Acknowledged
+DEBUG - PDU Type: Associate Accept, PDU Length: 186 + 6 bytes PDU header
+  02  00  00  00  00  ba  00  01  00  00  53  43  50  20  20  20
+  20  20  20  20  20  20  20  20  20  20  54  65  73  74  53  43
+  55  20  20  20  20  20  20  20  20  20  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  1b  01  00  00  00  40  00  00  13  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  2e  31  50  00  00  3a  51  00  00  04  00  00  40  00  52  00
+  00  1b  31  2e  32  2e  32  37  36  2e  30  2e  37  32  33  30
+  30  31  30  2e  33  2e  30  2e  33  2e  36  2e  34  55  00  00
+  0f  4f  46  46  49  53  5f  44  43  4d  54  4b  5f  33  36  34
+
+DEBUG - Parsing an A-ASSOCIATE PDU
+INFO - Association Acknowledged (Max Send PDV: 16372)
+DEBUG - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.4
+Our Implementation Version Name:   OFFIS_DCMTK_364
+Their Implementation Class UID:    1.2.276.0.7230010.3.0.3.6.4
+Their Implementation Version Name: OFFIS_DCMTK_364
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    TestSCU
+Called Application Name:     SCP
+Responding Application Name: SCP
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16384
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianExplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16372)
+INFO - ====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.4
+Our Implementation Version Name:   OFFIS_DCMTK_364
+Their Implementation Class UID:    1.2.276.0.7230010.3.0.3.6.4
+Their Implementation Version Name: OFFIS_DCMTK_364
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    TestSCU
+Called Application Name:     SCP
+Responding Application Name: SCP
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16384
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianExplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Sending C-ECHO Request
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-ECHO RQ
+Presentation Context ID       : 1
+Message ID                    : 1
+Data Set                      : none
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataDictionary: Loading file: /usr/share/libdcmtk14/dicom.dic
+DEBUG - DcmDataDictionary: Loading file: /usr/share/libdcmtk14/private.dic
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-ECHO Request
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-ECHO RQ
+Presentation Context ID       : 1
+Message ID                    : 1
+Data Set                      : none
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-ECHO Response
+DEBUG - C-ECHO Response successfully sent
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-ECHO Response
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-ECHO RSP
+Presentation Context ID       : 1
+Message ID Being Responded To : 1
+Affected SOP Class UID        : VerificationSOPClass
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Releasing Association
+INFO - Received Association Release Request
+DEBUG - DQDBaseSCPPool: Worker thread #140345798104832 returns with code: Normal
+DEBUG - Cleaning up internal association and network structures
+DEBUG - Configured a total of 4 presentation contexts for SCU
+INFO - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.4
+Our Implementation Version Name:   OFFIS_DCMTK_364
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    StoreTestSCU
+Called Application Name:     SCP
+Responding Application Name: SCP
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - Association Received: localhost
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - PDU Type: Associate Request, PDU Length: 450 + 6 bytes PDU header
+  01  00  00  00  01  c2  00  01  00  00  53  43  50  20  20  20
+  20  20  20  20  20  20  20  20  20  20  53  74  6f  72  65  54
+  65  73  74  53  43  55  20  20  20  20  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  20  00  00  45  01  00  ff  00  30  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  31
+  40  00  00  13  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  2e  31  40  00  00  11  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  20  00  00  4d
+  03  00  ff  00  30  00  00  19  31  2e  32  2e  38  34  30  2e
+  31  30  30  30  38  2e  35  2e  31  2e  34  2e  31  2e  31  2e
+  32  40  00  00  13  31  2e  32  2e  38  34  30  2e  31  30  30
+  30  38  2e  31  2e  32  2e  31  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  20  00  00
+  4d  05  00  ff  00  30  00  00  19  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  35  2e  31  2e  34  2e  31  2e  31
+  2e  34  40  00  00  13  31  2e  32  2e  38  34  30  2e  31  30
+  30  30  38  2e  31  2e  32  2e  31  40  00  00  11  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  20  00
+  00  38  07  00  ff  00  30  00  00  1b  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  35  2e  31  2e  34  2e  31  2e
+  31  2e  31  2e  31  40  00  00  11  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  31  2e  32  50  00  00  3a  51  00
+  00  04  00  00  40  00  52  00  00  1b  31  2e  32  2e  32  37
+  36  2e  30  2e  37  32  33  30  30  31  30  2e  33  2e  30  2e
+  33  2e  36  2e  34  55  00  00  0f  4f  46  46  49  53  5f  44
+  43  4d  54  4b  5f  33  36  34
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - DQDBaseSCPPool: Starting new DcmSCP worker thread
+INFO - Association Received localhost: StoreTestSCU -> SCP
+INFO - Incoming Association Request:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.4
+Our Implementation Version Name:   OFFIS_DCMTK_364
+Their Implementation Class UID:    1.2.276.0.7230010.3.0.3.6.4
+Their Implementation Version Name: OFFIS_DCMTK_364
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    StoreTestSCU
+Called Application Name:     SCP
+Responding Application Name: 
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16384
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+DEBUG - Constructing Associate AC PDU
+DEBUG - DcmSCP: Association Acknowledged
+INFO - Association Acknowledged (Max Send PDV: 16372)
+INFO - ====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.4
+Our Implementation Version Name:   OFFIS_DCMTK_364
+Their Implementation Class UID:    1.2.276.0.7230010.3.0.3.6.4
+Their Implementation Version Name: OFFIS_DCMTK_364
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    StoreTestSCU
+Called Application Name:     SCP
+Responding Application Name: SCP
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16384
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianExplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianExplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianExplicit
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+DEBUG - PDU Type: Associate Accept, PDU Length: 277 + 6 bytes PDU header
+  02  00  00  00  01  15  00  01  00  00  53  43  50  20  20  20
+  20  20  20  20  20  20  20  20  20  20  53  74  6f  72  65  54
+  65  73  74  53  43  55  20  20  20  20  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  1b  01  00  00  00  40  00  00  13  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  2e  31  21  00  00  1b  03  00  00  00  40  00  00  13  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e
+  31  21  00  00  1b  05  00  00  00  40  00  00  13  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e  31
+  21  00  00  19  07  00  00  00  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  50  00  00
+  3a  51  00  00  04  00  00  40  00  52  00  00  1b  31  2e  32
+  2e  32  37  36  2e  30  2e  37  32  33  30  30  31  30  2e  33
+  2e  30  2e  33  2e  36  2e  34  55  00  00  0f  4f  46  46  49
+  53  5f  44  43  4d  54  4b  5f  33  36  34
+DEBUG - Parsing an A-ASSOCIATE PDU
+INFO - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.4
+Our Implementation Version Name:   OFFIS_DCMTK_364
+Their Implementation Class UID:    1.2.276.0.7230010.3.0.3.6.4
+Their Implementation Version Name: OFFIS_DCMTK_364
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    StoreTestSCU
+Called Application Name:     SCP
+Responding Application Name: SCP
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16384
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianExplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianExplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianExplicit
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16372)
+INFO - Releasing Association
+INFO - Received Association Release Request
+DEBUG - DQDBaseSCPPool: Worker thread #140345806579456 returns with code: Normal
+DEBUG - Cleaning up internal association and network structures

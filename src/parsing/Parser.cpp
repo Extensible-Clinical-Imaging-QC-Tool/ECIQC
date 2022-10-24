@@ -129,7 +129,8 @@ enum ArgumentsEnum {
     posTo,
     pos,
     tag,
-    replaceString
+    replaceString,
+    compareValue
 };
 
 enum ActionsEnum {
@@ -174,7 +175,8 @@ int Parser::resolveArguments(OFString param) {
         {  "posTo", posTo  },
         {  "pos", pos  },
         {  "tag", tag },
-        {  "replaceString", replaceString }
+        {  "replaceString", replaceString },
+        {  "compareValue", compareValue }
     };
 
     auto itr = argStrings.find(param);
@@ -234,8 +236,8 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
             case otherTagString: {
                 /* code */
                 paramStruct.otherTagString = OFString(arg.get<std::string>().c_str());
-                std::cout << "set other tag string\t" << "X" << OFString(arg.get<std::string>().c_str()) << "X" << std::endl;
-                std::cout << "set other tag string\t" << "X" << paramStruct.otherTagString.c_str() << "X" << std::endl;
+                std::cout << "set other tag string\t" << OFString(arg.get<std::string>().c_str()) << std::endl;
+                std::cout << "set other tag string\t" << paramStruct.otherTagString.c_str() << std::endl;
                 }
                 break;
             case otherTagKey: {
@@ -309,6 +311,11 @@ WorkerParameters Parser::WPMaker(const json& param_object) {
                 paramStruct.replaceString = OFString(arg.get<std::string>().c_str());
                 break;
 
+            case compareValue:
+                /* code */
+                paramStruct.compareValue = arg.get<Float64>();
+                break;
+
             case 404: /*Not a possible argument*/
                 /* code */
                 
@@ -344,7 +351,6 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params,
     OFString nested_key;
     json nested_parameters = {};
     WorkerParameters paramStruct;
-    std::cout << enumerated_inst << "\t" << instruction << "\n";
     switch (enumerated_inst){
         case AND: {
             check_result = OFTrue;
@@ -352,7 +358,6 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params,
                 nested_key = nested_ops.key().c_str();
                 nested_parameters = nested_ops.value();
                 if (nested_key != "IF_TRUE" && nested_key != "IF_FALSE") {
-                    std::cout << "AND CHECK \t\t Key : " << nested_key << "params : " << nested_parameters << std::endl;
                     if (parseOperation(nested_key, nested_parameters, thisTagString).bad()) {
                         check_result = OFFalse;
                     }
@@ -366,7 +371,6 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params,
                 nested_key = nested_ops.key().c_str();
                 nested_parameters = nested_ops.value();
                 if (nested_key != "IF_TRUE" && nested_key != "IF_FALSE"){
-                    std::cout << "OR CHECK \t\t Key : " << nested_key << "params : " << nested_parameters << std::endl;
                     if (parseOperation(nested_key,nested_parameters, thisTagString).good()){
                         check_result = OFTrue;
                     }
@@ -379,7 +383,6 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params,
                 nested_key = nested_ops.key().c_str();
                 nested_parameters = nested_ops.value();
                 if (nested_key != "IF_TRUE" && nested_key != "IF_FALSE") {
-                    std::cout << "NOT CHECK \t\t Key : " << nested_key << "params : " << nested_parameters << std::endl;
                     check_result = parseOperation(nested_key, nested_parameters, thisTagString).bad();
                 }
             }
@@ -387,7 +390,6 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params,
         }
         case IF_TRUE:
         case IF_FALSE: {
-            std::cout << "in if true if false, params:\n" << params <<std::endl;
             for(const auto& nested_ops: params.items()){
                 nested_key = nested_ops.key().c_str();
                 nested_parameters = nested_ops.value();
@@ -404,11 +406,8 @@ OFCondition Parser::parseOperation(OFString instruction, const json& params,
             std::cout << "\t Key : " << instruction << "\n\tparams : " << params << std::endl;
 
             paramStruct = WPMaker(params);
-            std::cout << "\tmake worker params" << std::endl;
             OFCondition check_output = worker(enumerated_inst, paramStruct, thisTagString);
-            std::cout << "\trun worker" << std::endl;
             check_result = check_output.good();
-            std::cout << "\tcheck result" << check_result << std::endl;
             return parseTorF(check_result, params, thisTagString);
         }
         case INSERT:
@@ -490,7 +489,6 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
         case COPY: {
           if(params.otherTagString == "" &&
               params.otherTagKey == DCM_PatientBreedDescription) {
-            std::cout << "No other tag provided for copy";
             break;
           } else if(params.otherTagKey != DCM_PatientBreedDescription) {
             OFString otherTagString = params.otherTagKey.toString();
@@ -538,17 +536,10 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
           break;
         }
         case EQUAL: {
-          std::cout << "\t\t in EQUAL" << std::endl;
           OFCondition flag;
           if (params.value != ""){
-            std::cout << "\t\t Value != blank" << std::endl;
-            std::cout << "\t\t Other tag string" << params.otherTagString << std::endl;
             if(params.otherTagString == "" &&
                 params.otherTagKey == DCM_PatientBreedDescription) {
-              std::cout << "\t\tNo otherTagString" << std::endl;
-              std::cout << "\t\tvalue" << params.value << std::endl;
-              std::cout << "\t\tpos" << params.pos << std::endl;
-              std::cout << "\t\tget tag " << editor.getTagString() << std::endl;
               return editor.equals(params.value, flag, params.pos);
             } else if(params.otherTagKey != DCM_PatientBreedDescription) {
               return editor.equals(params.otherTagKey, params.value, flag, params.pos);
@@ -577,6 +568,7 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
           OFBool greaterThan = instruction == GREATER_THAN;
           if(params.otherTagString == "" &&
               params.otherTagKey == DCM_PatientBreedDescription) {
+            OFCondition temp = editor.greaterOrLessThan(params.compareValue, greaterThan, flag, params.pos);
             return editor.greaterOrLessThan(params.compareValue, greaterThan, flag, params.pos);
           } else if(params.otherTagKey != DCM_PatientBreedDescription) {
             return editor.greaterOrLessThan(params.otherTagKey, params.compareValue, greaterThan, flag, params.pos);

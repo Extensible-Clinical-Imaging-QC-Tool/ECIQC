@@ -64,6 +64,7 @@ OFCondition MetadataEditor::exists(OFBool searchIntoSub) {
       return makeOFCondition(OFM_dcmdata, 23, OF_ok, "This tag does exist");
   }
   else {
+      std::cout << "tag does not exist";
       return makeOFCondition(OFM_dcmdata, 23, OF_error, "This tag does not exist");
   }
 }
@@ -125,6 +126,7 @@ OFCondition MetadataEditor::match(const OFString& str_expr, OFCondition &flag, c
     flag = dset->findAndGetOFString(tagKey, str,pos);
 
     std::regex expr(str_expr.c_str());
+    std::cout << "\t regex match\t" << str_expr << "\t" << str;
     if (std::regex_match(str.c_str(), expr)) {
       return makeOFCondition(OFM_dcmdata, 23, OF_ok, "Value specified by the tag matches the regex expression");
     } else {

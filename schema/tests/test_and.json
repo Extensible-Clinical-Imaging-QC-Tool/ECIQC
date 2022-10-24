@@ -1,0 +1,24 @@
+{
+    "(0028,0100)": {
+        "tagName": "BitsAllocated",
+        "vr": "CS",
+        "description": "Check if BitsAllocated between certain numbers, remove if so",
+        "operations": {
+            "AND": {
+                "GREATER_THAN": {
+                    "otherTagString": "",
+                    "compareValue": 10
+                },
+                "LESS_THAN": {
+                    "otherTagString": "",
+                    "compareValue": 20
+                },
+                "IF_TRUE": {
+                    "REMOVE": {
+                        "otherTagString": ""
+                    }
+                }
+            }
+        }
+    }
+}
