@@ -17,8 +17,7 @@ public:
  /**Constructor. */
   Sender(std::string ae_title, std::string peer_hostname, Uint16 peer_port, std::string peer_aetitles);
 
-  /**Destructor. */
-  virtual ~Sender();
+  OFCondition send(DcmDataset& dataset);
 
 };
 

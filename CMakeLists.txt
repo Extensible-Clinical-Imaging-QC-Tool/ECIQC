@@ -69,6 +69,8 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   src/communication/receiver.hpp
                   src/communication/poolbase.h
                   src/communication/poolbase.cpp
+                  src/communication/ThreadSafeQueue.tpp
+                  src/communication/ThreadSafeQueue.hpp
                   # Parsing Files
                   src/parsing/Parser.cpp
                   src/parsing/Parser.hpp
@@ -151,8 +153,8 @@ add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/IETests.cpp
                           tests/validatorTests.cpp
                           tests/SenderTests.cpp
-                         
-                          
+                          tests/TestStorageSCU.cpp
+                          tests/TestStorageSCU.hpp
                  )                          
 
 target_include_directories(unit_tests PRIVATE tests)

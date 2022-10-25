@@ -1,38 +1,39 @@
-#include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */ 
-#include "dcmtk/dcmnet/diutil.h" 
-#include "dcmtk/oflog/fileap.h"
 #include "catch.hpp"
+#include "communication/ThreadSafeQueue.hpp"
+#include "dcmtk/config/osconfig.h" /* make sure OS specific configuration is included first */
+#include "dcmtk/dcmnet/diutil.h"
+#include "dcmtk/oflog/fileap.h"
 
 #include "../src/misc/Exception.hpp"
 #include "../src/misc/MyLibrary.hpp"
 
-#include "../src/communication/sender.hpp"
 #include "../src/communication/receiver.hpp"
+#include "../src/communication/sender.hpp"
 /*
 
 using namespace cpp_template;
 
 #define OFFIS_CONSOLE_APPLICATION "my_Logger"
 
-static OFLogger my_Logger = OFLog::getLogger("dcmtk.apps." OFFIS_CONSOLE_APPLICATION);
+static OFLogger my_Logger = OFLog::getLogger("dcmtk.apps."
+OFFIS_CONSOLE_APPLICATION);
 
 static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
   OFFIS_DCMTK_VERSION " " OFFIS_DCMTK_RELEASEDATE " $";
   */
 
-
-    
-    
-
-TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
+TEST_CASE("Test C-ECHO Request with SCU", "[ST]") {
 
   /* specify log pattern */
-  OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-  /* Denote that a log file should be used that is appended to. The file is re-created every
-      time the code gets to this point.
+  OFunique_ptr<dcmtk::log4cplus::Layout> layout(
+      new dcmtk::log4cplus::PatternLayout(
+          "%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
+  /* Denote that a log file should be used that is appended to. The file is
+     re-created every time the code gets to this point.
     */
-  dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("ST.log"));
-  //logfile->setLayout(OFmove(layout));
+  dcmtk::log4cplus::SharedAppenderPtr logfile(
+      new dcmtk::log4cplus::FileAppender("ST.log"));
+  // logfile->setLayout(OFmove(layout));
 
   /* make sure that only the file logger is used */
   dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
@@ -40,115 +41,94 @@ TEST_CASE("Test C-ECHO Request with SCU","[ST]"){
   log.addAppender(logfile);
   log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
 
-  /* Setup DICOM connection parameters */ 
-  
+  /* Setup DICOM connection parameters */
+
   std::string ae_title = "TEST-SCU";
   std::string peer_hostname = "www.dicomserver.co.uk";
   Uint16 peer_port = 11112;
   std::string peer_aetitle = "MOVESCP";
-  Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle); 
-  // set AE titles 
-  scu.setAETitle(ae_title.c_str()); 
-  scu.setPeerHostName(peer_hostname.c_str()); 
-  scu.setPeerPort(peer_port); 
-  scu.setPeerAETitle(peer_aetitle.c_str()); 
-  // Define presentation contexts, propose all uncompressed transfer syntaxes 
-  OFList< OFString> ts; 
-  ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
-  ts.push_back(UID_BigEndianExplicitTransferSyntax); 
-  ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
-  scu.addPresentationContext(UID_FINDStudyRootQueryRetrieveInformationModel, ts); 
-  scu.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel, ts); 
-  scu.addPresentationContext(UID_VerificationSOPClass, ts); 
-  /* Initialize network */ 
-  OFCondition result = scu.initNetwork(); 
-  CHECK(result.good()); 
-
-
-  /* Negotiate Association */ 
-  result = scu.negotiateAssociation(); 
+  Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);
+  // set AE titles
+  scu.setAETitle(ae_title.c_str());
+  scu.setPeerHostName(peer_hostname.c_str());
+  scu.setPeerPort(peer_port);
+  scu.setPeerAETitle(peer_aetitle.c_str());
+  // Define presentation contexts, propose all uncompressed transfer syntaxes
+  OFList<OFString> ts;
+  ts.push_back(UID_LittleEndianExplicitTransferSyntax);
+  ts.push_back(UID_BigEndianExplicitTransferSyntax);
+  ts.push_back(UID_LittleEndianImplicitTransferSyntax);
+  scu.addPresentationContext(UID_FINDStudyRootQueryRetrieveInformationModel,
+                             ts);
+  scu.addPresentationContext(UID_MOVEStudyRootQueryRetrieveInformationModel,
+                             ts);
+  scu.addPresentationContext(UID_VerificationSOPClass, ts);
+  /* Initialize network */
+  OFCondition result = scu.initNetwork();
   CHECK(result.good());
 
-  /* Let's look whether the server is listening: 
-     Assemble and send C-ECHO request 
-   */ 
-  result = scu.sendECHORequest(0); 
+  /* Negotiate Association */
+  result = scu.negotiateAssociation();
   CHECK(result.good());
 
-  /* Release association */ 
+  /* Let's look whether the server is listening:
+     Assemble and send C-ECHO request
+   */
+  result = scu.sendECHORequest(0);
+  CHECK(result.good());
+
+  /* Release association */
   result = scu.releaseAssociation();
   CHECK(result.good());
-
-
 }
 
-TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
+TEST_CASE("Test Unsuccessful C-STORE Association with SCU", "[STS]") {
 
   /* specify log pattern */
-  OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-  /* Denote that a log file should be used that is appended to. The file is re-created every
-      time the code gets to this point.
+  OFunique_ptr<dcmtk::log4cplus::Layout> layout(
+      new dcmtk::log4cplus::PatternLayout(
+          "%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
+  /* Denote that a log file should be used that is appended to. The file is
+     re-created every time the code gets to this point.
   */
-  dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS.log"));
-  //logfile->setLayout(OFmove(layout));
+  dcmtk::log4cplus::SharedAppenderPtr logfile(
+      new dcmtk::log4cplus::FileAppender("STS.log"));
+  // logfile->setLayout(OFmove(layout));
 
   /* make sure that only the file logger is used */
   dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
   log.removeAllAppenders();
   log.addAppender(logfile);
   log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
-  OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
+
+  OFshared_ptr<ThreadSafeQueue<DcmDataset>> pt(new ThreadSafeQueue<DcmDataset>);
   Receiver pool(104, "MOVESCP");
   pool.setpointer(pt);
-  
-
-    /* Setup DICOM connection parameters */
-  std::string ae_title = "TEST-SCU";/*"StoreTestSCU";*/
-  std::string peer_hostname = "www.dicomserver.co.uk";
-  Uint16 peer_port = 104;
-  std::string peer_aetitle = "MOVESCP";/*"TestSCP";*/
-  Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);  
-   
-   
-  // Define presentation contexts, propose all uncompressed transfer syntaxes 
-  OFList<OFString> ts; 
-  ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
-  ts.push_back(UID_BigEndianExplicitTransferSyntax); 
-  ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
-
-  // Define a separate transfer syntax needed for the X-ray image
-  OFList<OFString> xfer;
-  xfer.push_back(UID_LittleEndianImplicitTransferSyntax);
-
-  //Start listening
   pool.start();
 
-  // configure SCU 
-  scu.setAETitle(ae_title.c_str()); 
-  scu.setPeerHostName(peer_hostname.c_str()); 
-  scu.setPeerPort(peer_port); 
-  scu.setPeerAETitle(peer_aetitle.c_str());
-  scu.setVerbosePCMode(OFTrue);
-  scu.addPresentationContext(UID_CTImageStorage, ts); 
-  scu.addPresentationContext(UID_MRImageStorage, ts); 
-  scu.addPresentationContext(UID_DigitalXRayImageStorageForPresentation, xfer);
-  scu.addPresentationContext(UID_VerificationSOPClass, ts); 
+  /* Setup DICOM connection parameters */
+  std::string ae_title = "TEST-SCU"; /*"StoreTestSCU";*/
+  std::string peer_hostname = "www.dicomserver.co.uk";
+  Uint16 peer_port = 104;
+  std::string peer_aetitle = "MOVESCP"; /*"TestSCP";*/
+  Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);
 
-  /* Initialize network */ 
-  OFCondition result = scu.initNetwork(); 
+  DcmFileFormat dfile;
+  auto result = dfile.loadFile("../DICOM_Images/test2.dcm");
   CHECK(result.good());
+  auto *data = dfile.getDataset();
 
-  OFCondition status = scu.addDicomFile("../DICOM_Images/test2.dcm", ERM_fileOnly,false);
+  auto status = scu.initNetwork(); 
   CHECK(status.good());
 
-  /*Extracting data from dicom file.*/ 
-  DcmFileFormat dfile;
-  result = dfile.loadFile("../DICOM_Images/test2.dcm");
-  CHECK (result.good());
-  DcmDataset *data = dfile.getDataset();
-  CHECK(data!= NULL);
 
+  status = scu.send(*data);
+  CHECK(status.good());
+
+
+  // now we will send a nonexistant file
   /* Negotiate Association */ 
+  status = scu.initNetwork(); 
   result = scu.negotiateAssociation(); 
   CHECK(result.good());
 
@@ -156,114 +136,102 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU","[STS]"){
   Uint16 rspStatusCode = 0;
   result = scu.sendSTORERequest(0, "../DICOM_Images/test1",0, rspStatusCode = 0);
   CHECK(result.bad());
-  if (result.bad()){   
-    status = data->saveFile("../DICOM_Images/archive_1.dcm");
-    CHECK(status.good());
-    }
-    
 
   /*Release association. */
   result = scu.releaseAssociation();
   CHECK(result.good());
 
-  /*Request shutdown and stop listening. */ 
+  /*Request shutdown and stop listening. */
   pool.request_stop();
   pool.join();
-  
-
 }
 
-TEST_CASE("Test Successful C-STORE Association with SCU","[STS2]"){
+TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
   /* specify log pattern */
-  OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-  /* Denote that a log file should be used that is appended to. The file is re-created every
-      time the code gets to this point.
+  OFunique_ptr<dcmtk::log4cplus::Layout> layout(
+      new dcmtk::log4cplus::PatternLayout(
+          "%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
+  /* Denote that a log file should be used that is appended to. The file is
+     re-created every time the code gets to this point.
   */
-  dcmtk::log4cplus::SharedAppenderPtr logfile(new dcmtk::log4cplus::FileAppender("STS2.log"));
-  //logfile->setLayout(OFmove(layout));
+  dcmtk::log4cplus::SharedAppenderPtr logfile(
+      new dcmtk::log4cplus::FileAppender("STS2.log"));
+  // logfile->setLayout(OFmove(layout));
 
   /* make sure that only the file logger is used */
   dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
   log.removeAllAppenders();
   log.addAppender(logfile);
   log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
-  OFshared_ptr<OFList<DcmDataset>>  pt(new OFList<DcmDataset>);
+  OFshared_ptr<ThreadSafeQueue<DcmDataset>> pt(new ThreadSafeQueue<DcmDataset>);
   Receiver pool(104, "MOVESCP");
   pool.setpointer(pt);
-  
 
-    /* Setup DICOM connection parameters */
-  std::string ae_title = "TEST-SCU";/*"StoreTestSCU";*/
+  /* Setup DICOM connection parameters */
+  std::string ae_title = "TEST-SCU"; /*"StoreTestSCU";*/
   std::string peer_hostname = "www.dicomserver.co.uk";
   Uint16 peer_port = 104;
-  std::string peer_aetitle = "MOVESCP";/*"TestSCP";*/
-  Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);  
-   
-   
-  // Define presentation contexts, propose all uncompressed transfer syntaxes 
-  OFList<OFString> ts; 
-  ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
-  ts.push_back(UID_BigEndianExplicitTransferSyntax); 
-  ts.push_back(UID_LittleEndianImplicitTransferSyntax); 
+  std::string peer_aetitle = "MOVESCP"; /*"TestSCP";*/
+  Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);
+
+  // Define presentation contexts, propose all uncompressed transfer syntaxes
+  OFList<OFString> ts;
+  ts.push_back(UID_LittleEndianExplicitTransferSyntax);
+  ts.push_back(UID_BigEndianExplicitTransferSyntax);
+  ts.push_back(UID_LittleEndianImplicitTransferSyntax);
 
   // Define a separate transfer syntax needed for the X-ray image
   OFList<OFString> xfer;
   xfer.push_back(UID_LittleEndianImplicitTransferSyntax);
 
-  //Start listening
+  // Start listening
   pool.start();
 
-  // configure SCU 
-  scu.setAETitle(ae_title.c_str()); 
-  scu.setPeerHostName(peer_hostname.c_str()); 
-  scu.setPeerPort(peer_port); 
+  // configure SCU
+  scu.setAETitle(ae_title.c_str());
+  scu.setPeerHostName(peer_hostname.c_str());
+  scu.setPeerPort(peer_port);
   scu.setPeerAETitle(peer_aetitle.c_str());
   scu.setVerbosePCMode(OFTrue);
-  scu.addPresentationContext(UID_CTImageStorage, ts); 
-  scu.addPresentationContext(UID_MRImageStorage, ts); 
+  scu.addPresentationContext(UID_CTImageStorage, ts);
+  scu.addPresentationContext(UID_MRImageStorage, ts);
   scu.addPresentationContext(UID_DigitalXRayImageStorageForPresentation, xfer);
-  scu.addPresentationContext(UID_VerificationSOPClass, ts); 
+  scu.addPresentationContext(UID_VerificationSOPClass, ts);
 
-  /* Initialize network */ 
-  OFCondition result = scu.initNetwork(); 
+  /* Initialize network */
+  OFCondition result = scu.initNetwork();
   CHECK(result.good());
 
-  OFCondition status = scu.addDicomFile("../DICOM_Images/1-01.dcm", ERM_fileOnly,false);
+  OFCondition status =
+      scu.addDicomFile("../DICOM_Images/1-01.dcm", ERM_fileOnly, false);
   CHECK(status.good());
 
-  /*Extracting data from dicom file.*/ 
+  /*Extracting data from dicom file.*/
   DcmFileFormat dfile;
   result = dfile.loadFile("../DICOM_Images/1-01.dcm");
-  CHECK (result.good());
+  CHECK(result.good());
   DcmDataset *data = dfile.getDataset();
-  CHECK(data!= NULL);
+  CHECK(data != NULL);
 
-  /* Negotiate Association */ 
-  result = scu.negotiateAssociation(); 
+  /* Negotiate Association */
+  result = scu.negotiateAssociation();
   CHECK(result.good());
 
   /*Assemble and send C-STORE request. Check if C-STORE was successful.*/
   Uint16 rspStatusCode = 0;
-  result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0,/*0*/data, rspStatusCode = 0);
+  result = scu.sendSTORERequest(0, /*"../DICOM_Images/1-01.dcm"*/ 0, /*0*/ data,
+                                rspStatusCode = 0);
   CHECK(result.good());
-  if (result.bad()){
+  if (result.bad()) {
     status = data->saveFile("../DICOM_Images/Archive_1.dcm");
     CHECK(status.good());
   }
-    
 
   /*Release association. */
   result = scu.releaseAssociation();
   CHECK(result.good());
 
-  /*Request shutdown and stop listening. */ 
+  /*Request shutdown and stop listening. */
   pool.request_stop();
   pool.join();
-  
-
 }
-
-
-
-
-

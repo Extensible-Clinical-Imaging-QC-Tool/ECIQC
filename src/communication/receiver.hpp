@@ -4,6 +4,7 @@
 #include <dcmtk/dcmnet/scppool.h>
 #include <dcmtk/dcmnet/scpthrd.h>
 #include "poolbase.h"
+#include "ThreadSafeQueue.hpp"
 /**
  * A worker thread in a multithreaded Service Class Provider. 
  * Runs an association from an already accepted connection.
@@ -11,7 +12,8 @@
 class ReceiverThread : public DcmThreadSCP
 { OFList<OFString> m_sourcelist;
   OFList<OFString> m_peerAETitles;
-  OFshared_ptr<OFList<DcmDataset>> m_dset; 
+  OFshared_ptr<ThreadSafeQueue<DcmDataset>> m_dset; 
+  OFMutex m_edit_dset;
 
 public:
     /**  Constructor. */
@@ -50,7 +52,7 @@ public:
     /** Set a shared pointer for storing received DICOM images.
      *  @param dset Shared pointer to be used by the worker.
      */
-    void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset);
+    void setdatasetaddress(OFshared_ptr<ThreadSafeQueue<DcmDataset>> dset);
 
 
 };

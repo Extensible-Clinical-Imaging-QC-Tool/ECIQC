@@ -118,8 +118,6 @@ try {
     
     
     //Conductor
-    Conductor conductor(SenderAETitle, PeerAETitle, PeerPortNumber, PeerPortName, ReceiverAETitle,ReceiverPortNumber);
-    conductor.run();
 
 }
     

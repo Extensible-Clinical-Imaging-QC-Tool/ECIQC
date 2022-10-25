@@ -25,6 +25,7 @@
 #ifndef BASEPOOL_H
 #define BASEPOOL_H
 
+#include "communication/ThreadSafeQueue.hpp"
 #include "dcmtk/config/osconfig.h"  /* make sure OS specific configuration is included first */
 
 #ifdef WITH_THREADS // Without threads this does not make sense...
@@ -95,7 +96,7 @@ public:
       /** Set a shared pointer for storing received DICOM images.
        *  @param dset Shared pointer to be used by the worker.
        */
-      virtual void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset) = 0;
+      virtual void setdatasetaddress(OFshared_ptr<ThreadSafeQueue<DcmDataset>> dset) = 0;
      
 
       /** Check whether worker is busy.
@@ -173,7 +174,7 @@ public:
   /** Set a shared pointer for storing received DICOM images.
   *  @param dset Shared pointer to be used by the receiver.
   */
-  void setpointer(OFshared_ptr<OFList<DcmDataset>> dset);
+  void setpointer(OFshared_ptr<ThreadSafeQueue<DcmDataset>> dset);
 
 
   /** Get number of maximum permitted connections, i.e.\ threads/workers.
@@ -242,7 +243,7 @@ protected:
    */
   OFCondition runAssociation(T_ASC_Association* assoc,
                              const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
-                             const OFList<OFString>& peerAE_list, OFshared_ptr<OFList<DcmDataset>> dset);
+                             const OFList<OFString>& peerAE_list, OFshared_ptr<ThreadSafeQueue<DcmDataset>> dset);
 
   /** Drops association and clears internal structures to free memory
    *  @param assoc The association to free
@@ -266,7 +267,7 @@ protected:
                         OFCondition result);
             
   
-  OFshared_ptr<OFList<DcmDataset>> m_dset;
+  OFshared_ptr<ThreadSafeQueue<DcmDataset>> m_dset;
 
 private:
 
@@ -405,7 +406,7 @@ private:
             return SCP::setpeerAETitles(peerae_list);
         }
        
-        virtual void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset)
+        virtual void setdatasetaddress(OFshared_ptr<ThreadSafeQueue<DcmDataset>> dset)
         {
           SCP::setdatasetaddress(dset);
         }

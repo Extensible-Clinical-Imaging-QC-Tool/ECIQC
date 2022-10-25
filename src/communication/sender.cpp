@@ -45,8 +45,23 @@ Sender::Sender(std::string SenderAETitle, std::string ReceiverPortName, Uint16 R
 }
 
 
-/**Destructor .*/
-Sender::~Sender(){}
+OFCondition Sender::send(DcmDataset& dataset) {
+  auto result = negotiateAssociation(); 
+  if (result.bad()) {
+      return result;
+  }
+  result = addDataset(&dataset);
+  if (result.bad()) {
+      return result;
+  }
+  result = sendSOPInstances();
+  if (result.bad()) {
+      return result;
+  }
+  return releaseAssociation();
+}
+
+
 
 // ---------------------------------------------------------------------------
 
