@@ -458,7 +458,7 @@ OFCondition Parser::worker(int instruction, WorkerParameters params, OFString th
             break;
         case CLEAR: {
             OFBool only_overwrite = OFTrue;
-            OFString newValue = NULL;
+            OFString newValue = "";
 
             if(params.otherTagString == "" &&
                 params.otherTagKey == DCM_PatientBreedDescription) {

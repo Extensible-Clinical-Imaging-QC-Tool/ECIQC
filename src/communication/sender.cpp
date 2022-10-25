@@ -46,7 +46,11 @@ Sender::Sender(std::string SenderAETitle, std::string ReceiverPortName, Uint16 R
 
 
 OFCondition Sender::send(DcmDataset& dataset) {
-  auto result = negotiateAssociation(); 
+  auto result = initNetwork();
+  if (result.bad()) {
+      return result;
+  }
+  result = negotiateAssociation(); 
   if (result.bad()) {
       return result;
   }
@@ -55,6 +59,49 @@ OFCondition Sender::send(DcmDataset& dataset) {
       return result;
   }
   result = sendSOPInstances();
+  if (result.bad()) {
+      return result;
+  }
+  Uint16 rspStatusCode = 0;
+  result = sendSTORERequest(0, nullptr, &dataset, rspStatusCode);
+  if (result.bad()) {
+      return result;
+  }
+  return releaseAssociation();
+}
+
+OFCondition Sender::send_file(const std::string& filename) {
+  auto result = initNetwork();
+  if (result.bad()) {
+      return result;
+  }
+  result = negotiateAssociation(); 
+  if (result.bad()) {
+      return result;
+  }
+  result = addDicomFile(filename.c_str(), ERM_fileOnly, false);
+  if (result.bad()) {
+      return result;
+  }
+  result = sendSOPInstances();
+  if (result.bad()) {
+      return result;
+  }
+  Uint16 rspStatusCode = 0;
+  result = sendSTORERequest(0, filename.c_str(), nullptr, rspStatusCode);
+  if (result.bad()) {
+      return result;
+  }
+  return releaseAssociation();
+}
+
+OFCondition Sender::send_echo() {
+  auto result = initNetwork();
+  result = negotiateAssociation(); 
+  if (result.bad()) {
+      return result;
+  }
+  result = sendECHORequest(0);
   if (result.bad()) {
       return result;
   }

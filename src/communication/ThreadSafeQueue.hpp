@@ -2,6 +2,7 @@
 #define THREADSAFEQUEUE_H
 #include <mutex>
 #include <queue>
+#include <condition_variable>
 
 template <typename T> class ThreadSafeQueue {
   std::mutex mutex;
