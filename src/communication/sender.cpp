@@ -12,7 +12,12 @@
 #include "dcmtk/dcmnet/diutil.h" 
 
 /**Constructor.*/
-Sender::Sender(std::string SenderAETitle, std::string ReceiverPortName, Uint16 ReceiverPortNumber, std::string ReceiverAETitle){
+
+Sender::Sender():
+  Sender("SCU", "localhost", 11112, "SCP")
+{}
+
+Sender::Sender(std::string aetitle, std::string peer_hostname, Uint16 peer_port, std::string peer_aetitle){
     
     //Methods to set SCU parameters.
     setAETitle(SenderAETitle.c_str()); 
@@ -42,6 +47,19 @@ Sender::Sender(std::string SenderAETitle, std::string ReceiverPortName, Uint16 R
     addPresentationContext(UID_DigitalXRayImageStorageForPresentation, xfer); 
     addPresentationContext(UID_UltrasoundMultiframeImageStorage, xfer2);
 
+}
+
+void Sender::set_aetitle(const std::string& title) {
+    setAETitle(title.c_str()); 
+}
+void Sender::set_peer_port(int port) {
+  setPeerPort(port);
+}
+void Sender::set_peer_hostname(const std::string& hostname) {
+  setPeerHostName(hostname.c_str());
+}
+void Sender::set_peer_aetitle(const std::string& title) {
+  setPeerAETitle(title.c_str());
 }
 
 

@@ -116,6 +116,8 @@ ReceiverThread::setpeerAETitles(const OFList<OFString> &peerae_list) {
 /*                        Receiver class                                   */
 /* *********************************************************************** */
 
+Receiver::Receiver() : Receiver(11112, "SCP"){};
+
 Receiver::Receiver(Uint16 port, std::string aetitle) {
   OFString title = OFString(aetitle.c_str());
   // Configure SCP port
@@ -143,10 +145,6 @@ Receiver::Receiver(Uint16 port, std::string aetitle) {
   }
   getConfig().addPresentationContext(UID_VerificationSOPClass, ts);
 }
-
-// ----------------------------------------------------------------------------
-
-Receiver::~Receiver() {}
 
 // ----------------------------------------------------------------------------
 

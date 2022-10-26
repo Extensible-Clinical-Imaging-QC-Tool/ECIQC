@@ -1,6 +1,7 @@
 #include <iostream>
 #include <iterator>
 #include <vector>
+#include <csignal>
 #include <exception>
 #include <boost/program_options.hpp>
 #include "dcmtk/config/osconfig.h"
@@ -18,7 +19,12 @@ using std::exception;
 namespace po = boost::program_options;
 
 
-
+volatile std::sig_atomic_t keep_running = 1;
+ 
+void signal_handler(int signal)
+{
+  keep_running = signal;
+}
 
 int main(int argc, char** argv){
 
@@ -98,11 +104,8 @@ try {
             cout << "Receiver Port Number was not set.\n";
         }
 
-    
-  
 
     //Specify log pattern in .log file.
-    
     OFunique_ptr<dcmtk::log4cplus::Layout> layout(new dcmtk::log4cplus::PatternLayout("%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
     /* Denote that a log file should be used that is appended to. The file is re-created every
         time the code gets to this point.
@@ -117,8 +120,16 @@ try {
     log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
     
     
-    //Conductor
+    auto handler = std::signal(SIGINT, signal_handler);
 
+    Conductor conductor;
+    conductor.setup_receiver();
+    conductor.setup_destination();
+    conductor.setup_quarentine();
+    conductor.finalise_initialisation();
+    while (keep_running != 0) {
+        conductor.process_next_dataset();
+    }
 }
     
  

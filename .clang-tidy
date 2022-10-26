@@ -1,5 +1,5 @@
 ---
-Checks: '-*,bugprone-*,cert-*,-cert-err60-cpp,cppcoreguidelines-*,clang-analyzer-*,hicpp-*,misc-*,modernize-*,mpi-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type'
+Checks: '-*,bugprone-*,cert-*,-cert-err60-cpp,cppcoreguidelines-*,clang-analyzer-*,hicpp-*,misc-*,modernize-*,mpi-*,performance-*,portability-*,readability-*,-modernize-use-trailing-return-type,-bugprone-easily-swappable-parameters'
 WarningsAsErrors: ''
 HeaderFilterRegex: 'src\/.*.h'
 AnalyzeTemporaryDtors: false

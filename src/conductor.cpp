@@ -1,36 +1,51 @@
 #include "conductor.hpp"
 #include "communication/ThreadSafeQueue.hpp"
+#include "memory"
+#include <csignal>
 #include <dcmtk/config/osconfig.h>
+#include <dcmtk/dcmdata/dcdatset.h>
+#include <dcmtk/ofstd/ofmem.h>
 #include <exception>
 #include <iostream>
-#include <csignal>
 
-volatile std::sig_atomic_t keep_running = 1;
- 
-void signal_handler(int signal)
-{
-  keep_running = signal;
-}
- 
-void pipeline(Sender &destination, Sender &quarentine, DcmDataset &dataset) {
-    auto result = destination.send(dataset);
+Conductor::~Conductor() {
+  m_receiver.request_stop();
+  m_receiver.join();
 }
 
-void conductor(Sender &destination, Sender &quarentine, Receiver &receiver) {
-  // Execute C-STORE Request with TestSCU
-  OFshared_ptr<ThreadSafeQueue<DcmDataset>> received_pDset(
-      new ThreadSafeQueue<DcmDataset>);
-  receiver.setpointer(received_pDset);
+void Conductor::setup_receiver(const std::string &aetitle, const int port) {
+  m_receiver.setaetitle(aetitle);
+  m_receiver.setportnumber(port);
+  m_todo = std::make_shared<ThreadSafeQueue<DcmDataset>>();
+  m_receiver.setpointer(m_todo);
+}
 
-  auto handler = std::signal(SIGINT, signal_handler);
+void Conductor::setup_destination(const std::string &aetitle,
+                                  const std::string &hostname, const int port) {
+  m_destination.set_aetitle("Destination Sender");
+  m_destination.set_peer_aetitle(aetitle);
+  m_destination.set_peer_hostname(hostname);
+  m_destination.set_peer_port(port);
+}
 
-  // Receiver listens
-  receiver.start();
-  while (keep_running != 0) {
-    auto dataset = received_pDset->front();
-    pipeline(destination, quarentine, dataset);
-    received_pDset->pop();
-  }
-  receiver.request_stop();
-  receiver.join();
+void Conductor::setup_quarentine(const std::string &aetitle,
+                                 const std::string &hostname, const int port) {
+  m_quarentine.set_aetitle("Quarentine Sender");
+  m_quarentine.set_peer_aetitle(aetitle);
+  m_quarentine.set_peer_hostname(hostname);
+  m_quarentine.set_peer_port(port);
+}
+
+void Conductor::finalise_initialisation() { m_receiver.start(); }
+
+void Conductor::process_next_dataset() {
+  // wait until next dataste is available
+  auto dataset = m_todo->front();
+  process_dataset(dataset);
+  m_todo->pop();
+}
+
+void Conductor::process_dataset(DcmDataset &dataset) {
+  // pipeline goes here!!!
+  auto result = m_destination.send(dataset);
 }
