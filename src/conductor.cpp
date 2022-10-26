@@ -1,7 +1,6 @@
 #include "conductor.hpp"
 #include "communication/ThreadSafeQueue.hpp"
 #include "memory"
-#include <csignal>
 #include <dcmtk/config/osconfig.h>
 #include <dcmtk/dcmdata/dcdatset.h>
 #include <dcmtk/ofstd/ofmem.h>
@@ -11,6 +10,10 @@
 Conductor::~Conductor() {
   m_receiver.request_stop();
   m_receiver.join();
+}
+
+void Conductor::setup_parser(const std::string &filename) {
+  m_parser.setConfigFile(filename);
 }
 
 void Conductor::setup_receiver(const std::string &aetitle, const int port) {

@@ -123,6 +123,7 @@ try {
     auto handler = std::signal(SIGINT, signal_handler);
 
     Conductor conductor;
+    conductor.setup_parser();
     conductor.setup_receiver();
     conductor.setup_destination();
     conductor.setup_quarentine();

@@ -3,9 +3,11 @@
 
 #include "communication/receiver.hpp"
 #include "communication/sender.hpp"
+#include "parsing/Parser.hpp"
 #include <dcmtk/dcmdata/dcdatset.h>
 
 class Conductor {
+  Parser m_parser;
   Sender m_destination;
   Sender m_quarentine;
   Receiver m_receiver;
@@ -18,6 +20,7 @@ public:
   Conductor(Conductor &&) = delete;
   Conductor &operator=(const Conductor &) = delete;
   Conductor &operator=(Conductor &&) = delete;
+  void setup_parser(const std::string &filename);
   void setup_receiver(const std::string &aetitle, int port);
   void setup_destination(const std::string &aetitle,
                          const std::string &hostname, int port);
