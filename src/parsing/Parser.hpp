@@ -21,15 +21,21 @@ class Parser {
 
 public:
   /** Default constructor for the class.
-   * REMOVE ME
+   *
    */
-  // Parser();
+  Parser();
 
   /** Constructor for the class. A path to a configuration file must be provided
    *
    * @param configFpath
    */
-  explicit Parser(OFString configFpath);
+  explicit Parser(const OFString& configFpath);
+
+  /** Read in the configuration file
+   *
+   * @param configFile filename for configuration file
+   */
+  void setConfigFile(const OFString& configFpath);
 
   /** Sets the data member dset using a DcmDataset
    *
@@ -61,7 +67,6 @@ public:
    * result of several actions # the
    */
   DcmDataset *parse();
-
 
 private:
   /** Parse results of check IF_TRUE or IF_FALSE
