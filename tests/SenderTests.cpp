@@ -100,8 +100,4 @@ TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
 
   result = scu.send(*data);
   CHECK(result.good());
-
-  /*Request shutdown and stop listening. */
-  pool.request_stop();
-  pool.join();
 }
