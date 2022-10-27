@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
        re-created every time the code gets to this point.
     */
     dcmtk::log4cplus::SharedAppenderPtr logfile(
-        new dcmtk::log4cplus::FileAppender(log_file));
+        new dcmtk::log4cplus::FileAppender(log_file.c_str()));
     // logfile->setLayout(OFmove(layout));
 
     /* make sure that only the file logger is used */
