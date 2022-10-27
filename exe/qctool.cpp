@@ -11,7 +11,7 @@
 #include <vector>
 // #include "../src/communication/sender.hpp"
 // #include "../src/communication/receiver.hpp"
-#include "conductor.hpp"
+#include "Conductor.hpp"
 
 namespace po = boost::program_options;
 

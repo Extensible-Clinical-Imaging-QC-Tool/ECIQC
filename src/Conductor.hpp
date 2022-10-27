@@ -1,8 +1,8 @@
 #ifndef CONDUCTOR_H
 #define CONDUCTOR_H
 
-#include "communication/receiver.hpp"
-#include "communication/sender.hpp"
+#include "communication/Receiver.hpp"
+#include "communication/Sender.hpp"
 #include "parsing/Parser.hpp"
 #include <dcmtk/dcmdata/dcdatset.h>
 

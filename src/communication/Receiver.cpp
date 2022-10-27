@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "communication/ThreadSafeQueue.hpp"
-#include "receiver.hpp"
+#include "Receiver.hpp"
 
 // ----------------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-#include "conductor.hpp"
+#include "Conductor.hpp"
 #include "communication/ThreadSafeQueue.hpp"
 #include "memory"
 #include <dcmtk/config/osconfig.h>

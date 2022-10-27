@@ -17,7 +17,7 @@
 #include "misc/MyLibrary.hpp"
 
 #include "TestStorageSCU.hpp"
-#include "communication/receiver.hpp"
+#include "communication/Receiver.hpp"
 
 using namespace cpp_template;
 

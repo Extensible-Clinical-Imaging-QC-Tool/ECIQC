@@ -7,7 +7,7 @@
 #include <type_traits>
 
 #include "TestStorageSCU.hpp"
-#include "conductor.hpp"
+#include "Conductor.hpp"
 #include <dcmtk/config/osconfig.h>
 
 #ifdef WITH_THREADS

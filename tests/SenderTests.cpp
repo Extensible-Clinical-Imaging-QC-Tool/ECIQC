@@ -7,8 +7,8 @@
 #include "../src/misc/Exception.hpp"
 #include "../src/misc/MyLibrary.hpp"
 
-#include "../src/communication/receiver.hpp"
-#include "../src/communication/sender.hpp"
+#include "../src/communication/Receiver.hpp"
+#include "../src/communication/Sender.hpp"
 /*
 
 using namespace cpp_template;

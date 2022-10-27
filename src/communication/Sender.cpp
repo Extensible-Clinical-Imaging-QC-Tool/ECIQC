@@ -8,7 +8,7 @@
  * 
  */
 #include "dcmtk/config/osconfig.h"    /* make sure OS specific configuration is included first */ 
-#include "sender.hpp"
+#include "Sender.hpp"
 #include "dcmtk/dcmnet/diutil.h" 
 
 /**Constructor.*/

@@ -65,8 +65,8 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   src/metadata/validator.cpp
                   src/metadata/validator.hpp
                   # Receiver Files
-                  src/communication/receiver.cpp
-                  src/communication/receiver.hpp
+                  src/communication/Receiver.cpp
+                  src/communication/Receiver.hpp
                   src/communication/poolbase.h
                   src/communication/poolbase.cpp
                   src/communication/ThreadSafeQueue.tpp
@@ -75,15 +75,15 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   src/parsing/Parser.cpp
                   src/parsing/Parser.hpp
                   # Conductor Files
-                  src/conductor.cpp
-                  src/conductor.hpp
+                  src/Conductor.cpp
+                  src/Conductor.hpp
                   # IE Files
                   src/image/ImageEditor.cpp
                   src/image/ImageEditor.hpp
         
                   # Sender Files
-                  src/communication/sender.hpp
-                  src/communication/sender.cpp
+                  src/communication/Sender.hpp
+                  src/communication/Sender.cpp
 
             
                   )
