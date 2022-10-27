@@ -4,6 +4,9 @@
 #include <boost/program_options.hpp>
 #include <boost/program_options/parsers.hpp>
 #include <boost/program_options/positional_options.hpp>
+#include <thread>         // std::this_thread::sleep_for
+
+#include <chrono>
 #include <csignal>
 #include <exception>
 #include <iostream>
@@ -14,10 +17,6 @@
 #include "Conductor.hpp"
 
 namespace po = boost::program_options;
-
-volatile std::sig_atomic_t keep_running = 1;
-
-void signal_handler(int signal) { keep_running = signal; }
 
 int main(int argc, char **argv) {
 
@@ -85,7 +84,6 @@ int main(int argc, char **argv) {
       log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
     }
 
-    std::signal(SIGINT, signal_handler);
 
     std::ifstream configFile(config_file.c_str());
     if (!configFile) {
@@ -93,7 +91,7 @@ int main(int argc, char **argv) {
     }
 
     Conductor conductor(configFile);
-    while (keep_running != 0) {
+    while (true) {
       conductor.process_next_dataset();
     }
   }
