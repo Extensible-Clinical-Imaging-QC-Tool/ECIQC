@@ -15,11 +15,11 @@ class Parser {
   // member that holds the dataset to be modified based on the instructions from
   // the config file
   DcmDataset *currentDataset;
-  // object that provides all the methods required for editing
-  MetadataEditor editor;
-  // Add validator
 
 public:
+  // object that provides all the methods required for editing
+  MetadataEditor editor;
+
   /** Default constructor for the class.
    *
    */
@@ -30,6 +30,12 @@ public:
    * @param configFpath
    */
   explicit Parser(const OFString& configFpath);
+
+  /** Set the json config
+   *
+   * @param configFile filename for configuration file
+   */
+  void setConfig(const json& config);
 
   /** Read in the configuration file
    *

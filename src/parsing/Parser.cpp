@@ -45,6 +45,10 @@ Parser::Parser(const OFString& configFpath) : currentDataset(nullptr) {
 ////////////////////////////////////////////////////////////////////
 /*                    Public Member Functions                     */
 ////////////////////////////////////////////////////////////////////
+///
+void Parser::setConfig(const json& config) {
+  base = config;
+}
 
 void Parser::setConfigFile(const OFString& configFpath) {
   std::ifstream configFile(configFpath.c_str());

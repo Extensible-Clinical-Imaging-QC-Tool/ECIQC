@@ -6,6 +6,7 @@
 #include "parsing/Parser.hpp"
 #include <dcmtk/dcmdata/dcdatset.h>
 
+
 class Conductor {
   Parser m_parser;
   Sender m_destination;
@@ -14,22 +15,25 @@ class Conductor {
   OFshared_ptr<ThreadSafeQueue<DcmDataset>> m_todo;
 
 public:
-  Conductor() = default;
+  explicit Conductor(std::istream &json_config);
   ~Conductor();
   Conductor(const Conductor &) = delete;
   Conductor(Conductor &&) = delete;
   Conductor &operator=(const Conductor &) = delete;
   Conductor &operator=(Conductor &&) = delete;
-  void setup_parser(const std::string &filename);
-  void setup_receiver(const std::string &aetitle, int port);
-  void setup_destination(const std::string &aetitle,
-                         const std::string &hostname, int port);
-  void setup_quarentine(const std::string &aetitle, const std::string &hostname,
-                        int port);
-  void finalise_initialisation();
   void process_next_dataset();
-
+  
 private:
+  void setup_parser(const json &config);
+  void setup_receiver(const std::string &aetitle, int port);
+
+  void setup_destination(const std::string &aetitle,
+                         const std::string &peer_aetitle,
+                         const std::string &hostname, const int port);
+  void setup_quarentine(const std::string &aetitle,
+                        const std::string &peer_aetitle,
+                        const std::string &hostname, const int port);
+  void initialise(const std::string &json_config);
   void process_dataset(DcmDataset &dataset);
 };
 

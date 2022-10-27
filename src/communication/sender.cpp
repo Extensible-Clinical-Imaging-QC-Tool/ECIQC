@@ -20,10 +20,10 @@ Sender::Sender():
 Sender::Sender(std::string aetitle, std::string peer_hostname, Uint16 peer_port, std::string peer_aetitle){
     
     //Methods to set SCU parameters.
-    setAETitle(SenderAETitle.c_str()); 
-    setPeerHostName(ReceiverPortName.c_str()); 
-    setPeerPort(ReceiverPortNumber); 
-    setPeerAETitle(ReceiverAETitle.c_str());
+    setAETitle(aetitle.c_str()); 
+    setPeerHostName(peer_hostname.c_str()); 
+    setPeerPort(peer_port); 
+    setPeerAETitle(peer_aetitle.c_str());
 
     //Define presentation contexts, propose all uncompressed TS
     OFList<OFString> ts;
