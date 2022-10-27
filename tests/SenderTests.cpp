@@ -101,10 +101,6 @@ TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
   result = scu.send(*data);
   CHECK(result.good());
 
-  std::string summary;
-  scu.getStatusSummary(summary);
-  std::cout << summary << std::endl;
-
   /*Request shutdown and stop listening. */
   pool.request_stop();
   pool.join();
