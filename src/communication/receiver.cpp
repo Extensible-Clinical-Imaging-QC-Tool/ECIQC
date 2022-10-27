@@ -34,6 +34,7 @@ OFCondition ReceiverThread::handleIncomingCommand(
     OFCondition result = DcmSCP::handleSTORERequest(
         incomingMsg->msg.CStoreRQ, presInfo.presentationContextID, reqdataset);
 
+    std::cout << "adding dataset to receiver queue" << std::endl;
     pqueue->push(std::move(dset));
 
     return result;
