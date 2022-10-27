@@ -74,12 +74,6 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU", "[STS]") {
 }
 
 TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
-  OFshared_ptr<ThreadSafeQueue<DcmDataset>> pt(new ThreadSafeQueue<DcmDataset>);
-  Receiver pool(104, "MOVESCP");
-  pool.setpointer(pt);
-  // Start listening
-  pool.start();
-
   /* Setup DICOM connection parameters */
   std::string ae_title = "TEST-SCU"; /*"StoreTestSCU";*/
   std::string peer_hostname = "www.dicomserver.co.uk";
