@@ -31,7 +31,7 @@ void Conductor::setup_parser(const json &config) { m_parser.setConfig(config); }
 void Conductor::setup_receiver(const std::string &aetitle, const int port) {
   m_receiver.setaetitle(aetitle);
   m_receiver.setportnumber(port);
-  m_todo = std::make_shared<ThreadSafeQueue<DcmDataset>>();
+  m_todo = OFshared_ptr<ThreadSafeQueue<DcmDataset>>(new ThreadSafeQueue<DcmDataset>);
   m_receiver.setpointer(m_todo);
   m_receiver.start();
 }
