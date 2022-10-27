@@ -16,7 +16,7 @@ class Conductor {
 
 public:
   explicit Conductor(std::istream &json_config);
-  ~Conductor();
+  ~Conductor() = default;
   Conductor(const Conductor &) = delete;
   Conductor(Conductor &&) = delete;
   Conductor &operator=(const Conductor &) = delete;

@@ -8,6 +8,8 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include "dcmtk/oflog/fileap.h"
+    
 #include "../libs/nlohmann_json/single_include/nlohmann/json.hpp"
 
 using json = nlohmann::json;
@@ -15,7 +17,7 @@ using json = nlohmann::json;
 Conductor::Conductor(std::istream &json_config) {
   auto config = json::parse(json_config);
   setup_parser(config["metadata"]);
-  setup_receiver(config["destination"]["aetitle"], config["receiver"]["port"]);
+  setup_receiver(config["receiver"]["aetitle"], config["receiver"]["port"]);
   setup_destination(
       "QCtool Destination Sender", config["destination"]["aetitle"],
       config["destination"]["hostname"], config["destination"]["port"]);
@@ -24,11 +26,6 @@ Conductor::Conductor(std::istream &json_config) {
       config["quarentine"]["hostname"], config["quarentine"]["port"]);
 }
  
-Conductor::~Conductor() {
-  m_receiver.request_stop();
-  m_receiver.join();
-}
-
 void Conductor::setup_parser(const json &config) { m_parser.setConfig(config); }
 
 void Conductor::setup_receiver(const std::string &aetitle, const int port) {
@@ -58,6 +55,7 @@ void Conductor::setup_quarentine(const std::string &aetitle,const std::string &p
 
 void Conductor::process_next_dataset() {
   // wait until next dataste is available
+  std::cout << "Conductor: process_next_dataset" << std::endl;
   auto dataset = m_todo->front();
   process_dataset(dataset);
   m_todo->pop();

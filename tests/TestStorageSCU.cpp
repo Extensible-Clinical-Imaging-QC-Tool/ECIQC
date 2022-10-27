@@ -1,4 +1,5 @@
 #include "TestStorageSCU.hpp"
+#include <cstddef>
 
 TestStorageSCU::TestStorageSCU()
     : m_title("TestSCU"), m_peer_aetitle("TestSCP"),
@@ -35,7 +36,7 @@ void TestStorageSCU::run() {
   Uint16 rspStatusCode = 0;
   m_negotiate_association = negotiateAssociation();
   m_echo_result = sendECHORequest(0);
-  for (int i = 0; i < m_filenames.size(); i++) {
+  for (size_t i = 0; i < m_filenames.size(); i++) {
     m_results[i] =
         sendSTORERequest(0, m_filenames[i].c_str(), nullptr, rspStatusCode);
   }
