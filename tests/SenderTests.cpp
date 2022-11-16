@@ -81,7 +81,7 @@ TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
   std::string peer_aetitle = "MOVESCP"; /*"TestSCP";*/
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);
 
-  auto result = scu.send_file("../DICOM_Images/1-01.dcm");
+  auto result = scu.send_file("../DICOM_Images/1-1copy.dcm");
   CHECK(result.good());
 
   /*Extracting data from dicom file.
