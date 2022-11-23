@@ -34,10 +34,10 @@ TEST_CASE("Test C-ECHO Request with SCU", "[ST]") {
 }
 
 TEST_CASE("Test Unsuccessful C-STORE Association with SCU", "[STS]") {
-  OFshared_ptr<ThreadSafeQueue<DcmDataset>> pt(new ThreadSafeQueue<DcmDataset>);
+  /* OFshared_ptr<ThreadSafeQueue<DcmDataset>> pt(new ThreadSafeQueue<DcmDataset>);
   Receiver pool(104, "MOVESCP");
   pool.setpointer(pt);
-  pool.start();
+  pool.start(); */
 
   /* Setup DICOM connection parameters */
   std::string ae_title = "TEST-SCU"; /*"StoreTestSCU";*/
@@ -69,8 +69,8 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU", "[STS]") {
   CHECK(result.good());
 
   /*Request shutdown and stop listening. */
-  pool.request_stop();
-  pool.join();
+  /* pool.request_stop();
+  pool.join(); */
 }
 
 TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
