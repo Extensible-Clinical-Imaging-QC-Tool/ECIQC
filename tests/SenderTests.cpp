@@ -81,12 +81,13 @@ TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
   std::string peer_aetitle = "MOVESCP"; /*"TestSCP";*/
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);
 
-  auto result = scu.send_file("../DICOM_Images/1-01.dcm");
-  CHECK(result.good());
+  // auto result = scu.send_file("../DICOM_Images/1-01.dcm");
+  // CHECK(result.good());
 
-  /*Extracting data from dicom file.
+  /*Extracting data from dicom file.*/
+
   DcmFileFormat dfile;
-  result = dfile.loadFile("../DICOM_Images/1-01.dcm");
+  auto result = dfile.loadFile("../DICOM_Images/1-01.dcm");
   CHECK(result.good());
 
   DcmDataset *data = dfile.getDataset();
@@ -94,5 +95,5 @@ TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
 
   result = scu.send(*data);
   CHECK(result.good());
-  */
+
 }
