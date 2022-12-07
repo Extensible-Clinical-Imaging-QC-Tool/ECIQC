@@ -22,28 +22,55 @@ static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
   OFFIS_DCMTK_VERSION " " OFFIS_DCMTK_RELEASEDATE " $";
   */
 
-TEST_CASE("Test C-ECHO Request with SCU", "[ST]") {
+TEST_CASE("Test C-ECHO Request with SCU", "[ST] ") {
+
+
+  // std::string ae_title = "TEST-SCU";
+  // std::string peer_hostname = "www.dicomserver.co.uk";
+  // Uint16 peer_port = 11112;
+  // std::string peer_aetitle = "MOVESCP";
+
+
   std::string ae_title = "TEST-SCU";
-  std::string peer_hostname = "www.dicomserver.co.uk";
-  Uint16 peer_port = 11112;
-  std::string peer_aetitle = "MOVESCP";
+  const int peer_port = 11112;
+  std::string peer_hostname = "localhost";
+  const std::string peer_aetitle = "TestSCP";
+  Receiver pool(peer_port, peer_aetitle);
+  pool.start();
+
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);
 
   auto result = scu.send_echo();
   CHECK(result.good());
+
+
+  pool.request_stop();
+  pool.join();
 }
 
-TEST_CASE("Test Unsuccessful C-STORE Association with SCU", "[STS]") {
+TEST_CASE("Test Unsuccessful C-STORE Association with SCU", "[ST]") {
   /* OFshared_ptr<ThreadSafeQueue<DcmDataset>> pt(new ThreadSafeQueue<DcmDataset>);
   Receiver pool(104, "MOVESCP");
   pool.setpointer(pt);
   pool.start(); */
 
   /* Setup DICOM connection parameters */
-  std::string ae_title = "TEST-SCU"; /*"StoreTestSCU";*/
-  std::string peer_hostname = "www.dicomserver.co.uk";
-  Uint16 peer_port = 104;
-  std::string peer_aetitle = "MOVESCP"; /*"TestSCP";*/
+  // std::string ae_title = "TEST-SCU";
+  // std::string peer_hostname = "www.dicomserver.co.uk";
+  // Uint16 peer_port = 11112;
+  // std::string peer_aetitle = "MOVESCP";
+
+
+  std::string ae_title = "TEST-SCU";
+  const int peer_port = 11112;
+  std::string peer_hostname = "localhost";
+  const std::string peer_aetitle = "TestSCP";
+
+  OFshared_ptr<ThreadSafeQueue<DcmDataset>> pt(new ThreadSafeQueue<DcmDataset>);
+
+  Receiver pool(peer_port, peer_aetitle);
+  pool.setpointer(pt);
+  pool.start();
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);
 
   DcmFileFormat dfile;
@@ -71,14 +98,30 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU", "[STS]") {
   /*Request shutdown and stop listening. */
   /* pool.request_stop();
   pool.join(); */
+
+  pool.request_stop();
+  pool.join();
+  //pt.reset();
 }
 
-TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
+TEST_CASE("Test Successful C-STORE Association with SCU", "[ST]") {
   /* Setup DICOM connection parameters */
-  std::string ae_title = "TEST-SCU"; /*"StoreTestSCU";*/
-  std::string peer_hostname = "www.dicomserver.co.uk";
-  Uint16 peer_port = 104;
-  std::string peer_aetitle = "MOVESCP"; /*"TestSCP";*/
+  // std::string ae_title = "TEST-SCU";
+  // std::string peer_hostname = "www.dicomserver.co.uk";
+  // Uint16 peer_port = 11112;
+  // std::string peer_aetitle = "MOVESCP";
+
+
+  std::string ae_title = "TEST-SCU";
+  const int peer_port = 11112;
+  std::string peer_hostname = "localhost";
+  const std::string peer_aetitle = "TestSCP";
+  OFshared_ptr<ThreadSafeQueue<DcmDataset>> pt(new ThreadSafeQueue<DcmDataset>);
+
+  Receiver pool(peer_port, peer_aetitle);
+  pool.setpointer(pt);
+  pool.start();
+
   Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);
 
   // auto result = scu.send_file("../DICOM_Images/1-01.dcm");
@@ -96,4 +139,9 @@ TEST_CASE("Test Successful C-STORE Association with SCU", "[STS2]") {
   result = scu.send(*data);
   CHECK(result.good());
 
+
+
+  pool.request_stop();
+  pool.join();
+  //pt.reset();
 }
