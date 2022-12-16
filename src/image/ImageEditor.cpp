@@ -11,6 +11,9 @@
 #include <vector>
 #include <tesseract/baseapi.h>
 #include <string>
+#include <tesseract/strngs.h>
+#include <tesseract/genericvector.h>
+
 #include <leptonica/allheaders.h>
 #include <regex>
 #include "dcmtk/dcmimgle/dcmimage.h"
@@ -261,8 +264,15 @@ OFBool ImageEditor::lessThanFourChars(std::string text){
 void ImageEditor::coverText(){
     std::unique_ptr<tesseract::TessBaseAPI> api = std::make_unique<tesseract::TessBaseAPI>();
     // Stop tesseract using dictionaries for word recogntion
-    std::vector<std::string> pars_vec {"load_system_dawg", "load_freq_dawg"};
-    std::vector<std::string> pars_values{"0", "0"};
+    // using tesseract generic vectors
+    GenericVector< STRING > pars_vec;
+    pars_vec.push_back("load_system_dawg");
+    pars_vec.push_back("load_freq_dawg");
+    GenericVector< STRING > pars_values;
+
+    pars_values.push_back("0");
+    pars_values.push_back("0");
+
     api->Init(NULL, "eng", tesseract::OEM_LSTM_ONLY, NULL, 0, &pars_vec, &pars_values, false);
     api->SetPageSegMode(tesseract::PSM_SPARSE_TEXT);
 
@@ -397,7 +407,8 @@ void ImageEditor::prePro(){
         if ( imageProcessingSlices[i].depth() == CV_16U ) {
             cv::normalize(imageProcessingSlices[i], imageProcessingSlices[i], 0., 255., cv::NORM_MINMAX, CV_8UC1);
         }
-        double C {2};
+        // commented out 14122022 as it is currently unused as far as we are aware
+        // double C {2}; 
         cv::bitwise_not(imageProcessingSlices[i], imageProcessingSlices[i]);
         cv::threshold(imageProcessingSlices[i], imageProcessingSlices[i], 0, 255, cv::THRESH_OTSU);
 
