@@ -149,12 +149,12 @@ enable_testing()
 add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/METests.cpp
                           tests/ParserTests.cpp
+                          tests/ConductorTests.cpp
                           tests/IETests.cpp
                           tests/validatorTests.cpp
                           tests/SenderTests.cpp
                           tests/TestStorageSCU.cpp
                           tests/TestStorageSCU.hpp
-                          tests/ConductorTests.cpp
 
                  )                          
 

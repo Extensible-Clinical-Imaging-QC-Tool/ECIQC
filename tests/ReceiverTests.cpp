@@ -80,6 +80,7 @@ TEST_CASE("Test C-STORE Association", "[RT]") {
 
   // check we got the datasets
   CHECK(pt->size() == 4);
+  pt.reset();
 }
 
 // This tests basic configuration of the Receiver.
