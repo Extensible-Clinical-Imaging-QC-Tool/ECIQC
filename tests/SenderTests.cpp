@@ -96,9 +96,6 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU", "[ST]") {
   CHECK(result.good());
 
   /*Request shutdown and stop listening. */
-  /* pool.request_stop();
-  pool.join(); */
-
   pool.request_stop();
   pool.join();
   pt.reset();
@@ -128,7 +125,6 @@ TEST_CASE("Test Successful C-STORE Association with SCU", "[ST]") {
   // CHECK(result.good());
 
   /*Extracting data from dicom file.*/
-
   DcmFileFormat dfile;
   auto result = dfile.loadFile("../DICOM_Images/1-01.dcm");
   CHECK(result.good());
@@ -139,10 +135,8 @@ TEST_CASE("Test Successful C-STORE Association with SCU", "[ST]") {
   result = scu.send(*data);
   CHECK(result.good());
 
-
-
+  /*Request shutdown and stop listening. */
   pool.request_stop();
   pool.join();
   pt.reset();
-
 }
