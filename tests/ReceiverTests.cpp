@@ -68,6 +68,7 @@ TEST_CASE("Test C-STORE Association", "[RT]") {
   pool.request_stop();
   pool.join();
 
+
   // Check the association.
   for (auto &scu : scus) {
     CHECK(scu.get_neg_association_result().good());
@@ -80,6 +81,11 @@ TEST_CASE("Test C-STORE Association", "[RT]") {
 
   // check we got the datasets
   CHECK(pt->size() == 4);
+  pt.reset();
+
+  pool.request_stop();
+  pool.join();
+
 }
 
 // This tests basic configuration of the Receiver.

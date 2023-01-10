@@ -101,7 +101,7 @@ TEST_CASE("Test Unsuccessful C-STORE Association with SCU", "[ST]") {
 
   pool.request_stop();
   pool.join();
-  //pt.reset();
+  pt.reset();
 }
 
 TEST_CASE("Test Successful C-STORE Association with SCU", "[ST]") {
@@ -143,5 +143,6 @@ TEST_CASE("Test Successful C-STORE Association with SCU", "[ST]") {
 
   pool.request_stop();
   pool.join();
-  //pt.reset();
+  pt.reset();
+
 }

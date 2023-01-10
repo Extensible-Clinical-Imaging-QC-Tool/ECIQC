@@ -22,6 +22,7 @@ public:
   Conductor &operator=(const Conductor &) = delete;
   Conductor &operator=(Conductor &&) = delete;
   void process_next_dataset();
+  void shutdown_receiver();
   
 private:
   void setup_parser(const json &config);

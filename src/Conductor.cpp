@@ -65,3 +65,8 @@ void Conductor::process_dataset(DcmDataset &dataset) {
   // pipeline goes here!!!
   auto result = m_destination.send(dataset);
 }
+
+void Conductor::shutdown_receiver() {
+  m_receiver.request_stop();
+  m_receiver.join();
+}
