@@ -11,14 +11,15 @@
 #include <vector>
 #include <tesseract/baseapi.h>
 #include <string>
-#include <tesseract/strngs.h>
-#include <tesseract/genericvector.h>
-
+#if TESSERACT_MAJOR_VERSION < 5
+    #include <tesseract/strngs.h>
+    #include <tesseract/genericvector.h>
+#endif
 #include <leptonica/allheaders.h>
 #include <regex>
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include<cmath>
-
+ 
 // Constructor(s)
 
 ImageEditor::ImageEditor(DcmDataset* dataset) {
@@ -265,10 +266,16 @@ void ImageEditor::coverText(){
     std::unique_ptr<tesseract::TessBaseAPI> api = std::make_unique<tesseract::TessBaseAPI>();
     // Stop tesseract using dictionaries for word recogntion
     // using tesseract generic vectors
+#if TESSERACT_MAJOR_VERSION < 5
     GenericVector< STRING > pars_vec;
+    GenericVector< STRING > pars_values;
+#else
+    std::vector< std::string > pars_vec;
+    std::vector< std::string > pars_values;
+#endif
+
     pars_vec.push_back("load_system_dawg");
     pars_vec.push_back("load_freq_dawg");
-    GenericVector< STRING > pars_values;
 
     pars_values.push_back("0");
     pars_values.push_back("0");
