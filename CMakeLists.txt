@@ -84,7 +84,10 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   # Sender Files
                   src/communication/Sender.hpp
                   src/communication/Sender.cpp
-
+                  
+                  # Logging Files
+                  src/logging.hpp
+                  src/logging.cpp
             
                   )
 
@@ -153,6 +156,7 @@ add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/IETests.cpp
                           tests/validatorTests.cpp
                           tests/SenderTests.cpp
+                          tests/SenderTests_new.cpp
                           tests/TestStorageSCU.cpp
                           tests/TestStorageSCU.hpp
                  )                          

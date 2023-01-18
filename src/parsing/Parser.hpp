@@ -15,6 +15,7 @@ class Parser {
   // member that holds the dataset to be modified based on the instructions from
   // the config file
   DcmDataset *currentDataset;
+  dcmtk::log4cplus::Logger logger;
 
 public:
   // object that provides all the methods required for editing

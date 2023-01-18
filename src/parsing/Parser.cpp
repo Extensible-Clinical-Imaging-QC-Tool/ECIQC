@@ -8,6 +8,10 @@
 #include <set>
 #include <sstream>
 #include <string>
+#include "dcmtk/oflog/oflog.h"
+
+#include "logging.hpp"
+
 
 // Define again???
 #define PRV_PrivateQuar DcmTag(0x1333, 0x0052, EVR_IS)
@@ -36,9 +40,9 @@ using json = nlohmann::json;
 //     std::cout << "REMOVE ME";
 // }
 //
-Parser::Parser() : currentDataset(nullptr) {}
+Parser::Parser() : currentDataset(nullptr), logger(dcmtk::log4cplus::Logger::getRoot()) {}
 
-Parser::Parser(const OFString& configFpath) : currentDataset(nullptr) {
+Parser::Parser(const OFString& configFpath) : currentDataset(nullptr), logger(dcmtk::log4cplus::Logger::getRoot()) {
     setConfigFile(configFpath);
 }
 
@@ -79,6 +83,7 @@ DcmDataset *Parser::getDicomDset() { return currentDataset; }
 
 // TODO What happens to the OFCondition results of the operations
 DcmDataset *Parser::parse() {
+  OFLOG_INFO(get_logger(),"Parser start to work. We're in the processing pipeline!");
   OFCondition
       allResults; // If any operation returns bad OFCondition, move to quar
   allResults = EC_Normal;
@@ -86,8 +91,11 @@ DcmDataset *Parser::parse() {
   for (const auto &tag : base.items()) {
     OFString instruction, sub_instruction;
 
-    std::cout << "One item's key: " << tag.key() << std::endl;
-    std::cout << "One item's value: " << tag.value() << std::endl;
+    //std::cout << "One item's key: " << tag.key() << std::endl;
+    //std::cout << "One item's value: " << tag.value() << std::endl;
+    OFLOG_DEBUG(get_logger(),"The key we're working on: "<<tag.key());
+    OFLOG_DEBUG(get_logger(), "Process description: " << tag.value()["description"]);
+
 
     editor.setTag(tag.key().c_str());
     std::cout << "\tTag set:\t" << editor.getTagString() << std::endl;
@@ -99,18 +107,23 @@ DcmDataset *Parser::parse() {
 
     for (const auto &action : base[tag.key()]["operations"].items()) {
       // for(const auto& action: checkList.value().items()) {
-      std::cout << "\t action : " << action.key() << '\n'
-                << "\t action parameters: " << action.value() << std::endl;
+      //std::cout << "\t action : " << action.key() << '\n'
+      //          << "\t action parameters: " << action.value() << std::endl;
+      OFLOG_TRACE(get_logger(),"\t action : " << action.key() << '\n'
+                << "\t action parameters: " << action.value() << std::endl);
       OFCondition actionResult;
       actionResult = parseOperation(action.key().c_str(), action.value(),
                                     tag.key().c_str());
       if (actionResult.bad()) {
         allResults =
             makeOFCondition(OFM_dcmdata, 22, OF_error, "Some checks failed");
+        OFLOG_ERROR(get_logger(), "This process has failed!");
       }
       //}
     }
+    
   }
+  OFLOG_INFO(get_logger(),"Parser worked finished!");
   return currentDataset;
 }
 DcmDataset *Parser::pathToDset(OFString path) { return nullptr; }
