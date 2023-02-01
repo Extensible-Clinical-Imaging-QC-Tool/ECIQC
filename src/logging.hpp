@@ -4,4 +4,4 @@
 
 void set_root_logging(const std::string& filename, bool debug);
 void set_logging(const std::string& filename, bool debug);
-OFLogger get_logger();
+const dcmtk::log4cplus::Logger& get_logger();
