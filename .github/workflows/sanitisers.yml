@@ -30,7 +30,7 @@ jobs:
           bash scripts/install_dependencies.sh
 
       - name: install analysers
-        run: sudo apt install g++-10
+        run: sudo apt install cppcheck clang-tidy-10
 
       - name: make build directories
         run: |
@@ -46,7 +46,7 @@ jobs:
           ./unit_tests
         working-directory: address_san_dir
         env:
-          CXX: g++-10
+          CXX: clang++-10
 
       - name: leak sanitiser
         run: |
@@ -55,7 +55,7 @@ jobs:
           ./unit_tests
         working-directory: leak_san_dir
         env:
-          CXX: g++-10
+          CXX: clang++-10
 
       - name: undefined behaviour sanitiser
         run: |
@@ -64,7 +64,7 @@ jobs:
           ./unit_tests
         working-directory: ub_san_dir
         env:
-          CXX: g++-10
+          CXX: clang++-10
 
       - name: thread sanitiser
         run: |
@@ -73,7 +73,7 @@ jobs:
           ./unit_tests
         working-directory: thread_san_dir
         env:
-          CXX: g++-10
+          CXX: clang++-10
 
       - name: memory sanitiser
         run: |
@@ -82,4 +82,4 @@ jobs:
           ./unit_tests
         working-directory: memory_san_dir
         env:
-          CXX: g++-10
+          CXX: clang++-10
