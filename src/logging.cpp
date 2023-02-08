@@ -56,6 +56,7 @@ if (debug) {
   test_log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
 }
 }
+
 const dcmtk::log4cplus::Logger& get_logger() {
     return logger;
 }

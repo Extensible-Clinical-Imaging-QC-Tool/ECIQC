@@ -9,6 +9,7 @@
 
 #include "../src/communication/Receiver.hpp"
 #include "../src/communication/Sender.hpp"
+#include "../src/logging.hpp"
 /*
 
 using namespace cpp_template;
@@ -21,6 +22,21 @@ OFFIS_CONSOLE_APPLICATION);
 static char rcsid[] = "$dcmtk: " OFFIS_CONSOLE_APPLICATION " v"
   OFFIS_DCMTK_VERSION " " OFFIS_DCMTK_RELEASEDATE " $";
   */
+
+TEST_CASE("Test C-ECHO Request with SCU, and add logging", "[STN]") {
+  set_root_logging("../TestSender_root.log", true);
+  set_logging("../TestSender.log", true);
+  std::string ae_title = "TEST-SCU";
+  std::string peer_hostname = "www.dicomserver.co.uk";
+  Uint16 peer_port = 11112;
+  std::string peer_aetitle = "MOVESCP";
+  Sender scu(ae_title, peer_hostname, peer_port, peer_aetitle);
+
+  auto result = scu.send_echo();
+
+
+  CHECK(result.good());
+}
 
 TEST_CASE("Test C-ECHO Request with SCU", "[ST]") {
   std::string ae_title = "TEST-SCU";

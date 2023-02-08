@@ -5,6 +5,10 @@
 #include "communication/ThreadSafeQueue.hpp"
 #include "Receiver.hpp"
 
+// Add the logging module
+#include "dcmtk/oflog/oflog.h"
+#include "logging.hpp"
+
 // ----------------------------------------------------------------------------
 
 ReceiverThread::ReceiverThread() : DcmThreadSCP() {}
@@ -125,6 +129,11 @@ Receiver::Receiver(Uint16 port, std::string aetitle) {
   getConfig().setPort(port);
   // Configure SCP name
   getConfig().setAETitle(title);
+
+  // Add logging
+  OFLOG_INFO(get_logger(),"Receiver starts to work!" << '\n'
+            <<" SCP Port: " << port << '\n'
+            <<" title: " << title << std::endl);
   // Set number of threads
   setMaxThreads(2);
   getConfig().setConnectionBlockingMode(DUL_NOBLOCK);
@@ -151,11 +160,15 @@ Receiver::Receiver(Uint16 port, std::string aetitle) {
 
 void Receiver::request_stop() {
   DQDBaseSCPPool::stopAfterCurrentAssociations();
+  OFLOG_INFO(get_logger(),"Request stop of the receiver" << std::endl);
 }
 
 // ----------------------------------------------------------------------------
 
-void Receiver::run() { result = DQDSCPPool ::listen(); }
+void Receiver::run() { 
+    result = DQDSCPPool ::listen();
+    OFLOG_INFO(get_logger(),"Receiver is running now!" << std::endl);
+    }
 
 // ----------------------------------------------------------------------------
 

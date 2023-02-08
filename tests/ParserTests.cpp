@@ -33,7 +33,7 @@ OFString schemaPath;
 
 TEST_CASE("Test parsing name change, also add the logging", "[NPN]") {
     set_root_logging("../TestParser_root.log", true);
-    set_logging("../TestParser.log", true);
+    set_logging("../TestImage_Parser.log", true);
     //OFLOG_INFO(get_logger(), "We are starting the test!");
     schemaPath = "../schema/tests/test_namechange.json";
     Parser* pObj = new Parser{schemaPath};
@@ -43,6 +43,7 @@ TEST_CASE("Test parsing name change, also add the logging", "[NPN]") {
     pObj->parse();
 
     CHECK(pObj->editor.equals("Robert", flag).good());
+    CHECK(pObj->allResults.good());
 
     //OFLOG_INFO(get_logger(), "We have succeeded! Now end the test!");
 
