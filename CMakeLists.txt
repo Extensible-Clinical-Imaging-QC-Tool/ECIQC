@@ -32,8 +32,8 @@
 cmake_minimum_required(VERSION 3.6)
 project(QCTool)
 
-# ensure C++14
-set(CMAKE_CXX_STANDARD 14)
+# ensure C++17
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -65,24 +65,29 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   src/metadata/validator.cpp
                   src/metadata/validator.hpp
                   # Receiver Files
-                  src/communication/receiver.cpp
-                  src/communication/receiver.hpp
+                  src/communication/Receiver.cpp
+                  src/communication/Receiver.hpp
                   src/communication/poolbase.h
                   src/communication/poolbase.cpp
+                  src/communication/ThreadSafeQueue.tpp
+                  src/communication/ThreadSafeQueue.hpp
                   # Parsing Files
                   src/parsing/Parser.cpp
                   src/parsing/Parser.hpp
                   # Conductor Files
-                  src/conductor.cpp
-                  src/conductor.hpp
+                  src/Conductor.cpp
+                  src/Conductor.hpp
                   # IE Files
                   src/image/ImageEditor.cpp
                   src/image/ImageEditor.hpp
         
                   # Sender Files
-                  src/communication/sender.hpp
-                  src/communication/sender.cpp
-
+                  src/communication/Sender.hpp
+                  src/communication/Sender.cpp
+                  
+                  # Logging Files
+                  src/logging.hpp
+                  src/logging.cpp
             
                   )
 
@@ -149,10 +154,13 @@ add_executable(unit_tests tests/ReceiverTests.cpp
                           tests/ParserTests.cpp
                           tests/ConductorTests.cpp
                           tests/IETests.cpp
+
                           tests/validatorTests.cpp
+                          tests/ConductorTests.cpp
                           tests/SenderTests.cpp
-                         
-                          
+                          tests/TestStorageSCU.cpp
+                          tests/TestStorageSCU.hpp
+
                  )                          
 
 target_include_directories(unit_tests PRIVATE tests)

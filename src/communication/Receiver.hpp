@@ -4,6 +4,7 @@
 #include <dcmtk/dcmnet/scppool.h>
 #include <dcmtk/dcmnet/scpthrd.h>
 #include "poolbase.h"
+#include "ThreadSafeQueue.hpp"
 /**
  * A worker thread in a multithreaded Service Class Provider. 
  * Runs an association from an already accepted connection.
@@ -11,17 +12,18 @@
 class ReceiverThread : public DcmThreadSCP
 { OFList<OFString> m_sourcelist;
   OFList<OFString> m_peerAETitles;
-  OFshared_ptr<OFList<DcmDataset>> m_dset; 
+  OFshared_ptr<ThreadSafeQueue<DcmDataset>> m_dset; 
+  OFMutex m_edit_dset;
 
 public:
     /**  Constructor. */
     ReceiverThread();
 
     /** Destructor. */
-    virtual ~ReceiverThread();
+     ~ReceiverThread() override;
 
     /** Overwrite method of DcmSCP to enable handling of C-STORE requests. */
-    OFCondition handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo);
+    OFCondition handleIncomingCommand(T_DIMSE_Message* incomingMsg, const DcmPresentationContextInfo& presInfo) override;
 
     /** Set IP/hostnames accepted by the SCP worker.
      *  @param source_list List of accepted hostname or IP.
@@ -38,19 +40,19 @@ public:
      *  @return OFTrue if hostname/IP is allowed (or if no acceptable hostnames/IPs are specified).
      *          OFFalse if hostname/IP is not accepted.
      */
-    virtual OFBool checkCallingHostAccepted(const OFString& hostOrIP);
+     OFBool checkCallingHostAccepted(const OFString& hostOrIP) override;
 
     /** Check if calling AE Title is accepted by the SCP.
      *  @param callingAE Connected peer's AE Title.
      *  @return OFTrue if calling AE Title is allowed (or if no acceptable calling AE Titles are specified).
      *          OFFalse if calling AE is not accepted.
      */
-    virtual OFBool checkCallingAETitleAccepted(const OFString& callingAE); 
+     OFBool checkCallingAETitleAccepted(const OFString& callingAE) override; 
     
     /** Set a shared pointer for storing received DICOM images.
      *  @param dset Shared pointer to be used by the worker.
      */
-    void setdatasetaddress(OFshared_ptr<OFList<DcmDataset>> dset);
+    void setdatasetaddress(OFshared_ptr<ThreadSafeQueue<DcmDataset>> dset);
 
 
 };
@@ -65,10 +67,13 @@ public:
     OFCondition result;
     
     /** Constructor. */
+    Receiver();
     Receiver(Uint16 port, std::string aetitle);
+    Receiver(const Receiver &) = delete;
+    Receiver(Receiver &&) = delete;
+    Receiver &operator=(const Receiver &) = delete;
+    Receiver &operator=(Receiver &&) = delete;
 
-    /** Destructor. */
-    virtual ~Receiver();
 
     /** Stop listening after current association. */
     virtual void request_stop();
@@ -93,7 +98,7 @@ public:
 
 protected:
     /** Overwrite OFThread's run() method. */
-    void run();
+    void run() override;
     //void setpooldataset(DcmDataset* dset);
 };
  

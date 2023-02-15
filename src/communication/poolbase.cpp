@@ -1,5 +1,6 @@
 
 
+#include "communication/ThreadSafeQueue.hpp"
 #include "dcmtk/config/osconfig.h" /* make sure OS specific configuration is included first */
 
 #ifdef WITH_THREADS // Without threads pool does not make sense...
@@ -185,7 +186,7 @@ void DQDBaseSCPPool::setacceptableIPs(OFList<OFString> source_list)
 }
 
 // ----------------------------------------------------------------------------
-void DQDBaseSCPPool::setpointer(OFshared_ptr<OFList<DcmDataset>> dset)
+void DQDBaseSCPPool::setpointer(OFshared_ptr<ThreadSafeQueue<DcmDataset>> dset)
 {
     m_dset = dset;
 }
@@ -202,7 +203,7 @@ void DQDBaseSCPPool::setcallingAETitles(OFList<OFString> aetitle_list)
 OFCondition DQDBaseSCPPool::runAssociation(T_ASC_Association *assoc,
                                            const DcmSharedSCPConfig& sharedConfig, const OFList<OFString>& sourcelist,
                                            const OFList<OFString>& peerAE_list,
-                                           OFshared_ptr<OFList<DcmDataset>> dset)
+                                           OFshared_ptr<ThreadSafeQueue<DcmDataset>> dset)
 {
   /* Try to find idle worker thread */
   OFCondition result = EC_Normal;
