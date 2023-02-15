@@ -18,8 +18,36 @@
 
 #include "TestStorageSCU.hpp"
 #include "communication/Receiver.hpp"
+#include "logging.hpp"
 
 using namespace cpp_template;
+
+
+// This tests handling of C-ECHO Association and also the logging
+TEST_CASE("Test C-ECHO Association and the logging", "[RTN]") {
+  set_root_logging("../TestReceiver_root.log", true);
+  set_logging("../TestReceiver.log", true);
+  const int port = 11112;
+  const std::string title = "TestSCP";
+  Receiver pool(port, title);
+  pool.start();
+
+  OFVector<TestStorageSCU> scus(2);
+  for (auto &scu : scus) {
+    scu.set_peer(title, port);
+    scu.initialise();
+    scu.run();
+  }
+
+  // Check the association.
+  for (auto &scu : scus) {
+    CHECK(scu.get_neg_association_result().good());
+    CHECK(scu.get_echo_result().good());
+    CHECK(scu.get_release_association_result().good());
+  }
+  pool.request_stop();
+  pool.join();
+}
 
 // This tests handling of C-ECHO Association
 TEST_CASE("Test C-ECHO Association", "[RT]") {

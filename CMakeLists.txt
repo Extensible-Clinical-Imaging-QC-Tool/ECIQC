@@ -84,7 +84,10 @@ add_library(qctool_lib src/misc/MyLibrary.cpp
                   # Sender Files
                   src/communication/Sender.hpp
                   src/communication/Sender.cpp
-
+                  
+                  # Logging Files
+                  src/logging.hpp
+                  src/logging.cpp
             
                   )
 

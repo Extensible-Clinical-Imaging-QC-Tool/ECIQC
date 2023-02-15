@@ -15,10 +15,15 @@ class Parser {
   // member that holds the dataset to be modified based on the instructions from
   // the config file
   DcmDataset *currentDataset;
+  dcmtk::log4cplus::Logger logger;
 
 public:
   // object that provides all the methods required for editing
   MetadataEditor editor;
+
+  // allResults just record whether the parser is successful,
+  // The Conductor pipeline should have access to the variable
+  OFCondition allResults;
 
   /** Default constructor for the class.
    *
