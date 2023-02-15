@@ -9,11 +9,13 @@
 #include <iostream>
 #include <sstream>
 #include "dcmtk/oflog/fileap.h"
+#include "image/ImageEditor.hpp"
+
     
 #include "../libs/nlohmann_json/single_include/nlohmann/json.hpp"
 
 using json = nlohmann::json;
-
+/// TODO - setup image editor here
 Conductor::Conductor(std::istream &json_config) {
   auto config = json::parse(json_config);
   setup_parser(config["metadata"]);
@@ -52,20 +54,57 @@ void Conductor::setup_quarentine(const std::string &aetitle,const std::string &p
   m_quarentine.set_peer_port(port);
 }
 
+//void Conductor setup_image_editor
 
 void Conductor::process_next_dataset() {
-  // wait until next dataste is available
+  // wait until next dataset is available
   std::cout << "Conductor: process_next_dataset" << std::endl;
+  //pushes dataset to the front of the queue
   auto dataset = m_todo->front();
+
+  //actually process the dataset
   process_dataset(dataset);
   m_todo->pop();
 }
 
-void Conductor::process_dataset(DcmDataset &dataset) {
+void Conductor::process_dataset(DcmDataset dataset) {
   // pipeline goes here!!!
-  auto result = m_destination.send(dataset);
+  // 1. parse dataset
+  //pull the dataset passed to "process_dataset"
+  m_parser.setDicomDset(&dataset);
+  //check conditions and parse
+  OFCondition flag;
+  m_parser.parse();
+
+  // 2. check if dataset is valid
+  //how do we check if the dataset is valid?? - parser runs check
+  //but how do we identify if checks are successful
+  //how do we get "actionResult" from parser
+
+  if (m_parser.allResults.bad()) {
+  //if bad send to quar:
+    m_quarentine.send(dataset);
+  }
+  else {
+  // 3. perform image edits
+  //TODO - check if image edits are performed correctly
+  // for now just send to image editor 
+  //we need to make sure that we are running the cover text operation
+  ImageEditor dataset2edit (&dataset);
+  dataset2edit.coverText();
+
+  // 4. send dataset to destination
+  m_destination.send(dataset);
+  }
+
+
+
 }
 
+
+//this was giving us trouble before -
+//we need to make sure that this is the same format as the unit tests??
+//just ensure that we shutdown the conductor properly when done
 void Conductor::shutdown_receiver() {
   m_receiver.request_stop();
   m_receiver.join();

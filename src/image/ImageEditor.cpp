@@ -186,7 +186,7 @@ bool ImageEditor::loadPixelData() {
             // unsigned
             if (!isSigned) {
                 Uint8 * mergedSlices = combined.data;
-                // insert array back into DcmPixelData
+                // insert array back into DcmPixelData - check if this is actually being done
                 pixelData->putUint8Array(mergedSlices, length);
 
             }
@@ -315,13 +315,15 @@ void ImageEditor::coverText(){
                 cv::Rect rect(box->x, box->y, box->w, box->h);
                 // Draw the rectangle on the original image for each slice
                 for (std::size_t n = 0; n < slices.size(); n++) {
-                    cv::rectangle(slices[n], rect, cv::Scalar(0, 255, 0));
+                    cv::rectangle(slices[n], rect, cv::Scalar(0, 255, 0), cv::FILLED);
                 }
             }
             boxDestroy(&box);
         }
     }
     cv::imwrite("../presentation/otsuText.png", slices[0]);
+    //TODO add image back into dicom file here- may have already been written but unsure
+
     api->End();
 }
 
