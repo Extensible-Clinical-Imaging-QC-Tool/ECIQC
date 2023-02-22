@@ -28,16 +28,16 @@ Sender::Sender(std::string aetitle, std::string peer_hostname, Uint16 peer_port,
     setPeerHostName(peer_hostname.c_str()); 
     setPeerPort(peer_port); 
     setPeerAETitle(peer_aetitle.c_str());
-
+    // Note: the following logger is wrong because it will be called during initialisation.
+    /*
     OFLOG_INFO(get_logger(),"The sender starts to work" << '\n' 
         << "aetitle is: " << aetitle.c_str() << '\n' 
         << "Peer Host Name is: " << peer_hostname.c_str() << '\n'
         << "Peer port is: " << peer_port << '\n'
-        << "Peer aetitle is: " << peer_aetitle.c_str() << std::endl;
+        << "Peer aetitle is: " << peer_aetitle.c_str() << std::endl);
+    */
+
     
-
-    );
-
     //Define presentation contexts, propose all uncompressed TS
     OFList<OFString> ts;
     ts.push_back(UID_LittleEndianExplicitTransferSyntax); 

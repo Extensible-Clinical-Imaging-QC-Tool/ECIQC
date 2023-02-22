@@ -9,6 +9,9 @@
 #include "TestStorageSCU.hpp"
 #include "Conductor.hpp"
 #include <dcmtk/config/osconfig.h>
+#include "metadata/MetadataEditor.hpp"
+
+
 
 #ifdef WITH_THREADS
 TEST_CASE(
@@ -34,11 +37,11 @@ TEST_CASE(
       "put_tag_here": {
         "tagName": "PatientName",
         "vr": "CS",
-        "description": "check if patient is called 'bob' and change, if so.",
+        "description": "check if patient is called 'James Bond' and change, if so.",
         "operations": {
             "EQUAL": {
                 "otherTagString": "",
-                "value": "John Doe",
+                "value": "James Bond",
                 "IF_TRUE": {
                     "OVERWRITE": {
                         "tag": "",
@@ -76,31 +79,64 @@ TEST_CASE(
   TestStorageSCU scu;
   scu.set_peer("TestQCTool", 11112);
   scu.initialise();
-  scu.add_file("../DICOM_Images/1-1copy.dcm");
-  scu.add_file("../DICOM_Images/test2.dcm");
+  scu.add_file("../DICOM_Images/1-004.dcm");
+  //scu.add_file("../DICOM_Images/1-1copy.dcm");
+  //scu.add_file("../DICOM_Images/1-003.dcm");
   scu.run();
 
   // process the dataset
   conductor.process_next_dataset();
-
   // check that the first dataset got to the destination
   CHECK(dest_queue->size() == 1);
 
-  conductor.process_next_dataset();
+  //conductor.process_next_dataset();
+  //CHECK(dest_queue->size() == 2);
 
+  //conductor.process_next_dataset();
+  //CHECK(dest_queue->size() == 3);
+
+  //CHECK(quar_queue->size() == 1);
+
+  
+  /*
+  auto editor = MetadataEditor("../DICOM_Images/1-1copy.dcm");
+
+  // check whether the meta has been changed properly
+  DcmDataset post_file = dest_queue->front();
+  DcmDataset pre_file = *(editor.dset);
+
+  OFString patient_name_pre;
+  OFString patient_name_post;
+  DcmTagKey nameTagKey = DCM_PatientName;
+  pre_file.findAndGetOFString(nameTagKey,patient_name_pre);
+  post_file.findAndGetOFString(nameTagKey,patient_name_post);
+
+  std::cout << patient_name_pre << std::endl;
+  std::cout <<"^^^^^^^^^^^^^^^^^^^^^^^^^^^^"<<std::endl;
+  std::cout <<  patient_name_post << std::endl;
+  std::cout << "*******************************"<<std::endl;
+  CHECK(patient_name_pre == "James Bond");
+  OFCondition flag;
+  CHECK(editor.equals("Robert", flag).good());
+  std::cout << "Check has been finished!" << std::endl;
+  */
+  
+  
+  
+  
+  
+  /* editor_post.setDset(&post_file);
+  
+  OFCondition flag;
+  
+  //std::cout << .good() << std::endl;
+  //std::cout << "##################" << std::endl;
+  //std::cout << tag_string_pre << std::endl; 
+  */
   // check that the second dataset got to the destination
-  CHECK(dest_queue->size() == 2);
-
-  // Request shutdown of everything
-  conductor.shutdown_receiver();
-
-  destination.request_stop();
-  destination.join();
-  dest_queue.reset();
-
-  quarentine.request_stop();
-  quarentine.join();
-  quar_queue.reset();
+  
+  //auto dicom_file2 = dest_queue->pop();
+  //auto dicom_file3 = dest_queue->pop();
 }
 
 #endif

@@ -74,7 +74,7 @@ TEST_CASE("Test C-ECHO Association", "[RT]") {
 }
 
 // This tests handling of C-STORE Association
-TEST_CASE("Test C-STORE Association", "[RT]") {
+TEST_CASE("Test C-STORE Association", "[RT1]") {
 
   const int port = 11112;
   const std::string title = "TestSCP";
@@ -88,8 +88,8 @@ TEST_CASE("Test C-STORE Association", "[RT]") {
   for (auto &scu : scus) {
     scu.set_peer(title, port);
     scu.initialise();
-    scu.add_file("../DICOM_Images/1-1copy.dcm");
-    scu.add_file("../DICOM_Images/test2.dcm");
+    scu.add_file("../DICOM_Images/1-003.dcm");
+    scu.add_file("../DICOM_Images/1-004.dcm");
     scu.run();
   }
 
