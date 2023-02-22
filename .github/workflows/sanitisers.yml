@@ -15,7 +15,7 @@ jobs:
 
   build-and-test:
     name: Sanitiser checks
-    runs-on: ubuntu-20.04
+    runs-on: macos-latest
 
     steps:
 
