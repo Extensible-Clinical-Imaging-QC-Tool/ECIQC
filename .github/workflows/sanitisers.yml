@@ -15,7 +15,7 @@ jobs:
 
   build-and-test:
     name: Sanitiser checks
-    runs-on: macos-latest
+    runs-on: ubuntu-22.04
 
     steps:
 
