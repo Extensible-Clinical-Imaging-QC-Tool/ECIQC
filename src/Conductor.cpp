@@ -86,10 +86,14 @@ void Conductor::process_dataset(DcmDataset &dataset) {
   */
 
   OFCondition result = m_parser.allResults;
+  
+  
   if (result.bad()){
+      OFLOG_INFO(get_logger(),"The parser has finished! Sent to quarantine!");
       auto send_result = m_quarentine.send(dataset);
   }
   else{
+      OFLOG_INFO(get_logger(),"The parser has finished! Sent to destination!");
       auto send_result = m_destination.send(dataset);
   }
   //auto result = m_destination.send(dataset);

@@ -20,10 +20,14 @@ void TestStorageSCU::initialise() {
   OFList<OFString> xfers;
   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
   xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+  xfers.push_back(UID_JPEGProcess14SV1TransferSyntax);
+  xfers.push_back(UID_JPEGProcess1TransferSyntax);
 
   // Define a separate transfer syntax needed for the X-ray image
   OFList<OFString> ts;
   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
+  ts.push_back(UID_JPEGProcess14SV1TransferSyntax);
+  ts.push_back(UID_JPEGProcess1TransferSyntax);
 
   addPresentationContext(UID_CTImageStorage, xfers);
   addPresentationContext(UID_MRImageStorage, xfers);

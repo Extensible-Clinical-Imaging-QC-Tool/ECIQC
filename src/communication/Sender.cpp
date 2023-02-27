@@ -39,6 +39,7 @@ Sender::Sender(std::string aetitle, std::string peer_hostname, Uint16 peer_port,
 
     
     //Define presentation contexts, propose all uncompressed TS
+    /*
     OFList<OFString> ts;
     ts.push_back(UID_LittleEndianExplicitTransferSyntax); 
     ts.push_back(UID_BigEndianExplicitTransferSyntax); 
@@ -59,7 +60,28 @@ Sender::Sender(std::string aetitle, std::string peer_hostname, Uint16 peer_port,
     addPresentationContext(UID_MRImageStorage, ts); 
     addPresentationContext(UID_DigitalXRayImageStorageForPresentation, xfer); 
     addPresentationContext(UID_UltrasoundMultiframeImageStorage, xfer2);
+    */
+   OFList<OFString> xfers;
+   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+   xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+   xfers.push_back(UID_JPEGProcess14SV1TransferSyntax);
+   xfers.push_back(UID_JPEGProcess1TransferSyntax);
 
+   // Define a separate transfer syntax needed for the X-ray image
+   OFList<OFString> ts;
+   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
+   ts.push_back(UID_JPEGProcess14SV1TransferSyntax);
+   ts.push_back(UID_JPEGProcess1TransferSyntax);
+
+   addPresentationContext(UID_CTImageStorage, xfers);
+   addPresentationContext(UID_MRImageStorage, xfers);
+   addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts);
+   addPresentationContext(UID_UltrasoundMultiframeImageStorage,xfers);
+   addPresentationContext(UID_SecondaryCaptureImageStorage,ts);
+   addPresentationContext(UID_SecondaryCaptureImageStorage,xfers);
+  
+   addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
+   addPresentationContext(UID_VerificationSOPClass, xfers);
 }
 
 void Sender::set_aetitle(const std::string& title) {

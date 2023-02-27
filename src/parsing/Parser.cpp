@@ -112,8 +112,23 @@ DcmDataset *Parser::parse() {
       OFLOG_TRACE(get_logger(),"\t action : " << action.key() << '\n'
                 << "\t action parameters: " << action.value() << std::endl);
       OFCondition actionResult;
+      /*
+      std::cout << "@@@@@@@@@@@@@@@@@@@@@@@#################" << std::endl;
+      OFString patient_name;
+      DcmTagKey nameTagKey = DCM_PatientName;
+      currentDataset->findAndGetOFString(nameTagKey,patient_name);
+      std::cout << patient_name << std::endl;
+      std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@################" << std::endl;
+      */
+
       actionResult = parseOperation(action.key().c_str(), action.value(),
                                     tag.key().c_str());
+      /*
+      std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@################" << std::endl;
+      currentDataset->findAndGetOFString(nameTagKey,patient_name);
+      std::cout << patient_name << std::endl;
+      std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@################" << std::endl;
+      */
       if (actionResult.bad()) {
         allResults =
             makeOFCondition(OFM_dcmdata, 22, OF_error, "Some checks failed");

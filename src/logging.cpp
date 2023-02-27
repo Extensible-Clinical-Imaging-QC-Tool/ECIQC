@@ -25,7 +25,7 @@ dcmtk::log4cplus::Logger test_log = dcmtk::log4cplus::Logger::getRoot();
 test_log.removeAllAppenders();
 test_log.addAppender(test_log_file);
 if (debug) {
-  test_log.setLogLevel(OFLogger::TRACE_LOG_LEVEL);
+  test_log.setLogLevel(OFLogger::DEBUG_LOG_LEVEL);
 } else {
   test_log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
 }
