@@ -1,6 +1,6 @@
 {
     "(0010,0010)": {
-        "tagName": "BitsAllocated",
+        "tagName": "PatientName",
         "vr": "CS",
         "description": "Check if BitsAllocated between certain numbers, remove if so",
         "operations": {

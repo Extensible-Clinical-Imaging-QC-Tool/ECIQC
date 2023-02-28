@@ -1,6 +1,6 @@
 {
     "(0032,1060)": {
-        "tagName": "PatientName",
+        "tagName": "RequestedProcedureDescription",
         "vr": "CS",
         "description": "check if patient is called 'bob' and change, if so.",
         "operations": {
