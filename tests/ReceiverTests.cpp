@@ -74,7 +74,7 @@ TEST_CASE("Test C-ECHO Association", "[RT]") {
 }
 
 // This tests handling of C-STORE Association
-TEST_CASE("Test C-STORE Association", "[RT1]") {
+TEST_CASE("Test C-STORE Association", "[RT]") {
 
   const int port = 11112;
   const std::string title = "TestSCP";
@@ -88,14 +88,13 @@ TEST_CASE("Test C-STORE Association", "[RT1]") {
   for (auto &scu : scus) {
     scu.set_peer(title, port);
     scu.initialise();
-    scu.add_file("../DICOM_Images/1-003.dcm");
-    scu.add_file("../DICOM_Images/1-004.dcm");
+    scu.add_file("../DICOM_Images/1-1copy.dcm");
+    scu.add_file("../DICOM_Images/test2.dcm");
     scu.run();
   }
 
   pool.request_stop();
   pool.join();
-
 
   // Check the association.
   for (auto &scu : scus) {
@@ -109,11 +108,6 @@ TEST_CASE("Test C-STORE Association", "[RT1]") {
 
   // check we got the datasets
   CHECK(pt->size() == 4);
-  pt.reset();
-
-  pool.request_stop();
-  pool.join();
-
 }
 
 // This tests basic configuration of the Receiver.
