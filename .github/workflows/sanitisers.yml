@@ -27,7 +27,7 @@ jobs:
             bash scripts/install_dependencies_macosx.sh
 
       - name: install analysers
-        run: brew install cppcheck clang-tidy-10
+        run: brew install cppcheck
 
       - name: make build directories
         run: |
@@ -38,7 +38,7 @@ jobs:
           mkdir memory_san_dir
       - name: address sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_MEMCHECK=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_MEMCHECK=ON -DUSE_DCMTK_TARGETS=TRUE
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: address_san_dir
@@ -47,7 +47,7 @@ jobs:
 
       - name: leak sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_LEAK=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_LEAK=ON -DUSE_DCMTK_TARGETS=TRUE
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: leak_san_dir
@@ -56,7 +56,7 @@ jobs:
 
       - name: undefined behaviour sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_UNDEFINED_BEHAVIOUR=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_UNDEFINED_BEHAVIOUR=ON -DUSE_DCMTK_TARGETS=TRUE
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: ub_san_dir
@@ -65,7 +65,7 @@ jobs:
 
       - name: thread sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_THREAD=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_THREAD=ON -DUSE_DCMTK_TARGETS=TRUE
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: thread_san_dir
@@ -74,7 +74,7 @@ jobs:
 
       - name: memory sanitiser
         run: |
-          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_MEMORY=ON
+          cmake .. -DCMAKE_BUILD_TYPE=Debug -DQCTool_ENABLE_SANITISER_MEMORY=ON -DUSE_DCMTK_TARGETS=TRUE
           cmake --build . --parallel 2 --target unit_tests
           ./unit_tests
         working-directory: memory_san_dir
