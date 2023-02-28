@@ -15,7 +15,7 @@ jobs:
 
   build-and-test:
     name: Sanitiser checks
-    runs-on: ubuntu-22.04
+    runs-on: macos-latest
 
     steps:
 
@@ -27,10 +27,10 @@ jobs:
 
       - name: install dependencies
         run: |
-          bash scripts/install_dependencies.sh
+            bash scripts/install_dependencies_macosx.sh
 
       - name: install analysers
-        run: sudo apt install cppcheck clang-tidy-10
+        run: brew install cppcheck clang-tidy-10
 
       - name: make build directories
         run: |
