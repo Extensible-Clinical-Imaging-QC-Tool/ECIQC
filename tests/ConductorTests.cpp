@@ -90,6 +90,18 @@ TEST_CASE(
   
   // check that the second dataset got to the destination
   CHECK(dest_queue->size() == 2);
+
+  
+  // Request shutdown of everything
+  conductor.shutdown_receiver();
+
+  destination.request_stop();
+  destination.join();
+  dest_queue.reset();
+
+  quarentine.request_stop();
+  quarentine.join();
+  quar_queue.reset();
 }
 
 #endif
