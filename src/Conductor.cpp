@@ -65,10 +65,6 @@ void Conductor::process_next_dataset() {
 void Conductor::process_dataset(DcmDataset &dataset) {
   // pipeline goes here!!!
 
-  OFString patient_name_pre;
-  OFString patient_name_post;
-  DcmTagKey nameTagKey = DCM_PatientName;
-
   m_parser.setDicomDset(&dataset);
   m_parser.parse();
 
