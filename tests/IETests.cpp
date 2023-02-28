@@ -64,11 +64,11 @@ TEST_CASE("Test for reading DICOM images and displaying them","[DR]") {
 
     // something like: dicomTest.saveImage(outPath);
 
-    cv::namedWindow( "Final window", cv::WINDOW_AUTOSIZE );// Create a window for display.
-    cv::imshow( "Final window", dicomTest.getSlices()[0]);
-    cv::waitKey(0);
+    // cv::namedWindow( "Final window", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    // cv::imshow( "Final window", dicomTest.getSlices()[0]);
+    // cv::waitKey(500);
     //Display the saved image to the dataset
-    dicomTest.displayFirstFrame();
+    // dicomTest.displayFirstFrame();
 }
 
 
