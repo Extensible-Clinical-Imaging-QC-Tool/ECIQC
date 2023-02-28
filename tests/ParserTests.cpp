@@ -36,18 +36,18 @@ TEST_CASE("Test parsing name change, also add the logging", "[NPN]") {
     set_logging("../TestImage_Parser.log", true);
     //OFLOG_INFO(get_logger(), "We are starting the test!");
     schemaPath = "../schema/tests/test_namechange.json";
-    Parser pObj = Parser{schemaPath};
-    pObj.setDicomDset(testPath);
+    Parser* pObj = new Parser{schemaPath};
+    pObj->setDicomDset(testPath);
 
     OFCondition flag;
-    pObj.parse();
+    pObj->parse();
 
-    CHECK(pObj.editor.equals("Robert", flag).good());
-    CHECK(pObj.allResults.good());
+    CHECK(pObj->editor.equals("Robert", flag).good());
+    CHECK(pObj->allResults.good());
 
     //OFLOG_INFO(get_logger(), "We have succeeded! Now end the test!");
 
-    //delete pObj;
+    delete pObj;
 }
 
 TEST_CASE("Test parsing name change", "[NP]") {
@@ -190,6 +190,6 @@ TEST_CASE("Test parsing REGEX with PREPEND", "[NP]") {
   pObj->parse();
 
   CHECK(pObj->editor.equals("JohnJohn Doe", flag).good());
-  
+
   delete pObj;
 }
