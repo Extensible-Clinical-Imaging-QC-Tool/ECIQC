@@ -43,7 +43,6 @@ void Conductor::setup_destination(const std::string &aetitle, const std::string 
   m_destination.set_peer_aetitle(peer_aetitle);
   m_destination.set_peer_hostname(hostname);
   m_destination.set_peer_port(port);
-  
 }
 
 void Conductor::setup_quarentine(const std::string &aetitle,const std::string &peer_aetitle,
@@ -69,21 +68,9 @@ void Conductor::process_dataset(DcmDataset &dataset) {
   OFString patient_name_pre;
   OFString patient_name_post;
   DcmTagKey nameTagKey = DCM_PatientName;
-  /*
-  m_parser.setDicomDset(&dataset);
-  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
-  DcmDataset temp_pre = *(m_parser.getDicomDset());
-  temp_pre.findAndGetOFString(nameTagKey,patient_name_pre);
-  std::cout << patient_name_pre << std::endl;
-  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
-  m_parser.parse();
 
-  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
-  DcmDataset temp_post = *(m_parser.getDicomDset());
-  temp_post.findAndGetOFString(nameTagKey,patient_name_post);
-  std::cout << patient_name_post << std::endl;
-  std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@@@@@" << std::endl;
-  */
+  m_parser.setDicomDset(&dataset);
+  m_parser.parse();
 
   OFCondition result = m_parser.allResults;
   
