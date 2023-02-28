@@ -22,9 +22,6 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v2
 
-      - name: update sudo apt 
-        run: sudo apt-get update 
-
       - name: install dependencies
         run: |
             bash scripts/install_dependencies_macosx.sh
