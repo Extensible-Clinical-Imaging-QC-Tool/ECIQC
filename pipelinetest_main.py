@@ -8,6 +8,7 @@ if __name__ == '__main__':
     pipelinetest.generate_file_list()
     pipelinetest.run_pipeline("./schema/useCase.json","./result/","./result_quarantine/")
     '''
+<<<<<<< HEAD
     import pydicom
     file_list = ['1-01.dcm','1-1copy.dcm','1-003.dcm','1-004.dcm','1-005.dcm','1-006.dcm','test.dcm','test2.dcm','testtext.dcm']
     for file in file_list:
@@ -17,6 +18,8 @@ if __name__ == '__main__':
         #print(ds)
     '''
     '''
+=======
+>>>>>>> 4e41e5250d9f14fd7baae22d37a62a8e4851f2d2
     cmd_1 = "./build/exe/qctool --config-file='./schema/PipelineCase.json'"
     cmd_2 = "storescp 11113 --output-directory ./result/"
     cmd_3 = "storescp 11114 --output-directory ./result_quarantine/"
