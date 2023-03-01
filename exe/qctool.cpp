@@ -15,6 +15,7 @@
 // #include "../src/communication/sender.hpp"
 // #include "../src/communication/receiver.hpp"
 #include "Conductor.hpp"
+#include "logging.hpp"
 
 namespace po = boost::program_options;
 
@@ -61,20 +62,21 @@ int main(int argc, char **argv) {
 
     po::notify(var_map);
 
-    
-
+    set_root_logging("./result/pipeline_root_test.log", true);
+    set_logging("./result/pipeline_test.log", true);
+    /*
     // Specify log pattern in .log file.
     OFunique_ptr<dcmtk::log4cplus::Layout> layout(
         new dcmtk::log4cplus::PatternLayout(
             "%D{%Y-%m-%d %H:%M:%S.%q} %5p: %m%n"));
-    /* Denote that a log file should be used that is appended to. The file is
-       re-created every time the code gets to this point.
-    */
+    // Denote that a log file should be used that is appended to. The file is
+    //   re-created every time the code gets to this point.
+    
     dcmtk::log4cplus::SharedAppenderPtr logfile(
         new dcmtk::log4cplus::FileAppender(log_file.c_str()));
     // logfile->setLayout(OFmove(layout));
 
-    /* make sure that only the file logger is used */
+    // make sure that only the file logger is used
     dcmtk::log4cplus::Logger log = dcmtk::log4cplus::Logger::getRoot();
     log.removeAllAppenders();
     log.addAppender(logfile);
@@ -83,6 +85,7 @@ int main(int argc, char **argv) {
     } else {
       log.setLogLevel(OFLogger::INFO_LOG_LEVEL);
     }
+    */
 
 
     std::ifstream configFile(config_file.c_str());

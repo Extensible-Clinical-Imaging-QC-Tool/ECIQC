@@ -51,7 +51,6 @@ TEST_CASE("Test parsing name change, also add the logging", "[NPN]") {
 }
 
 TEST_CASE("Test parsing name change", "[NP]") {
-    std::cout<<"We are starting the test!"<<std::endl;
     schemaPath = "../schema/tests/test_namechange.json";
     Parser* pObj = new Parser{schemaPath};
     pObj->setDicomDset(testPath);
@@ -183,7 +182,6 @@ TEST_CASE("Test parsing EXIST with APPEND", "[NP]") {
 }
 
 TEST_CASE("Test parsing REGEX with PREPEND", "[NP]") {
-  
   schemaPath = "../schema/tests/test_regexprepend.json";
   Parser* pObj = new Parser{schemaPath};
   pObj->setDicomDset(testPath);
@@ -192,7 +190,6 @@ TEST_CASE("Test parsing REGEX with PREPEND", "[NP]") {
   pObj->parse();
 
   CHECK(pObj->editor.equals("JohnJohn Doe", flag).good());
-
 
   delete pObj;
 }

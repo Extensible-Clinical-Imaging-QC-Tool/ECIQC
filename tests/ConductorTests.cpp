@@ -78,19 +78,21 @@ TEST_CASE(
   scu.initialise();
   scu.add_file("../DICOM_Images/1-1copy.dcm");
   scu.add_file("../DICOM_Images/test2.dcm");
+  //TODO - add negative test cases to check if we are sending to Quar correctly
   scu.run();
 
   // process the dataset
   conductor.process_next_dataset();
-
+  
   // check that the first dataset got to the destination
   CHECK(dest_queue->size() == 1);
 
   conductor.process_next_dataset();
-
+  
   // check that the second dataset got to the destination
   CHECK(dest_queue->size() == 2);
 
+  
   // Request shutdown of everything
   conductor.shutdown_receiver();
 

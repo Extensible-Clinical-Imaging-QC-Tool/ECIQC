@@ -113,7 +113,6 @@ TEST_CASE("Test C-STORE Association", "[RT]") {
 
   pool.request_stop();
   pool.join();
-
 }
 
 // This tests basic configuration of the Receiver.

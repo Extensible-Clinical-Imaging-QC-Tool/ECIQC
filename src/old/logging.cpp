@@ -6,8 +6,6 @@
 #include "dcmtk/oflog/logger.h"
 #include "dcmtk/oflog/oflog.h"
 
-const auto logger = dcmtk::log4cplus::Logger::getInstance("qctool");
-
 void set_root_logging(const std::string& filename, bool debug) {
     // Specify log pattern in .log file
 OFunique_ptr<dcmtk::log4cplus::Layout> layout(
@@ -33,7 +31,6 @@ if (debug) {
 
 
 
-
 void set_logging(const std::string& filename, bool debug) {
     // Specify log pattern in .log file
 OFunique_ptr<dcmtk::log4cplus::Layout> layout(
@@ -47,7 +44,7 @@ dcmtk::log4cplus::SharedAppenderPtr test_log_file(
 // logfile->setLayout(OFmove(layout));
 
 /* make sure that only the file logger is used */
-auto test_log = get_logger();
+OFLogger test_log = get_logger();
 test_log.removeAllAppenders();
 test_log.addAppender(test_log_file);
 if (debug) {
@@ -57,6 +54,6 @@ if (debug) {
 }
 }
 
-const dcmtk::log4cplus::Logger& get_logger() {
-    return logger;
+OFLogger get_logger() {
+    return dcmtk::log4cplus::Logger::getInstance("qctool");
 }

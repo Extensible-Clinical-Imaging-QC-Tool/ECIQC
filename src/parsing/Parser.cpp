@@ -121,7 +121,7 @@ DcmDataset *Parser::parse() {
       }
       //}
     }
-    
+
   }
   OFLOG_INFO(get_logger(),"Parser worked finished!");
   return currentDataset;
@@ -439,7 +439,7 @@ OFCondition Parser::parseOperation(OFString instruction, const json &params,
   case APPEND:
   case PREPEND: {
     std::cout << "\t Key : " << instruction << "params : " << params
-              << std::endl;
+              << std::endl;   
     paramStruct = WPMaker(params);
     OFCondition action_output =
         worker(enumerated_inst, paramStruct, thisTagString);
