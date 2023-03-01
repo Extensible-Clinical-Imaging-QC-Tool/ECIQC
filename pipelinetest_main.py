@@ -4,10 +4,10 @@ import os
 from tests.pipelinetests import PipelineTests
 
 if __name__ == '__main__':
-    #pipelinetest = PipelineTests('./DICOM_Images/')
-    #pipelinetest.generate_file_list()
-    #pipelinetest.run_pipeline("./schema/useCase.json","./result/","./result_quarantine/")
-    
+    pipelinetest = PipelineTests('./DICOM_Images/')
+    pipelinetest.generate_file_list()
+    pipelinetest.run_pipeline("./schema/useCase.json","./result/","./result_quarantine/")
+    '''
     cmd_1 = "./build/exe/qctool --config-file='./schema/PipelineCase.json'"
     cmd_2 = "storescp 11113 --output-directory ./result/"
     cmd_3 = "storescp 11114 --output-directory ./result_quarantine/"
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     result_file = pydicom.read_file('result/DX.1.3.6.1.4.1.14519.5.2.1.9999.103.2710019309218103448268301702692')
     print('Original name: ', original_file.PatientName)
     print('Postprocessed name: ',result_file.PatientName)
-    
+    '''
     
     '''
     Note: when we rerun the whole pipeline test,
