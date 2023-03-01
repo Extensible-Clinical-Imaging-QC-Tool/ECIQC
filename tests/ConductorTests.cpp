@@ -78,6 +78,7 @@ TEST_CASE(
   scu.initialise();
   scu.add_file("../DICOM_Images/1-1copy.dcm");
   scu.add_file("../DICOM_Images/test2.dcm");
+  //TODO - add negative test cases to check if we are sending to Quar correctly
   scu.run();
 
   // process the dataset
