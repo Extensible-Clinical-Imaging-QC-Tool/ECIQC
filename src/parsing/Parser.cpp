@@ -112,23 +112,8 @@ DcmDataset *Parser::parse() {
       OFLOG_TRACE(get_logger(),"\t action : " << action.key() << '\n'
                 << "\t action parameters: " << action.value() << std::endl);
       OFCondition actionResult;
-      /*
-      std::cout << "@@@@@@@@@@@@@@@@@@@@@@@#################" << std::endl;
-      OFString patient_name;
-      DcmTagKey nameTagKey = DCM_PatientName;
-      currentDataset->findAndGetOFString(nameTagKey,patient_name);
-      std::cout << patient_name << std::endl;
-      std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@################" << std::endl;
-      */
-
       actionResult = parseOperation(action.key().c_str(), action.value(),
                                     tag.key().c_str());
-      /*
-      std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@################" << std::endl;
-      currentDataset->findAndGetOFString(nameTagKey,patient_name);
-      std::cout << patient_name << std::endl;
-      std::cout << "@@@@@@@@@@@@@@@@@@@@@@@@################" << std::endl;
-      */
       if (actionResult.bad()) {
         allResults =
             makeOFCondition(OFM_dcmdata, 22, OF_error, "Some checks failed");
@@ -136,7 +121,7 @@ DcmDataset *Parser::parse() {
       }
       //}
     }
-    
+
   }
   OFLOG_INFO(get_logger(),"Parser worked finished!");
   return currentDataset;
@@ -454,7 +439,7 @@ OFCondition Parser::parseOperation(OFString instruction, const json &params,
   case APPEND:
   case PREPEND: {
     std::cout << "\t Key : " << instruction << "params : " << params
-              << std::endl;
+              << std::endl;   
     paramStruct = WPMaker(params);
     OFCondition action_output =
         worker(enumerated_inst, paramStruct, thisTagString);

@@ -62,7 +62,8 @@ int main(int argc, char **argv) {
 
     po::notify(var_map);
 
-    set_root_logging("./result/pipeline_test.log", true);
+    set_root_logging("./result/pipeline_root_test.log", true);
+    set_logging("./result/pipeline_test.log", true);
     /*
     // Specify log pattern in .log file.
     OFunique_ptr<dcmtk::log4cplus::Layout> layout(

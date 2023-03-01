@@ -35,7 +35,7 @@ private:
                         const std::string &peer_aetitle,
                         const std::string &hostname, const int port);
   void initialise(const std::string &json_config);
-  void process_dataset(DcmDataset &dataset);
+  void process_dataset(DcmDataset dataset);
 };
 
 #endif

@@ -22,6 +22,7 @@ MetadataEditor::MetadataEditor(const OFString& file_path) {
 
 void MetadataEditor::setDset(DcmDataset* dataset) {
 //   std::cout << "set dataset from DcmDataset" << std::endl;
+  OFCondition result = loadFile(dataset);
   dset = dataset;
 }
 
