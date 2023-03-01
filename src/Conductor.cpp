@@ -9,8 +9,8 @@
 #include <iostream>
 #include <sstream>
 #include "dcmtk/oflog/fileap.h"
+#include "logging.hpp"
 #include "image/ImageEditor.hpp"
-
     
 #include "../libs/nlohmann_json/single_include/nlohmann/json.hpp"
 
@@ -69,6 +69,26 @@ void Conductor::process_next_dataset() {
 
 void Conductor::process_dataset(DcmDataset dataset) {
   // pipeline goes here!!!
+
+  m_parser.setDicomDset(&dataset);
+  m_parser.parse();
+
+  OFCondition result = m_parser.allResults;
+  
+  
+  if (result.bad()){
+      OFLOG_INFO(get_logger(),"The parser has finished! Sent to quarantine!");
+      auto send_result = m_quarentine.send(dataset);
+  }
+  else{
+      OFLOG_INFO(get_logger(),"The parser has finished! Sent to destination!");
+      auto send_result = m_destination.send(dataset);
+  }
+  //auto result = m_destination.send(dataset);
+  
+  // NOTE: the followings are the original version of the pipeline. There are still useful parts (e.g. ImageEditor).
+  // So we just comment it out and return back afterwards.
+  /*
   // 1. parse dataset
   //pull the dataset passed to "process_dataset"
   m_parser.setDicomDset(&dataset);
@@ -95,9 +115,9 @@ void Conductor::process_dataset(DcmDataset dataset) {
 
   // 4. send dataset to destination
   m_destination.send(dataset);
+  
   }
-
-
+  */
 
 }
 

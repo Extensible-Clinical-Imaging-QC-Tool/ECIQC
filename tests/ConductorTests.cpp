@@ -83,15 +83,16 @@ TEST_CASE(
 
   // process the dataset
   conductor.process_next_dataset();
-
+  
   // check that the first dataset got to the destination
   CHECK(dest_queue->size() == 1);
 
   conductor.process_next_dataset();
-
+  
   // check that the second dataset got to the destination
   CHECK(dest_queue->size() == 2);
 
+  
   // Request shutdown of everything
   conductor.shutdown_receiver();
 

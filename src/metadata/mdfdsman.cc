@@ -49,6 +49,22 @@ MdfDatasetManager::MdfDatasetManager()
 }
 
 
+OFCondition MdfDatasetManager::loadFile(DcmDataset* dataset,
+                                        const E_FileReadMode readMode,
+                                        const E_TransferSyntax xfer,
+                                        const OFBool createIfNecessary)
+{
+    
+    OFCondition cond;
+    // delete old dfile and free memory and reset current_file
+    delete dfile;
+    current_file = "";
+    dfile = new DcmFileFormat(dataset);
+    dset = dataset;
+
+    return cond;
+}
+
 
 OFCondition MdfDatasetManager::loadFile(const char *file_name,
                                         const E_FileReadMode readMode,
@@ -329,7 +345,7 @@ OFCondition MdfDatasetManager::modifyOrInsertPath(OFString tag_path,
   OFList<DcmPath*> resultPaths;
   Uint32 numResultPaths = proc.getResults(resultPaths);
   if (numResultPaths == 0) return EC_IllegalCall;
-
+  
   // general validity checking; must only be done for one result
   OFListIterator(DcmPath*) resultPath = resultPaths.begin();
   // verify that groups 0 (invalid) and 2 (meta header) were not used

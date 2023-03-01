@@ -61,6 +61,12 @@ public:
         @param createIfNecessary If true, the file is created if it does not exist
      *  @return returns EC_Normal if everything is OK, else an error
      */
+    
+    OFCondition loadFile(DcmDataset* dataset,
+                         const E_FileReadMode readMode = ERM_autoDetect,
+                         const E_TransferSyntax xfer = EXS_Unknown,
+                         const OFBool createIfNecessary = OFFalse);
+    
     OFCondition loadFile(const char *file_name,
                          const E_FileReadMode readMode = ERM_autoDetect,
                          const E_TransferSyntax xfer = EXS_Unknown,
