@@ -144,6 +144,8 @@ Receiver::Receiver(Uint16 port, std::string aetitle) {
   getConfig().setVerbosePCMode(OFTrue);
 
   // Add presentation context to be handled
+  // Tried by Yiming 2023-03-03 uncomment codes from line 148 to line 159 if going back!
+  /*
   OFList<OFString> ts;
   ts.push_back(UID_LittleEndianExplicitTransferSyntax);
   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
@@ -154,6 +156,18 @@ Receiver::Receiver(Uint16 port, std::string aetitle) {
     getConfig().addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], ts);
   }
   getConfig().addPresentationContext(UID_VerificationSOPClass, ts);
+  */
+  OFList<OFString> ts1;
+   OFList<OFString> ts2;
+   ts1.push_back(UID_LittleEndianImplicitTransferSyntax);
+   ts2.push_back(UID_JPEGProcess1TransferSyntax);
+   getConfig().addPresentationContext(UID_CTImageStorage, ts1);
+   getConfig().addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts1);
+   getConfig().addPresentationContext(UID_SecondaryCaptureImageStorage,ts1);
+   getConfig().addPresentationContext(UID_MRImageStorage, ts1);
+   getConfig().addPresentationContext(UID_VerificationSOPClass, ts1);
+   getConfig().addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
+  
 }
 
 // ----------------------------------------------------------------------------
