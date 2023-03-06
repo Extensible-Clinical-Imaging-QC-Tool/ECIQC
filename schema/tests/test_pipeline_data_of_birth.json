@@ -1,0 +1,19 @@
+{
+    "(0010,0030)": {
+        "tagName": "Patient's Birth Date",
+        "vr": "PN",
+        "description": "Check if Patient's Birth Date satisfies \\d{8}. If so, replace dd with 30, replace mm with 06",
+        "operations": {
+            "REGEX": {
+                "otherTagString": "",
+                "str_expr": "\\d{8}",
+                "IF_TRUE": {
+                    "REPLACE": {
+                        "otherTagString": "",
+                        "value":""
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "(0010,0010)": {
+        "tagName": "Patient's Name",
+        "vr": "PN",
+        "description": "Check if Patient's name satisfies \\d{6}. If so, Copy it to Clinical TrialSubject ID",
+        "operations": {
+            "REGEX": {
+                "otherTagString": "",
+                "str_expr": "\\d{6}",
+                "IF_TRUE": {
+                    "COPY": {
+                        "otherTagString": "(0012,0040)"
+                    }
+                }
+            }
+        }
+    }
+}

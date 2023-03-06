@@ -1,0 +1,19 @@
+{
+    "(0012,0020)": {
+        "tagName": "Clinical Trial Protocol ID",
+        "vr": "LO",
+        "description": "Check if Clinical Trial Protocol ID satisfies a specific pattern. If so, prepend patient_name with clinical_trial_protocol_id",
+        "operations": {
+            "REGEX": {
+                "otherTagString": "",
+                "str_expr": "[A-Z]{3}\\d{6}",
+                "IF_TRUE": {
+                    "PREPEND": {
+                        "otherTagString": "(0010,0010)",
+                        "value": "_"
+                    }
+                }
+            }
+        }
+    }
+}
