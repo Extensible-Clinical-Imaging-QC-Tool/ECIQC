@@ -10,15 +10,21 @@ from pynetdicom.sop_class import CTImageStorage
 
 if __name__ == '__main__':
     ### Kill all the processes on port 11112 11113 11114
-    os.system('kill $(lsof -t -i:11112) & kill $(lsof -t -i:11113) & kill $(lsof -t -i:11114)')
+    #os.system('kill $(lsof -t -i:11112) & kill $(lsof -t -i:11113) & kill $(lsof -t -i:11114)')
     
     
-    pipelinetest = PipelineTests('./DICOM_Images/')
+    pipelinetest = PipelineTests('./DICOM_Images_temp/')
     pipelinetest.generate_file_list()
-    pipelinetest.run_pipeline("./schema/PipelineCase.json","./result/","./result_quarantine/",use_pynetdicom=True)
+    pipelinetest.run_pipeline("./schema/PipelineCase.json",
+                              "./result/",
+                              "./result_quarantine/",
+                              use_pynetdicom=True,
+                              scan_directories=True,
+                              #input_file=['testtext.dcm']
+                              )
     
     time.sleep(10)
-    os.system('kill $(lsof -t -i:11112) & kill $(lsof -t -i:11113) & kill $(lsof -t -i:11114)')
+    #os.system('kill $(lsof -t -i:11112) & kill $(lsof -t -i:11113) & kill $(lsof -t -i:11114)')
     #######################################################################################
     # Note: the following codes are all obsolete now, so just ignore them.
     # But we may need some codes in the future development.

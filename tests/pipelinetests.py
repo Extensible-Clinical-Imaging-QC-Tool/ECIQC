@@ -56,9 +56,13 @@ class PipelineTests():
             cmd_2 = "storescp 11113 --output-directory " + output_path + " --accept-all"
             cmd_3 = "storescp 11114 --output-directory " + quarantine_path + " --accept-all"
             if scan_directories:
-                cmd_4 = "storescu localhost 11112 DICOM_Images --scan-directories --propose-jpeg8"
+                cmd_4 = "storescu localhost 11112 " +  'DICOM_Images' + " --scan-directories --propose-jpeg8"
             else:
-                raise ValueError("scan_directories=False has not been developed yet!")
+                image_str =''
+                for file in input_file:
+                    image_str += self.input_file_path + file + ' '
+                cmd_4 = "storescu localhost 11112 " +  image_str + " --propose-jpeg8"
         cmd = cmd_1 + " & " + cmd_2 + " & " + cmd_3 + " & " + cmd_4
+        #print(cmd)
         os.system(cmd)
 

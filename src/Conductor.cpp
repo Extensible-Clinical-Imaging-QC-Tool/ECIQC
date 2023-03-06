@@ -69,9 +69,14 @@ void Conductor::process_next_dataset() {
 
 void Conductor::process_dataset(DcmDataset dataset) {
   // pipeline goes here!!!
-
+  
+  // Metadata editor
   m_parser.setDicomDset(&dataset);
   m_parser.parse();
+
+  // Image Editor
+  ImageEditor dataset2edit (&dataset);
+  dataset2edit.coverText();
 
   OFCondition result = m_parser.allResults;
   
