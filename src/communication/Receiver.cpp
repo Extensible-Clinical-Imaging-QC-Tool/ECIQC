@@ -144,6 +144,8 @@ Receiver::Receiver(Uint16 port, std::string aetitle) {
   getConfig().setVerbosePCMode(OFTrue);
 
   // Add presentation context to be handled
+  // Tried by Yiming 2023-03-03 uncomment codes from line 148 to line 159 if going back!
+  /*
   OFList<OFString> ts;
   ts.push_back(UID_LittleEndianExplicitTransferSyntax);
   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
@@ -154,6 +156,41 @@ Receiver::Receiver(Uint16 port, std::string aetitle) {
     getConfig().addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], ts);
   }
   getConfig().addPresentationContext(UID_VerificationSOPClass, ts);
+  */
+  /*
+  OFList<OFString> ts1;
+   OFList<OFString> ts2;
+   ts1.push_back(UID_LittleEndianExplicitTransferSyntax);
+   ts1.push_back(UID_LittleEndianImplicitTransferSyntax);
+   ts2.push_back(UID_JPEGProcess1TransferSyntax);
+   getConfig().addPresentationContext(UID_CTImageStorage, ts1);
+   getConfig().addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts1);
+   getConfig().addPresentationContext(UID_SecondaryCaptureImageStorage,ts1);
+   getConfig().addPresentationContext(UID_MRImageStorage, ts1);
+   getConfig().addPresentationContext(UID_VerificationSOPClass, ts1);
+   getConfig().addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
+  */
+  OFList<OFString> xfers;
+   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+   xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+   //xfers.push_back(UID_JPEGProcess14SV1TransferSyntax);
+   //xfers.push_back(UID_JPEGProcess1TransferSyntax);
+
+   // Define a separate transfer syntax needed for the X-ray image
+   OFList<OFString> ts;
+   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
+   //ts.push_back(UID_JPEGProcess14SV1TransferSyntax);
+   //ts.push_back(UID_JPEGProcess1TransferSyntax);
+
+   OFList<OFString> ts2;
+   ts2.push_back(UID_JPEGProcess1TransferSyntax);
+
+   getConfig().addPresentationContext(UID_CTImageStorage, xfers);
+   getConfig().addPresentationContext(UID_MRImageStorage, xfers);
+   getConfig().addPresentationContext(UID_SecondaryCaptureImageStorage,xfers);
+   getConfig().addPresentationContext(UID_VerificationSOPClass, xfers);
+   getConfig().addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
+   getConfig().addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
 }
 
 // ----------------------------------------------------------------------------
