@@ -85,7 +85,7 @@ Sender::Sender(std::string aetitle, std::string peer_hostname, Uint16 peer_port,
    addPresentationContext(UID_VerificationSOPClass, xfers);
    */
    // Add presentation context to be handled
-   /*
+   /*   
    OFList<OFString> ts;
    ts.push_back(UID_LittleEndianExplicitTransferSyntax);
    ts.push_back(UID_LittleEndianImplicitTransferSyntax);
@@ -99,8 +99,10 @@ Sender::Sender(std::string aetitle, std::string peer_hostname, Uint16 peer_port,
    */
 
    // Tried by Yiming 2023-03-03, just add one specific syntax according to the files
+   /*
    OFList<OFString> ts1;
    OFList<OFString> ts2;
+   ts1.push_back(UID_LittleEndianExplicitTransferSyntax);
    ts1.push_back(UID_LittleEndianImplicitTransferSyntax);
    ts2.push_back(UID_JPEGProcess1TransferSyntax);
    addPresentationContext(UID_CTImageStorage, ts1);
@@ -109,7 +111,7 @@ Sender::Sender(std::string aetitle, std::string peer_hostname, Uint16 peer_port,
    addPresentationContext(UID_MRImageStorage, ts1);
    addPresentationContext(UID_VerificationSOPClass, ts1);
    addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
-   
+   */
 }
 
 void Sender::set_aetitle(const std::string& title) {
