@@ -75,8 +75,8 @@ void Conductor::process_dataset(DcmDataset dataset) {
   m_parser.parse();
 
   // Image Editor
-  ImageEditor dataset2edit (&dataset);
-  dataset2edit.coverText();
+  ImageEditor dataset2edit(&dataset);
+  // dataset2edit.coverText();
 
   OFCondition result = m_parser.allResults;
   

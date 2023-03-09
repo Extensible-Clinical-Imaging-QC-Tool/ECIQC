@@ -19,7 +19,7 @@
 #include <regex>
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include<cmath>
- 
+
 // Constructor(s)
 
 ImageEditor::ImageEditor(DcmDataset* dataset) {
@@ -154,10 +154,10 @@ bool ImageEditor::loadPixelData() {
     else{std::cerr << "incompatible channel number"; return false;}
 
     // display the original image
-//    cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
-//    cv::imshow( "Unedited Image", slices[0]);
-//    cv::waitKey(0);
-//    cv::destroyAllWindows();
+    //cv::namedWindow( "Unedited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    //cv::imshow( "Unedited Image", slices[0]);
+    //cv::waitKey(0);
+    //cv::destroyAllWindows();
 
     // run preprocessing step
     prePro();
@@ -208,8 +208,21 @@ bool ImageEditor::loadPixelData() {
             }
         }
 
+    
+    //std::unique_ptr<Uint8 []> buffer = std::make_unique<Uint8 []>(frameSize);
+    //unsigned int fragmentStart{0};
+    //pixelData->getUncompressedFrame(dset, 0, fragmentStart, buffer.get(), frameSize,
+    //                                decompressedColorModel);
+    //                cv::Mat slice_new = cv::Mat(nRows, nCols, CV_8UC3, buffer.get()).clone();
+    //cv::namedWindow( "edited Image", cv::WINDOW_AUTOSIZE );// Create a window for display.
+    //cv::imshow( "edited Image", slice_new);
+    //cv::waitKey(0);
+    //cv::destroyAllWindows();
+
     // change back to original (likely jpeg) format
     changeToOriginalFormat(*dset);
+
+
 
     return true;
 }
@@ -273,7 +286,7 @@ void ImageEditor::coverText(){
     std::vector< std::string > pars_vec;
     std::vector< std::string > pars_values;
 #endif
-
+    
     pars_vec.push_back("load_system_dawg");
     pars_vec.push_back("load_freq_dawg");
 

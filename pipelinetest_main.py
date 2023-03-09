@@ -13,7 +13,7 @@ if __name__ == '__main__':
     #os.system('kill $(lsof -t -i:11112) & kill $(lsof -t -i:11113) & kill $(lsof -t -i:11114)')
     
     
-    pipelinetest = PipelineTests('./DICOM_Images_temp/')
+    pipelinetest = PipelineTests('./DICOM_Images/')
     pipelinetest.generate_file_list()
     pipelinetest.run_pipeline("./schema/PipelineCase.json",
                               "./result/",
@@ -22,8 +22,13 @@ if __name__ == '__main__':
                               scan_directories=True,
                               #input_file=['testtext.dcm']
                               )
-    
-    time.sleep(10)
+    '''
+    import matplotlib.pyplot as plt
+    import pydicom
+    post_file = pydicom.read_file('result/1.2.840.113663.1500.1.402372958.3.1.20180816.111159.971')
+    print(post_file)
+    '''
+    #time.sleep(10)
     #os.system('kill $(lsof -t -i:11112) & kill $(lsof -t -i:11113) & kill $(lsof -t -i:11114)')
     #######################################################################################
     # Note: the following codes are all obsolete now, so just ignore them.
