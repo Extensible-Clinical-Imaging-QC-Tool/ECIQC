@@ -78,6 +78,8 @@ void Conductor::process_dataset(DcmDataset dataset) {
   ImageEditor dataset2edit(&dataset);
   // dataset2edit.coverText();
 
+  // Add a python plug-in
+
   OFCondition result = m_parser.allResults;
   
   
