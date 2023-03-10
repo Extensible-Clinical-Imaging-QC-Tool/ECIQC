@@ -74,9 +74,10 @@ void Conductor::process_dataset(DcmDataset dataset) {
   m_parser.setDicomDset(&dataset);
   m_parser.parse();
 
-  // Image Editor
+  // Image Editor: the constructor now automatically edit the dataset in-place
   ImageEditor dataset2edit(&dataset);
   // dataset2edit.coverText();
+
 
   OFCondition result = m_parser.allResults;
   
