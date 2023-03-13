@@ -33,6 +33,7 @@
  * CLEAR: If tag exists, remove its value
  * PREPEND: String operation, add string at start
  * APPEND: String operation, add string at end
+ * REJECT: reject the image
  */
 
 using json = nlohmann::json;
@@ -84,9 +85,7 @@ DcmDataset *Parser::getDicomDset() { return currentDataset; }
 // TODO What happens to the OFCondition results of the operations
 DcmDataset *Parser::parse() {
   OFLOG_INFO(get_logger(),"Parser start to work. We're in the processing pipeline!");
-  OFCondition
-      allResults; // If any operation returns bad OFCondition, move to quar
-  allResults = EC_Normal;
+  allResults = EC_Normal; // If any operation returns bad OFCondition, move to quar
   int i = 0;
   for (const auto &tag : base.items()) {
     OFString instruction, sub_instruction;
@@ -117,7 +116,7 @@ DcmDataset *Parser::parse() {
       if (actionResult.bad()) {
         allResults =
             makeOFCondition(OFM_dcmdata, 22, OF_error, "Some checks failed");
-        OFLOG_ERROR(get_logger(), "This process has failed!");
+        OFLOG_ERROR(get_logger(), "Some checks failed!");
       }
       //}
     }
@@ -173,6 +172,7 @@ enum ActionsEnum {
   UPDATE,
   APPEND,
   PREPEND,
+  REJECT,
   /* Objects holding further actions only */
   IF_TRUE,
   IF_FALSE
@@ -224,7 +224,8 @@ int Parser::resolveActions(OFString param) {
       {"OVERWRITE", OVERWRITE},
       {"UPDATE", UPDATE},
       {"APPEND", APPEND},
-      {"PREPEND", PREPEND}
+      {"PREPEND", PREPEND},
+      {"REJECT", REJECT}
 
   };
 
@@ -406,15 +407,21 @@ OFCondition Parser::parseOperation(OFString instruction, const json &params,
   }
   case IF_TRUE:
   case IF_FALSE: {
+    OFCondition actionResult;
     for (const auto &nested_ops : params.items()) {
       nested_key = nested_ops.key().c_str();
       nested_parameters = nested_ops.value();
       std::cout << "Key : " << nested_key << "params : " << nested_parameters
                 << std::endl;
-      parseOperation(nested_key, nested_parameters, thisTagString);
+      actionResult = parseOperation(nested_key, nested_parameters, thisTagString);
     }
-    return EC_Normal; // Doesn't matter what this returns - actions have been
-                      // done above
+    
+    return actionResult; // Doesn't matter what this returns - actions have been
+                         // done above
+                         // Updated by weiym 13-03-2023
+                         // Now we've added REJECT action - reject the image if
+                         // some conditions are meet / mot meet.
+                         // So you cannot simply return EC_normal now!
   }
   case EQUAL:
   case LESS_THAN:
@@ -437,7 +444,8 @@ OFCondition Parser::parseOperation(OFString instruction, const json &params,
   case OVERWRITE:
   case UPDATE:
   case APPEND:
-  case PREPEND: {
+  case PREPEND:
+  case REJECT: {
     std::cout << "\t Key : " << instruction << "params : " << params
               << std::endl;   
     paramStruct = WPMaker(params);
@@ -567,6 +575,9 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
                             params.pos);
     }
     break;
+  }
+  case REJECT: {
+    return makeOFCondition(OFM_dcmdata, 22, OF_error, "Some checks failed");
   }
   case EQUAL: {
     OFCondition flag;
