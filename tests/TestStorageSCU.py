@@ -16,7 +16,7 @@ if __name__ == '__main__':
     assoc = ae.associate("localhost", port_number)
     if assoc.is_established:
         status = assoc.send_c_echo()
-        for file_name in glob.glob(path_to_dataset+ '*.dcm'):
+        for file_name in glob.glob(path_to_dataset+ '/*.dcm'):
             ds = dcmread(file_name)
             status = assoc.send_c_store(ds)
         assoc.release()
