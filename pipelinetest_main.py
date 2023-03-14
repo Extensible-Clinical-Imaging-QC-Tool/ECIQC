@@ -13,7 +13,7 @@ if __name__ == '__main__':
     #os.system('kill $(lsof -t -i:11112) & kill $(lsof -t -i:11113) & kill $(lsof -t -i:11114)')
     
     
-    pipelinetest = PipelineTests('./DICOM_Images/')
+    pipelinetest = PipelineTests('./DICOM_Images_temp/')
     pipelinetest.generate_file_list()
     pipelinetest.run_pipeline("./schema/MultipleActionCase.json",
                               "./result/",
