@@ -3,6 +3,8 @@ import glob
 import json
 import pydicom
 import pandas as pd
+import time
+import copy
 
 class PipelineTests():
     '''
@@ -12,20 +14,22 @@ class PipelineTests():
     Given several schemas (configuration files), we pass through a number of Dicom files.
     we need to automatically check whether these files are processed properly. 
     '''
-    
 
     def __init__(self, input_file_path=None):
         self.input_file_path = input_file_path # Set up the input list
         self.ports = [11112,11113,11114] # Set up the ports for the DCMTK SCP & SCU
         self.kill_all_processes() # Kill all the processes before initializing the test.
-        
-        self.compare_df = pd.DataFrame(columns=["dcmName", "jsonName", "Result", "Modality", "SOPinstanceUID",  "tagName" , "realIFtagValue", "expIFtagValue", "realTHENtagOutput", "expTHENtagOutput"])
+        self.python = "python" # change this to python3 as necessary
+        self.wait_time = 30 # wait time for the pipeline to finish processing
+        self.compare_df = pd.DataFrame(columns=["dcmName", "jsonName", "Result", "Modality", "SOPInstanceUID",  "tagName" , "realIFtagValue", "expIFtagValue", "realTHENtagOutput", "expTHENtagOutput"])
 
 
         if self.input_file_path is not None:
             self.generate_file_list(input_file_path)
 
-    ### TODO how do we kill the main qctool process?
+
+
+    ### TODO how do we kill the main qctool process? -> check implemenation
     def kill_all_processes(self):
         """Kill all the processes on the ports specified in self.ports Need to find a way to kill the main qctool process...
         """
@@ -39,10 +43,41 @@ class PipelineTests():
         full_command = ' & '.join(full_command)
         os.system(full_command)
 
+        pkill_command = 'pkill -f qctool'
+        os.system(pkill_command)
+
+    def is_complete(self, scan_directories=True):
+        '''
+        Checks whether the input folder is the same size as the output folder and the quarantine folder.
+        '''
+        if scan_directories:
+            input_file_list = glob.glob(self.input_file_path + '*.dcm')
+            output_file_list = glob.glob(self.output_path + '*.dcm')
+            quarantine_file_list = glob.glob(self.quarantine_path + '*.dcm')
+            if len(input_file_list) == len(output_file_list) + len(quarantine_file_list):
+                return True
+            else:
+                return False
+        else:
+            raise ValueError("scan_directories=False has not been developed yet!")
+        
+    def auto_clean_threads(self):
+        """
+        Automatically cleans up the threads after run_pipeline is finished.
+        """
+        wait_time = copy.copy(self.wait_time)
+        while not self.is_complete():
+            time.sleep(1)
+            wait_time -= 1
+            if wait_time == 0:
+                print("The pipeline is not finished processing the files. Please check the pipeline or increase the wait time.")
+                self.kill_all_processes()
+                break
+        else:
+            self.kill_all_processes()
 
 
-
-    def generate_file_list(self, input_file_path, file_name_json=None):
+    def generate_file_list(self, input_file_path=None, file_name_json=None):
         if input_file_path is None:
             try:
                 input_file_path = self.input_file_path
@@ -64,7 +99,7 @@ class PipelineTests():
         file_list = {}
         for file in glob.glob(self.input_file_path + '*.dcm'):
             ds = pydicom.read_file(file)
-            file_list[os.path.basename(file)] = ds.Modality+"."+ds.SOPinstanceUID
+            file_list[os.path.basename(file)] = ds.Modality+"."+ds.SOPInstanceUID
         
 
         with open(file_name_json,'w') as f:
@@ -101,37 +136,27 @@ class PipelineTests():
         ### TODO need to find the PID of the process and kill it after the test.
         cmd_1 = "./build/exe/qctool --config-file=" + "'" + json_path + "'"
         if use_pynetdicom:
-            cmd_2 = "python3 tests/TestStorageSCP.py {} ".format(self.ports[1]) + output_path
-            cmd_3 = "python3 tests/TestStorageSCP.py {} ".format(self.ports[2]) + quarantine_path
+            cmd_2 =  self.python + " tests/TestStorageSCP.py {} ".format(self.ports[1]) + output_path
+            cmd_3 = self.python + " tests/TestStorageSCP.py {} ".format(self.ports[2]) + quarantine_path
             if scan_directories:
-                cmd_4 = "python3 tests/TestStorageSCU.py {} ".format(self.ports[0]) + self.input_file_path
+                cmd_4 = self.python + " tests/TestStorageSCU.py {} ".format(self.ports[0]) + self.input_file_path
             else:
                 raise ValueError("scan_directories=False has not been developed yet!")
         else:
             cmd_2 = "storescp {} --output-directory ".format(self.ports[1]) + output_path + " --accept-all"
             cmd_3 = "storescp {} --output-directory ".format(self.ports[2]) + quarantine_path + " --accept-all"
             if scan_directories:
-                cmd_4 = "storescu localhost {} DICOM_Images --scan-directories --propose-jpeg8".format(self.ports[0])
+                ### TODO change "DICOM_Images" to the correct file path
+                cmd_4 = "storescu localhost {} {DICOM_Images} --scan-directories --propose-jpeg8".format(self.ports[0], DICOM_Images=self.input_file_path)
             else:
                 raise ValueError("scan_directories=False has not been developed yet!")
         cmd = cmd_1 + " & " + cmd_2 + " & " + cmd_3 + " & " + cmd_4
         os.system(cmd)
 
-    def is_complete(self, scan_directories=True):
-        '''
-        Checks whether the input folder is the same size as the output folder and the quarantine folder.
-        '''
-        if scan_directories:
-            input_file_list = glob.glob(self.input_file_path + '*.dcm')
-            output_file_list = glob.glob(self.output_path + '*.dcm')
-            quarantine_file_list = glob.glob(self.quarantine_path + '*.dcm')
-            if len(input_file_list) == len(output_file_list) + len(quarantine_file_list):
-                return True
-            else:
-                return False
-        else:
-            raise ValueError("scan_directories=False has not been developed yet!")
+        self.auto_clean_threads()
 
+
+    ### TODO change this to operate on the right json file instead of over the whole thing.
     def check_output(self, expected_output_json, test_result_json=None, scan_directories=True):
         """
         reads the expected output json file, and compares the output with the expected output. Also records the inputs 
@@ -141,9 +166,8 @@ class PipelineTests():
         
         expected_output = pd.read_json(expected_output_json)
 
+
         # iterate over json file
-
-
 
         for index, row in expected_output.iterrows():
             print(index)
@@ -155,13 +179,13 @@ class PipelineTests():
             dcmName = row["dcmName"]
             jsonName = row["jsonName"]
             Modality = ds.Modality
-            SOPinstanceUID = ds.SOPinstanceUID
+            SOPInstanceUID = ds.SOPInstanceUID
             tagName = row["tagName"]
             expIFtagValue = row["IFtagValue"]
             realIFtagValue = ds.data_element(tagName).value
             expTHENtagOutput = row["THENtagOutput"]
 
-            output_name = Modality + "." + SOPinstanceUID + ".dcm"
+            output_name = Modality + "." + SOPInstanceUID + ".dcm"
 
             ### check both output and quarantine folders
 
@@ -182,7 +206,7 @@ class PipelineTests():
                 realTHENtagOutput = ds.data_element(tagName).value
             except:
                 print("File not found in quarantine folder or output folder")
-
+                realTHENtagOutput = "File not found in quarantine folder or output folder"
 
             ### Compare the expected output with the real output
 
@@ -197,7 +221,7 @@ class PipelineTests():
             test_row = pd.DataFrame({"dcmName":dcmName,
                                      "jsonName":jsonName,
                                      "Modality":Modality,
-                                     "SOPinstanceUID":SOPinstanceUID,
+                                     "SOPinstanceUID":SOPInstanceUID,
                                      "tagName":tagName,
                                      "expIFtagValue":expIFtagValue,
                                      "realIFtagValue":realIFtagValue,
@@ -225,7 +249,6 @@ class PipelineTests():
         print("Failed: " + str(len(self.compare_df[self.compare_df["Result"]==False])))
 
         return self.compare_df
-
 
 
 
