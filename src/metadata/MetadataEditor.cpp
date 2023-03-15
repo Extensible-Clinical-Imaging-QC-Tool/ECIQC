@@ -893,7 +893,7 @@ OFCondition MetadataEditor::overwrite(const OFString& str_expr, const OFString& 
 
         const char *newValueChar = newValue.c_str();
         OFString newVal = OFString(newValueChar, strlen(newValueChar));
-
+        
         if (newVal == currentValue){
             return makeOFCondition(OFM_dcmdata, 23, OF_ok, "string not modified");
         }

@@ -563,10 +563,12 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
     break;
   }
   case OVERWRITE: {
+    std::cout << "Before calling overwrite, replaceString is " << params.replaceString << std::endl;
     if (params.otherTagString == "" &&
         params.otherTagKey == DCM_PatientBreedDescription) {
       return editor.overwrite(params.str_expr, params.replaceString);
     } else if (params.otherTagKey != DCM_PatientBreedDescription) {
+      
       return editor.overwrite(params.otherTagKey, params.str_expr,
                               params.replaceString);
     } else if (params.otherTagString != "") {
