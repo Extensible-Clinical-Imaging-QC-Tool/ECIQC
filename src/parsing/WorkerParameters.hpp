@@ -16,6 +16,8 @@ struct WorkerParameters {
     OFBool searchIntoSub = OFFalse;
     OFBool copyToThis = OFTrue;
     OFBool replace = OFTrue;
+    OFBool concatenate = OFTrue;
+    OFBool prepend = OFTrue;
 
     unsigned long pos = 0UL;
 

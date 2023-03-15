@@ -361,7 +361,8 @@ public:
    */
   OFCondition copy(const DcmTagKey& otherTagKey, const unsigned long posTo = 0 , const unsigned long posFrom = 0 ,
                       OFBool copyToThis = OFTrue,
-                      OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue);
+                      OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue,
+                      OFBool concatenate = OFTrue, OFBool prepend = OFTrue);
 
   /** Exclusive method for copying data from tags and using them too overwrite or insert
    * at a different tag
@@ -373,11 +374,15 @@ public:
    *        the lower levels as well
    * @param replace if true, the data at destination tag is overwritten (VM unchanged), else,
    *         it is inserted at the specified tag in the specified position (VM = VM + 1)
+   * @param concatenate  specifies whether to concatenate the new value to the original one.
+                   If concatenate is false, then we will have a list of values.
+     @param prepend decides how the new value is added
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
   OFCondition copy(const OFString& otherTagString, const unsigned long posTo = 0, const unsigned long posFrom = 0,
                      OFBool copyToThis = OFTrue,
-                     OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue);
+                     OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue,
+                     OFBool concatenate = OFTrue, OFBool prepend = OFTrue);
 
 
   /** Function that converts a tag from (group, element) string form into a DcmTagKey

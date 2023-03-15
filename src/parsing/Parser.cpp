@@ -143,6 +143,8 @@ enum ArgumentsEnum {
   searchIntoSub,
   copyToThis,
   replace,
+  concatenate,
+  prepend,
   posFrom,
   posTo,
   pos,
@@ -190,6 +192,8 @@ int Parser::resolveArguments(OFString param) {
       {"searchIntoSub", searchIntoSub},
       {"copyToThis", copyToThis},
       {"replace", replace},
+      {"concatenate",concatenate},
+      {"prepend",prepend},
       {"posFrom", posFrom},
       {"posTo", posTo},
       {"pos", pos},
@@ -304,8 +308,27 @@ WorkerParameters Parser::WPMaker(const json &param_object) {
     case replace:
       /* code */
       paramStruct.replace = arg.get<bool>();
-      
       break;
+    
+    // Concatenate & prepend are only for the COPY action
+    // The COPY action copies all the value from one tag, and add it to another tag.
+    // Concatenate specifies whether to concatenate the new value to the original one.
+    // If concatenate is false, then we will have a list of values.
+    
+    case concatenate:
+      paramStruct.concatenate = arg.get<bool>();
+      break;
+
+    // PLEASE Note the difference between prepend in the argument and PREPEND action.
+    // prepend (as an argument) in the COPY action. The COPY action copies value from
+    // one tag, and paste it somewhere. prepend (as an argument) decides how this new
+    // value is added. It only take effects when concatenate is true.
+    // The PREPEND action adds the *user-specified* value to somewhere. 
+    case prepend:
+      paramStruct.prepend = arg.get<bool>();
+      break;
+
+     
 
     case posFrom:
       /* code */
@@ -531,17 +554,11 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
       
       return editor.copy(params.otherTagKey, params.posTo, params.posFrom,
                          params.copyToThis, params.searchIntoSub,
-                         params.replace);
+                         params.replace, params.concatenate, params.prepend);
     } else if (params.otherTagString != "") {
-      if (params.replace){
-        std::cout << "before calling, params.replace is true!" << std::endl;
-      }
-      else{
-        std::cout << "before calling ,params.replace is false!" << std::endl;
-      }
       return editor.copy(params.otherTagString, params.posTo, params.posFrom,
                          params.copyToThis, params.searchIntoSub,
-                         params.replace);
+                         params.replace, params.concatenate, params.prepend);
     }
     break;
   }
