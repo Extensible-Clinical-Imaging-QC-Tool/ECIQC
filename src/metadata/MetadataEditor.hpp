@@ -359,7 +359,7 @@ public:
    *         it is inserted at the specified tag in the specified position (VM = VM + 1)
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition copy(const DcmTagKey& otherTagKey, unsigned long posTo = 0, unsigned long posFrom = 0,
+  OFCondition copy(const DcmTagKey& otherTagKey, const unsigned long posTo = 0 , const unsigned long posFrom = 0 ,
                       OFBool copyToThis = OFTrue,
                       OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue);
 
@@ -375,7 +375,7 @@ public:
    *         it is inserted at the specified tag in the specified position (VM = VM + 1)
    * @return OFCondition which has status EC_Normal if everything is OK, else an error
    */
-  OFCondition copy(const OFString& otherTagString, unsigned long posTo = 0, unsigned long posFrom = 0,
+  OFCondition copy(const OFString& otherTagString, const unsigned long posTo = 0, const unsigned long posFrom = 0,
                      OFBool copyToThis = OFTrue,
                      OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue);
 

@@ -304,6 +304,7 @@ WorkerParameters Parser::WPMaker(const json &param_object) {
     case replace:
       /* code */
       paramStruct.replace = arg.get<bool>();
+      
       break;
 
     case posFrom:
@@ -527,10 +528,17 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
       break;
     } else if (params.otherTagKey != DCM_PatientBreedDescription) {
       OFString otherTagString = params.otherTagKey.toString();
+      
       return editor.copy(params.otherTagKey, params.posTo, params.posFrom,
                          params.copyToThis, params.searchIntoSub,
                          params.replace);
     } else if (params.otherTagString != "") {
+      if (params.replace){
+        std::cout << "before calling, params.replace is true!" << std::endl;
+      }
+      else{
+        std::cout << "before calling ,params.replace is false!" << std::endl;
+      }
       return editor.copy(params.otherTagString, params.posTo, params.posFrom,
                          params.copyToThis, params.searchIntoSub,
                          params.replace);

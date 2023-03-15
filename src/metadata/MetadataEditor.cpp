@@ -622,14 +622,14 @@ OFCondition MetadataEditor::greaterOrLessThan(const OFString& otherTagString, Fl
 
 
 // Copy Tag
-OFCondition MetadataEditor::copy(const DcmTagKey& otherTagKey, const unsigned long posFrom,
-                                    const unsigned long posTo, OFBool copyToThis,
-                                    OFBool replace, OFBool searchIntoSub) {
+OFCondition MetadataEditor::copy(const DcmTagKey& otherTagKey, const unsigned long posTo,
+                                    const unsigned long posFrom, OFBool copyToThis,
+                                    OFBool searchIntoSub, OFBool replace) {
   if (exists(otherTagKey).bad()) {
     return makeOFCondition(OFM_dcmdata, 23, OF_error,
                            "tag does not exist in DICOM file");
   }
-
+  
   // Get the two relevant elements and determine the origin and destination
   // for the copy command
   DcmElement *thisElement, *otherElement, *destElement, *originElement;
@@ -689,11 +689,20 @@ OFCondition MetadataEditor::copy(const DcmTagKey& otherTagKey, const unsigned lo
     OFString destStringVal, originStringVal;
     OFCondition res;
     resGet = originElement->getOFString(originStringVal, posFrom);
+    std::cout << "posFrom is " << posFrom << " #####" << std::endl;
+    std::cout << "originStringVal is " << originStringVal << " #####" << std::endl;
     if (resGet.bad()) {
       return resGet;
     }
 
     unsigned long destVM = destElement->getVM();
+    std::cout << "destVM is " << destVM << std::endl;
+    if (replace == OFTrue){
+        std::cout << "replace is OFTrue!" << std::endl;
+    }
+    else{
+        std::cout << "replace is OFFalse!" << std::endl;
+    }
     if ((destVM == 0) || ((destVM == 1) & (replace == OFTrue))) {
       return destElement->putString(originStringVal.c_str());
     } else {
@@ -717,9 +726,9 @@ OFCondition MetadataEditor::copy(const DcmTagKey& otherTagKey, const unsigned lo
   return (resGet.bad() ? resGet : resPut);
 }
 
-OFCondition MetadataEditor::copy(const OFString& otherTagString, const unsigned long posFrom,
-                                 const unsigned long posTo, OFBool copyToThis,
-                                 OFBool replace, OFBool searchIntoSub) {
+OFCondition MetadataEditor::copy(const OFString& otherTagString, const unsigned long posTo,
+                                 const unsigned long posFrom, OFBool copyToThis,
+                                 OFBool searchIntoSub, OFBool replace) {
     if (exists(otherTagString,OFFalse).bad()) {
         return makeOFCondition(OFM_dcmdata, 23, OF_error,
                                "tag does not exist in DICOM file");
@@ -730,7 +739,7 @@ OFCondition MetadataEditor::copy(const OFString& otherTagString, const unsigned 
         std::cout << flag.text() << std::endl;
         return flag;
     }
-    return copy(otherTagKey, posFrom, posTo, copyToThis, replace, searchIntoSub);
+    return copy(otherTagKey, posTo, posFrom, copyToThis, searchIntoSub, replace);
 }
 
 OFCondition MetadataEditor::append(const OFString& appendValue, OFCondition &flag, const unsigned long pos) {
