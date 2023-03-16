@@ -15,7 +15,7 @@ if __name__ == '__main__':
     
     pipelinetest = PipelineTests('./DICOM_Images_temp/')
     pipelinetest.generate_file_list()
-    pipelinetest.run_pipeline("./schema/MultipleActionCase.json",
+    pipelinetest.run_pipeline("./schema/MultipleConditionCase.json",
                               "./result/",
                               "./result_quarantine/",
                               use_pynetdicom=True,
