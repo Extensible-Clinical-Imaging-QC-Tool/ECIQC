@@ -1,1 +1,1 @@
-brew install dcmtk boost cmake opencv tesseract boost-python3
+brew install dcmtk boost cmake opencv tesseract
