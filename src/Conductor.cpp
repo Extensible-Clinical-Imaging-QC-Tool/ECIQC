@@ -14,7 +14,8 @@
     
 #include "../libs/nlohmann_json/single_include/nlohmann/json.hpp"
 
-using json = nlohmann::json;
+using json = nlohmann::ordered_json;
+// using json = nlohmann::json;
 /// TODO - setup image editor here
 Conductor::Conductor(std::istream &json_config) {
   auto config = json::parse(json_config);

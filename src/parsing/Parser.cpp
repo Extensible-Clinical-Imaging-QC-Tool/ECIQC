@@ -36,7 +36,8 @@
  * REJECT: reject the image
  */
 
-using json = nlohmann::json;
+using json = nlohmann::ordered_json;
+// using json = nlohmann::json;
 // Parser::Parser(){
 //     std::cout << "REMOVE ME";
 // }
