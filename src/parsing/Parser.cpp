@@ -24,6 +24,7 @@
  * GREATER_THAN
  * LESS_THAN
  * EQUALS
+ * ISIN
  *
  * Actions:
  * UPDATE: Add something in the next value channel without removing current ones
@@ -138,6 +139,7 @@ enum ArgumentsEnum {
   otherTagString,
   otherTagKey,
   value,
+  valueList,
   str_expr,
   flag,
   only_overwrite,
@@ -151,12 +153,14 @@ enum ArgumentsEnum {
   pos,
   tag,
   replaceString,
-  compareValue
+  compareValue,
+  compareValueList
 };
 
 enum ActionsEnum {
   /* Comparisons */
   EQUAL,
+  IS_IN,
   LESS_THAN,
   GREATER_THAN,
   /* Boolean Operations */
@@ -213,6 +217,7 @@ int Parser::resolveArguments(OFString param) {
 int Parser::resolveActions(OFString param) {
   static const std::map<OFString, ActionsEnum> actionStrings{
       {"EQUAL", EQUAL},
+      {"IS_IN",IS_IN},
       {"LESS_THAN", LESS_THAN},
       {"GREATER_THAN", GREATER_THAN},
       {"IF_TRUE", IF_TRUE},
@@ -286,6 +291,10 @@ WorkerParameters Parser::WPMaker(const json &param_object) {
       // std::cout << "Member: " << paramStruct.value << '\n';
     } break;
 
+    case valueList: {
+      paramStruct.valueVector = arg.get<std::vector<std::string>>();
+    } break;
+
     case str_expr: {
       /* code */
       paramStruct.str_expr = OFString(arg.get<std::string>().c_str());
@@ -355,6 +364,11 @@ WorkerParameters Parser::WPMaker(const json &param_object) {
       /* code */
       paramStruct.compareValue = arg.get<Float64>();
       break;
+
+    case compareValueList:
+      paramStruct.compareValueVector = arg.get<std::vector<Float64>>(); 
+      break;
+  
 
     case 404: /*Not a possible argument*/
       /* code */
@@ -449,6 +463,7 @@ OFCondition Parser::parseOperation(OFString instruction, const json &params,
                          // So you cannot simply return EC_normal now!
   }
   case EQUAL:
+  case IS_IN:
   case LESS_THAN:
   case GREATER_THAN:
   case EXIST:
@@ -634,6 +649,35 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
     } else {
       break;
     }
+  }
+  case IS_IN: {
+    OFCondition flag;
+    if (!params.valueVector.empty()) {
+      if (params.otherTagString == "" &&
+          params.otherTagKey == DCM_PatientBreedDescription) {
+        return editor.is_in(params.valueVector, flag, params.pos);
+      } else if (params.otherTagKey != DCM_PatientBreedDescription) {
+        return editor.is_in(params.otherTagKey, params.valueVector, flag,
+                             params.pos);
+      } else if (params.otherTagString != "") {
+        return editor.is_in(params.otherTagString, params.valueVector, flag,
+                             params.pos);
+      }
+    } else if (!params.compareValueVector.empty()) {
+      if (params.otherTagString == "" &&
+          params.otherTagKey == DCM_PatientBreedDescription) {
+        return editor.is_in(params.compareValueVector, flag, params.pos);
+      } else if (params.otherTagKey != DCM_PatientBreedDescription) {
+        return editor.is_in(params.otherTagKey, params.compareValueVector, flag,
+                             params.pos);
+      } else if (params.otherTagString != "") {
+        return editor.is_in(params.otherTagString, params.compareValueVector, flag,
+                             params.pos);
+      }
+    } else {
+      break;
+    }
+      
   }
   // Less or greater than the same, up to a flag to signify which
   case LESS_THAN:

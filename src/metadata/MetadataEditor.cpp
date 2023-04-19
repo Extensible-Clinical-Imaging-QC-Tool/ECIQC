@@ -427,6 +427,65 @@ OFCondition MetadataEditor::equals(const OFString& otherTagString, Float64 compa
     return MetadataEditor::equals(otherTagKey, compare_value, flag, pos);
 }
 
+OFCondition MetadataEditor::is_in(const std::vector<std::string>& str_vec, OFCondition &flag, const unsigned long pos){
+    // Ensure the element specified by the tag exists before matching
+    for (const auto& str : str_vec) {
+        if (MetadataEditor::equals(OFString(str.c_str()),flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list");
+   
+}
+
+OFCondition MetadataEditor::is_in(const OFString& otherTagString, const std::vector<std::string>& str_vec,
+                                  OFCondition &flag, const unsigned long pos) {
+    for (const auto& str : str_vec) {
+        if (MetadataEditor::equals(otherTagString,OFString(str.c_str()),flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list");      
+}
+OFCondition MetadataEditor::is_in(const DcmTagKey& otherTagKey, const std::vector<std::string>& str_vec,
+                                  OFCondition &flag, unsigned long pos){
+    for (const auto& str : str_vec) {
+        if (MetadataEditor::equals(otherTagKey,OFString(str.c_str()),flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list"); 
+}
+OFCondition MetadataEditor::is_in(std::vector<Float64> compare_value_vec, OFCondition &flag, unsigned long pos){
+    for (const auto& compare_value : compare_value_vec) {
+        if (MetadataEditor::equals(compare_value,flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list"); 
+}
+
+OFCondition MetadataEditor::is_in(const OFString& otherTagString,std::vector<Float64> compare_value_vec, OFCondition &flag, unsigned long pos){
+    for (const auto& compare_value : compare_value_vec) {
+        if (MetadataEditor::equals(otherTagString, compare_value,flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list"); 
+}
+
+OFCondition MetadataEditor::is_in(const DcmTagKey& otherTagKey, std::vector<Float64> compare_value_vec, OFCondition &flag, unsigned long pos){
+    for (const auto& compare_value : compare_value_vec) {
+        if (MetadataEditor::equals(otherTagKey, compare_value,flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list"); 
+}
+
+
+
+
 OFCondition MetadataEditor::greaterOrLessThan(Float64 compare_value, OFBool greaterThan, OFCondition &flag,
                                               const unsigned long pos){
     // Ensure the element specified by the tag exists before matching

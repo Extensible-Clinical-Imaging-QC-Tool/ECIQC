@@ -189,7 +189,73 @@ public:
    */
   OFCondition equals(const DcmTagKey& otherTagKey, Float64 compare_value, OFCondition &flag, unsigned long pos = 0);
 
-  /** Check if value at a tag is greater or less than a given value
+
+    /** Checks if value at a tag is in a string vector
+   *
+   * @param str_vec string vector to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the string exactly
+   */
+  OFCondition is_in(const std::vector<std::string>& str_vec, OFCondition &flag, unsigned long pos = 0);
+
+  /** Checks if value at a tag is in a string vector
+   *
+   * @param otherTagString holds the desired tag in (group, element) string form
+   * @param str_vec string vector to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the string exactly
+   */
+  OFCondition is_in(const OFString& otherTagString, const std::vector<std::string>& str_vec, OFCondition &flag,
+                     unsigned long pos = 0);
+
+  /** Checks if value at a tag is in a string vector
+   *
+   * @param otherTagKey holds the desired tag as a DcmTagKey
+   * @param str_vec string vector to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the string exactly
+   */
+  OFCondition is_in(const DcmTagKey& otherTagKey, const std::vector<std::string>& str_vec, OFCondition &flag, unsigned long pos = 0);
+
+  /** Checks if value at a tag is in a list of values
+   *
+   * @param compare_value_vec double vector to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the double exactly
+   */
+  OFCondition is_in(std::vector<Float64> compare_value_vec, OFCondition &flag, unsigned long pos = 0);
+
+  /** Checks if value at a tag is in a list of values
+   *
+   * @param otherTagString holds the desired tag in (group, element) string form
+   * @param compare_value_vec double vector to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the double exactly
+   */
+  OFCondition is_in(const OFString& otherTagString, std::vector<Float64> compare_value_vec, OFCondition &flag, unsigned long pos = 0);
+
+  /** Checks if value at a tag is in a list of values
+   *
+   * @param otherTagKey holds the desired tag as a DcmTagKey
+   * @param compare_value_vec double vector to be matched
+   * @param flag a reference intended to store the result of the retrieval of the value
+   *        at the specified tag. It should hold EC_Normal if all goes well
+   * @param pos holds the index of the desired value. Useful for tags where VM > 1
+   * @return OFCondition representing whether or not the value matches the double exactly
+   */
+  OFCondition is_in(const DcmTagKey& otherTagKey, std::vector<Float64> compare_value_vec, OFCondition &flag, unsigned long pos = 0);
+
+  /** Check if value at a tag is less than a given value
    *
    * @param compare_value double to compare value at tag with
    * @param greaterThan if OFTRUE, value at tag will be checked for being greater than compare_value, otherwise will be
