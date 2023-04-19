@@ -1,0 +1,35 @@
+{
+    "receiver": {
+      "aetitle": "TestQCTool",
+      "port": 11112
+    },
+    "destination": {
+      "aetitle": "TestDestination",
+      "hostname": "localhost",
+      "port": 11113
+    },
+    "quarentine": {
+      "aetitle": "TestQuarentine",
+      "hostname": "localhost",
+      "port": 11114
+    },
+    "metadata": {
+        "(0010,0030)": {
+          "tagName": "Patient's Birth Date",
+          "vr": "DA",
+          "description": "check date_of_birth is 8 digits, if so, change the date to 30th June.'",
+          "operations": {
+            "REGEX": {
+                "str_expr": "\\d{8}$",
+                "IF_TRUE": {
+                    "OVERWRITE": {
+                        "str_expr":"\\d{4}$",
+                        "replaceString":"0630"
+                    }
+                }
+            }
+          }
+        }
+        
+    }
+}
