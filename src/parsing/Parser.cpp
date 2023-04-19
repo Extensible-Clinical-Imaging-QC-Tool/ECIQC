@@ -23,7 +23,7 @@
  * NOT
  * GREATER_THAN
  * LESS_THAN
- * EQUALS
+ * EQUAL
  * ISIN
  *
  * Actions:
@@ -191,6 +191,7 @@ int Parser::resolveArguments(OFString param) {
       {"otherTagString", otherTagString},
       {"otherTagKey", otherTagKey},
       {"value", value},
+      {"valueList",valueList},
       {"str_expr", str_expr},
       {"flag", flag},
       {"only_overwrite", only_overwrite},
@@ -204,7 +205,8 @@ int Parser::resolveArguments(OFString param) {
       {"pos", pos},
       {"tag", tag},
       {"replaceString", replaceString},
-      {"compareValue", compareValue}};
+      {"compareValue", compareValue},
+      {"compareValueList",compareValueList}};
 
   auto itr = argStrings.find(param);
   if (itr != argStrings.end()) {
@@ -652,6 +654,7 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
   }
   case IS_IN: {
     OFCondition flag;
+    std::cout << "We are in IS_IN!######################" << std::endl;
     if (!params.valueVector.empty()) {
       if (params.otherTagString == "" &&
           params.otherTagKey == DCM_PatientBreedDescription) {
@@ -677,7 +680,6 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
     } else {
       break;
     }
-      
   }
   // Less or greater than the same, up to a flag to signify which
   case LESS_THAN:

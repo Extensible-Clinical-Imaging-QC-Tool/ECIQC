@@ -1,0 +1,37 @@
+{
+    "receiver": {
+      "aetitle": "TestQCTool",
+      "port": 11112
+    },
+    "destination": {
+      "aetitle": "TestDestination",
+      "hostname": "localhost",
+      "port": 11113
+    },
+    "quarentine": {
+      "aetitle": "TestQuarentine",
+      "hostname": "localhost",
+      "port": 11114
+    },
+    "metadata": {
+        "(0032,1060)": {
+          "tagName": "Requested Procedure Description",
+          "vr": "LO",
+          "description": "Prepend the patient name with _ ",
+          "operations": {
+            "COPY": {
+              "otherTagString": "(0010,0010)",
+              "copyToThis": true,
+              "posFrom":0,
+              "replace":false,
+              "concatenate":true,
+              "prepend":true
+            },
+            "PREPEND":{
+              "value": "_"
+            }
+          }
+        }
+        
+    }
+}
