@@ -2,6 +2,8 @@ import os
 import glob
 import json
 import pydicom
+import subprocess
+import time
 import pandas as pd
 import time
 import copy
@@ -15,12 +17,19 @@ class PipelineTests():
     we need to automatically check whether these files are processed properly. 
     '''
 
-    def __init__(self, input_file_path=None):
-        self.input_file_path = input_file_path # Set up the input list
+    def __init__(self, 
+                 json_path,
+                 input_file_path,
+                 output_file_path,
+                 quarantine_file_path=None):
+        self.json_path = json_path
+        self.input_file_path = input_file_path
+        self.output_file_path = output_file_path
+        self.quarantine_file_path = quarantine_file_path
         self.ports = [11112,11113,11114] # Set up the ports for the DCMTK SCP & SCU
         self.kill_all_processes() # Kill all the processes before initializing the test.
         self.python = "python" # change this to python3 as necessary
-        self.wait_time = 30 # max wait time for the pipeline to finish processing
+        self.wait_time = 120 # max wait time for the pipeline to finish processing
         self.compare_df = pd.DataFrame(columns=["dcmName", 
                                                 "jsonName", 
                                                 "Result", 
@@ -55,14 +64,36 @@ class PipelineTests():
         pkill_command = 'pkill -f qctool' ### TODO check this implementation
         os.system(pkill_command)
 
+
+    # def auto_clean_threads(self):
+    #     """
+    #     Attempts to automatically clean up the threads after run_pipeline is finished. 
+    #     To prevent hanging threads we kill all the processes after a certain amount of time.
+    #     """
+    #     wait_time = copy.copy(self.wait_time)
+    #     while not self.is_complete():
+    #         interval = 10
+    #         time.sleep(interval)
+    #         wait_time -= interval
+    #         print("waiting " + str(wait_time))
+    #         if wait_time == 0:
+    #             self.kill_all_processes()
+    #             raise TimeoutError("The pipeline has not finished after " + str(self.wait_time) + " seconds. Please check the pipeline or increase the wait time.")
+                
+    #     self.kill_all_processes()
+    #     print("The pipeline has finished processing all the files.")        
+
+
+
+################## TODO check which one we need 
     def is_complete(self, scan_directories=True):
         '''
         Checks whether the input folder is the same size as the output folder and the quarantine folder.
         '''
         if scan_directories:
             input_file_list = glob.glob(self.input_file_path + '*.dcm')
-            output_file_list = glob.glob(self.output_path + '*.dcm')
-            quarantine_file_list = glob.glob(self.quarantine_path + '*.dcm')
+            output_file_list = glob.glob(self.output_file_path + '*.dcm')
+            quarantine_file_list = glob.glob(self.quarantine_file_path + '*.dcm')
 
             if len(input_file_list) == len(output_file_list) + len(quarantine_file_list):
                 print("The pipeline is complete. " + str(len(input_file_list)) + " files have been processed.")
@@ -73,9 +104,17 @@ class PipelineTests():
         else:
             raise ValueError("scan_directories=False has not been developed yet!")
         
-
+############ probs implement this one in the function above
+    def check_all_files_processed(self) -> bool:
+        input_image_counter = len(glob.glob1(self.input_file_path, "*.dcm"))
+        output_image_counter = len(glob.glob1(self.output_file_path, "*.dcm"))
+        quarantine_image_counter = len(glob.glob1(self.quarantine_file_path, "*.dcm"))
+        print(f"Input image number: {input_image_counter}")
+        print(f"Output image number: {output_image_counter}")
+        print(f"Quarantine image number: {quarantine_image_counter}")
+        return input_image_counter == (output_image_counter + quarantine_image_counter)
+#################
         
-    
 
 
     def generate_file_list(self, input_file_path=None, file_name_json=None):
@@ -109,33 +148,11 @@ class PipelineTests():
             #print(ds.data_element("PatientsName"))
             #print(ds.UI)
 
-        self.file_list = file_list
-        return file_list
-    
-
-
-    def auto_clean_threads(self):
-        """
-        Attempts to automatically clean up the threads after run_pipeline is finished. 
-        To prevent hanging threads we kill all the processes after a certain amount of time.
-        """
-        wait_time = copy.copy(self.wait_time)
-        while not self.is_complete():
-            time.sleep(1)
-            wait_time -= 1
-            print("waiting " + str(wait_time))
-            if wait_time == 0:
-                self.kill_all_processes()
-                raise TimeoutError("The pipeline has not finished after " + str(self.wait_time) + " seconds. Please check the pipeline or increase the wait time.")
-                
-        self.kill_all_processes()
-        print("The pipeline has finished processing all the files.")        
-
-
-
-
-    def run_pipeline(self, json_path, output_path, quarantine_path,use_pynetdicom=True, scan_directories=True, input_file = None):
-
+    def run_pipeline(
+            self,
+            use_pynetdicom=True,
+            scan_directories=True,
+            ):
         '''
         Main method to run the pipeline.
         
@@ -147,33 +164,38 @@ class PipelineTests():
         scan_directories: whether to scan the directories in the input path
         input_file: specify the input file name is scan_directories= False (Not yet developed)
         '''
+        self.kill_all_processes()
 
-        self.output_path = output_path
-        self.quarantine_path = quarantine_path
-        self.json_path = json_path
-
-
-
-        cmd_1 = "./build/exe/qctool --config-file=" + "'" + json_path + "'"
+        conductor_proc = subprocess.Popen(["./build/exe/qctool", "--config-file", self.json_path])
         if use_pynetdicom:
-            cmd_2 =  self.python + " tests/TestStorageSCP.py {} ".format(self.ports[1]) + output_path
-            cmd_3 = self.python + " tests/TestStorageSCP.py {} ".format(self.ports[2]) + quarantine_path
+            time.sleep(1)
+            receiver_proc = subprocess.Popen(["python", "tests/TestStorageSCP.py", "11113", self.output_file_path])
+            quarantine_receiver_proc = subprocess.Popen(["python", "tests/TestStorageSCP.py", "11114", self.quarantine_file_path])
             if scan_directories:
-                cmd_4 = self.python + " tests/TestStorageSCU.py {} ".format(self.ports[0]) + self.input_file_path
+                time.sleep(1)
+                sender_proc = subprocess.Popen(["python", "tests/TestStorageSCU.py", "11112", self.input_file_path])
             else:
                 raise ValueError("scan_directories=False has not been developed yet!")
         else:
-            cmd_2 = "storescp {} --output-directory ".format(self.ports[1]) + output_path + " --accept-all"
-            cmd_3 = "storescp {} --output-directory ".format(self.ports[2]) + quarantine_path + " --accept-all"
+            time.sleep(1)
+            receiver_proc = subprocess.Popen(["storescp", "11113", "--output-directory", self.output_file_path, "--accept-all"])
+            quarantine_receiver_proc = subprocess.Popen(["storescp", "11114", "--output-directory", self.quarantine_file_path, "--accept-all"])
             if scan_directories:
-                ### TODO change "DICOM_Images" to the correct file path
-                cmd_4 = "storescu localhost {} {DICOM_Images} --scan-directories --propose-jpeg8".format(self.ports[0], DICOM_Images="DICOM_Images")
+                time.sleep(1)
+                sender_proc = subprocess.Popen(["storescu", "localhost", "11112", "DICOM_Images", "--scan-directories", "--propose-jpeg8"])
             else:
                 raise ValueError("scan_directories=False has not been developed yet!")
-        cmd = cmd_1 + " & " + cmd_2 + " & " + cmd_3 + " & " + cmd_4
-        os.system(cmd)
-
-        self.auto_clean_threads()
+            
+        # Kill the processes once all the images have been processed ### TODO make this work with max wait time before closing all processes
+        while(True):
+            if self.check_all_files_processed():
+                conductor_proc.kill()
+                receiver_proc.kill()
+                quarantine_receiver_proc.kill()
+                sender_proc.kill()
+                break
+            time.sleep(10)       
+            
 
 
     ### TODO change this to operate on the right json file instead of over the whole thing.
@@ -210,7 +232,7 @@ class PipelineTests():
 
             ### check both output and quarantine folders
             try:
-                output_path = os.path.join(self.output_path, output_name)
+                output_path = os.path.join(self.output_file_path, output_name)
 
                 ds = pydicom.dcmread(output_path)
 
@@ -219,7 +241,7 @@ class PipelineTests():
                 print("File not found in output folder. Checking quarantine folder...")
 
             try:
-                output_path = os.path.join(self.quarantine_path, output_name)
+                output_path = os.path.join(self.quarantine_file_path, output_name)
 
                 ds = pydicom.dcmread(output_path)
 
@@ -256,7 +278,7 @@ class PipelineTests():
         #save dataframe to json with jsonname in filename
         if test_result_json is None:
             result_json_name = "test_results_" + jsonName
-            test_result_json = os.path.join(self.output_path, result_json_name)
+            test_result_json = os.path.join(self.output_file_path, result_json_name)
 
         print("Saving test results to: " + test_result_json)
         self.compare_df.to_json(test_result_json)
