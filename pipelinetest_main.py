@@ -13,9 +13,11 @@ if __name__ == '__main__':
     #os.system('kill $(lsof -t -i:11112) & kill $(lsof -t -i:11113) & kill $(lsof -t -i:11114)')
     
     
-    pipelinetest = PipelineTests('./DICOM_Images')
+    pipelinetest = PipelineTests(input_file_path='./DICOM_Images',
+                                 output_file_path="./result/",
+                                 quarantine_file_path="./result_quarantine/")
     pipelinetest.generate_file_list()
-    pipelinetest.run_pipeline("./schema/PipelineCase.json","./result/","./result_quarantine/",use_pynetdicom=True)
+    pipelinetest.run_pipeline(json_path="./schema/PipelineCase.json", use_pynetdicom=True)
     
     #time.sleep(10)
     #os.system('kill $(lsof -t -i:11112) & kill $(lsof -t -i:11113) & kill $(lsof -t -i:11114)')

@@ -16,7 +16,7 @@ class HandleStore():
         ds.file_meta = event.file_meta
 
         # Save the dataset using the SOP Instance UID as the filename
-        ds.save_as(save_path + ds.SOPInstanceUID)
+        ds.save_as(f"{save_path}{ds.SOPInstanceUID}.dcm")
 
         # Return a 'Success' status
         return 0x0000
