@@ -20,8 +20,17 @@ class PipelineTests():
         self.ports = [11112,11113,11114] # Set up the ports for the DCMTK SCP & SCU
         self.kill_all_processes() # Kill all the processes before initializing the test.
         self.python = "python" # change this to python3 as necessary
-        self.wait_time = 30 # wait time for the pipeline to finish processing
-        self.compare_df = pd.DataFrame(columns=["dcmName", "jsonName", "Result", "Modality", "SOPInstanceUID",  "tagName" , "realIFtagValue", "expIFtagValue", "realTHENtagOutput", "expTHENtagOutput"])
+        self.wait_time = 30 # max wait time for the pipeline to finish processing
+        self.compare_df = pd.DataFrame(columns=["dcmName", 
+                                                "jsonName", 
+                                                "Result", 
+                                                "Modality", 
+                                                "SOPInstanceUID", 
+                                                "tagName", 
+                                                "realIFtagValue", 
+                                                "expIFtagValue", 
+                                                "realTHENtagOutput", 
+                                                "expTHENtagOutput"])
 
 
         if self.input_file_path is not None:
@@ -29,12 +38,12 @@ class PipelineTests():
 
 
 
-    ### TODO how do we kill the main qctool process? -> check implemenation
     def kill_all_processes(self):
-        """Kill all the processes on the ports specified in self.ports Need to find a way to kill the main qctool process...
         """
-        kill_command = 'kill $(lsof -t -i:'
+        Kill all the processes on the ports specified in self.ports ### TODO Need to find a way to kill the main qctool process...
+        """
 
+        kill_command = 'kill $(lsof -t -i:'
         full_command = []
 
         for port in self.ports:
@@ -43,7 +52,7 @@ class PipelineTests():
         full_command = ' & '.join(full_command)
         os.system(full_command)
 
-        pkill_command = 'pkill -f qctool'
+        pkill_command = 'pkill -f qctool' ### TODO check this implementation
         os.system(pkill_command)
 
     def is_complete(self, scan_directories=True):
@@ -54,30 +63,27 @@ class PipelineTests():
             input_file_list = glob.glob(self.input_file_path + '*.dcm')
             output_file_list = glob.glob(self.output_path + '*.dcm')
             quarantine_file_list = glob.glob(self.quarantine_path + '*.dcm')
+
             if len(input_file_list) == len(output_file_list) + len(quarantine_file_list):
+                print("The pipeline is complete. " + str(len(input_file_list)) + " files have been processed.")
                 return True
             else:
+                print("The pipeline is not complete. " + str(len(output_file_list)+len(quarantine_file_list)) + " files have been processed out of " + str(len(input_file_list)) + " files.")
                 return False
         else:
             raise ValueError("scan_directories=False has not been developed yet!")
         
-    def auto_clean_threads(self):
-        """
-        Automatically cleans up the threads after run_pipeline is finished.
-        """
-        wait_time = copy.copy(self.wait_time)
-        while not self.is_complete():
-            time.sleep(1)
-            wait_time -= 1
-            if wait_time == 0:
-                print("The pipeline is not finished processing the files. Please check the pipeline or increase the wait time.")
-                self.kill_all_processes()
-                break
-        else:
-            self.kill_all_processes()
+
+        
+    
 
 
     def generate_file_list(self, input_file_path=None, file_name_json=None):
+        '''
+        This method will return a dictionary.
+        Keys: input file names.
+        Values: output file names (use the SOP UID) ### We are using MODALTY+SOPUID as the output file name.
+        '''
         if input_file_path is None:
             try:
                 input_file_path = self.input_file_path
@@ -90,16 +96,10 @@ class PipelineTests():
         if file_name_json is None:
             file_name_json = 'file_name_list.json'
 
-
-        '''
-        This method will return a dictionary.
-        Keys: input file names.
-        Values: output file names (use the SOP UID) ### We are using MODALTY+SOPUID as the output file name.
-        '''
         file_list = {}
         for file in glob.glob(self.input_file_path + '*.dcm'):
             ds = pydicom.read_file(file)
-            file_list[os.path.basename(file)] = ds.Modality+"."+ds.SOPInstanceUID
+            file_list[os.path.basename(file)] = ds.Modality + "." + ds.SOPInstanceUID
         
 
         with open(file_name_json,'w') as f:
@@ -111,6 +111,27 @@ class PipelineTests():
 
         self.file_list = file_list
         return file_list
+    
+
+
+    def auto_clean_threads(self):
+        """
+        Attempts to automatically clean up the threads after run_pipeline is finished. 
+        To prevent hanging threads we kill all the processes after a certain amount of time.
+        """
+        wait_time = copy.copy(self.wait_time)
+        while not self.is_complete():
+            time.sleep(1)
+            wait_time -= 1
+            print("waiting " + str(wait_time))
+            if wait_time == 0:
+                self.kill_all_processes()
+                raise TimeoutError("The pipeline has not finished after " + str(self.wait_time) + " seconds. Please check the pipeline or increase the wait time.")
+                
+        self.kill_all_processes()
+        print("The pipeline has finished processing all the files.")        
+
+
 
 
     def run_pipeline(self, json_path, output_path, quarantine_path,use_pynetdicom=True, scan_directories=True, input_file = None):
@@ -133,7 +154,6 @@ class PipelineTests():
 
 
 
-        ### TODO need to find the PID of the process and kill it after the test.
         cmd_1 = "./build/exe/qctool --config-file=" + "'" + json_path + "'"
         if use_pynetdicom:
             cmd_2 =  self.python + " tests/TestStorageSCP.py {} ".format(self.ports[1]) + output_path
@@ -147,7 +167,7 @@ class PipelineTests():
             cmd_3 = "storescp {} --output-directory ".format(self.ports[2]) + quarantine_path + " --accept-all"
             if scan_directories:
                 ### TODO change "DICOM_Images" to the correct file path
-                cmd_4 = "storescu localhost {} {DICOM_Images} --scan-directories --propose-jpeg8".format(self.ports[0], DICOM_Images=self.input_file_path)
+                cmd_4 = "storescu localhost {} {DICOM_Images} --scan-directories --propose-jpeg8".format(self.ports[0], DICOM_Images="DICOM_Images")
             else:
                 raise ValueError("scan_directories=False has not been developed yet!")
         cmd = cmd_1 + " & " + cmd_2 + " & " + cmd_3 + " & " + cmd_4
@@ -163,12 +183,13 @@ class PipelineTests():
         Iterates through the json line by line - inefficient but generates a more easily comparable report.
         """
         # read expected output json file
-        
         expected_output = pd.read_json(expected_output_json)
 
+        jsonName = self.json_path.split("/")[-1]
+
+        expected_output = expected_output[expected_output["jsonName"] == jsonName]
 
         # iterate over json file
-
         for index, row in expected_output.iterrows():
             print(index)
             # read input dcm
@@ -188,7 +209,6 @@ class PipelineTests():
             output_name = Modality + "." + SOPInstanceUID + ".dcm"
 
             ### check both output and quarantine folders
-
             try:
                 output_path = os.path.join(self.output_path, output_name)
 
@@ -233,10 +253,9 @@ class PipelineTests():
             #append row to dataframe
             self.compare_df = pd.concat([self.compare_df,test_row],ignore_index=True)
 
-        #save dataframe to json
-
+        #save dataframe to json with jsonname in filename
         if test_result_json is None:
-            result_json_name = "test_result.json"
+            result_json_name = "test_results_" + jsonName
             test_result_json = os.path.join(self.output_path, result_json_name)
 
         print("Saving test results to: " + test_result_json)
