@@ -58,5 +58,4 @@ presentation
 
 tests/__pycache__/
 
-result/*
-!result/
+result/
