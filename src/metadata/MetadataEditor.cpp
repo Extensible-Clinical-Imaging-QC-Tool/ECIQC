@@ -427,6 +427,65 @@ OFCondition MetadataEditor::equals(const OFString& otherTagString, Float64 compa
     return MetadataEditor::equals(otherTagKey, compare_value, flag, pos);
 }
 
+OFCondition MetadataEditor::is_in(const std::vector<std::string>& str_vec, OFCondition &flag, const unsigned long pos){
+    // Ensure the element specified by the tag exists before matching
+    for (const auto& str : str_vec) {
+        if (MetadataEditor::equals(OFString(str.c_str()),flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list");
+   
+}
+
+OFCondition MetadataEditor::is_in(const OFString& otherTagString, const std::vector<std::string>& str_vec,
+                                  OFCondition &flag, const unsigned long pos) {
+    for (const auto& str : str_vec) {
+        if (MetadataEditor::equals(otherTagString,OFString(str.c_str()),flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list");      
+}
+OFCondition MetadataEditor::is_in(const DcmTagKey& otherTagKey, const std::vector<std::string>& str_vec,
+                                  OFCondition &flag, unsigned long pos){
+    for (const auto& str : str_vec) {
+        if (MetadataEditor::equals(otherTagKey,OFString(str.c_str()),flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list"); 
+}
+OFCondition MetadataEditor::is_in(std::vector<Float64> compare_value_vec, OFCondition &flag, unsigned long pos){
+    for (const auto& compare_value : compare_value_vec) {
+        if (MetadataEditor::equals(compare_value,flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list"); 
+}
+
+OFCondition MetadataEditor::is_in(const OFString& otherTagString,std::vector<Float64> compare_value_vec, OFCondition &flag, unsigned long pos){
+    for (const auto& compare_value : compare_value_vec) {
+        if (MetadataEditor::equals(otherTagString, compare_value,flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list"); 
+}
+
+OFCondition MetadataEditor::is_in(const DcmTagKey& otherTagKey, std::vector<Float64> compare_value_vec, OFCondition &flag, unsigned long pos){
+    for (const auto& compare_value : compare_value_vec) {
+        if (MetadataEditor::equals(otherTagKey, compare_value,flag,pos).good()){
+            return makeOFCondition(OFM_dcmdata,23,OF_ok,"Value specified by the tag is in the list");
+        }
+    }
+    return makeOFCondition(OFM_dcmdata,23,OF_error,"Value specified by the tag does not exist or is NOT in the list"); 
+}
+
+
+
+
 OFCondition MetadataEditor::greaterOrLessThan(Float64 compare_value, OFBool greaterThan, OFCondition &flag,
                                               const unsigned long pos){
     // Ensure the element specified by the tag exists before matching
@@ -622,14 +681,14 @@ OFCondition MetadataEditor::greaterOrLessThan(const OFString& otherTagString, Fl
 
 
 // Copy Tag
-OFCondition MetadataEditor::copy(const DcmTagKey& otherTagKey, const unsigned long posFrom,
-                                    const unsigned long posTo, OFBool copyToThis,
-                                    OFBool replace, OFBool searchIntoSub) {
+OFCondition MetadataEditor::copy(const DcmTagKey& otherTagKey, const unsigned long posTo,
+                                    const unsigned long posFrom, OFBool copyToThis,
+                                    OFBool searchIntoSub, OFBool replace,
+                                    OFBool concatenate, OFBool prepend) {
   if (exists(otherTagKey).bad()) {
     return makeOFCondition(OFM_dcmdata, 23, OF_error,
                            "tag does not exist in DICOM file");
   }
-
   // Get the two relevant elements and determine the origin and destination
   // for the copy command
   DcmElement *thisElement, *otherElement, *destElement, *originElement;
@@ -689,11 +748,13 @@ OFCondition MetadataEditor::copy(const DcmTagKey& otherTagKey, const unsigned lo
     OFString destStringVal, originStringVal;
     OFCondition res;
     resGet = originElement->getOFString(originStringVal, posFrom);
+
     if (resGet.bad()) {
       return resGet;
     }
 
     unsigned long destVM = destElement->getVM();
+    
     if ((destVM == 0) || ((destVM == 1) & (replace == OFTrue))) {
       return destElement->putString(originStringVal.c_str());
     } else {
@@ -708,7 +769,14 @@ OFCondition MetadataEditor::copy(const DcmTagKey& otherTagKey, const unsigned lo
         strs.at(posTo) = originStringVal;
       } else {
         auto it = strs.begin();
-        strs.insert(it + posTo, originStringVal);
+        if (concatenate){
+            if (prepend){*(it+posTo) = originStringVal + *(it+posTo);}
+            else{ *(it+posTo) = *(it+posTo) + originStringVal;}
+        }
+        else{
+            strs.insert(it + posTo, originStringVal);
+        }
+       
       }
       return destElement->putOFStringArray(vectorToStrVals(strs));
     }
@@ -717,9 +785,10 @@ OFCondition MetadataEditor::copy(const DcmTagKey& otherTagKey, const unsigned lo
   return (resGet.bad() ? resGet : resPut);
 }
 
-OFCondition MetadataEditor::copy(const OFString& otherTagString, const unsigned long posFrom,
-                                 const unsigned long posTo, OFBool copyToThis,
-                                 OFBool replace, OFBool searchIntoSub) {
+OFCondition MetadataEditor::copy(const OFString& otherTagString, const unsigned long posTo,
+                                 const unsigned long posFrom, OFBool copyToThis,
+                                 OFBool searchIntoSub, OFBool replace,
+                                 OFBool concatenate, OFBool prepend) {
     if (exists(otherTagString,OFFalse).bad()) {
         return makeOFCondition(OFM_dcmdata, 23, OF_error,
                                "tag does not exist in DICOM file");
@@ -730,7 +799,7 @@ OFCondition MetadataEditor::copy(const OFString& otherTagString, const unsigned 
         std::cout << flag.text() << std::endl;
         return flag;
     }
-    return copy(otherTagKey, posFrom, posTo, copyToThis, replace, searchIntoSub);
+    return copy(otherTagKey, posTo, posFrom, copyToThis, searchIntoSub, replace,concatenate,prepend);
 }
 
 OFCondition MetadataEditor::append(const OFString& appendValue, OFCondition &flag, const unsigned long pos) {
@@ -883,7 +952,7 @@ OFCondition MetadataEditor::overwrite(const OFString& str_expr, const OFString& 
 
         const char *newValueChar = newValue.c_str();
         OFString newVal = OFString(newValueChar, strlen(newValueChar));
-
+        
         if (newVal == currentValue){
             return makeOFCondition(OFM_dcmdata, 23, OF_ok, "string not modified");
         }

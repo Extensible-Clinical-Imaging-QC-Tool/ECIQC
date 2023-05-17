@@ -336,16 +336,18 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
     const unsigned long posTo = 0;
     const unsigned long posFrom = 0;
     OFBool replace = OFFalse;
+    OFBool searchIntoSub = OFFalse;
     OFBool copyToThis = OFTrue;
+    OFBool concatenate = OFFalse;
 
 //  Test you can't copy from retiredTagKey
     meObj.setTag(PixelTag);
-    OFCondition cond = meObj.copy(retiredTagKey, posFrom, posTo, copyToThis, replace);
+    OFCondition cond = meObj.copy(retiredTagKey, posFrom, posTo, copyToThis, searchIntoSub, replace);
     CHECK(cond.bad()); // Cannot copy from retiredTagKey - check copy fails
 
 //  Test you can't copy from retiredTagString
     meObj.setTag(PixelTag);
-    cond = meObj.copy(retiredTagString, posFrom, posTo, copyToThis, replace);
+    cond = meObj.copy(retiredTagString, posFrom, posTo, copyToThis, searchIntoSub, replace);
     CHECK(cond.bad()); // Cannot copy from retiredTagKey - check copy fails
 
 //  Testing copy UInt16, copyToThis == OFFalse, replace == OFTrue, using OFString tag
@@ -354,7 +356,7 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
     meObj.dset->findAndGetUint16(HighBitTag, int_highbit);
     CHECK_FALSE(int_bits==int_highbit); // elements are different before copy
 
-    cond = meObj.copy(str_HighBitTag, posFrom, posTo, !copyToThis, !replace);
+    cond = meObj.copy(str_HighBitTag, posFrom, posTo, !copyToThis, searchIntoSub, !replace);
     CHECK(cond.good()); // copy without error
 
     meObj.dset->findAndGetUint16(BitsTag, int_bits);
@@ -367,7 +369,7 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
     meObj.dset->findAndGetFloat64(SlopeTag, dbl_slope);
     CHECK_FALSE(dbl_intercept==dbl_slope); // elements are different before copy
 
-    cond = meObj.copy(SlopeTag, posFrom, posTo, copyToThis, replace);
+    cond = meObj.copy(SlopeTag, posFrom, posTo, copyToThis, searchIntoSub, replace);
     CHECK(cond.good()); // copy without error
 
     meObj.dset->findAndGetFloat64(InterceptTag, dbl_intercept);
@@ -380,9 +382,10 @@ TEST_CASE("Test for COPYING DICOM values","[ME]") {
     meObj.dset->findAndGetOFStringArray(FieldTag, str_field);
     CHECK_FALSE(str_pixel==str_field); // elements are different before copy
 
-    cond = meObj.copy(FieldTag, posFrom, posTo, copyToThis, replace);
+    
+    cond = meObj.copy(FieldTag, posTo, posFrom, copyToThis, searchIntoSub, replace,concatenate);
     CHECK(cond.good()); // copy without error
-    cond = meObj.copy(FieldTag, posFrom+1, posTo+1, copyToThis, replace);
+    cond = meObj.copy(FieldTag, posTo+1, posFrom+1, copyToThis, searchIntoSub, replace,concatenate);
     CHECK(cond.good()); // copy without error
 
     meObj.dset->findAndGetOFStringArray(PixelTag, str_pixel);
