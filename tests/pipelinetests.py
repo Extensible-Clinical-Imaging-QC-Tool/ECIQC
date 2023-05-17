@@ -27,7 +27,7 @@ class PipelineTests():
         self.output_file_path = output_file_path
         self.quarantine_file_path = quarantine_file_path
         self.ports = [11112,11113,11114] # Set up the ports for the DCMTK SCP & SCU
-        self.kill_all_processes() # Kill all the processes before initializing the test.
+        # self.kill_all_processes() # Kill all the processes before initializing the test.
         self.python = "python" # change this to python3 as necessary
         self.wait_time = 120 # max wait time for the pipeline to finish processing
         self.compare_df = pd.DataFrame(columns=["dcmName", 
@@ -45,24 +45,28 @@ class PipelineTests():
         if self.input_file_path is not None:
             self.generate_file_list(input_file_path)
 
+        if self.check_all_files_processed():
+            raise ValueError("Output folder is not empty. Please empty the output folder before running the tests.")
 
 
-    def kill_all_processes(self):
-        """
-        Kill all the processes on the ports specified in self.ports ### TODO Need to find a way to kill the main qctool process...
-        """
 
-        kill_command = 'kill $(lsof -t -i:'
-        full_command = []
 
-        for port in self.ports:
-            full_command.append(kill_command + str(port) + ')')
+    # def kill_all_processes(self):
+    #     """
+    #     Kill all the processes on the ports specified in self.ports ### TODO Need to find a way to kill the main qctool process...
+    #     """
 
-        full_command = ' & '.join(full_command)
-        os.system(full_command)
+    #     kill_command = 'kill $(lsof -t -i:'
+    #     full_command = []
 
-        pkill_command = 'pkill -f qctool' ### TODO check this implementation
-        os.system(pkill_command)
+    #     for port in self.ports:
+    #         full_command.append(kill_command + str(port) + ')')
+
+    #     full_command = ' & '.join(full_command)
+    #     os.system(full_command)
+
+    #     pkill_command = 'pkill -f qctool' ### TODO check this implementation
+    #     os.system(pkill_command)
 
 
     # def auto_clean_threads(self):
@@ -85,24 +89,24 @@ class PipelineTests():
 
 
 
-################## TODO check which one we need 
-    def is_complete(self, scan_directories=True):
-        '''
-        Checks whether the input folder is the same size as the output folder and the quarantine folder.
-        '''
-        if scan_directories:
-            input_file_list = glob.glob(self.input_file_path + '*.dcm')
-            output_file_list = glob.glob(self.output_file_path + '*.dcm')
-            quarantine_file_list = glob.glob(self.quarantine_file_path + '*.dcm')
+# ################## TODO check which one we need 
+#     def is_complete(self, scan_directories=True):
+#         '''
+#         Checks whether the input folder is the same size as the output folder and the quarantine folder.
+#         '''
+#         if scan_directories:
+#             input_file_list = glob.glob(self.input_file_path + '*.dcm')
+#             output_file_list = glob.glob(self.output_file_path + '*.dcm')
+#             quarantine_file_list = glob.glob(self.quarantine_file_path + '*.dcm')
 
-            if len(input_file_list) == len(output_file_list) + len(quarantine_file_list):
-                print("The pipeline is complete. " + str(len(input_file_list)) + " files have been processed.")
-                return True
-            else:
-                print("The pipeline is not complete. " + str(len(output_file_list)+len(quarantine_file_list)) + " files have been processed out of " + str(len(input_file_list)) + " files.")
-                return False
-        else:
-            raise ValueError("scan_directories=False has not been developed yet!")
+#             if len(input_file_list) == len(output_file_list) + len(quarantine_file_list):
+#                 print("The pipeline is complete. " + str(len(input_file_list)) + " files have been processed.")
+#                 return True
+#             else:
+#                 print("The pipeline is not complete. " + str(len(output_file_list)+len(quarantine_file_list)) + " files have been processed out of " + str(len(input_file_list)) + " files.")
+#                 return False
+#         else:
+#             raise ValueError("scan_directories=False has not been developed yet!")
         
 ############ probs implement this one in the function above
     def check_all_files_processed(self) -> bool:
@@ -164,7 +168,7 @@ class PipelineTests():
         scan_directories: whether to scan the directories in the input path
         input_file: specify the input file name is scan_directories= False (Not yet developed)
         '''
-        self.kill_all_processes()
+        # self.kill_all_processes()
 
         conductor_proc = subprocess.Popen(["./build/exe/qctool", "--config-file", self.json_path])
         if use_pynetdicom:
@@ -205,9 +209,13 @@ class PipelineTests():
         Iterates through the json line by line - inefficient but generates a more easily comparable report.
         """
         # read expected output json file
+        print("Checking output...")
         expected_output = pd.read_json(expected_output_json)
 
         jsonName = self.json_path.split("/")[-1]
+        print(jsonName)
+
+        print("Expected output for {}: ".format(jsonName), expected_output[expected_output["jsonName"] == jsonName])
 
         expected_output = expected_output[expected_output["jsonName"] == jsonName]
 

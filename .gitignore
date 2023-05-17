@@ -57,3 +57,5 @@ c_cpp_properties.json
 presentation
 
 tests/__pycache__/
+
+result/*
