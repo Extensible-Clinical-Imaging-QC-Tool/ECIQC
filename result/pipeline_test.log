@@ -1,0 +1,44 @@
+INFO - Receiver starts to work!
+ SCP Port: 11112
+ title: SCP
+
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!

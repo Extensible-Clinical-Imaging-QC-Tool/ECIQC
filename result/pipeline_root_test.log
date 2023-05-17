@@ -1,0 +1,1962 @@
+INFO - Receiver starts to work!
+ SCP Port: 11112
+ title: SCP
+
+DEBUG - Association Received: localhost
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - PDU Type: Associate Request, PDU Length: 508 + 6 bytes PDU header
+Only dumping 512 bytes.
+  01  00  00  00  01  fc  00  01  00  00  41  4e  59  2d  53  43
+  50  20  20  20  20  20  20  20  20  20  50  59  4e  45  54  44
+  49  43  4f  4d  20  20  20  20  20  20  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  20  00  00  36  01  00  00  00  30  00  00  19  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  35  2e  31
+  2e  34  2e  31  2e  31  2e  32  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  20  00  00
+  36  03  00  00  00  30  00  00  19  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  35  2e  31  2e  34  2e  31  2e  31
+  2e  34  40  00  00  11  31  2e  32  2e  38  34  30  2e  31  30
+  30  30  38  2e  31  2e  32  20  00  00  38  05  00  00  00  30
+  00  00  1b  31  2e  32  2e  38  34  30  2e  31  30  30  30  38
+  2e  35  2e  31  2e  34  2e  31  2e  31  2e  31  2e  31  40  00
+  00  11  31  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e
+  31  2e  32  20  00  00  36  07  00  00  00  30  00  00  19  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  35  2e  31
+  2e  34  2e  31  2e  31  2e  37  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  20  00  00
+  3d  09  00  00  00  30  00  00  1b  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  35  2e  31  2e  34  2e  31  2e  31
+  2e  33  2e  31  40  00  00  16  31  2e  32  2e  38  34  30  2e
+  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35  30  20  00
+  00  2e  0b  00  00  00  30  00  00  11  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  31  2e  31  40  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  50  00  00  3e  51  00  00  04  00  00  3f  fe  52  00  00  20
+  31  2e  32  2e  38  32  36  2e  30  2e  31  2e  33  36  38  30
+  30  34  33  2e  39  2e  33  38  31  31  2e  32  2e  30  2e  32
+  55  00  00  0e  50  59  4e  45  54  44  49  43  4f  4d  5f  32
+
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - DQDBaseSCPPool: Starting new DcmSCP worker thread
+INFO - Association Received localhost: PYNETDICOM -> ANY-SCP
+INFO - Incoming Association Request:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    PYNETDICOM
+Called Application Name:     ANY-SCP
+Responding Application Name: 
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+  Context ID:        9 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =JPEGBaseline
+  Context ID:        11 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+DEBUG - Constructing Associate AC PDU
+DEBUG - DcmSCP: Association Acknowledged
+INFO - Association Acknowledged (Max Send PDV: 16370)
+INFO - ====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    PYNETDICOM
+Called Application Name:     ANY-SCP
+Responding Application Name: ANY-SCP
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        9 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        11 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+DEBUG - DcmDataDictionary: Loading file: /opt/homebrew/Cellar/dcmtk/3.6.7/share/dcmtk/dicom.dic
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-ECHO Request
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-ECHO RQ
+Presentation Context ID       : 11
+Message ID                    : 1
+Data Set                      : none
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-ECHO Response
+DEBUG - C-ECHO Response successfully sent
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Request
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+DEBUG - Received dataset on presentation context 7
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 7
+Message ID                    : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.4302489623856184849054003884378
+Data Set                      : present
+Priority                      : low
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-STORE Response
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 7
+Message ID Being Responded To : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.4302489623856184849054003884378
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+DEBUG - Configured a total of 8 presentation contexts for SCU
+DEBUG - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        9 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        11 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        13 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        15 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Request
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+DEBUG - Received dataset on presentation context 7
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 7
+Message ID                    : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.1804857936051361179042156399626
+Data Set                      : present
+Priority                      : low
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-STORE Response
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 7
+Message ID Being Responded To : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.1804857936051361179042156399626
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Request
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+DEBUG - Received dataset on presentation context 7
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 7
+Message ID                    : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.4241186744585841409002315414111
+Data Set                      : present
+Priority                      : low
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-STORE Response
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 7
+Message ID Being Responded To : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.4241186744585841409002315414111
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+DEBUG - PDU Type: Associate Accept, PDU Length: 401 + 6 bytes PDU header
+  02  00  00  00  01  91  00  01  00  00  54  65  73  74  44  65
+  73  74  69  6e  61  74  69  6f  6e  20  51  43  74  6f  6f  6c
+  20  44  65  73  74  69  6e  61  74  69  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  19  01  00  00  00  40  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  21  00  00  19  03  00  00  00  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00
+  1e  05  00  00  00  40  00  00  16  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35  30  21
+  00  00  1e  07  00  00  00  40  00  00  16  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35
+  30  21  00  00  19  09  00  00  00  40  00  00  11  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00
+  00  19  0b  00  00  00  40  00  00  11  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00  19  0d
+  00  00  00  40  00  00  11  31  2e  32  2e  38  34  30  2e  31
+  30  30  30  38  2e  31  2e  32  21  00  00  19  0f  00  00  00
+  40  00  00  11  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  50  00  00  3e  51  00  00  04  00  00  3f
+  fe  52  00  00  20  31  2e  32  2e  38  32  36  2e  30  2e  31
+  2e  33  36  38  30  30  34  33  2e  39  2e  33  38  31  31  2e
+  32  2e  30  2e  32  55  00  00  0e  50  59  4e  45  54  44  49
+  43  4f  4d  5f  32  30  32
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        9 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        11 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        13 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        15 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16370)
+DEBUG - adding DICOM dataset
+DEBUG - getting SOP Class UID, SOP Instance UID and Transfer Syntax UID from DICOM dataset
+DEBUG - successfully added SOP instance 1.3.6.1.4.1.14519.5.2.1.9999.103.4302489623856184849054003884378 to the transfer list
+INFO - Sending C-STORE Request
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 9
+Message ID                    : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.4302489623856184849054003884378
+Data Set                      : present
+Priority                      : medium
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Request
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+DEBUG - DcmItem::checkAndUpdateVR() setting undefined VR of SmallestImagePixelValue (0028,0106) to 'US' because PixelRepresentation (0028,0103) has a value that is different from 1
+DEBUG - DcmItem::checkAndUpdateVR() setting undefined VR of LargestImagePixelValue (0028,0107) to 'US' because PixelRepresentation (0028,0103) has a value that is different from 1
+DEBUG - Received dataset on presentation context 3
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 3
+Message ID                    : 1
+Affected SOP Class UID        : MRImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.9590.100.1.2.96572736712925677405506504960822704173
+Data Set                      : present
+Priority                      : low
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-STORE Response
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 3
+Message ID Being Responded To : 1
+Affected SOP Class UID        : MRImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.9590.100.1.2.96572736712925677405506504960822704173
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Response
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 9
+Message ID Being Responded To : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.4302489623856184849054003884378
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Releasing Association
+DEBUG - Cleaning up internal association and network structures
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+DEBUG - Configured a total of 8 presentation contexts for SCU
+DEBUG - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        9 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        11 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        13 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        15 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Request
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+DEBUG - Received dataset on presentation context 5
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 5
+Message ID                    : 1
+Affected SOP Class UID        : DigitalXRayImageStorageForPresentation
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.2710019309218103448268301702692
+Data Set                      : present
+Priority                      : low
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-STORE Response
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 5
+Message ID Being Responded To : 1
+Affected SOP Class UID        : DigitalXRayImageStorageForPresentation
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.2710019309218103448268301702692
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Request
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+DEBUG - Received dataset on presentation context 7
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 7
+Message ID                    : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.2193513879957575143325780007380
+Data Set                      : present
+Priority                      : low
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-STORE Response
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 7
+Message ID Being Responded To : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.2193513879957575143325780007380
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+DEBUG - PDU Type: Associate Accept, PDU Length: 401 + 6 bytes PDU header
+  02  00  00  00  01  91  00  01  00  00  54  65  73  74  44  65
+  73  74  69  6e  61  74  69  6f  6e  20  51  43  74  6f  6f  6c
+  20  44  65  73  74  69  6e  61  74  69  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  19  01  00  00  00  40  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  21  00  00  19  03  00  00  00  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00
+  1e  05  00  00  00  40  00  00  16  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35  30  21
+  00  00  1e  07  00  00  00  40  00  00  16  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35
+  30  21  00  00  19  09  00  00  00  40  00  00  11  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00
+  00  19  0b  00  00  00  40  00  00  11  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00  19  0d
+  00  00  00  40  00  00  11  31  2e  32  2e  38  34  30  2e  31
+  30  30  30  38  2e  31  2e  32  21  00  00  19  0f  00  00  00
+  40  00  00  11  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  50  00  00  3e  51  00  00  04  00  00  3f
+  fe  52  00  00  20  31  2e  32  2e  38  32  36  2e  30  2e  31
+  2e  33  36  38  30  30  34  33  2e  39  2e  33  38  31  31  2e
+  32  2e  30  2e  32  55  00  00  0e  50  59  4e  45  54  44  49
+  43  4f  4d  5f  32  30  32
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        9 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        11 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        13 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        15 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16370)
+DEBUG - adding DICOM dataset
+DEBUG - getting SOP Class UID, SOP Instance UID and Transfer Syntax UID from DICOM dataset
+DEBUG - successfully added SOP instance 1.3.6.1.4.1.14519.5.2.1.9999.103.1804857936051361179042156399626 to the transfer list
+INFO - Sending C-STORE Request
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 9
+Message ID                    : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.1804857936051361179042156399626
+Data Set                      : present
+Priority                      : medium
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Request
+DEBUG - DcmDataset::read() TransferSyntax="JPEG Baseline"
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Response
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 9
+Message ID Being Responded To : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.1804857936051361179042156399626
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Releasing Association
+DEBUG - Cleaning up internal association and network structures
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+DEBUG - Configured a total of 8 presentation contexts for SCU
+DEBUG - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        9 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        11 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        13 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        15 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - Received dataset on presentation context 9
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 9
+Message ID                    : 1
+Affected SOP Class UID        : UltrasoundMultiframeImageStorage
+Affected SOP Instance UID     : 1.2.840.113663.1500.1.402372958.3.1.20180816.111159.971
+Data Set                      : present
+Priority                      : low
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-STORE Response
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 9
+Message ID Being Responded To : 1
+Affected SOP Class UID        : UltrasoundMultiframeImageStorage
+Affected SOP Instance UID     : 1.2.840.113663.1500.1.402372958.3.1.20180816.111159.971
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+DEBUG - PDU Type: Associate Accept, PDU Length: 401 + 6 bytes PDU header
+  02  00  00  00  01  91  00  01  00  00  54  65  73  74  44  65
+  73  74  69  6e  61  74  69  6f  6e  20  51  43  74  6f  6f  6c
+  20  44  65  73  74  69  6e  61  74  69  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  19  01  00  00  00  40  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  21  00  00  19  03  00  00  00  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00
+  1e  05  00  00  00  40  00  00  16  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35  30  21
+  00  00  1e  07  00  00  00  40  00  00  16  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35
+  30  21  00  00  19  09  00  00  00  40  00  00  11  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00
+  00  19  0b  00  00  00  40  00  00  11  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00  19  0d
+  00  00  00  40  00  00  11  31  2e  32  2e  38  34  30  2e  31
+  30  30  30  38  2e  31  2e  32  21  00  00  19  0f  00  00  00
+  40  00  00  11  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  50  00  00  3e  51  00  00  04  00  00  3f
+  fe  52  00  00  20  31  2e  32  2e  38  32  36  2e  30  2e  31
+  2e  33  36  38  30  30  34  33  2e  39  2e  33  38  31  31  2e
+  32  2e  30  2e  32  55  00  00  0e  50  59  4e  45  54  44  49
+  43  4f  4d  5f  32  30  32
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        9 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        11 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        13 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        15 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16370)
+DEBUG - adding DICOM dataset
+DEBUG - getting SOP Class UID, SOP Instance UID and Transfer Syntax UID from DICOM dataset
+DEBUG - successfully added SOP instance 1.3.6.1.4.1.14519.5.2.1.9999.103.4241186744585841409002315414111 to the transfer list
+INFO - Sending C-STORE Request
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 9
+Message ID                    : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.4241186744585841409002315414111
+Data Set                      : present
+Priority                      : medium
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Request
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+DEBUG - DcmItem::checkAndUpdateVR() setting undefined VR of SmallestImagePixelValue (0028,0106) to 'SS' because PixelRepresentation (0028,0103) has a value of 1
+DEBUG - DcmItem::checkAndUpdateVR() setting undefined VR of LargestImagePixelValue (0028,0107) to 'SS' because PixelRepresentation (0028,0103) has a value of 1
+DEBUG - DcmItem::checkAndUpdateVR() setting undefined VR of PixelPaddingValue (0028,0120) to 'SS' because PixelRepresentation (0028,0103) has a value of 1
+DEBUG - Received dataset on presentation context 1
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 1
+Message ID                    : 1
+Affected SOP Class UID        : CTImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.8162.7003.232425522272405527521317182328
+Data Set                      : present
+Priority                      : low
+======================= END DIMSE MESSAGE =======================
+INFO - Sending C-STORE Response
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 1
+Message ID Being Responded To : 1
+Affected SOP Class UID        : CTImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.8162.7003.232425522272405527521317182328
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Received Association Release Request
+DEBUG - DcmSCP: Association Terminated
+DEBUG - DQDBaseSCPPool: Worker thread #6167146496 returns with code: Normal
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Response
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 9
+Message ID Being Responded To : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.4241186744585841409002315414111
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Releasing Association
+DEBUG - Cleaning up internal association and network structures
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+DEBUG - Configured a total of 8 presentation contexts for SCU
+DEBUG - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        9 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        11 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        13 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        15 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - PDU Type: Associate Accept, PDU Length: 401 + 6 bytes PDU header
+  02  00  00  00  01  91  00  01  00  00  54  65  73  74  44  65
+  73  74  69  6e  61  74  69  6f  6e  20  51  43  74  6f  6f  6c
+  20  44  65  73  74  69  6e  61  74  69  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  19  01  00  00  00  40  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  21  00  00  19  03  00  00  00  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00
+  1e  05  00  00  00  40  00  00  16  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35  30  21
+  00  00  1e  07  00  00  00  40  00  00  16  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35
+  30  21  00  00  19  09  00  00  00  40  00  00  11  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00
+  00  19  0b  00  00  00  40  00  00  11  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00  19  0d
+  00  00  00  40  00  00  11  31  2e  32  2e  38  34  30  2e  31
+  30  30  30  38  2e  31  2e  32  21  00  00  19  0f  00  00  00
+  40  00  00  11  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  50  00  00  3e  51  00  00  04  00  00  3f
+  fe  52  00  00  20  31  2e  32  2e  38  32  36  2e  30  2e  31
+  2e  33  36  38  30  30  34  33  2e  39  2e  33  38  31  31  2e
+  32  2e  30  2e  32  55  00  00  0e  50  59  4e  45  54  44  49
+  43  4f  4d  5f  32  30  32
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        9 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        11 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        13 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        15 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16370)
+DEBUG - adding DICOM dataset
+DEBUG - getting SOP Class UID, SOP Instance UID and Transfer Syntax UID from DICOM dataset
+DEBUG - successfully added SOP instance 1.3.6.1.4.1.9590.100.1.2.96572736712925677405506504960822704173 to the transfer list
+INFO - Sending C-STORE Request
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 3
+Message ID                    : 1
+Affected SOP Class UID        : MRImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.9590.100.1.2.96572736712925677405506504960822704173
+Data Set                      : present
+Priority                      : medium
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Response
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 3
+Message ID Being Responded To : 1
+Affected SOP Class UID        : MRImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.9590.100.1.2.96572736712925677405506504960822704173
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Releasing Association
+DEBUG - Cleaning up internal association and network structures
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+DEBUG - Configured a total of 8 presentation contexts for SCU
+DEBUG - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        9 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        11 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        13 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        15 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - PDU Type: Associate Accept, PDU Length: 401 + 6 bytes PDU header
+  02  00  00  00  01  91  00  01  00  00  54  65  73  74  44  65
+  73  74  69  6e  61  74  69  6f  6e  20  51  43  74  6f  6f  6c
+  20  44  65  73  74  69  6e  61  74  69  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  19  01  00  00  00  40  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  21  00  00  19  03  00  00  00  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00
+  1e  05  00  00  00  40  00  00  16  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35  30  21
+  00  00  1e  07  00  00  00  40  00  00  16  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35
+  30  21  00  00  19  09  00  00  00  40  00  00  11  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00
+  00  19  0b  00  00  00  40  00  00  11  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00  19  0d
+  00  00  00  40  00  00  11  31  2e  32  2e  38  34  30  2e  31
+  30  30  30  38  2e  31  2e  32  21  00  00  19  0f  00  00  00
+  40  00  00  11  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  50  00  00  3e  51  00  00  04  00  00  3f
+  fe  52  00  00  20  31  2e  32  2e  38  32  36  2e  30  2e  31
+  2e  33  36  38  30  30  34  33  2e  39  2e  33  38  31  31  2e
+  32  2e  30  2e  32  55  00  00  0e  50  59  4e  45  54  44  49
+  43  4f  4d  5f  32  30  32
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        9 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        11 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        13 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        15 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16370)
+DEBUG - adding DICOM dataset
+DEBUG - getting SOP Class UID, SOP Instance UID and Transfer Syntax UID from DICOM dataset
+DEBUG - successfully added SOP instance 1.3.6.1.4.1.14519.5.2.1.9999.103.2710019309218103448268301702692 to the transfer list
+INFO - Sending C-STORE Request
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 13
+Message ID                    : 1
+Affected SOP Class UID        : DigitalXRayImageStorageForPresentation
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.2710019309218103448268301702692
+Data Set                      : present
+Priority                      : medium
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Response
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 13
+Message ID Being Responded To : 1
+Affected SOP Class UID        : DigitalXRayImageStorageForPresentation
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.2710019309218103448268301702692
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Releasing Association
+DEBUG - Cleaning up internal association and network structures
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+DEBUG - Configured a total of 8 presentation contexts for SCU
+DEBUG - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        9 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        11 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        13 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        15 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - PDU Type: Associate Accept, PDU Length: 401 + 6 bytes PDU header
+  02  00  00  00  01  91  00  01  00  00  54  65  73  74  44  65
+  73  74  69  6e  61  74  69  6f  6e  20  51  43  74  6f  6f  6c
+  20  44  65  73  74  69  6e  61  74  69  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  19  01  00  00  00  40  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  21  00  00  19  03  00  00  00  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00
+  1e  05  00  00  00  40  00  00  16  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35  30  21
+  00  00  1e  07  00  00  00  40  00  00  16  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35
+  30  21  00  00  19  09  00  00  00  40  00  00  11  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00
+  00  19  0b  00  00  00  40  00  00  11  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00  19  0d
+  00  00  00  40  00  00  11  31  2e  32  2e  38  34  30  2e  31
+  30  30  30  38  2e  31  2e  32  21  00  00  19  0f  00  00  00
+  40  00  00  11  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  50  00  00  3e  51  00  00  04  00  00  3f
+  fe  52  00  00  20  31  2e  32  2e  38  32  36  2e  30  2e  31
+  2e  33  36  38  30  30  34  33  2e  39  2e  33  38  31  31  2e
+  32  2e  30  2e  32  55  00  00  0e  50  59  4e  45  54  44  49
+  43  4f  4d  5f  32  30  32
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        9 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        11 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        13 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        15 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16370)
+DEBUG - adding DICOM dataset
+DEBUG - getting SOP Class UID, SOP Instance UID and Transfer Syntax UID from DICOM dataset
+DEBUG - successfully added SOP instance 1.3.6.1.4.1.14519.5.2.1.9999.103.2193513879957575143325780007380 to the transfer list
+INFO - Sending C-STORE Request
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 9
+Message ID                    : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.2193513879957575143325780007380
+Data Set                      : present
+Priority                      : medium
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Response
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 9
+Message ID Being Responded To : 1
+Affected SOP Class UID        : SecondaryCaptureImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.9999.103.2193513879957575143325780007380
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Releasing Association
+DEBUG - Cleaning up internal association and network structures
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+DEBUG - Configured a total of 8 presentation contexts for SCU
+DEBUG - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        9 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        11 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        13 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        15 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - PDU Type: Associate Accept, PDU Length: 401 + 6 bytes PDU header
+  02  00  00  00  01  91  00  01  00  00  54  65  73  74  44  65
+  73  74  69  6e  61  74  69  6f  6e  20  51  43  74  6f  6f  6c
+  20  44  65  73  74  69  6e  61  74  69  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  19  01  00  00  00  40  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  21  00  00  19  03  00  00  00  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00
+  1e  05  00  00  00  40  00  00  16  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35  30  21
+  00  00  1e  07  00  00  00  40  00  00  16  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35
+  30  21  00  00  19  09  00  00  00  40  00  00  11  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00
+  00  19  0b  00  00  00  40  00  00  11  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00  19  0d
+  00  00  00  40  00  00  11  31  2e  32  2e  38  34  30  2e  31
+  30  30  30  38  2e  31  2e  32  21  00  00  19  0f  00  00  00
+  40  00  00  11  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  50  00  00  3e  51  00  00  04  00  00  3f
+  fe  52  00  00  20  31  2e  32  2e  38  32  36  2e  30  2e  31
+  2e  33  36  38  30  30  34  33  2e  39  2e  33  38  31  31  2e
+  32  2e  30  2e  32  55  00  00  0e  50  59  4e  45  54  44  49
+  43  4f  4d  5f  32  30  32
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        9 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        11 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        13 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        15 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16370)
+DEBUG - adding DICOM dataset
+DEBUG - getting SOP Class UID, SOP Instance UID and Transfer Syntax UID from DICOM dataset
+DEBUG - successfully added SOP instance 1.2.840.113663.1500.1.402372958.3.1.20180816.111159.971 to the transfer list
+INFO - Sending C-STORE Request
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 5
+Message ID                    : 1
+Affected SOP Class UID        : UltrasoundMultiframeImageStorage
+Affected SOP Instance UID     : 1.2.840.113663.1500.1.402372958.3.1.20180816.111159.971
+Data Set                      : present
+Priority                      : medium
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Response
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 5
+Message ID Being Responded To : 1
+Affected SOP Class UID        : UltrasoundMultiframeImageStorage
+Affected SOP Instance UID     : 1.2.840.113663.1500.1.402372958.3.1.20180816.111159.971
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Releasing Association
+DEBUG - Cleaning up internal association and network structures
+INFO - Parser start to work. We're in the processing pipeline!
+DEBUG - The key we're working on: (0010,0010)
+DEBUG - Process description: "check if patient is called 'bob' and change, if so."
+INFO - Parser worked finished!
+INFO - The parser has finished! Sent to destination!
+DEBUG - Configured a total of 8 presentation contexts for SCU
+DEBUG - Request Parameters:
+====================== BEGIN A-ASSOCIATE-RQ =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    
+Their Implementation Version Name: 
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  0
+Presentation Contexts:
+  Context ID:        1 (Proposed)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        3 (Proposed)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        5 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        7 (Proposed)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        9 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        11 (Proposed)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        13 (Proposed)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+  Context ID:        15 (Proposed)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Proposed Transfer Syntax(es):
+      =LittleEndianExplicit
+      =LittleEndianImplicit
+      =JPEGLossless:Non-hierarchical-1stOrderPrediction
+      =JPEGBaseline
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-RQ ======================
+INFO - Requesting Association
+DEBUG - setting network send timeout to 60 seconds
+DEBUG - setting network receive timeout to 60 seconds
+DEBUG - Constructing Associate RQ PDU
+DEBUG - PDU Type: Associate Accept, PDU Length: 401 + 6 bytes PDU header
+  02  00  00  00  01  91  00  01  00  00  54  65  73  74  44  65
+  73  74  69  6e  61  74  69  6f  6e  20  51  43  74  6f  6f  6c
+  20  44  65  73  74  69  6e  61  74  69  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00  00
+  00  00  00  00  00  00  00  00  00  00  10  00  00  15  31  2e
+  32  2e  38  34  30  2e  31  30  30  30  38  2e  33  2e  31  2e
+  31  2e  31  21  00  00  19  01  00  00  00  40  00  00  11  31
+  2e  32  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32
+  21  00  00  19  03  00  00  00  40  00  00  11  31  2e  32  2e
+  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00
+  1e  05  00  00  00  40  00  00  16  31  2e  32  2e  38  34  30
+  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35  30  21
+  00  00  1e  07  00  00  00  40  00  00  16  31  2e  32  2e  38
+  34  30  2e  31  30  30  30  38  2e  31  2e  32  2e  34  2e  35
+  30  21  00  00  19  09  00  00  00  40  00  00  11  31  2e  32
+  2e  38  34  30  2e  31  30  30  30  38  2e  31  2e  32  21  00
+  00  19  0b  00  00  00  40  00  00  11  31  2e  32  2e  38  34
+  30  2e  31  30  30  30  38  2e  31  2e  32  21  00  00  19  0d
+  00  00  00  40  00  00  11  31  2e  32  2e  38  34  30  2e  31
+  30  30  30  38  2e  31  2e  32  21  00  00  19  0f  00  00  00
+  40  00  00  11  31  2e  32  2e  38  34  30  2e  31  30  30  30
+  38  2e  31  2e  32  50  00  00  3e  51  00  00  04  00  00  3f
+  fe  52  00  00  20  31  2e  32  2e  38  32  36  2e  30  2e  31
+  2e  33  36  38  30  30  34  33  2e  39  2e  33  38  31  31  2e
+  32  2e  30  2e  32  55  00  00  0e  50  59  4e  45  54  44  49
+  43  4f  4d  5f  32  30  32
+DEBUG - Parsing an A-ASSOCIATE PDU
+DEBUG - Association Parameters Negotiated:
+====================== BEGIN A-ASSOCIATE-AC =====================
+Our Implementation Class UID:      1.2.276.0.7230010.3.0.3.6.7
+Our Implementation Version Name:   OFFIS_DCMTK_367
+Their Implementation Class UID:    1.2.826.0.1.3680043.9.3811.2.0.2
+Their Implementation Version Name: PYNETDICOM_202
+Application Context Name:    1.2.840.10008.3.1.1.1
+Calling Application Name:    QCtool Destinati
+Called Application Name:     TestDestination
+Responding Application Name: TestDestination
+Our Max PDU Receive Size:    16384
+Their Max PDU Receive Size:  16382
+Presentation Contexts:
+  Context ID:        1 (Accepted)
+    Abstract Syntax: =CTImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        3 (Accepted)
+    Abstract Syntax: =MRImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        5 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        7 (Accepted)
+    Abstract Syntax: =UltrasoundMultiframeImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =JPEGBaseline
+  Context ID:        9 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        11 (Accepted)
+    Abstract Syntax: =SecondaryCaptureImageStorage
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        13 (Accepted)
+    Abstract Syntax: =DigitalXRayImageStorageForPresentation
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+  Context ID:        15 (Accepted)
+    Abstract Syntax: =VerificationSOPClass
+    Proposed SCP/SCU Role: Default
+    Accepted SCP/SCU Role: Default
+    Accepted Transfer Syntax: =LittleEndianImplicit
+Requested Extended Negotiation: none
+Accepted Extended Negotiation:  none
+Requested User Identity Negotiation: none
+User Identity Negotiation Response:  none
+======================= END A-ASSOCIATE-AC ======================
+INFO - Association Accepted (Max Send PDV: 16370)
+DEBUG - adding DICOM dataset
+DEBUG - getting SOP Class UID, SOP Instance UID and Transfer Syntax UID from DICOM dataset
+DEBUG - successfully added SOP instance 1.3.6.1.4.1.14519.5.2.1.8162.7003.232425522272405527521317182328 to the transfer list
+INFO - Sending C-STORE Request
+DEBUG - ===================== OUTGOING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RQ
+Presentation Context ID       : 1
+Message ID                    : 1
+Affected SOP Class UID        : CTImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.8162.7003.232425522272405527521317182328
+Data Set                      : present
+Priority                      : medium
+======================= END DIMSE MESSAGE =======================
+DEBUG - DcmDataset::read() TransferSyntax="Little Endian Implicit"
+INFO - Received C-STORE Response
+DEBUG - ===================== INCOMING DIMSE MESSAGE ====================
+Message Type                  : C-STORE RSP
+Presentation Context ID       : 1
+Message ID Being Responded To : 1
+Affected SOP Class UID        : CTImageStorage
+Affected SOP Instance UID     : 1.3.6.1.4.1.14519.5.2.1.8162.7003.232425522272405527521317182328
+Data Set                      : none
+DIMSE Status                  : 0x0000: Success
+======================= END DIMSE MESSAGE =======================
+INFO - Releasing Association
+DEBUG - Cleaning up internal association and network structures
