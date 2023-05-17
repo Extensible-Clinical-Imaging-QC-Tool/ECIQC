@@ -63,6 +63,5 @@ class PipelineTests():
                     image_str += self.input_file_path + file + ' '
                 cmd_4 = "storescu localhost 11112 " +  image_str + " --propose-jpeg8"
         cmd = cmd_1 + " & " + cmd_2 + " & " + cmd_3 + " & " + cmd_4
-        #print(cmd)
         os.system(cmd)
 
