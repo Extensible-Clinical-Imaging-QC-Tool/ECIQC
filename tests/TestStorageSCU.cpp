@@ -17,57 +17,13 @@ void TestStorageSCU::initialise() {
   setPeerPort(m_peer_port);
   setVerbosePCMode(OFTrue);
 
-  // Add presentation context to be handled
-  // Tried by Yiming 2023-03-03 uncomment codes from line 22 to line 42 if going back!
-  /*
   OFList<OFString> xfers;
   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
   xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
-  //xfers.push_back(UID_JPEGProcess14SV1TransferSyntax);
-  //xfers.push_back(UID_JPEGProcess1TransferSyntax);
 
   // Define a separate transfer syntax needed for the X-ray image
   OFList<OFString> ts;
   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
-  //ts.push_back(UID_JPEGProcess14SV1TransferSyntax);
-  //ts.push_back(UID_JPEGProcess1TransferSyntax);
-
-  addPresentationContext(UID_CTImageStorage, xfers);
-  addPresentationContext(UID_MRImageStorage, xfers);
-  //addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts);
-  //addPresentationContext(UID_UltrasoundMultiframeImageStorage,xfers);
-  //addPresentationContext(UID_SecondaryCaptureImageStorage,ts);
-  //addPresentationContext(UID_SecondaryCaptureImageStorage,xfers);
-  
-  addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
-  addPresentationContext(UID_VerificationSOPClass, xfers);
-  */
-
-  /*
-  OFList<OFString> ts1;
-  OFList<OFString> ts2;
-  ts1.push_back(UID_LittleEndianExplicitTransferSyntax);
-  ts1.push_back(UID_LittleEndianImplicitTransferSyntax);
-  ts2.push_back(UID_JPEGProcess1TransferSyntax);
-
-  addPresentationContext(UID_CTImageStorage, ts1);
-  addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts1);
-  addPresentationContext(UID_SecondaryCaptureImageStorage,ts1);
-  addPresentationContext(UID_MRImageStorage, ts1);
-  addPresentationContext(UID_VerificationSOPClass, ts1);
-  addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
-  */
-  OFList<OFString> xfers;
-  xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
-  xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
-  //xfers.push_back(UID_JPEGProcess14SV1TransferSyntax);
-  //xfers.push_back(UID_JPEGProcess1TransferSyntax);
-
-  // Define a separate transfer syntax needed for the X-ray image
-  OFList<OFString> ts;
-  ts.push_back(UID_LittleEndianImplicitTransferSyntax);
-  //ts.push_back(UID_JPEGProcess14SV1TransferSyntax);
-  //ts.push_back(UID_JPEGProcess1TransferSyntax);
 
   OFList<OFString> ts2;
   ts2.push_back(UID_JPEGProcess1TransferSyntax);
