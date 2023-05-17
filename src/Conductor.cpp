@@ -15,7 +15,7 @@
 #include "../libs/nlohmann_json/single_include/nlohmann/json.hpp"
 
 using json = nlohmann::ordered_json;
-// using json = nlohmann::json;
+
 /// TODO - setup image editor here
 Conductor::Conductor(std::istream &json_config) {
   auto config = json::parse(json_config);
@@ -77,9 +77,6 @@ void Conductor::process_dataset(DcmDataset dataset) {
 
   // Image Editor
   ImageEditor dataset2edit(&dataset);
-  // dataset2edit.coverText();
-
-  // Add a python plug-in
 
   OFCondition result = m_parser.allResults;
   
