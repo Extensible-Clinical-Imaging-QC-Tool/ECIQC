@@ -1,0 +1,46 @@
+{
+    "receiver": {
+      "aetitle": "TestQCTool",
+      "port": 11112
+    },
+    "destination": {
+      "aetitle": "TestDestination",
+      "hostname": "localhost",
+      "port": 11113
+    },
+    "quarentine": {
+      "aetitle": "TestQuarentine",
+      "hostname": "localhost",
+      "port": 11114
+    },
+    "metadata": {
+        "(0008,0060)": {
+          "tagName": "Modality",
+          "vr": "CS",
+          "description": "check if modality is 'MR' and manufacturer is 'SIEMENS' or 'HITACHI'",
+          "operations": {
+            "EQUAL":{
+              "value":"MR",
+              "IF_FALSE":{"REJECT":{}},
+              "IF_TRUE":{
+                "IS_IN":{
+                  "otherTagString":"(0008,0070)",
+                  "valueList":["SIEMENS","HITACHI"],
+                  "IF_TRUE":{
+                    "IS_IN":{
+                      "otherTagString":"(0018,0087)",
+                      "valueList":["1.5","3.0"],
+                      "IF_TRUE":{
+                        "INSERT":{"otherTagString":"(0012,0072)","value":"T1"}
+                      },
+                      "IF_FALSE":{"REJECT":{}}
+                      }
+                    },
+                  "IF_FALSE":{"REJECT":{}}
+                }
+              }
+            }
+            }
+          }
+        }
+}

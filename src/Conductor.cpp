@@ -14,7 +14,8 @@
     
 #include "../libs/nlohmann_json/single_include/nlohmann/json.hpp"
 
-using json = nlohmann::json;
+using json = nlohmann::ordered_json;
+
 /// TODO - setup image editor here
 Conductor::Conductor(std::istream &json_config) {
   auto config = json::parse(json_config);
@@ -69,12 +70,15 @@ void Conductor::process_next_dataset() {
 
 void Conductor::process_dataset(DcmDataset dataset) {
   // pipeline goes here!!!
-
+  
+  // Metadata editor
   m_parser.setDicomDset(&dataset);
   m_parser.parse();
 
+  // Image Editor
+  ImageEditor dataset2edit(&dataset);
+
   OFCondition result = m_parser.allResults;
-  
   
   if (result.bad()){
       OFLOG_INFO(get_logger(),"The parser has finished! Sent to quarantine!");

@@ -7,7 +7,8 @@
 #include <iostream>
 #include <string>
 
-using json = nlohmann::json;
+using json = nlohmann::ordered_json;
+// using json = nlohmann::json;
 
 class Parser {
   // JSON object that holds the config file

@@ -6,8 +6,10 @@
 
 struct WorkerParameters {
     OFString value, otherTagString, str_expr, replaceString;
+    std::vector<std::string> valueVector;
     DcmTagKey otherTagKey = DCM_PatientBreedDescription; //dummy tag for humans
     Float64 compareValue = 0;
+    std::vector<Float64> compareValueVector;
 
     OFCondition flag = OFCondition();
 
@@ -16,6 +18,8 @@ struct WorkerParameters {
     OFBool searchIntoSub = OFFalse;
     OFBool copyToThis = OFTrue;
     OFBool replace = OFTrue;
+    OFBool concatenate = OFTrue;
+    OFBool prepend = OFTrue;
 
     unsigned long pos = 0UL;
 

@@ -23,7 +23,8 @@
  * NOT
  * GREATER_THAN
  * LESS_THAN
- * EQUALS
+ * EQUAL
+ * ISIN
  *
  * Actions:
  * UPDATE: Add something in the next value channel without removing current ones
@@ -33,9 +34,11 @@
  * CLEAR: If tag exists, remove its value
  * PREPEND: String operation, add string at start
  * APPEND: String operation, add string at end
+ * REJECT: reject the image
  */
 
-using json = nlohmann::json;
+using json = nlohmann::ordered_json;
+// using json = nlohmann::json;
 // Parser::Parser(){
 //     std::cout << "REMOVE ME";
 // }
@@ -84,9 +87,7 @@ DcmDataset *Parser::getDicomDset() { return currentDataset; }
 // TODO What happens to the OFCondition results of the operations
 DcmDataset *Parser::parse() {
   OFLOG_INFO(get_logger(),"Parser start to work. We're in the processing pipeline!");
-  OFCondition
-      allResults; // If any operation returns bad OFCondition, move to quar
-  allResults = EC_Normal;
+  allResults = EC_Normal; // If any operation returns bad OFCondition, move to quar
   int i = 0;
   for (const auto &tag : base.items()) {
     OFString instruction, sub_instruction;
@@ -117,7 +118,7 @@ DcmDataset *Parser::parse() {
       if (actionResult.bad()) {
         allResults =
             makeOFCondition(OFM_dcmdata, 22, OF_error, "Some checks failed");
-        OFLOG_ERROR(get_logger(), "This process has failed!");
+        OFLOG_ERROR(get_logger(), "Some checks failed!");
       }
       //}
     }
@@ -138,23 +139,28 @@ enum ArgumentsEnum {
   otherTagString,
   otherTagKey,
   value,
+  valueList,
   str_expr,
   flag,
   only_overwrite,
   searchIntoSub,
   copyToThis,
   replace,
+  concatenate,
+  prepend,
   posFrom,
   posTo,
   pos,
   tag,
   replaceString,
-  compareValue
+  compareValue,
+  compareValueList
 };
 
 enum ActionsEnum {
   /* Comparisons */
   EQUAL,
+  IS_IN,
   LESS_THAN,
   GREATER_THAN,
   /* Boolean Operations */
@@ -173,6 +179,7 @@ enum ActionsEnum {
   UPDATE,
   APPEND,
   PREPEND,
+  REJECT,
   /* Objects holding further actions only */
   IF_TRUE,
   IF_FALSE
@@ -184,18 +191,22 @@ int Parser::resolveArguments(OFString param) {
       {"otherTagString", otherTagString},
       {"otherTagKey", otherTagKey},
       {"value", value},
+      {"valueList",valueList},
       {"str_expr", str_expr},
       {"flag", flag},
       {"only_overwrite", only_overwrite},
       {"searchIntoSub", searchIntoSub},
       {"copyToThis", copyToThis},
       {"replace", replace},
+      {"concatenate",concatenate},
+      {"prepend",prepend},
       {"posFrom", posFrom},
       {"posTo", posTo},
       {"pos", pos},
       {"tag", tag},
       {"replaceString", replaceString},
-      {"compareValue", compareValue}};
+      {"compareValue", compareValue},
+      {"compareValueList",compareValueList}};
 
   auto itr = argStrings.find(param);
   if (itr != argStrings.end()) {
@@ -208,6 +219,7 @@ int Parser::resolveArguments(OFString param) {
 int Parser::resolveActions(OFString param) {
   static const std::map<OFString, ActionsEnum> actionStrings{
       {"EQUAL", EQUAL},
+      {"IS_IN",IS_IN},
       {"LESS_THAN", LESS_THAN},
       {"GREATER_THAN", GREATER_THAN},
       {"IF_TRUE", IF_TRUE},
@@ -224,7 +236,8 @@ int Parser::resolveActions(OFString param) {
       {"OVERWRITE", OVERWRITE},
       {"UPDATE", UPDATE},
       {"APPEND", APPEND},
-      {"PREPEND", PREPEND}
+      {"PREPEND", PREPEND},
+      {"REJECT", REJECT}
 
   };
 
@@ -280,6 +293,10 @@ WorkerParameters Parser::WPMaker(const json &param_object) {
       // std::cout << "Member: " << paramStruct.value << '\n';
     } break;
 
+    case valueList: {
+      paramStruct.valueVector = arg.get<std::vector<std::string>>();
+    } break;
+
     case str_expr: {
       /* code */
       paramStruct.str_expr = OFString(arg.get<std::string>().c_str());
@@ -304,6 +321,26 @@ WorkerParameters Parser::WPMaker(const json &param_object) {
       /* code */
       paramStruct.replace = arg.get<bool>();
       break;
+    
+    // Concatenate & prepend are only for the COPY action
+    // The COPY action copies all the value from one tag, and add it to another tag.
+    // Concatenate specifies whether to concatenate the new value to the original one.
+    // If concatenate is false, then we will have a list of values.
+    
+    case concatenate:
+      paramStruct.concatenate = arg.get<bool>();
+      break;
+
+    // PLEASE Note the difference between prepend in the argument and PREPEND action.
+    // prepend (as an argument) in the COPY action. The COPY action copies value from
+    // one tag, and paste it somewhere. prepend (as an argument) decides how this new
+    // value is added. It only take effects when concatenate is true.
+    // The PREPEND action adds the *user-specified* value to somewhere. 
+    case prepend:
+      paramStruct.prepend = arg.get<bool>();
+      break;
+
+     
 
     case posFrom:
       /* code */
@@ -329,6 +366,11 @@ WorkerParameters Parser::WPMaker(const json &param_object) {
       /* code */
       paramStruct.compareValue = arg.get<Float64>();
       break;
+
+    case compareValueList:
+      paramStruct.compareValueVector = arg.get<std::vector<Float64>>(); 
+      break;
+  
 
     case 404: /*Not a possible argument*/
       /* code */
@@ -406,17 +448,24 @@ OFCondition Parser::parseOperation(OFString instruction, const json &params,
   }
   case IF_TRUE:
   case IF_FALSE: {
+    OFCondition actionResult;
     for (const auto &nested_ops : params.items()) {
       nested_key = nested_ops.key().c_str();
       nested_parameters = nested_ops.value();
       std::cout << "Key : " << nested_key << "params : " << nested_parameters
                 << std::endl;
-      parseOperation(nested_key, nested_parameters, thisTagString);
+      actionResult = parseOperation(nested_key, nested_parameters, thisTagString);
     }
-    return EC_Normal; // Doesn't matter what this returns - actions have been
-                      // done above
+    
+    return actionResult; // Doesn't matter what this returns - actions have been
+                         // done above
+                         // Updated by weiym 13-03-2023
+                         // Now we've added REJECT action - reject the image if
+                         // some conditions are meet / mot meet.
+                         // So you cannot simply return EC_normal now!
   }
   case EQUAL:
+  case IS_IN:
   case LESS_THAN:
   case GREATER_THAN:
   case EXIST:
@@ -437,7 +486,8 @@ OFCondition Parser::parseOperation(OFString instruction, const json &params,
   case OVERWRITE:
   case UPDATE:
   case APPEND:
-  case PREPEND: {
+  case PREPEND:
+  case REJECT: {
     std::cout << "\t Key : " << instruction << "params : " << params
               << std::endl;   
     paramStruct = WPMaker(params);
@@ -519,21 +569,24 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
       break;
     } else if (params.otherTagKey != DCM_PatientBreedDescription) {
       OFString otherTagString = params.otherTagKey.toString();
+      
       return editor.copy(params.otherTagKey, params.posTo, params.posFrom,
                          params.copyToThis, params.searchIntoSub,
-                         params.replace);
+                         params.replace, params.concatenate, params.prepend);
     } else if (params.otherTagString != "") {
       return editor.copy(params.otherTagString, params.posTo, params.posFrom,
                          params.copyToThis, params.searchIntoSub,
-                         params.replace);
+                         params.replace, params.concatenate, params.prepend);
     }
     break;
   }
   case OVERWRITE: {
+    std::cout << "Before calling overwrite, replaceString is " << params.replaceString << std::endl;
     if (params.otherTagString == "" &&
         params.otherTagKey == DCM_PatientBreedDescription) {
       return editor.overwrite(params.str_expr, params.replaceString);
     } else if (params.otherTagKey != DCM_PatientBreedDescription) {
+      
       return editor.overwrite(params.otherTagKey, params.str_expr,
                               params.replaceString);
     } else if (params.otherTagString != "") {
@@ -568,6 +621,9 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
     }
     break;
   }
+  case REJECT: {
+    return makeOFCondition(OFM_dcmdata, 22, OF_error, "Some checks failed");
+  }
   case EQUAL: {
     OFCondition flag;
     if (params.value != "") {
@@ -590,6 +646,35 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
                              params.pos);
       } else if (params.otherTagString != "") {
         return editor.equals(params.otherTagString, params.compareValue, flag,
+                             params.pos);
+      }
+    } else {
+      break;
+    }
+  }
+  case IS_IN: {
+    OFCondition flag;
+    std::cout << "We are in IS_IN!######################" << std::endl;
+    if (!params.valueVector.empty()) {
+      if (params.otherTagString == "" &&
+          params.otherTagKey == DCM_PatientBreedDescription) {
+        return editor.is_in(params.valueVector, flag, params.pos);
+      } else if (params.otherTagKey != DCM_PatientBreedDescription) {
+        return editor.is_in(params.otherTagKey, params.valueVector, flag,
+                             params.pos);
+      } else if (params.otherTagString != "") {
+        return editor.is_in(params.otherTagString, params.valueVector, flag,
+                             params.pos);
+      }
+    } else if (!params.compareValueVector.empty()) {
+      if (params.otherTagString == "" &&
+          params.otherTagKey == DCM_PatientBreedDescription) {
+        return editor.is_in(params.compareValueVector, flag, params.pos);
+      } else if (params.otherTagKey != DCM_PatientBreedDescription) {
+        return editor.is_in(params.otherTagKey, params.compareValueVector, flag,
+                             params.pos);
+      } else if (params.otherTagString != "") {
+        return editor.is_in(params.otherTagString, params.compareValueVector, flag,
                              params.pos);
       }
     } else {

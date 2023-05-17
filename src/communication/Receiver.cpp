@@ -143,17 +143,23 @@ Receiver::Receiver(Uint16 port, std::string aetitle) {
   // Set verbose mode
   getConfig().setVerbosePCMode(OFTrue);
 
-  // Add presentation context to be handled
-  OFList<OFString> ts;
-  ts.push_back(UID_LittleEndianExplicitTransferSyntax);
-  ts.push_back(UID_LittleEndianImplicitTransferSyntax);
-  ts.push_back(UID_BigEndianExplicitTransferSyntax);
-  ts.push_back(UID_JPEGProcess14SV1TransferSyntax);
-  ts.push_back(UID_JPEGProcess1TransferSyntax);
-  for (size_t n = 0; n < (size_t)numberOfDcmLongSCUStorageSOPClassUIDs; n++) {
-    getConfig().addPresentationContext(dcmLongSCUStorageSOPClassUIDs[n], ts);
-  }
-  getConfig().addPresentationContext(UID_VerificationSOPClass, ts);
+  OFList<OFString> xfers;
+   xfers.push_back(UID_LittleEndianExplicitTransferSyntax);
+   xfers.push_back(UID_LittleEndianImplicitTransferSyntax);
+
+   // Define a separate transfer syntax needed for the X-ray image
+   OFList<OFString> ts;
+   ts.push_back(UID_LittleEndianImplicitTransferSyntax);
+
+   OFList<OFString> ts2;
+   ts2.push_back(UID_JPEGProcess1TransferSyntax);
+
+   getConfig().addPresentationContext(UID_CTImageStorage, xfers);
+   getConfig().addPresentationContext(UID_MRImageStorage, xfers);
+   getConfig().addPresentationContext(UID_SecondaryCaptureImageStorage,xfers);
+   getConfig().addPresentationContext(UID_VerificationSOPClass, xfers);
+   getConfig().addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
+   getConfig().addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
 }
 
 // ----------------------------------------------------------------------------
