@@ -55,3 +55,8 @@ c_cpp_properties.json
 
 # Images for presentation
 presentation
+
+tests/__pycache__/
+
+result/*
+!result/
