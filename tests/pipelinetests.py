@@ -236,36 +236,63 @@ class PipelineTests():
             realIFtagValue = ds.data_element(tagName).value
             expTHENtagOutput = row["THENtagOutput"]
 
-            output_name = Modality + "." + SOPInstanceUID + ".dcm"
 
+
+
+            output_name = SOPInstanceUID + ".dcm"
+            print("Expected Output name: ", output_name)
             ### check both output and quarantine folders
-            try:
-                output_path = os.path.join(self.output_file_path, output_name)
 
-                ds = pydicom.dcmread(output_path)
-
-                realTHENtagOutput = ds.data_element(tagName).value
-            except:
-                print("File not found in output folder. Checking quarantine folder...")
+            ### need to sort out this logic - not currently working
 
             try:
-                output_path = os.path.join(self.quarantine_file_path, output_name)
+                try:
+                    output_path = os.path.join(self.output_file_path, output_name)
+                    print("Excpeted Output path: ", output_path)
+                    ds = pydicom.dcmread(output_path, force=True)
+                    print("Dicom read")
+                    print("tagName: ", tagName)
+                    realTHENtagOutput = ds.data_element(tagName).value
+                    print("expTHENtagOutput: ", expTHENtagOutput)
+                    print("realTHENtagOutput: ", realTHENtagOutput)
+                    
+                except UserWarning:
+                    print("File not found in output folder. Checking quarantine folder...")
 
-                ds = pydicom.dcmread(output_path)
+                try:
+                    output_path = os.path.join(self.quarantine_file_path, output_name)
 
-                realTHENtagOutput = ds.data_element(tagName).value
-            except:
-                print("File not found in quarantine folder or output folder")
-                realTHENtagOutput = "File not found in quarantine folder or output folder"
+                    ds = pydicom.dcmread(output_path, force=True)
+                    print("Dicom read")
+                    print("tagName: ", tagName)
 
-            ### Compare the expected output with the real output
+                    realTHENtagOutput = ds.data_element(tagName).value
+                    print("expTHENtagOutput: ", expTHENtagOutput)
+                    print("realTHENtagOutput: ", realTHENtagOutput)
+                except UserWarning:
+                    print("File not found in quarantine folder")
+            except UserWarning:
+                print("File {} not found in either output or quarantine folder...".format(dcmName))
+                realTHENtagOutput = None
 
-            if realTHENtagOutput == expTHENtagOutput:
-                print(dcmName,jsonName,"Test passed")
-                Result = True
-            else:
-                print(dcmName,jsonName,"Test failed")
-                Result = False
+            finally:
+                ### Compare the expected output with the real output
+                if realTHENtagOutput is None:
+                    realTHENtagOutput = "No file found"
+                    print(dcmName, jsonName, realTHENtagOutput)
+                    Result = False
+
+                elif realIFtagValue != expIFtagValue:
+                    print(dcmName,jsonName,"Test not covered")
+                    Result = True
+
+                elif realIFtagValue == expIFtagValue:
+                    if realTHENtagOutput == expTHENtagOutput:
+                        print(dcmName,jsonName,"Test passed")
+                        Result = True
+                    else:
+                        print(dcmName,jsonName,"Test failed")
+                        Result = False
 
             #create row to append
             test_row = pd.DataFrame({"dcmName":dcmName,
@@ -278,7 +305,7 @@ class PipelineTests():
                                      "expTHENtagOutput":expTHENtagOutput,
                                      "realTHENtagOutput":realTHENtagOutput,
                                      "Result":Result},
-                                     index=[0])
+                                     )
 
             #append row to dataframe
             self.compare_df = pd.concat([self.compare_df,test_row],ignore_index=True)
