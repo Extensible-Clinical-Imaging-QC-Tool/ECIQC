@@ -112,14 +112,88 @@ bool ImageEditor::loadPixelData() {
                     slices.push_back(slice);
                 }
             }
+            // signed
+            else {
+                unsigned int fragmentStart{0};
+                for (int frame = 0; frame < nImgs; frame++) {
+
+                    std::unique_ptr<Sint8 []> buffer = std::make_unique<Sint8 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
+                                                    decompressedColorModel);
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_8SC3, buffer.get()).clone();
+                    slice = slice + 128;
+                    slice.convertTo(slice,CV_8UC3);
+                    slices.push_back(slice);
+                }
+            }
+        }
+        // 16 bit
+        else if (bitDepth == 16){
+            // unsigned
+            if (!isSigned) {
+                unsigned int fragmentStart{0};
+                for (int frame = 0; frame < nImgs; frame++) {
+
+                    std::unique_ptr<Uint16 []> buffer = std::make_unique<Uint16 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
+                                                    decompressedColorModel);
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16UC3, buffer.get()).clone();
+                    slices.push_back(slice);
+                }
+            }
+            // signed
+            else {
+                unsigned int fragmentStart{0};
+                for (int frame = 0; frame < nImgs; frame++) {
+
+                    std::unique_ptr<Sint16 []> buffer = std::make_unique<Sint16 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
+                                                    decompressedColorModel);
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_16SC3, buffer.get()).clone();
+                    slice = slice + 32768;
+                    slice.convertTo(slice,CV_8UC3);
+                    slices.push_back(slice);
+                }
+            }
         }
     }
 
     // monochrome images
     else if(samplesPerPixel == 1){
         isGrayscale = true;
+        // 8 bit
+        if (bitDepth == 8){
+            // signed
+            if (isSigned) {
+                unsigned int fragmentStart{0};
+                for (int frame = 0; frame < nImgs; frame++) {
+
+                    std::unique_ptr<Sint8 []> buffer = std::make_unique<Sint8 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
+                                                    decompressedColorModel);
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_8S, buffer.get()).clone();
+                    // convert to unsigned
+                    slice = slice + 128;
+                    slice.convertTo(slice, CV_8U);
+                    slices.push_back(slice);
+                }
+            }
+            // unsigned
+            else {
+                unsigned int fragmentStart{0};
+                for (int frame = 0; frame < nImgs; frame++) {
+
+                    std::unique_ptr<Uint8 []> buffer = std::make_unique<Uint8 []>(frameSize);
+                    pixelData->getUncompressedFrame(dset, frame, fragmentStart, buffer.get(), frameSize,
+                                                    decompressedColorModel);
+                    cv::Mat slice = cv::Mat(nRows, nCols, CV_8U, buffer.get()).clone();
+                    // convert to unsigned
+                    slices.push_back(slice);
+                }
+            }
+        }
         // 16 bit images
-        if (bitDepth == 16) {
+        else if (bitDepth == 16) {
             // signed int
             if (isSigned) {
                 unsigned int fragmentStart{0};
@@ -190,6 +264,20 @@ bool ImageEditor::loadPixelData() {
                 pixelData->putUint8Array(mergedSlices, length);
 
             }
+            /*
+            // signed
+            else{
+                Uint8 * dataptr = reinterpret_cast<Uint8*>(combined.data);
+                Uint8 data = *dataptr;
+                Sint8 datasigned = static_cast<Sint8>(data - 128);
+                Sint8 * mergedSlices = reinterpret_cast<Sint8*>(&datasigned);
+                pixelData->putUint16Array(mergedSlices, length);
+            }
+            */
+        }
+        // 16 bit
+        else if (bitDepth == 16){
+             
         }
     }
 
@@ -198,7 +286,7 @@ bool ImageEditor::loadPixelData() {
         // 16 bit images
         if (bitDepth == 16) {
             // signed int
-            if (isSigned) {
+            if (!isSigned) {
                 // TODO implement
             }
             // unsigned 16 bit
