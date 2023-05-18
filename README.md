@@ -115,6 +115,24 @@ ctest --output-on-failure
 ./build/exe/qctool --help
 ```
 
+## How to test on your own machine (Update 18th May 2023)
+After you've cloned the package and installed it properly, we provide two alternatives to test whether it works on your own machine.
+
+### Choice1: Using python script to test with the local senders and receivers.
+There's a python script [pipelinetest.py](pipelinetest_main.py) as a simple test tool. To run this script properly, you need to install two packages [pydicom>=2.3.1](https://pydicom.github.io) and [pynetdicom>=2.0.2](https://pydicom.github.io/pynetdicom/stable/). For example, if you're using a linux system, you can create a virtual environment **in the root directory** and then install these two packages.
+
+```
+python -m venv venv
+source ./venv/bin/activate
+pip install pydicom
+pip install pynetdicom
+```
+Make sure that `python` command means `python3` if you are using a linux system (This is also a prerequisite when running the test script). Otherwise, add `python` as an alias by typing `alias python='python3'` in your command line.
+
+Finally, you will be happy to run the test script by `python pipelinetest_main.py` in the root directory. Remember to check the postprocessed files and logs in the ./result and ./result_quarantine. Please also note that we've used the [PipelineCase.json](schema/PipelineCase.json) as the configuration file.
+
+### Choice2: Using the executable file with more flexibility
+
 ## Feedback and suggestions
 
 If you have any feedback or suggestions about this project, please get in touch or open an issue.
