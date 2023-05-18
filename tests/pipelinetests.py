@@ -246,18 +246,18 @@ class PipelineTests():
             ### need to sort out this logic - not currently working
 
             try:
-                try:
-                    output_path = os.path.join(self.output_file_path, output_name)
-                    print("Excpeted Output path: ", output_path)
-                    ds = pydicom.dcmread(output_path, force=True)
-                    print("Dicom read")
-                    print("tagName: ", tagName)
-                    realTHENtagOutput = ds.data_element(tagName).value
-                    print("expTHENtagOutput: ", expTHENtagOutput)
-                    print("realTHENtagOutput: ", realTHENtagOutput)
-                    
-                except UserWarning:
-                    print("File not found in output folder. Checking quarantine folder...")
+                
+                output_path = os.path.join(self.output_file_path, output_name)
+                print("Excpeted Output path: ", output_path)
+                ds = pydicom.dcmread(output_path, force=True)
+                print("Dicom read")
+                print("tagName: ", tagName)
+                realTHENtagOutput = ds.data_element(tagName).value
+                print("expTHENtagOutput: ", expTHENtagOutput)
+                print("realTHENtagOutput: ", realTHENtagOutput)
+                
+            except UserWarning:
+                print("File not found in output folder. Checking quarantine folder...")
 
                 try:
                     output_path = os.path.join(self.quarantine_file_path, output_name)
@@ -269,11 +269,12 @@ class PipelineTests():
                     realTHENtagOutput = ds.data_element(tagName).value
                     print("expTHENtagOutput: ", expTHENtagOutput)
                     print("realTHENtagOutput: ", realTHENtagOutput)
-                except UserWarning:
-                    print("File not found in quarantine folder")
-            except UserWarning:
-                print("File {} not found in either output or quarantine folder...".format(dcmName))
-                realTHENtagOutput = None
+                # except:
+                #     print("File not found in quarantine folder")
+
+                except FileNotFoundError:
+                    print("File {} not found in either output or quarantine folder...".format(dcmName))
+                    realTHENtagOutput = None
 
             finally:
                 ### Compare the expected output with the real output
