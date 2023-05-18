@@ -132,6 +132,17 @@ Make sure that `python` command means `python3` if you are using a linux system 
 Finally, you will be happy to run the test script by `python pipelinetest_main.py` in the root directory. Remember to check the postprocessed files and logs in the ./result and ./result_quarantine. Please also note that we've used the [PipelineCase.json](schema/PipelineCase.json) as the configuration file.
 
 ### Choice2: Using the executable file with more flexibility
+If you need more flexible test (for example, use non-local sender and receiver, or use your own datasets), we recommend to use the executable file. Before spinning up the pipeline, you need to create a directory ./result to store the logging file, and set up the configuration file properly. Have a look at the [PipelineCase.json](schema/PipelineCase.json) and modify the hostname and port number according to your own system.
+
+Also, we've noticed that the sender and receiver need to agree on specific abstract syntaxes and transfer syntaxes. The syntaxes we're supporting now are listed as follows. We'll come back to the syntax issue in June and July.
+
+CTImageStorage (1.2.840.10008.5.1.4.1.1.2): LittleEndianExplicit, LittleEndianImplicit;
+MRImageStorage (1.2.840.10008.5.1.4.1.1.4): LittleEndianExplicit, LittleEndianImplicit;
+SecondaryCaptureImageStorage (1.2.840.10008.5.1.4.1.1.7): LittleEndianExplicit, LittleEndianImplicit;
+DigitalXRayImageStorageForPresentation (1.2.840.10008.5.1.4.1.1.1.1): LittleEndianImplicit;
+UltrasoundMultiframeImageStorage (1.2.840.10008.5.1.4.1.1.3.1): JPEGProcess1TransferSyntax.
+
+Once you've done all the preparation work, now type in `./build/exe/qctool --config-file YourOwnConfig.json` to start the pipeline. Also remember to start your remote/local sender and receiver.
 
 ## Feedback and suggestions
 
