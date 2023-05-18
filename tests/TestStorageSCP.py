@@ -2,11 +2,15 @@ import sys
 
 from pynetdicom import AE, debug_logger,evt
 from TestStorageContext import add_context
+from pathlib import Path
 
 # Implement a handler for evt.EVT_C_STORE
 class HandleStore():
     def __init__(self,save_path):
-        self.save_path = save_path 
+        self.save_path = Path(save_path).resolve() 
+        if not self.save_path.exists():
+            raise ValueError(f"The save path provided: {save_path} does not exist!")
+        
     def handle_store(self,event):
         """Handle a C-STORE request event."""
         # Decode the C-STORE request's *Data Set* parameter to a pydicom Dataset
@@ -16,7 +20,8 @@ class HandleStore():
         ds.file_meta = event.file_meta
 
         # Save the dataset using the SOP Instance UID as the filename
-        ds.save_as(save_path + ds.SOPInstanceUID)
+        save_ds_path = Path.joinpath(self.save_path, f"{ds.SOPInstanceUID}.dcm")
+        ds.save_as(save_ds_path)
 
         # Return a 'Success' status
         return 0x0000
