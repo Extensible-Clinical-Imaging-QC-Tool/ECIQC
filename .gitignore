@@ -7,6 +7,7 @@ Testing/
 build/
 cmake-build-*
 address_san_dir/
+*/__pycache__
 
 # Prerequisites
 *.d
@@ -55,3 +56,8 @@ c_cpp_properties.json
 
 # Images for presentation
 presentation
+
+# Pipeline test results
+result/
+result_quarantine/
+pipeline_test_file_name_list.json

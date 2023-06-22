@@ -115,6 +115,35 @@ ctest --output-on-failure
 ./build/exe/qctool --help
 ```
 
+## How to test on your own machine (Update 18th May 2023)
+After you've cloned the package and installed it properly, we provide two alternatives to test whether it works on your own machine.
+
+### Choice1: Using python script to test with the local senders and receivers.
+There's a python script [pipelinetest.py](pipelinetest_main.py) as a simple test tool. To run this script properly, you need to install two packages [pydicom>=2.3.1](https://pydicom.github.io) and [pynetdicom>=2.0.2](https://pydicom.github.io/pynetdicom/stable/). For example, if you're using a linux system, you can create a virtual environment **in the root directory** and then install these two packages.
+
+```
+python -m venv venv
+source ./venv/bin/activate
+pip install pydicom
+pip install pynetdicom
+```
+Make sure that `python` command means `python3` if you are using a linux system (This is also a prerequisite when running the test script). Otherwise, add `python` as an alias by typing `alias python='python3'` in your command line.
+
+Finally, you will be happy to run the test script by `python pipelinetest_main.py` in the root directory. Remember to check the postprocessed files and logs in the ./result and ./result_quarantine. Please also note that we've used the [PipelineCase.json](schema/PipelineCase.json) as the configuration file.
+
+### Choice2: Using the executable file with more flexibility
+If you need more flexible test (for example, use non-local sender and receiver, or use your own datasets), we recommend to use the executable file. Before spinning up the pipeline, you need to create a directory ./result to store the logging file, and set up the configuration file properly. Have a look at the [PipelineCase.json](schema/PipelineCase.json) and modify the hostname and port number according to your own system.
+
+Also, we've noticed that the sender and receiver need to agree on specific abstract syntaxes and transfer syntaxes. The syntaxes we're supporting now are listed as follows. We'll come back to the syntax issue in June and July.
+
+CTImageStorage (1.2.840.10008.5.1.4.1.1.2): LittleEndianExplicit, LittleEndianImplicit;
+MRImageStorage (1.2.840.10008.5.1.4.1.1.4): LittleEndianExplicit, LittleEndianImplicit;
+SecondaryCaptureImageStorage (1.2.840.10008.5.1.4.1.1.7): LittleEndianExplicit, LittleEndianImplicit;
+DigitalXRayImageStorageForPresentation (1.2.840.10008.5.1.4.1.1.1.1): LittleEndianImplicit;
+UltrasoundMultiframeImageStorage (1.2.840.10008.5.1.4.1.1.3.1): JPEGProcess1TransferSyntax.
+
+Once you've done all the preparation work, now type in `./build/exe/qctool --config-file YourOwnConfig.json` to start the pipeline. Also remember to start your remote/local sender and receiver.
+
 ## Feedback and suggestions
 
 If you have any feedback or suggestions about this project, please get in touch or open an issue.
