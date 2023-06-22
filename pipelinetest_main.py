@@ -17,6 +17,8 @@ if __name__ == '__main__':
             os.remove('./result/'+filename)
 
     test_json = "./schema/PipelineCase.json"
+
+    # test_json = "./schema/useCase.json"
     answers_json = "schema/tests/complete_expected_output.json"
 
 

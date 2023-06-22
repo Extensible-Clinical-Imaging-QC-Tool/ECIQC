@@ -30,6 +30,7 @@ class PipelineTests():
         # self.kill_all_processes() # Kill all the processes before initializing the test.
         self.python = "python" # change this to python3 as necessary
         self.wait_time = 120 # max wait time for the pipeline to finish processing
+        self.file_list = {} # This is a dictionary that stores the input and output file names.
         self.compare_df = pd.DataFrame(columns=["dcmName", 
                                                 "jsonName", 
                                                 "Result", 
@@ -47,7 +48,6 @@ class PipelineTests():
 
         if self.check_all_files_processed():
             raise ValueError("Output folder is not empty. Please empty the output folder before running the tests.")
-
 
 
 
@@ -123,7 +123,7 @@ class PipelineTests():
 
     def generate_file_list(self, input_file_path=None, file_name_json=None):
         '''
-        This method will return a dictionary.
+        This method will return a dictionary. # this doesn't return anything - dumps to json
         Keys: input file names.
         Values: output file names (use the SOP UID) ### We are using MODALTY+SOPUID as the output file name.
         '''
@@ -151,6 +151,12 @@ class PipelineTests():
             #print(ds.data_element(''))
             #print(ds.data_element("PatientsName"))
             #print(ds.UI)
+
+        self.file_list = file_list
+
+
+
+
 
     def run_pipeline(
             self,
@@ -200,6 +206,119 @@ class PipelineTests():
                 break
             time.sleep(10)       
             
+    def create_answer_card(self, expected_output_json, jsonName):
+        #read in json
+        expected_output = pd.read_json(expected_output_json)
+        #select the correct test
+        expected_output = expected_output[expected_output["jsonName"] == jsonName]
+
+        ### compare expected files with real files
+        #create a list of the expected output file names
+        expected_file_list = set(expected_output["dcmName"].tolist())
+        real_file_list = set(self.file_list.keys())
+
+        # check if real file list is a superset of expected file list
+        if real_file_list.issuperset(expected_file_list):
+            raise ValueError("The real file list contains files not included the expected file list.")
+        # check if expected file list is a superset of real file list
+        if expected_file_list.issuperset(real_file_list):
+            print("The expected file list contains all the files in the real file list.")
+            # strip the expected output to only include the files in the real file list
+            expected_output = expected_output[expected_output["dcmName"].isin(real_file_list)]
+            return expected_output
+        
+
+    def try_load_dcm(self, input_path, test_row):
+
+        try:
+            ds = pydicom.dcmread(input_path)
+        except:
+            print("input_path: ", input_path)
+            print("dcmName: ", test_row["dcmName"])
+            print("jsonName: ", test_row["jsonName"])
+            print("File could not be found/loaded. Skipping...")
+            # time.sleep(1)
+            # continue
+            ds = None
+            test_row["Comment"].append("File could not be found/loaded.")
+
+        return ds
+    
+
+    def check_output_folders(self, test_row, ds):
+            
+        ### check both output and quarantine folders
+        
+        try:
+            output_path = os.path.join(self.output_file_path, test_row["output_name"])
+            print("Excpeted Output path: ", output_path)
+            ds = pydicom.dcmread(output_path, force=True)
+            print("Dicom read")
+            print("tagName: ", test_row["tagName"])
+            realTHENtagOutput = ds.data_element(test_row["tagName"]).value
+            print("expTHENtagOutput: ", test_row["expTHENtagOutput"])
+            print("realTHENtagOutput: ", realTHENtagOutput)
+            test_row["realTHENtagOutput"] = realTHENtagOutput
+        except UserWarning:
+            print("File not found in output folder. Checking quarantine folder...")
+            try:
+                output_path = os.path.join(self.quarantine_file_path, test_row["output_name"])
+
+                ds = pydicom.dcmread(output_path, force=True)
+                print("Dicom read")
+                print("tagName: ", test_row["tagName"])
+
+                realTHENtagOutput = ds.data_element(test_row["tagName"]).value
+                print("expTHENtagOutput: ", test_row["expTHENtagOutput"])
+                print("realTHENtagOutput: ", realTHENtagOutput)
+ 
+                test_row["realTHENtagOutput"] = realTHENtagOutput
+                test_row["Comment"].append("File found in quarantine.")
+            except FileNotFoundError:
+                print("File {} not found in either output or quarantine folder...".format(test_row["dcmName"]))
+                realTHENtagOutput = None
+                test_row["realTHENtagOutput"] = realTHENtagOutput
+                test_row["Comment"].append("File not found in either output folders.")
+        return test_row
+
+
+    def evaluate_result(self, test_row, ds):
+        # Compare the expected output with the real output
+        ### NEED TO CHECK THAT THIS LOGIC WORKS CORRECTLY
+        if ds is None:
+            print(test_row["dcmName"],test_row["jsonName"], "no DS")
+            Result = False
+            test_row["Comment"].append("no input DS")
+            return Result
+
+        elif test_row["realTHENtagOutput"] is None:
+            test_row["realTHENtagOutput"] = "No output file found."
+            print(test_row["dcmName"], test_row["jsonName"], test_row["realTHENtagOutput"])
+            Result = False
+            test_row["Comment"].append(test_row["realTHENtagOutput"])
+            return Result
+
+
+        elif test_row["realIFtagValue"] != test_row["expIFtagValue"]:
+            print(test_row["dcmName"],test_row["jsonName"],"Test not covered")
+            Result = True
+            test_row["Comment"].append("Test not covered")
+            return Result
+
+
+        elif test_row["realIFtagValue"] == test_row["expIFtagValue"]:
+            if test_row["realTHENtagOutput"] == test_row["expTHENtagOutput"]:
+                print(test_row['dcmName'],test_row["jsonName"],"Test passed")
+                Result = True
+                test_row["Comment"].append("Test passed")
+
+            else:
+                print(test_row["dcmName"],test_row["jsonName"],"Test failed")
+                Result = False
+                test_row["Comment"].append("Test failed")
+
+            return Result
+
 
 
     ### TODO change this to operate on the right json file instead of over the whole thing.
@@ -210,103 +329,72 @@ class PipelineTests():
         """
         # read expected output json file
         print("Checking output...")
-        expected_output = pd.read_json(expected_output_json)
+
+
+        ###
 
         jsonName = self.json_path.split("/")[-1]
         print(jsonName)
 
-        print("Expected output for {}: ".format(jsonName), expected_output[expected_output["jsonName"] == jsonName])
+        expected_output_to_check = self.create_answer_card(expected_output_json, jsonName)
 
-        expected_output = expected_output[expected_output["jsonName"] == jsonName]
+
+
 
         # iterate over json file
-        for index, row in expected_output.iterrows():
+        for index, row in expected_output_to_check.iterrows():
             print(index)
-            # read input dcm
-            input_path = os.path.join(self.input_file_path, row["dcmName"])
 
-            ds = pydicom.dcmread(input_path)
+
 
             dcmName = row["dcmName"]
             jsonName = row["jsonName"]
-            Modality = ds.Modality
-            SOPInstanceUID = ds.SOPInstanceUID
             tagName = row["tagName"]
+            print("tagName: ", tagName)
             expIFtagValue = row["IFtagValue"]
-            realIFtagValue = ds.data_element(tagName).value
             expTHENtagOutput = row["THENtagOutput"]
 
-
-
-
-            output_name = SOPInstanceUID + ".dcm"
-            print("Expected Output name: ", output_name)
-            ### check both output and quarantine folders
-
-            ### need to sort out this logic - not currently working
-
-            try:
-                
-                output_path = os.path.join(self.output_file_path, output_name)
-                print("Excpeted Output path: ", output_path)
-                ds = pydicom.dcmread(output_path, force=True)
-                print("Dicom read")
-                print("tagName: ", tagName)
-                realTHENtagOutput = ds.data_element(tagName).value
-                print("expTHENtagOutput: ", expTHENtagOutput)
-                print("realTHENtagOutput: ", realTHENtagOutput)
-                
-            except UserWarning:
-                print("File not found in output folder. Checking quarantine folder...")
-
-                try:
-                    output_path = os.path.join(self.quarantine_file_path, output_name)
-
-                    ds = pydicom.dcmread(output_path, force=True)
-                    print("Dicom read")
-                    print("tagName: ", tagName)
-
-                    realTHENtagOutput = ds.data_element(tagName).value
-                    print("expTHENtagOutput: ", expTHENtagOutput)
-                    print("realTHENtagOutput: ", realTHENtagOutput)
-                # except:
-                #     print("File not found in quarantine folder")
-
-                except FileNotFoundError:
-                    print("File {} not found in either output or quarantine folder...".format(dcmName))
-                    realTHENtagOutput = None
-
-            finally:
-                ### Compare the expected output with the real output
-                if realTHENtagOutput is None:
-                    realTHENtagOutput = "No file found"
-                    print(dcmName, jsonName, realTHENtagOutput)
-                    Result = False
-
-                elif realIFtagValue != expIFtagValue:
-                    print(dcmName,jsonName,"Test not covered")
-                    Result = True
-
-                elif realIFtagValue == expIFtagValue:
-                    if realTHENtagOutput == expTHENtagOutput:
-                        print(dcmName,jsonName,"Test passed")
-                        Result = True
-                    else:
-                        print(dcmName,jsonName,"Test failed")
-                        Result = False
-
             #create row to append
-            test_row = pd.DataFrame({"dcmName":dcmName,
-                                     "jsonName":jsonName,
-                                     "Modality":Modality,
-                                     "SOPinstanceUID":SOPInstanceUID,
-                                     "tagName":tagName,
-                                     "expIFtagValue":expIFtagValue,
-                                     "realIFtagValue":realIFtagValue,
-                                     "expTHENtagOutput":expTHENtagOutput,
-                                     "realTHENtagOutput":realTHENtagOutput,
-                                     "Result":Result},
-                                     )
+            test_row = pd.DataFrame(columns=["dcmName",
+                                             "jsonName",
+                                             "Modality",
+                                             "SOPinstanceUID",
+                                             "tagName",
+                                             "expIFtagValue",
+                                             "realIFtagValue",
+                                             "expTHENtagOutput",
+                                             "realTHENtagOutput",
+                                             "Result",
+                                             "output_name",
+                                             "Comment"])
+
+            test_row["dcmName"] = dcmName
+            test_row["jsonName"] = jsonName
+            test_row["tagName"] = tagName
+            test_row["expIFtagValue"] = expIFtagValue
+            test_row["expTHENtagOutput"] = expTHENtagOutput
+            test_row["Comment"] = []
+
+            input_path = os.path.join(self.input_file_path, dcmName)
+
+            ds = self.try_load_dcm(input_path)
+
+
+            if ds is not None:
+                Modality = ds.Modality
+                SOPInstanceUID = ds.SOPInstanceUID
+                realIFtagValue = ds.data_element(tagName).value
+                output_name = SOPInstanceUID + ".dcm"
+                print("Expected Output name: ", output_name)
+
+                test_row["Modality"] = Modality
+                test_row["SOPinstanceUID"] = SOPInstanceUID
+                test_row["realIFtagValue"] = realIFtagValue
+                test_row["output_name"] = output_name
+
+            test_row = self.check_output_folders(test_row, ds)
+
+            test_row["Result"] = self.evaluate_result(test_row, ds)
 
             #append row to dataframe
             self.compare_df = pd.concat([self.compare_df,test_row],ignore_index=True)
@@ -324,6 +412,8 @@ class PipelineTests():
         print("Test results:")
         print("Passed: " + str(len(self.compare_df[self.compare_df["Result"]==True])))
         print("Failed: " + str(len(self.compare_df[self.compare_df["Result"]==False])))
+
+
 
         return self.compare_df
 
