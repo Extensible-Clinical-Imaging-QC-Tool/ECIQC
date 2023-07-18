@@ -2,7 +2,6 @@
 #include "metadata/MetadataEditor.hpp"
 #include <dcmtk/dcmpstat/dcmpstat.h>
 #include <dcmtk/ofstd/ofstring.h>
-#include <cctype>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -402,19 +401,19 @@ OFCondition Parser::parseTorF(OFBool trueOrFalse, const json &params,
 
 OFCondition Parser::parseOperation(OFString instruction, const json &params,
                                    OFString thisTagString) {
+  int enumerated_inst = resolveActions(instruction);
   // In the configuration file, to avoid repetition, we use the keys like EQUAL_1, EQUAL_2
   // So the first task here is to chop out the redundantant part and get the real key EQUAL)
-  OFString regex_instruction;
+  std::string regex_instruction;
   for (size_t i = 0; i < instruction.length(); ++i) {
-        if (std::isalpha(instruction[i])) {
+        if (std::isalpha(instruction[i]) || regex_instruction == "IS" || regex_instruction == "IF"
+        || regex_instruction == "LESS" || regex_instruction == "GREATER"){
             regex_instruction += instruction[i];
         } else {
             break;  // Stop when a non-letter character is encountered
         }
     }
-  
-  
-  int enumerated_inst = resolveActions(regex_instruction);
+
   OFBool check_result;
   OFString nested_key;
   json nested_parameters = {};
@@ -637,7 +636,7 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
   case REJECT: {
     return makeOFCondition(OFM_dcmdata, 22, OF_error, "Some checks failed");
   }
-  case EQUAL:{
+  case EQUAL: {
     OFCondition flag;
     if (params.value != "") {
       if (params.otherTagString == "" &&
@@ -698,7 +697,7 @@ OFCondition Parser::worker(int instruction, WorkerParameters params,
   case LESS_THAN:
   case GREATER_THAN: {
     OFCondition flag;
-    OFBool greaterThan = (instruction == GREATER_THAN);
+    OFBool greaterThan = instruction == GREATER_THAN;
     if (params.otherTagString == "" &&
         params.otherTagKey == DCM_PatientBreedDescription) {
       OFCondition temp = editor.greaterOrLessThan(
