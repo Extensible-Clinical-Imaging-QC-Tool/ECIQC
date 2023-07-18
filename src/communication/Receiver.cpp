@@ -162,7 +162,7 @@ Receiver::Receiver(Uint16 port, std::string aetitle) {
    getConfig().addPresentationContext(UID_SecondaryCaptureImageStorage,xfers);
    getConfig().addPresentationContext(UID_VerificationSOPClass, xfers);
    getConfig().addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
-   //getConfig().addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
+   getConfig().addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
 }
 
 // ----------------------------------------------------------------------------

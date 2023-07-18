@@ -45,7 +45,7 @@ Sender::Sender(std::string aetitle, std::string peer_hostname, Uint16 peer_port,
    addPresentationContext(UID_SecondaryCaptureImageStorage,xfers);
    addPresentationContext(UID_VerificationSOPClass, xfers);
    addPresentationContext(UID_DigitalXRayImageStorageForPresentation, ts);
-   //addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
+   addPresentationContext(UID_UltrasoundMultiframeImageStorage,ts2);
    
 }
 
