@@ -26,14 +26,14 @@ public:
   
 private:
   void setup_parser(const json &config);
-  void setup_receiver(const std::string &aetitle, int port);
+  void setup_receiver(const std::string &aetitle, int port,const json &context);
 
   void setup_destination(const std::string &aetitle,
                          const std::string &peer_aetitle,
-                         const std::string &hostname, const int port);
+                         const std::string &hostname, const int port, const json &context);
   void setup_quarentine(const std::string &aetitle,
                         const std::string &peer_aetitle,
-                        const std::string &hostname, const int port);
+                        const std::string &hostname, const int port, const json &context);
   void initialise(const std::string &json_config);
   void process_dataset(DcmDataset dataset);
 };

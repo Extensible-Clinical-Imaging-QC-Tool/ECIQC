@@ -5,6 +5,9 @@
 
 #include "dcmtk/dcmnet/dstorscu.h" /* Covers most common dcmdata classes */
 
+#include "../libs/nlohmann_json/single_include/nlohmann/json.hpp"
+using json = nlohmann::ordered_json;
+
 class Sender : public DcmStorageSCU {
 
 public:
@@ -21,6 +24,7 @@ public:
   void set_peer_port( int port);
   void set_peer_hostname(const std::string &hostname);
   void set_peer_aetitle(const std::string &title);
+  void set_additional_context(const json &context);
 
   OFCondition send(DcmDataset &dataset);
   OFCondition send_file(const std::string &filename);
