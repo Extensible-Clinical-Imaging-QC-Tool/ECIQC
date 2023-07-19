@@ -402,6 +402,18 @@ OFCondition Parser::parseTorF(OFBool trueOrFalse, const json &params,
 OFCondition Parser::parseOperation(OFString instruction, const json &params,
                                    OFString thisTagString) {
   int enumerated_inst = resolveActions(instruction);
+  // In the configuration file, to avoid repetition, we use the keys like EQUAL_1, EQUAL_2
+  // So the first task here is to chop out the redundantant part and get the real key EQUAL)
+  std::string regex_instruction;
+  for (size_t i = 0; i < instruction.length(); ++i) {
+        if (std::isalpha(instruction[i]) || regex_instruction == "IS" || regex_instruction == "IF"
+        || regex_instruction == "LESS" || regex_instruction == "GREATER"){
+            regex_instruction += instruction[i];
+        } else {
+            break;  // Stop when a non-letter character is encountered
+        }
+    }
+
   OFBool check_result;
   OFString nested_key;
   json nested_parameters = {};

@@ -19,7 +19,7 @@
           "vr": "CS",
           "description": "check if patient is called 'bob' and change, if so.",
           "operations": {
-            "EQUAL": {
+            "EQUAL_1234": {
                 "otherTagString": "",
                 "value": "John Doe",
                 "IF_TRUE": {
