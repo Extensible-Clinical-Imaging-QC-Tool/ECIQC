@@ -5,6 +5,9 @@
 #include <dcmtk/dcmnet/scpthrd.h>
 #include "poolbase.h"
 #include "ThreadSafeQueue.hpp"
+
+#include "../libs/nlohmann_json/single_include/nlohmann/json.hpp"
+using json = nlohmann::ordered_json;
 /**
  * A worker thread in a multithreaded Service Class Provider. 
  * Runs an association from an already accepted connection.
@@ -87,6 +90,11 @@ public:
      *  @param port Port to be used by the SCP. Default is "11112".
      */ 
     void setportnumber(Uint16 port);
+
+    /** Set the presentation context and transfer syntax. 
+     *  @param context The context to be specified.
+     */ 
+    void set_additional_context(const json &context);
 
     DcmDataset* getpooldataset();
 

@@ -20,39 +20,42 @@ using json = nlohmann::ordered_json;
 Conductor::Conductor(std::istream &json_config) {
   auto config = json::parse(json_config);
   setup_parser(config["metadata"]);
-  setup_receiver(config["receiver"]["aetitle"], config["receiver"]["port"]);
+  setup_receiver(config["receiver"]["aetitle"], config["receiver"]["port"],config["context"]);
   setup_destination(
       "QCtool Destination Sender", config["destination"]["aetitle"],
-      config["destination"]["hostname"], config["destination"]["port"]);
+      config["destination"]["hostname"], config["destination"]["port"], config["context"]);
   setup_quarentine(
       "QCtool Quarentine Sender", config["quarentine"]["aetitle"],
-      config["quarentine"]["hostname"], config["quarentine"]["port"]);
+      config["quarentine"]["hostname"], config["quarentine"]["port"], config["context"]);
 }
  
 void Conductor::setup_parser(const json &config) { m_parser.setConfig(config); }
 
-void Conductor::setup_receiver(const std::string &aetitle, const int port) {
+void Conductor::setup_receiver(const std::string &aetitle, const int port,const json &context) {
   m_receiver.setaetitle(aetitle);
   m_receiver.setportnumber(port);
+  m_receiver.set_additional_context(context);
   m_todo = OFshared_ptr<ThreadSafeQueue<DcmDataset>>(new ThreadSafeQueue<DcmDataset>);
   m_receiver.setpointer(m_todo);
   m_receiver.start();
 }
 
 void Conductor::setup_destination(const std::string &aetitle, const std::string &peer_aetitle,
-                                  const std::string &hostname, const int port) {
+                                  const std::string &hostname, const int port,const json &context) {
   m_destination.set_aetitle(aetitle);
   m_destination.set_peer_aetitle(peer_aetitle);
   m_destination.set_peer_hostname(hostname);
   m_destination.set_peer_port(port);
+  m_destination.set_additional_context(context);
 }
 
 void Conductor::setup_quarentine(const std::string &aetitle,const std::string &peer_aetitle,
-                                 const std::string &hostname, const int port) {
+                                 const std::string &hostname, const int port, const json &context) {
   m_quarentine.set_aetitle(aetitle);
   m_quarentine.set_peer_aetitle(peer_aetitle);
   m_quarentine.set_peer_hostname(hostname);
   m_quarentine.set_peer_port(port);
+  m_quarentine.set_additional_context(context);
 }
 
 //void Conductor setup_image_editor

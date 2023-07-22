@@ -9,6 +9,9 @@
 #include "dcmtk/oflog/oflog.h"
 #include "logging.hpp"
 
+#include "../libs/nlohmann_json/single_include/nlohmann/json.hpp"
+using json = nlohmann::ordered_json;
+
 // ----------------------------------------------------------------------------
 
 ReceiverThread::ReceiverThread() : DcmThreadSCP() {}
@@ -185,3 +188,20 @@ void Receiver::setaetitle(std::string ae_title) {
 // ----------------------------------------------------------------------------
 
 void Receiver::setportnumber(Uint16 port) { getConfig().setPort(port); }
+
+void Receiver::set_additional_context(const json &context){
+    OFList<OFString> xfers;
+    for (const auto &param : context.items()) {
+        xfers.clear();
+        OFString UID = OFString(param.key().c_str());
+        const auto &ts_value = param.value(); 
+        
+        for (const auto &xfer : ts_value.get<std::vector<std::string>>())
+        {
+          xfers.push_back(xfer.c_str());
+        }
+        
+        getConfig().addPresentationContext(UID, xfers);
+    }
+    
+}
