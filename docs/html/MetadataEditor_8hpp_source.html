@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ECIQC: /mnt/c/Users/spet4299/Documents/Demonstrating/ECIQC/src/MetadataEditor.hpp Source File</title>
+<title>ECIQC: /home/weiym97/ECIQC/src/metadata/MetadataEditor.hpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,7 +62,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li>  </ul>
+<li class="navelem"><a class="el" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="dir_f7c72baf969baf49c81941e914545c31.html">metadata</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -77,81 +77,186 @@ $(function() {
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;dcmtk/dcmpstat/dcmpstat.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classMetadataEditor.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="classMetadataEditor.html">MetadataEditor</a> : <span class="keyword">public</span> <a class="code" href="classMdfDatasetManager.html">MdfDatasetManager</a> {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  <a class="code" href="classMetadataEditor.html#aff5ec7ca8861177710a4d491ba59b855">MetadataEditor</a>();</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  <a class="code" href="classMetadataEditor.html#aff5ec7ca8861177710a4d491ba59b855">MetadataEditor</a>(OFString file_path);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  <a class="code" href="classMetadataEditor.html#aff5ec7ca8861177710a4d491ba59b855">MetadataEditor</a>(DcmDataset* dataset);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  DcmDataset* <a class="code" href="classMetadataEditor.html#a6494c346121a0d637fec5cca13abd5df">pathToDataset</a>(OFString file_path);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#ae689d670e880df6f92206aca97101f00">setTag</a>(OFString str);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMetadataEditor.html#ae689d670e880df6f92206aca97101f00">setTag</a>(DcmTagKey key);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  DcmTagKey <a class="code" href="classMetadataEditor.html#a19a9b2e04243456e77ec256c40f1e4e6">getTagKey</a>();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  OFString <a class="code" href="classMetadataEditor.html#a8d0333309a2e3e27c79182e1b2c9bf12">getTagString</a>();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  OFBool <a class="code" href="classMetadataEditor.html#a77e355b4438887937afe23ee4a780c04">exists</a>(OFBool searchIntoSub = OFFalse);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  OFBool <a class="code" href="classMetadataEditor.html#a77e355b4438887937afe23ee4a780c04">exists</a>(OFString otherTagString, OFBool searchIntoSub = OFFalse);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  OFBool <a class="code" href="classMetadataEditor.html#a77e355b4438887937afe23ee4a780c04">exists</a>(<span class="keyword">const</span> DcmTagKey &amp;key, OFBool searchIntoSub = OFFalse);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">/* Current functions:</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"> * EXISTS</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"> * MATCH (REGEX)</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"> * EQUALS</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"> * GREATER/LESS THAN</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"> * MODIFY (INSERT OR OVERWRITE)</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"> * COPY</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"> *  TO BE ADDED:</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"> * REMOVE - can use deleteTag from mdfdsman</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"> * CLEAR (?) - clear value? clear()?</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"> * UPDATE (?) - add another value on top of what&#39;s there?</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classMetadataEditor.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classMetadataEditor.html">MetadataEditor</a> : <span class="keyword">public</span> <a class="code" href="classMdfDatasetManager.html">MdfDatasetManager</a> {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  <a class="code" href="classMetadataEditor.html#aff5ec7ca8861177710a4d491ba59b855">MetadataEditor</a>();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <a class="code" href="classMetadataEditor.html#aff5ec7ca8861177710a4d491ba59b855">MetadataEditor</a>(DcmDataset* dataset);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  <a class="code" href="classMetadataEditor.html#aff5ec7ca8861177710a4d491ba59b855">MetadataEditor</a>(<span class="keyword">const</span> OFString&amp; file_path);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="comment">//explicit MetadataEditor(const OFString&amp; file_path);</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="comment">//explicit MetadataEditor(DcmDataset* dataset);</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMetadataEditor.html#a1f50dfcb88577272659eb337689f3157">setDset</a>(DcmDataset* dataset);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a1f50dfcb88577272659eb337689f3157">setDset</a>(<span class="keyword">const</span> OFString&amp; file_path);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a57f6dc56bf43647da68fa02fd8c853bf">setTag</a>(<span class="keyword">const</span> OFString&amp; str);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordtype">void</span> <a class="code" href="classMetadataEditor.html#a57f6dc56bf43647da68fa02fd8c853bf">setTag</a>(<span class="keyword">const</span> DcmTagKey&amp; key);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  DcmTagKey <a class="code" href="classMetadataEditor.html#a19a9b2e04243456e77ec256c40f1e4e6">getTagKey</a>();</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  OFString <a class="code" href="classMetadataEditor.html#a8d0333309a2e3e27c79182e1b2c9bf12">getTagString</a>();</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="comment">// CHECKS</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#ad352769ff74ef0cd4285c2e6b23dc370">exists</a>(OFBool searchIntoSub = OFFalse);</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  OFBool <a class="code" href="classMetadataEditor.html#a3bce595c09a9e18f84f6b3a79b5c09ed">match</a>(OFString str_expr, OFCondition &amp;flag, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  OFBool <a class="code" href="classMetadataEditor.html#a3bce595c09a9e18f84f6b3a79b5c09ed">match</a>(OFString otherTagString, OFString str_expr, OFCondition &amp;flag, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  OFBool <a class="code" href="classMetadataEditor.html#a3bce595c09a9e18f84f6b3a79b5c09ed">match</a>(DcmTagKey otherTagKey, OFString str_expr, OFCondition &amp;flag, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a3ac9a6a89e5d68650e1ebaee5a204d4c">modify</a>(OFString newValue, OFBool only_overwrite);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a3ac9a6a89e5d68650e1ebaee5a204d4c">modify</a>(OFString newValue, OFString otherTagString,</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                     OFBool only_overwrite);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a3ac9a6a89e5d68650e1ebaee5a204d4c">modify</a>(OFString newValue, DcmTagKey otherTagKey,</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                     OFBool only_overwrite); </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160; </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160; </div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a3778f528ec612da85b9ed72069687e6f">copy</a>(DcmTagKey otherTagKey, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> posTo = 0, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> posFrom = 0,</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                      OFBool copyToThis = OFTrue,</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                      OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a766b2daeff20e71741b7077f9821e4d3">stringToKey</a>(OFString str, DcmTagKey &amp;key);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <span class="comment">// Will hold the dataset that should be modified</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  DcmDataset *dset;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#ad352769ff74ef0cd4285c2e6b23dc370">exists</a>(<span class="keyword">const</span> OFString&amp; otherTagString, OFBool searchIntoSub = OFFalse);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#ad352769ff74ef0cd4285c2e6b23dc370">exists</a>(<span class="keyword">const</span> DcmTagKey &amp;key, OFBool searchIntoSub = OFFalse);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#aaf990e8ed3006a9e934bcbf762aad5d8">match</a>(<span class="keyword">const</span> OFString&amp; str_expr, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#aaf990e8ed3006a9e934bcbf762aad5d8">match</a>(<span class="keyword">const</span> OFString&amp; otherTagString, <span class="keyword">const</span> OFString&amp; str_expr, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#aaf990e8ed3006a9e934bcbf762aad5d8">match</a>(<span class="keyword">const</span> DcmTagKey&amp; otherTagKey, <span class="keyword">const</span> OFString&amp; str_expr, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a10c34346bc58e03ecf7f4714e42fb02f">equals</a>(<span class="keyword">const</span> OFString&amp; str_expr, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a10c34346bc58e03ecf7f4714e42fb02f">equals</a>(<span class="keyword">const</span> OFString&amp; otherTagString, <span class="keyword">const</span> OFString&amp; str_expr, OFCondition &amp;flag,</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                     <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a10c34346bc58e03ecf7f4714e42fb02f">equals</a>(<span class="keyword">const</span> DcmTagKey&amp; otherTagKey, <span class="keyword">const</span> OFString&amp; str_expr, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a10c34346bc58e03ecf7f4714e42fb02f">equals</a>(Float64 compare_value, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  std::vector&lt;OFString&gt; strValsToVector(OFString str);</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  OFString vectorToStrVals(std::vector&lt;OFString&gt; vec);</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  <span class="comment">// Will hold, in string form, the tag that will be modified unless specified otherwise</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  OFString tagString;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  <span class="comment">// Will hold, as a DcmTagKey, the tag that will be modified unless specified otherwise</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  DcmTagKey tagKey; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;};</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor">#endif // METADATAEDITOR_H_</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a10c34346bc58e03ecf7f4714e42fb02f">equals</a>(<span class="keyword">const</span> OFString&amp; otherTagString, Float64 compare_value, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a10c34346bc58e03ecf7f4714e42fb02f">equals</a>(<span class="keyword">const</span> DcmTagKey&amp; otherTagKey, Float64 compare_value, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a6f0bd7833059de6c0cdf70dbfcc769ff">is_in</a>(<span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; str_vec, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a6f0bd7833059de6c0cdf70dbfcc769ff">is_in</a>(<span class="keyword">const</span> OFString&amp; otherTagString, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; str_vec, OFCondition &amp;flag,</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                     <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a6f0bd7833059de6c0cdf70dbfcc769ff">is_in</a>(<span class="keyword">const</span> DcmTagKey&amp; otherTagKey, <span class="keyword">const</span> std::vector&lt;std::string&gt;&amp; str_vec, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a6f0bd7833059de6c0cdf70dbfcc769ff">is_in</a>(std::vector&lt;Float64&gt; compare_value_vec, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a6f0bd7833059de6c0cdf70dbfcc769ff">is_in</a>(<span class="keyword">const</span> OFString&amp; otherTagString, std::vector&lt;Float64&gt; compare_value_vec, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a6f0bd7833059de6c0cdf70dbfcc769ff">is_in</a>(<span class="keyword">const</span> DcmTagKey&amp; otherTagKey, std::vector&lt;Float64&gt; compare_value_vec, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a97599fb145b53c50bb841da7902dbf12">greaterOrLessThan</a>(Float64 compare_value, OFBool greaterThan, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a97599fb145b53c50bb841da7902dbf12">greaterOrLessThan</a>(<span class="keyword">const</span> DcmTagKey&amp; otherTagKey, Float64 compare_value, OFBool greaterThan,</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                                OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160; </div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a97599fb145b53c50bb841da7902dbf12">greaterOrLessThan</a>(<span class="keyword">const</span> OFString&amp; otherTagString, Float64 compare_value, OFBool greaterThan,</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                                OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="comment">// EDITS</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160; </div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">//  TODO: MODIFY USING VALUE AT ANOTHER KEY?</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="comment"></span>  OFCondition <a class="code" href="classMetadataEditor.html#ac2e44571f117432d698b793924289279">modify</a>(<span class="keyword">const</span> OFString&amp; newValue, OFBool only_overwrite);</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160; </div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#ac2e44571f117432d698b793924289279">modify</a>(<span class="keyword">const</span> OFString&amp; newValue, <span class="keyword">const</span> OFString&amp; otherTagString,</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                     OFBool only_overwrite);</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#ac2e44571f117432d698b793924289279">modify</a>(<span class="keyword">const</span> OFString&amp; newValue, <span class="keyword">const</span> DcmTagKey&amp; otherTagKey,</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                     OFBool only_overwrite);</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment">// TODO: APPEND AND PREPEND USING VALUE AT ANOTHER KEY?</span></div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160; </div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a450f2597bfcf5a848fb17d244133166f">append</a>(<span class="keyword">const</span> OFString&amp; appendValue, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160; </div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a450f2597bfcf5a848fb17d244133166f">append</a>(<span class="keyword">const</span> OFString&amp; appendValue, <span class="keyword">const</span> OFString&amp; otherTagString, OFCondition &amp;flag,</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                     <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160; </div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a450f2597bfcf5a848fb17d244133166f">append</a>(<span class="keyword">const</span> OFString&amp; appendValue, <span class="keyword">const</span> DcmTagKey&amp; otherTagKey, OFCondition &amp;flag,</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;                     <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160; </div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a1c65501a85fd9fb9b767e654dcc8658a">prepend</a>(<span class="keyword">const</span> OFString&amp; prependValue, OFCondition &amp;flag, <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160; </div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a1c65501a85fd9fb9b767e654dcc8658a">prepend</a>(<span class="keyword">const</span> OFString&amp; prependValue, <span class="keyword">const</span> OFString&amp; otherTagString, OFCondition &amp;flag,</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                      <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160; </div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a1c65501a85fd9fb9b767e654dcc8658a">prepend</a>(<span class="keyword">const</span> OFString&amp; prependValue, <span class="keyword">const</span> DcmTagKey&amp; otherTagKey, OFCondition &amp;flag,</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;                      <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> pos = 0);</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160; </div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment">/* Regex expression to match, what to overwrite with:</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;<span class="comment"> * e.g. &quot;([0-9]{4})([0-9]{4})&quot;, &quot;D&quot;</span></div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="comment"> * could replace the 2nd half of DOB with &quot;0101&quot;</span></div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="comment"> * using s = currentValue, e = &quot;([0-9]{4})([0-9]{4})&quot; and</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="comment"> * std::regex_replace (std::back_inserter(result), s.begin(), s.end(), e, &quot;replaceString&quot;)</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160; </div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="comment">// TODO: OVERWRITE USING VALUE AT ANOTHER KEY?</span></div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160; </div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#aa317a4f6812a4e356c589176a2328717">overwrite</a>(<span class="keyword">const</span> OFString&amp; str_expr, <span class="keyword">const</span> OFString&amp; replaceString);</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#aa317a4f6812a4e356c589176a2328717">overwrite</a>(<span class="keyword">const</span> OFString&amp; otherTagString, <span class="keyword">const</span> OFString&amp; str_expr, <span class="keyword">const</span> OFString&amp; replaceString);</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160; </div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#aa317a4f6812a4e356c589176a2328717">overwrite</a>(<span class="keyword">const</span> DcmTagKey&amp; otherTagKey, <span class="keyword">const</span> OFString&amp; str_expr, <span class="keyword">const</span> OFString&amp; replaceString);</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160; </div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160; </div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a04b711197f38889543683c1289d0c91e">copy</a>(<span class="keyword">const</span> DcmTagKey&amp; otherTagKey, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> posTo = 0 , <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> posFrom = 0 ,</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;                      OFBool copyToThis = OFTrue,</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;                      OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue,</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;                      OFBool concatenate = OFTrue, OFBool <a class="code" href="classMetadataEditor.html#a1c65501a85fd9fb9b767e654dcc8658a">prepend</a> = OFTrue);</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160; </div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a04b711197f38889543683c1289d0c91e">copy</a>(<span class="keyword">const</span> OFString&amp; otherTagString, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> posTo = 0, <span class="keyword">const</span> <span class="keywordtype">unsigned</span> <span class="keywordtype">long</span> posFrom = 0,</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;                     OFBool copyToThis = OFTrue,</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;                     OFBool searchIntoSub = OFFalse, OFBool replace = OFTrue,</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;                     OFBool concatenate = OFTrue, OFBool <a class="code" href="classMetadataEditor.html#a1c65501a85fd9fb9b767e654dcc8658a">prepend</a> = OFTrue);</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160; </div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;  OFCondition <a class="code" href="classMetadataEditor.html#a766b2daeff20e71741b7077f9821e4d3">stringToKey</a>(OFString str, DcmTagKey &amp;key);</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160; </div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;  <span class="comment">// Will hold the dataset that should be modified</span></div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;  DcmDataset *dset;</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160; </div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160; </div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160; </div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;  std::vector&lt;OFString&gt; strValsToVector(OFString str);</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;  OFString vectorToStrVals(std::vector&lt;OFString&gt; vec);</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160; </div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;  <span class="comment">// Will hold, in string form, the tag that will be modified unless specified otherwise</span></div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;  OFString tagString;</div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;  <span class="comment">// Will hold, as a DcmTagKey, the tag that will be modified unless specified otherwise</span></div>
+<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;  DcmTagKey tagKey = DcmTagKey(0010, 0010);</div>
+<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;};</div>
+<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160; </div>
+<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;<span class="preprocessor">#endif // METADATAEDITOR_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclassMetadataEditor_html_a3778f528ec612da85b9ed72069687e6f"><div class="ttname"><a href="classMetadataEditor.html#a3778f528ec612da85b9ed72069687e6f">MetadataEditor::copy</a></div><div class="ttdeci">OFCondition copy(DcmTagKey otherTagKey, const unsigned long posTo=0, const unsigned long posFrom=0, OFBool copyToThis=OFTrue, OFBool searchIntoSub=OFFalse, OFBool replace=OFTrue)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:150</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_ac2e44571f117432d698b793924289279"><div class="ttname"><a href="classMetadataEditor.html#ac2e44571f117432d698b793924289279">MetadataEditor::modify</a></div><div class="ttdeci">OFCondition modify(const OFString &amp;newValue, OFBool only_overwrite)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:102</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_ad352769ff74ef0cd4285c2e6b23dc370"><div class="ttname"><a href="classMetadataEditor.html#ad352769ff74ef0cd4285c2e6b23dc370">MetadataEditor::exists</a></div><div class="ttdeci">OFCondition exists(OFBool searchIntoSub=OFFalse)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:59</div></div>
 <div class="ttc" id="aclassMetadataEditor_html_aff5ec7ca8861177710a4d491ba59b855"><div class="ttname"><a href="classMetadataEditor.html#aff5ec7ca8861177710a4d491ba59b855">MetadataEditor::MetadataEditor</a></div><div class="ttdeci">MetadataEditor()</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:10</div></div>
-<div class="ttc" id="aclassMetadataEditor_html_a8d0333309a2e3e27c79182e1b2c9bf12"><div class="ttname"><a href="classMetadataEditor.html#a8d0333309a2e3e27c79182e1b2c9bf12">MetadataEditor::getTagString</a></div><div class="ttdeci">OFString getTagString()</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:50</div></div>
-<div class="ttc" id="aclassMetadataEditor_html_a6494c346121a0d637fec5cca13abd5df"><div class="ttname"><a href="classMetadataEditor.html#a6494c346121a0d637fec5cca13abd5df">MetadataEditor::pathToDataset</a></div><div class="ttdeci">DcmDataset * pathToDataset(OFString file_path)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:25</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a8d0333309a2e3e27c79182e1b2c9bf12"><div class="ttname"><a href="classMetadataEditor.html#a8d0333309a2e3e27c79182e1b2c9bf12">MetadataEditor::getTagString</a></div><div class="ttdeci">OFString getTagString()</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:56</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a10c34346bc58e03ecf7f4714e42fb02f"><div class="ttname"><a href="classMetadataEditor.html#a10c34346bc58e03ecf7f4714e42fb02f">MetadataEditor::equals</a></div><div class="ttdeci">OFCondition equals(const OFString &amp;str_expr, OFCondition &amp;flag, unsigned long pos=0)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:188</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_aaf990e8ed3006a9e934bcbf762aad5d8"><div class="ttname"><a href="classMetadataEditor.html#aaf990e8ed3006a9e934bcbf762aad5d8">MetadataEditor::match</a></div><div class="ttdeci">OFCondition match(const OFString &amp;str_expr, OFCondition &amp;flag, unsigned long pos=0)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:123</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a97599fb145b53c50bb841da7902dbf12"><div class="ttname"><a href="classMetadataEditor.html#a97599fb145b53c50bb841da7902dbf12">MetadataEditor::greaterOrLessThan</a></div><div class="ttdeci">OFCondition greaterOrLessThan(Float64 compare_value, OFBool greaterThan, OFCondition &amp;flag, unsigned long pos=0)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:489</div></div>
 <div class="ttc" id="aclassMdfDatasetManager_html"><div class="ttname"><a href="classMdfDatasetManager.html">MdfDatasetManager</a></div><div class="ttdef"><b>Definition:</b> mdfdsman.h:45</div></div>
-<div class="ttc" id="aclassMetadataEditor_html_a19a9b2e04243456e77ec256c40f1e4e6"><div class="ttname"><a href="classMetadataEditor.html#a19a9b2e04243456e77ec256c40f1e4e6">MetadataEditor::getTagKey</a></div><div class="ttdeci">DcmTagKey getTagKey()</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:49</div></div>
-<div class="ttc" id="aclassMetadataEditor_html"><div class="ttname"><a href="classMetadataEditor.html">MetadataEditor</a></div><div class="ttdef"><b>Definition:</b> MetadataEditor.hpp:13</div></div>
-<div class="ttc" id="aclassMetadataEditor_html_a77e355b4438887937afe23ee4a780c04"><div class="ttname"><a href="classMetadataEditor.html#a77e355b4438887937afe23ee4a780c04">MetadataEditor::exists</a></div><div class="ttdeci">OFBool exists(OFBool searchIntoSub=OFFalse)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:53</div></div>
-<div class="ttc" id="aclassMetadataEditor_html_a3ac9a6a89e5d68650e1ebaee5a204d4c"><div class="ttname"><a href="classMetadataEditor.html#a3ac9a6a89e5d68650e1ebaee5a204d4c">MetadataEditor::modify</a></div><div class="ttdeci">OFCondition modify(OFString newValue, OFBool only_overwrite)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:74</div></div>
-<div class="ttc" id="aclassMetadataEditor_html_a766b2daeff20e71741b7077f9821e4d3"><div class="ttname"><a href="classMetadataEditor.html#a766b2daeff20e71741b7077f9821e4d3">MetadataEditor::stringToKey</a></div><div class="ttdeci">OFCondition stringToKey(OFString str, DcmTagKey &amp;key)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:249</div></div>
-<div class="ttc" id="aclassMetadataEditor_html_a3bce595c09a9e18f84f6b3a79b5c09ed"><div class="ttname"><a href="classMetadataEditor.html#a3bce595c09a9e18f84f6b3a79b5c09ed">MetadataEditor::match</a></div><div class="ttdeci">OFBool match(OFString str_expr, OFCondition &amp;flag, const unsigned long pos=0)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:95</div></div>
-<div class="ttc" id="aclassMetadataEditor_html_ae689d670e880df6f92206aca97101f00"><div class="ttname"><a href="classMetadataEditor.html#ae689d670e880df6f92206aca97101f00">MetadataEditor::setTag</a></div><div class="ttdeci">OFCondition setTag(OFString str)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:36</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a6f0bd7833059de6c0cdf70dbfcc769ff"><div class="ttname"><a href="classMetadataEditor.html#a6f0bd7833059de6c0cdf70dbfcc769ff">MetadataEditor::is_in</a></div><div class="ttdeci">OFCondition is_in(const std::vector&lt; std::string &gt; &amp;str_vec, OFCondition &amp;flag, unsigned long pos=0)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:430</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a19a9b2e04243456e77ec256c40f1e4e6"><div class="ttname"><a href="classMetadataEditor.html#a19a9b2e04243456e77ec256c40f1e4e6">MetadataEditor::getTagKey</a></div><div class="ttdeci">DcmTagKey getTagKey()</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:55</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_aa317a4f6812a4e356c589176a2328717"><div class="ttname"><a href="classMetadataEditor.html#aa317a4f6812a4e356c589176a2328717">MetadataEditor::overwrite</a></div><div class="ttdeci">OFCondition overwrite(const OFString &amp;str_expr, const OFString &amp;replaceString)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:934</div></div>
+<div class="ttc" id="aclassMetadataEditor_html"><div class="ttname"><a href="classMetadataEditor.html">MetadataEditor</a></div><div class="ttdef"><b>Definition:</b> MetadataEditor.hpp:26</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a57f6dc56bf43647da68fa02fd8c853bf"><div class="ttname"><a href="classMetadataEditor.html#a57f6dc56bf43647da68fa02fd8c853bf">MetadataEditor::setTag</a></div><div class="ttdeci">OFCondition setTag(const OFString &amp;str)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:42</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a04b711197f38889543683c1289d0c91e"><div class="ttname"><a href="classMetadataEditor.html#a04b711197f38889543683c1289d0c91e">MetadataEditor::copy</a></div><div class="ttdeci">OFCondition copy(const DcmTagKey &amp;otherTagKey, const unsigned long posTo=0, const unsigned long posFrom=0, OFBool copyToThis=OFTrue, OFBool searchIntoSub=OFFalse, OFBool replace=OFTrue, OFBool concatenate=OFTrue, OFBool prepend=OFTrue)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:684</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a1f50dfcb88577272659eb337689f3157"><div class="ttname"><a href="classMetadataEditor.html#a1f50dfcb88577272659eb337689f3157">MetadataEditor::setDset</a></div><div class="ttdeci">void setDset(DcmDataset *dataset)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:23</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a766b2daeff20e71741b7077f9821e4d3"><div class="ttname"><a href="classMetadataEditor.html#a766b2daeff20e71741b7077f9821e4d3">MetadataEditor::stringToKey</a></div><div class="ttdeci">OFCondition stringToKey(OFString str, DcmTagKey &amp;key)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:1026</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a450f2597bfcf5a848fb17d244133166f"><div class="ttname"><a href="classMetadataEditor.html#a450f2597bfcf5a848fb17d244133166f">MetadataEditor::append</a></div><div class="ttdeci">OFCondition append(const OFString &amp;appendValue, OFCondition &amp;flag, unsigned long pos=0)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:805</div></div>
+<div class="ttc" id="aclassMetadataEditor_html_a1c65501a85fd9fb9b767e654dcc8658a"><div class="ttname"><a href="classMetadataEditor.html#a1c65501a85fd9fb9b767e654dcc8658a">MetadataEditor::prepend</a></div><div class="ttdeci">OFCondition prepend(const OFString &amp;prependValue, OFCondition &amp;flag, unsigned long pos=0)</div><div class="ttdef"><b>Definition:</b> MetadataEditor.cpp:869</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

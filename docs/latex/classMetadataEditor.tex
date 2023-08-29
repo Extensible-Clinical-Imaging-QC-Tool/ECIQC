@@ -6,50 +6,117 @@
 
 
 
-Inheritance diagram for Metadata\+Editor\+:
-% FIG 0
+Inheritance diagram for Metadata\+Editor\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classMetadataEditor__inherit__graph}
+\end{center}
+\end{figure}
 
 
-Collaboration diagram for Metadata\+Editor\+:
-% FIG 1
+Collaboration diagram for Metadata\+Editor\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classMetadataEditor__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classMetadataEditor_aff5ec7ca8861177710a4d491ba59b855}{Metadata\+Editor}} ()
 \item 
-\mbox{\hyperlink{classMetadataEditor_a625b2c3b2ba2dabeeae450e371d8ad90}{Metadata\+Editor}} (O\+F\+String file\+\_\+path)
+\mbox{\Hypertarget{classMetadataEditor_a471ea6d9fe78f4376096906cdbfae0e1}\label{classMetadataEditor_a471ea6d9fe78f4376096906cdbfae0e1}} 
+{\bfseries Metadata\+Editor} (Dcm\+Dataset $\ast$dataset)
 \item 
-\mbox{\hyperlink{classMetadataEditor_a471ea6d9fe78f4376096906cdbfae0e1}{Metadata\+Editor}} (Dcm\+Dataset $\ast$dataset)
+\mbox{\Hypertarget{classMetadataEditor_a15d1d421288de2cee00e1e17ea245ea1}\label{classMetadataEditor_a15d1d421288de2cee00e1e17ea245ea1}} 
+{\bfseries Metadata\+Editor} (const O\+F\+String \&file\+\_\+path)
 \item 
-Dcm\+Dataset $\ast$ \mbox{\hyperlink{classMetadataEditor_a6494c346121a0d637fec5cca13abd5df}{path\+To\+Dataset}} (O\+F\+String file\+\_\+path)
+void \mbox{\hyperlink{classMetadataEditor_a1f50dfcb88577272659eb337689f3157}{set\+Dset}} (Dcm\+Dataset $\ast$dataset)
 \item 
-O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_ae689d670e880df6f92206aca97101f00}{set\+Tag}} (O\+F\+String str)
+\mbox{\Hypertarget{classMetadataEditor_a3e27e37200af2fb8b27a77bbccf56c67}\label{classMetadataEditor_a3e27e37200af2fb8b27a77bbccf56c67}} 
+O\+F\+Condition {\bfseries set\+Dset} (const O\+F\+String \&file\+\_\+path)
 \item 
-void \mbox{\hyperlink{classMetadataEditor_ad2c3bc39294c73b93fa259b4e27e6dc2}{set\+Tag}} (Dcm\+Tag\+Key key)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a57f6dc56bf43647da68fa02fd8c853bf}{set\+Tag}} (const O\+F\+String \&str)
+\item 
+void \mbox{\hyperlink{classMetadataEditor_a8bdc9db69252ca3879d0c9b3183dc348}{set\+Tag}} (const Dcm\+Tag\+Key \&key)
 \item 
 Dcm\+Tag\+Key \mbox{\hyperlink{classMetadataEditor_a19a9b2e04243456e77ec256c40f1e4e6}{get\+Tag\+Key}} ()
 \item 
 O\+F\+String \mbox{\hyperlink{classMetadataEditor_a8d0333309a2e3e27c79182e1b2c9bf12}{get\+Tag\+String}} ()
 \item 
-O\+F\+Bool \mbox{\hyperlink{classMetadataEditor_a77e355b4438887937afe23ee4a780c04}{exists}} (O\+F\+Bool search\+Into\+Sub=O\+F\+False)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_ad352769ff74ef0cd4285c2e6b23dc370}{exists}} (O\+F\+Bool search\+Into\+Sub=O\+F\+False)
 \item 
-O\+F\+Bool \mbox{\hyperlink{classMetadataEditor_a86a0fe8f0d965bda2ae0f43274ba61b3}{exists}} (O\+F\+String other\+Tag\+String, O\+F\+Bool search\+Into\+Sub=O\+F\+False)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a10353fa82d539fb0f33630ee4bdec0f0}{exists}} (const O\+F\+String \&other\+Tag\+String, O\+F\+Bool search\+Into\+Sub=O\+F\+False)
 \item 
-O\+F\+Bool \mbox{\hyperlink{classMetadataEditor_abdd3c1848b99afa14e66129db230ca27}{exists}} (const Dcm\+Tag\+Key \&key, O\+F\+Bool search\+Into\+Sub=O\+F\+False)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a20278af977349b2cf0fae334e89f25bb}{exists}} (const Dcm\+Tag\+Key \&key, O\+F\+Bool search\+Into\+Sub=O\+F\+False)
 \item 
-O\+F\+Bool \mbox{\hyperlink{classMetadataEditor_a3bce595c09a9e18f84f6b3a79b5c09ed}{match}} (O\+F\+String str\+\_\+expr, O\+F\+Condition \&flag, const unsigned long pos=0)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_aaf990e8ed3006a9e934bcbf762aad5d8}{match}} (const O\+F\+String \&str\+\_\+expr, O\+F\+Condition \&flag, unsigned long pos=0)
 \item 
-O\+F\+Bool \mbox{\hyperlink{classMetadataEditor_a6c20353b373e9efb3c41aaef05941dcf}{match}} (O\+F\+String other\+Tag\+String, O\+F\+String str\+\_\+expr, O\+F\+Condition \&flag, const unsigned long pos=0)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a613963ffae4f85d82d15f7ca32c230b2}{match}} (const O\+F\+String \&other\+Tag\+String, const O\+F\+String \&str\+\_\+expr, O\+F\+Condition \&flag, unsigned long pos=0)
 \item 
-O\+F\+Bool \mbox{\hyperlink{classMetadataEditor_a5270415836da8ab10ac6b7bca3f0a369}{match}} (Dcm\+Tag\+Key other\+Tag\+Key, O\+F\+String str\+\_\+expr, O\+F\+Condition \&flag, const unsigned long pos=0)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a11b104ce10b3c80cd1db2a571e7a9d44}{match}} (const Dcm\+Tag\+Key \&other\+Tag\+Key, const O\+F\+String \&str\+\_\+expr, O\+F\+Condition \&flag, unsigned long pos=0)
 \item 
-O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a3ac9a6a89e5d68650e1ebaee5a204d4c}{modify}} (O\+F\+String new\+Value, O\+F\+Bool only\+\_\+overwrite)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a10c34346bc58e03ecf7f4714e42fb02f}{equals}} (const O\+F\+String \&str\+\_\+expr, O\+F\+Condition \&flag, unsigned long pos=0)
 \item 
-O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a5de35d23dd7162a50b8793e6a1cb511c}{modify}} (O\+F\+String new\+Value, O\+F\+String other\+Tag\+String, O\+F\+Bool only\+\_\+overwrite)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_aec60eb6e0d64ec878b8f633c40891dc3}{equals}} (const O\+F\+String \&other\+Tag\+String, const O\+F\+String \&str\+\_\+expr, O\+F\+Condition \&flag, unsigned long pos=0)
 \item 
-O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a54d30e835fe0007fe132b3b19de00491}{modify}} (O\+F\+String new\+Value, Dcm\+Tag\+Key other\+Tag\+Key, O\+F\+Bool only\+\_\+overwrite)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a8b0a02b6e100dc743863057886f9f214}{equals}} (const Dcm\+Tag\+Key \&other\+Tag\+Key, const O\+F\+String \&str\+\_\+expr, O\+F\+Condition \&flag, unsigned long pos=0)
 \item 
-O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a3778f528ec612da85b9ed72069687e6f}{copy}} (Dcm\+Tag\+Key other\+Tag\+Key, const unsigned long pos\+To=0, const unsigned long pos\+From=0, O\+F\+Bool copy\+To\+This=O\+F\+True, O\+F\+Bool search\+Into\+Sub=O\+F\+False, O\+F\+Bool replace=O\+F\+True)
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a5638cd5014ec1793b2978ba4d90de050}{equals}} (Float64 compare\+\_\+value, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_aec4132481394dc4506fe1e3ae76fa66b}{equals}} (const O\+F\+String \&other\+Tag\+String, Float64 compare\+\_\+value, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a22004d20c9c3d29679f76781949c98ac}{equals}} (const Dcm\+Tag\+Key \&other\+Tag\+Key, Float64 compare\+\_\+value, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a6f0bd7833059de6c0cdf70dbfcc769ff}{is\+\_\+in}} (const std\+::vector$<$ std\+::string $>$ \&str\+\_\+vec, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a34a6c119a0424e9f7fff75591915b07b}{is\+\_\+in}} (const O\+F\+String \&other\+Tag\+String, const std\+::vector$<$ std\+::string $>$ \&str\+\_\+vec, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a201a69709b3186d4c65471631e02cb72}{is\+\_\+in}} (const Dcm\+Tag\+Key \&other\+Tag\+Key, const std\+::vector$<$ std\+::string $>$ \&str\+\_\+vec, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a3af25454a1a4558814124437862d0fab}{is\+\_\+in}} (std\+::vector$<$ Float64 $>$ compare\+\_\+value\+\_\+vec, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_ae522efb5021b6d07ec2fe97a037c1736}{is\+\_\+in}} (const O\+F\+String \&other\+Tag\+String, std\+::vector$<$ Float64 $>$ compare\+\_\+value\+\_\+vec, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_af457b9ee67eefe677766a9084e23e586}{is\+\_\+in}} (const Dcm\+Tag\+Key \&other\+Tag\+Key, std\+::vector$<$ Float64 $>$ compare\+\_\+value\+\_\+vec, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a97599fb145b53c50bb841da7902dbf12}{greater\+Or\+Less\+Than}} (Float64 compare\+\_\+value, O\+F\+Bool greater\+Than, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a548f4aefb7bfa41d73e130c0cb1cd25f}{greater\+Or\+Less\+Than}} (const Dcm\+Tag\+Key \&other\+Tag\+Key, Float64 compare\+\_\+value, O\+F\+Bool greater\+Than, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a9e8ae1157106bc3dc1e533a1f9148122}{greater\+Or\+Less\+Than}} (const O\+F\+String \&other\+Tag\+String, Float64 compare\+\_\+value, O\+F\+Bool greater\+Than, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_ac2e44571f117432d698b793924289279}{modify}} (const O\+F\+String \&new\+Value, O\+F\+Bool only\+\_\+overwrite)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_abc18a129791cc7f29ff50c048abd0b5a}{modify}} (const O\+F\+String \&new\+Value, const O\+F\+String \&other\+Tag\+String, O\+F\+Bool only\+\_\+overwrite)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_af554ec118ed3cef1cbd8103f777dbad0}{modify}} (const O\+F\+String \&new\+Value, const Dcm\+Tag\+Key \&other\+Tag\+Key, O\+F\+Bool only\+\_\+overwrite)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a450f2597bfcf5a848fb17d244133166f}{append}} (const O\+F\+String \&append\+Value, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a463a5d83caac7675d3ecb38f99f6fbbc}{append}} (const O\+F\+String \&append\+Value, const O\+F\+String \&other\+Tag\+String, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_ae3a968b1a04aa3ce5ebcc454b1e1c99d}{append}} (const O\+F\+String \&append\+Value, const Dcm\+Tag\+Key \&other\+Tag\+Key, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a1c65501a85fd9fb9b767e654dcc8658a}{prepend}} (const O\+F\+String \&prepend\+Value, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a4a429cc8fc27c48916c3b5e36efd7a00}{prepend}} (const O\+F\+String \&prepend\+Value, const O\+F\+String \&other\+Tag\+String, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a51e2a2b684c7b626a00731d3b13dc6ce}{prepend}} (const O\+F\+String \&prepend\+Value, const Dcm\+Tag\+Key \&other\+Tag\+Key, O\+F\+Condition \&flag, unsigned long pos=0)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_aa317a4f6812a4e356c589176a2328717}{overwrite}} (const O\+F\+String \&str\+\_\+expr, const O\+F\+String \&replace\+String)
+\item 
+\mbox{\Hypertarget{classMetadataEditor_a6d5ad3326f3f2152fb5f6786f297c73a}\label{classMetadataEditor_a6d5ad3326f3f2152fb5f6786f297c73a}} 
+O\+F\+Condition {\bfseries overwrite} (const O\+F\+String \&other\+Tag\+String, const O\+F\+String \&str\+\_\+expr, const O\+F\+String \&replace\+String)
+\item 
+\mbox{\Hypertarget{classMetadataEditor_ad33372f6425567eff236b7b4344eaaa0}\label{classMetadataEditor_ad33372f6425567eff236b7b4344eaaa0}} 
+O\+F\+Condition {\bfseries overwrite} (const Dcm\+Tag\+Key \&other\+Tag\+Key, const O\+F\+String \&str\+\_\+expr, const O\+F\+String \&replace\+String)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a04b711197f38889543683c1289d0c91e}{copy}} (const Dcm\+Tag\+Key \&other\+Tag\+Key, const unsigned long pos\+To=0, const unsigned long pos\+From=0, O\+F\+Bool copy\+To\+This=O\+F\+True, O\+F\+Bool search\+Into\+Sub=O\+F\+False, O\+F\+Bool replace=O\+F\+True, O\+F\+Bool concatenate=O\+F\+True, O\+F\+Bool \mbox{\hyperlink{classMetadataEditor_a1c65501a85fd9fb9b767e654dcc8658a}{prepend}}=O\+F\+True)
+\item 
+O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a76be8cd03c2b7fa2cb2fb624491d9fb9}{copy}} (const O\+F\+String \&other\+Tag\+String, const unsigned long pos\+To=0, const unsigned long pos\+From=0, O\+F\+Bool copy\+To\+This=O\+F\+True, O\+F\+Bool search\+Into\+Sub=O\+F\+False, O\+F\+Bool replace=O\+F\+True, O\+F\+Bool concatenate=O\+F\+True, O\+F\+Bool \mbox{\hyperlink{classMetadataEditor_a1c65501a85fd9fb9b767e654dcc8658a}{prepend}}=O\+F\+True)
 \item 
 O\+F\+Condition \mbox{\hyperlink{classMetadataEditor_a766b2daeff20e71741b7077f9821e4d3}{string\+To\+Key}} (O\+F\+String str, Dcm\+Tag\+Key \&key)
 \end{DoxyCompactItemize}
@@ -69,39 +136,75 @@ This class encapsulates methods for loading, checking, and editing dicom files
 \mbox{\Hypertarget{classMetadataEditor_aff5ec7ca8861177710a4d491ba59b855}\label{classMetadataEditor_aff5ec7ca8861177710a4d491ba59b855}} 
 \index{MetadataEditor@{MetadataEditor}!MetadataEditor@{MetadataEditor}}
 \index{MetadataEditor@{MetadataEditor}!MetadataEditor@{MetadataEditor}}
-\doxysubsubsection{\texorpdfstring{MetadataEditor()}{MetadataEditor()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+\doxysubsubsection{\texorpdfstring{MetadataEditor()}{MetadataEditor()}}
 {\footnotesize\ttfamily Metadata\+Editor\+::\+Metadata\+Editor (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Default constructor \mbox{\Hypertarget{classMetadataEditor_a625b2c3b2ba2dabeeae450e371d8ad90}\label{classMetadataEditor_a625b2c3b2ba2dabeeae450e371d8ad90}} 
-\index{MetadataEditor@{MetadataEditor}!MetadataEditor@{MetadataEditor}}
-\index{MetadataEditor@{MetadataEditor}!MetadataEditor@{MetadataEditor}}
-\doxysubsubsection{\texorpdfstring{MetadataEditor()}{MetadataEditor()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily Metadata\+Editor\+::\+Metadata\+Editor (\begin{DoxyParamCaption}\item[{O\+F\+String}]{file\+\_\+path }\end{DoxyParamCaption})}
-
-Constructor to handle the scenario where a path to a D\+I\+C\+OM file is provided 
-\begin{DoxyParams}{Parameters}
-{\em file\+\_\+path} & holds the path to the D\+I\+C\+OM file \\
-\hline
-\end{DoxyParams}
-\mbox{\Hypertarget{classMetadataEditor_a471ea6d9fe78f4376096906cdbfae0e1}\label{classMetadataEditor_a471ea6d9fe78f4376096906cdbfae0e1}} 
-\index{MetadataEditor@{MetadataEditor}!MetadataEditor@{MetadataEditor}}
-\index{MetadataEditor@{MetadataEditor}!MetadataEditor@{MetadataEditor}}
-\doxysubsubsection{\texorpdfstring{MetadataEditor()}{MetadataEditor()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily Metadata\+Editor\+::\+Metadata\+Editor (\begin{DoxyParamCaption}\item[{Dcm\+Dataset $\ast$}]{dataset }\end{DoxyParamCaption})}
-
-Constructor to hand the scenario where a D\+I\+C\+OM dataset is passed directly to the class 
-\begin{DoxyParams}{Parameters}
-{\em dataset} & holds a pointer to a D\+I\+C\+OM dataset \\
-\hline
-\end{DoxyParams}
-
+Default constructor 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classMetadataEditor_a3778f528ec612da85b9ed72069687e6f}\label{classMetadataEditor_a3778f528ec612da85b9ed72069687e6f}} 
+\mbox{\Hypertarget{classMetadataEditor_ae3a968b1a04aa3ce5ebcc454b1e1c99d}\label{classMetadataEditor_ae3a968b1a04aa3ce5ebcc454b1e1c99d}} 
+\index{MetadataEditor@{MetadataEditor}!append@{append}}
+\index{append@{append}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::append (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{append\+Value,  }\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Appends a string on to the end of the current value at a tag
+
+
+\begin{DoxyParams}{Parameters}
+{\em append\+Value} & is the string to append to the current value \\
+\hline
+{\em other\+Tag\+Key} & holds the desired tag as a Dcm\+Tag\+Key \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a463a5d83caac7675d3ecb38f99f6fbbc}\label{classMetadataEditor_a463a5d83caac7675d3ecb38f99f6fbbc}} 
+\index{MetadataEditor@{MetadataEditor}!append@{append}}
+\index{append@{append}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::append (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{append\+Value,  }\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Appends a string on to the end of the current value at a tag
+
+
+\begin{DoxyParams}{Parameters}
+{\em append\+Value} & is the string to append to the current value \\
+\hline
+{\em other\+Tag\+String} & holds the desired tag in (group, element) string form \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a450f2597bfcf5a848fb17d244133166f}\label{classMetadataEditor_a450f2597bfcf5a848fb17d244133166f}} 
+\index{MetadataEditor@{MetadataEditor}!append@{append}}
+\index{append@{append}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{append()}{append()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::append (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{append\+Value,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Appends a string on to the end of the current value at a tag
+
+
+\begin{DoxyParams}{Parameters}
+{\em append\+Value} & is the string to append to the current value \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a04b711197f38889543683c1289d0c91e}\label{classMetadataEditor_a04b711197f38889543683c1289d0c91e}} 
 \index{MetadataEditor@{MetadataEditor}!copy@{copy}}
 \index{copy@{copy}!MetadataEditor@{MetadataEditor}}
-\doxysubsubsection{\texorpdfstring{copy()}{copy()}}
-{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::copy (\begin{DoxyParamCaption}\item[{Dcm\+Tag\+Key}]{other\+Tag\+Key,  }\item[{const unsigned long}]{pos\+To = {\ttfamily 0},  }\item[{const unsigned long}]{pos\+From = {\ttfamily 0},  }\item[{O\+F\+Bool}]{copy\+To\+This = {\ttfamily OFTrue},  }\item[{O\+F\+Bool}]{search\+Into\+Sub = {\ttfamily OFFalse},  }\item[{O\+F\+Bool}]{replace = {\ttfamily OFTrue} }\end{DoxyParamCaption})}
+\doxysubsubsection{\texorpdfstring{copy()}{copy()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::copy (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{const unsigned long}]{pos\+To = {\ttfamily 0},  }\item[{const unsigned long}]{pos\+From = {\ttfamily 0},  }\item[{O\+F\+Bool}]{copy\+To\+This = {\ttfamily OFTrue},  }\item[{O\+F\+Bool}]{search\+Into\+Sub = {\ttfamily OFFalse},  }\item[{O\+F\+Bool}]{replace = {\ttfamily OFTrue},  }\item[{O\+F\+Bool}]{concatenate = {\ttfamily OFTrue},  }\item[{O\+F\+Bool}]{prepend = {\ttfamily OFTrue} }\end{DoxyParamCaption})}
 
 Exclusive method for copying data from tags and using them too overwrite or insert at a different tag 
 \begin{DoxyParams}{Parameters}
@@ -121,11 +224,167 @@ Exclusive method for copying data from tags and using them too overwrite or inse
 \begin{DoxyReturn}{Returns}
 O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_abdd3c1848b99afa14e66129db230ca27}\label{classMetadataEditor_abdd3c1848b99afa14e66129db230ca27}} 
+\mbox{\Hypertarget{classMetadataEditor_a76be8cd03c2b7fa2cb2fb624491d9fb9}\label{classMetadataEditor_a76be8cd03c2b7fa2cb2fb624491d9fb9}} 
+\index{MetadataEditor@{MetadataEditor}!copy@{copy}}
+\index{copy@{copy}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{copy()}{copy()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::copy (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{const unsigned long}]{pos\+To = {\ttfamily 0},  }\item[{const unsigned long}]{pos\+From = {\ttfamily 0},  }\item[{O\+F\+Bool}]{copy\+To\+This = {\ttfamily OFTrue},  }\item[{O\+F\+Bool}]{search\+Into\+Sub = {\ttfamily OFFalse},  }\item[{O\+F\+Bool}]{replace = {\ttfamily OFTrue},  }\item[{O\+F\+Bool}]{concatenate = {\ttfamily OFTrue},  }\item[{O\+F\+Bool}]{prepend = {\ttfamily OFTrue} }\end{DoxyParamCaption})}
+
+Exclusive method for copying data from tags and using them too overwrite or insert at a different tag 
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+String} & holds the desired tag as a string \\
+\hline
+{\em pos\+To} & destination index. Useful when VM $>$ 0 \\
+\hline
+{\em pos\+From} & origination index. Useful when VM $>$ 0 \\
+\hline
+{\em copy\+To\+This} & if true, information is taken from other tag and used to modify tag \\
+\hline
+{\em search\+Into\+Sub} & if true, the search will dive into nested values and search the lower levels as well \\
+\hline
+{\em replace} & if true, the data at destination tag is overwritten (VM unchanged), else, it is inserted at the specified tag in the specified position (VM = VM + 1) \\
+\hline
+{\em concatenate} & specifies whether to concatenate the new value to the original one. If concatenate is false, then we will have a list of values. \\
+\hline
+{\em prepend} & decides how the new value is added \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a8b0a02b6e100dc743863057886f9f214}\label{classMetadataEditor_a8b0a02b6e100dc743863057886f9f214}} 
+\index{MetadataEditor@{MetadataEditor}!equals@{equals}}
+\index{equals@{equals}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{equals()}{equals()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::equals (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{const O\+F\+String \&}]{str\+\_\+expr,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag matches a string exactly
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+Key} & holds the desired tag as a Dcm\+Tag\+Key \\
+\hline
+{\em str\+\_\+expr} & string to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the string exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a22004d20c9c3d29679f76781949c98ac}\label{classMetadataEditor_a22004d20c9c3d29679f76781949c98ac}} 
+\index{MetadataEditor@{MetadataEditor}!equals@{equals}}
+\index{equals@{equals}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{equals()}{equals()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::equals (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{Float64}]{compare\+\_\+value,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag matches a value exactly
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+Key} & holds the desired tag as a Dcm\+Tag\+Key \\
+\hline
+{\em compare\+\_\+value} & double to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the double exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_aec60eb6e0d64ec878b8f633c40891dc3}\label{classMetadataEditor_aec60eb6e0d64ec878b8f633c40891dc3}} 
+\index{MetadataEditor@{MetadataEditor}!equals@{equals}}
+\index{equals@{equals}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{equals()}{equals()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::equals (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{const O\+F\+String \&}]{str\+\_\+expr,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag matches a string exactly
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+String} & holds the desired tag in (group, element) string form \\
+\hline
+{\em str\+\_\+expr} & string to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the string exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_aec4132481394dc4506fe1e3ae76fa66b}\label{classMetadataEditor_aec4132481394dc4506fe1e3ae76fa66b}} 
+\index{MetadataEditor@{MetadataEditor}!equals@{equals}}
+\index{equals@{equals}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{equals()}{equals()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::equals (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{Float64}]{compare\+\_\+value,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag matches a value exactly
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+String} & holds the desired tag in (group, element) string form \\
+\hline
+{\em compare\+\_\+value} & double to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the double exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a10c34346bc58e03ecf7f4714e42fb02f}\label{classMetadataEditor_a10c34346bc58e03ecf7f4714e42fb02f}} 
+\index{MetadataEditor@{MetadataEditor}!equals@{equals}}
+\index{equals@{equals}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{equals()}{equals()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::equals (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{str\+\_\+expr,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag matches a string exactly
+
+
+\begin{DoxyParams}{Parameters}
+{\em str\+\_\+expr} & string to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the string exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a5638cd5014ec1793b2978ba4d90de050}\label{classMetadataEditor_a5638cd5014ec1793b2978ba4d90de050}} 
+\index{MetadataEditor@{MetadataEditor}!equals@{equals}}
+\index{equals@{equals}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{equals()}{equals()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::equals (\begin{DoxyParamCaption}\item[{Float64}]{compare\+\_\+value,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag matches a value exactly
+
+
+\begin{DoxyParams}{Parameters}
+{\em compare\+\_\+value} & double to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the double exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a20278af977349b2cf0fae334e89f25bb}\label{classMetadataEditor_a20278af977349b2cf0fae334e89f25bb}} 
 \index{MetadataEditor@{MetadataEditor}!exists@{exists}}
 \index{exists@{exists}!MetadataEditor@{MetadataEditor}}
 \doxysubsubsection{\texorpdfstring{exists()}{exists()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily O\+F\+Bool Metadata\+Editor\+::exists (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{key,  }\item[{O\+F\+Bool}]{search\+Into\+Sub = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::exists (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{key,  }\item[{O\+F\+Bool}]{search\+Into\+Sub = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
 
 Checks whether a tag is present in the dataset 
 \begin{DoxyParams}{Parameters}
@@ -135,27 +394,13 @@ Checks whether a tag is present in the dataset
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-O\+F\+Bool representing whether or not the tag is present 
+O\+F\+Condition representing whether or not the tag is present 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_a77e355b4438887937afe23ee4a780c04}\label{classMetadataEditor_a77e355b4438887937afe23ee4a780c04}} 
+\mbox{\Hypertarget{classMetadataEditor_a10353fa82d539fb0f33630ee4bdec0f0}\label{classMetadataEditor_a10353fa82d539fb0f33630ee4bdec0f0}} 
 \index{MetadataEditor@{MetadataEditor}!exists@{exists}}
 \index{exists@{exists}!MetadataEditor@{MetadataEditor}}
 \doxysubsubsection{\texorpdfstring{exists()}{exists()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily O\+F\+Bool Metadata\+Editor\+::exists (\begin{DoxyParamCaption}\item[{O\+F\+Bool}]{search\+Into\+Sub = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
-
-Checks whether the tag specified by tag\+Key is present in the dataset 
-\begin{DoxyParams}{Parameters}
-{\em search\+Into\+Sub} & if true, the search will dive into nested values and search the lower levels as well \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-O\+F\+Bool representing whether or not the tag is present 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_a86a0fe8f0d965bda2ae0f43274ba61b3}\label{classMetadataEditor_a86a0fe8f0d965bda2ae0f43274ba61b3}} 
-\index{MetadataEditor@{MetadataEditor}!exists@{exists}}
-\index{exists@{exists}!MetadataEditor@{MetadataEditor}}
-\doxysubsubsection{\texorpdfstring{exists()}{exists()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily O\+F\+Bool Metadata\+Editor\+::exists (\begin{DoxyParamCaption}\item[{O\+F\+String}]{other\+Tag\+String,  }\item[{O\+F\+Bool}]{search\+Into\+Sub = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::exists (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{O\+F\+Bool}]{search\+Into\+Sub = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
 
 Checks whether a tag is present in the dataset 
 \begin{DoxyParams}{Parameters}
@@ -165,7 +410,21 @@ Checks whether a tag is present in the dataset
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-O\+F\+Bool representing whether or not the tag is present 
+O\+F\+Condition representing whether or not the tag is present 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_ad352769ff74ef0cd4285c2e6b23dc370}\label{classMetadataEditor_ad352769ff74ef0cd4285c2e6b23dc370}} 
+\index{MetadataEditor@{MetadataEditor}!exists@{exists}}
+\index{exists@{exists}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{exists()}{exists()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::exists (\begin{DoxyParamCaption}\item[{O\+F\+Bool}]{search\+Into\+Sub = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
+
+Checks whether the tag specified by tag\+Key is present in the dataset 
+\begin{DoxyParams}{Parameters}
+{\em search\+Into\+Sub} & if true, the search will dive into nested values and search the lower levels as well \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the tag is present 
 \end{DoxyReturn}
 \mbox{\Hypertarget{classMetadataEditor_a19a9b2e04243456e77ec256c40f1e4e6}\label{classMetadataEditor_a19a9b2e04243456e77ec256c40f1e4e6}} 
 \index{MetadataEditor@{MetadataEditor}!getTagKey@{getTagKey}}
@@ -185,11 +444,209 @@ returns the data member tag\+Key
 Gets the tag\+Key in string form \begin{DoxyReturn}{Returns}
 returns the data member tag\+String 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_a5270415836da8ab10ac6b7bca3f0a369}\label{classMetadataEditor_a5270415836da8ab10ac6b7bca3f0a369}} 
+\mbox{\Hypertarget{classMetadataEditor_a548f4aefb7bfa41d73e130c0cb1cd25f}\label{classMetadataEditor_a548f4aefb7bfa41d73e130c0cb1cd25f}} 
+\index{MetadataEditor@{MetadataEditor}!greaterOrLessThan@{greaterOrLessThan}}
+\index{greaterOrLessThan@{greaterOrLessThan}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{greaterOrLessThan()}{greaterOrLessThan()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::greater\+Or\+Less\+Than (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{Float64}]{compare\+\_\+value,  }\item[{O\+F\+Bool}]{greater\+Than,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Check if value at a tag is less than a given value
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+Key} & holds the desired tag as a Dcm\+Tag\+Key \\
+\hline
+{\em compare\+\_\+value} & double to compare value at tag with \\
+\hline
+{\em greater\+Than} & if O\+F\+T\+R\+UE, value at tag will be checked for being greater than compare\+\_\+value, otherwise will be checked for less than. \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value is less than the given double 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a9e8ae1157106bc3dc1e533a1f9148122}\label{classMetadataEditor_a9e8ae1157106bc3dc1e533a1f9148122}} 
+\index{MetadataEditor@{MetadataEditor}!greaterOrLessThan@{greaterOrLessThan}}
+\index{greaterOrLessThan@{greaterOrLessThan}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{greaterOrLessThan()}{greaterOrLessThan()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::greater\+Or\+Less\+Than (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{Float64}]{compare\+\_\+value,  }\item[{O\+F\+Bool}]{greater\+Than,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Check if value at a tag is less than a given value
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+String} & holds the desired tag in (group, element) string form \\
+\hline
+{\em compare\+\_\+value} & double to compare value at tag with \\
+\hline
+{\em greater\+Than} & if O\+F\+T\+R\+UE, value at tag will be checked for being greater than compare\+\_\+value, otherwise will be checked for less than. \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value is less than the given double 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a97599fb145b53c50bb841da7902dbf12}\label{classMetadataEditor_a97599fb145b53c50bb841da7902dbf12}} 
+\index{MetadataEditor@{MetadataEditor}!greaterOrLessThan@{greaterOrLessThan}}
+\index{greaterOrLessThan@{greaterOrLessThan}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{greaterOrLessThan()}{greaterOrLessThan()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::greater\+Or\+Less\+Than (\begin{DoxyParamCaption}\item[{Float64}]{compare\+\_\+value,  }\item[{O\+F\+Bool}]{greater\+Than,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Check if value at a tag is less than a given value
+
+
+\begin{DoxyParams}{Parameters}
+{\em compare\+\_\+value} & double to compare value at tag with \\
+\hline
+{\em greater\+Than} & if O\+F\+T\+R\+UE, value at tag will be checked for being greater than compare\+\_\+value, otherwise will be checked for less than. \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value is less than the given double 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a201a69709b3186d4c65471631e02cb72}\label{classMetadataEditor_a201a69709b3186d4c65471631e02cb72}} 
+\index{MetadataEditor@{MetadataEditor}!is\_in@{is\_in}}
+\index{is\_in@{is\_in}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{is\_in()}{is\_in()}\hspace{0.1cm}{\footnotesize\ttfamily [1/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::is\+\_\+in (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{str\+\_\+vec,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag is in a string vector
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+Key} & holds the desired tag as a Dcm\+Tag\+Key \\
+\hline
+{\em str\+\_\+vec} & string vector to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the string exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_af457b9ee67eefe677766a9084e23e586}\label{classMetadataEditor_af457b9ee67eefe677766a9084e23e586}} 
+\index{MetadataEditor@{MetadataEditor}!is\_in@{is\_in}}
+\index{is\_in@{is\_in}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{is\_in()}{is\_in()}\hspace{0.1cm}{\footnotesize\ttfamily [2/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::is\+\_\+in (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{std\+::vector$<$ Float64 $>$}]{compare\+\_\+value\+\_\+vec,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag is in a list of values
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+Key} & holds the desired tag as a Dcm\+Tag\+Key \\
+\hline
+{\em compare\+\_\+value\+\_\+vec} & double vector to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the double exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a34a6c119a0424e9f7fff75591915b07b}\label{classMetadataEditor_a34a6c119a0424e9f7fff75591915b07b}} 
+\index{MetadataEditor@{MetadataEditor}!is\_in@{is\_in}}
+\index{is\_in@{is\_in}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{is\_in()}{is\_in()}\hspace{0.1cm}{\footnotesize\ttfamily [3/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::is\+\_\+in (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{const std\+::vector$<$ std\+::string $>$ \&}]{str\+\_\+vec,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag is in a string vector
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+String} & holds the desired tag in (group, element) string form \\
+\hline
+{\em str\+\_\+vec} & string vector to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the string exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_ae522efb5021b6d07ec2fe97a037c1736}\label{classMetadataEditor_ae522efb5021b6d07ec2fe97a037c1736}} 
+\index{MetadataEditor@{MetadataEditor}!is\_in@{is\_in}}
+\index{is\_in@{is\_in}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{is\_in()}{is\_in()}\hspace{0.1cm}{\footnotesize\ttfamily [4/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::is\+\_\+in (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{std\+::vector$<$ Float64 $>$}]{compare\+\_\+value\+\_\+vec,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag is in a list of values
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Tag\+String} & holds the desired tag in (group, element) string form \\
+\hline
+{\em compare\+\_\+value\+\_\+vec} & double vector to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the double exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a6f0bd7833059de6c0cdf70dbfcc769ff}\label{classMetadataEditor_a6f0bd7833059de6c0cdf70dbfcc769ff}} 
+\index{MetadataEditor@{MetadataEditor}!is\_in@{is\_in}}
+\index{is\_in@{is\_in}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{is\_in()}{is\_in()}\hspace{0.1cm}{\footnotesize\ttfamily [5/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::is\+\_\+in (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ std\+::string $>$ \&}]{str\+\_\+vec,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag is in a string vector
+
+
+\begin{DoxyParams}{Parameters}
+{\em str\+\_\+vec} & string vector to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the string exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a3af25454a1a4558814124437862d0fab}\label{classMetadataEditor_a3af25454a1a4558814124437862d0fab}} 
+\index{MetadataEditor@{MetadataEditor}!is\_in@{is\_in}}
+\index{is\_in@{is\_in}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{is\_in()}{is\_in()}\hspace{0.1cm}{\footnotesize\ttfamily [6/6]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::is\+\_\+in (\begin{DoxyParamCaption}\item[{std\+::vector$<$ Float64 $>$}]{compare\+\_\+value\+\_\+vec,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Checks if value at a tag is in a list of values
+
+
+\begin{DoxyParams}{Parameters}
+{\em compare\+\_\+value\+\_\+vec} & double vector to be matched \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+{\em pos} & holds the index of the desired value. Useful for tags where VM $>$ 1 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition representing whether or not the value matches the double exactly 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a11b104ce10b3c80cd1db2a571e7a9d44}\label{classMetadataEditor_a11b104ce10b3c80cd1db2a571e7a9d44}} 
 \index{MetadataEditor@{MetadataEditor}!match@{match}}
 \index{match@{match}!MetadataEditor@{MetadataEditor}}
 \doxysubsubsection{\texorpdfstring{match()}{match()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily O\+F\+Bool Metadata\+Editor\+::match (\begin{DoxyParamCaption}\item[{Dcm\+Tag\+Key}]{other\+Tag\+Key,  }\item[{O\+F\+String}]{str\+\_\+expr,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{const unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::match (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{const O\+F\+String \&}]{str\+\_\+expr,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
 
 Checks if the value at a tag matches a R\+E\+G\+EX 
 \begin{DoxyParams}{Parameters}
@@ -203,13 +660,13 @@ Checks if the value at a tag matches a R\+E\+G\+EX
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-O\+F\+Bool representing whether or not the value matches the R\+E\+G\+EX 
+O\+F\+Condition representing whether or not the value matches the R\+E\+G\+EX 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_a6c20353b373e9efb3c41aaef05941dcf}\label{classMetadataEditor_a6c20353b373e9efb3c41aaef05941dcf}} 
+\mbox{\Hypertarget{classMetadataEditor_a613963ffae4f85d82d15f7ca32c230b2}\label{classMetadataEditor_a613963ffae4f85d82d15f7ca32c230b2}} 
 \index{MetadataEditor@{MetadataEditor}!match@{match}}
 \index{match@{match}!MetadataEditor@{MetadataEditor}}
 \doxysubsubsection{\texorpdfstring{match()}{match()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily O\+F\+Bool Metadata\+Editor\+::match (\begin{DoxyParamCaption}\item[{O\+F\+String}]{other\+Tag\+String,  }\item[{O\+F\+String}]{str\+\_\+expr,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{const unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::match (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{const O\+F\+String \&}]{str\+\_\+expr,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
 
 Checks if the value at a tag matches a R\+E\+G\+EX 
 \begin{DoxyParams}{Parameters}
@@ -223,13 +680,13 @@ Checks if the value at a tag matches a R\+E\+G\+EX
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-O\+F\+Bool representing whether or not the value matches the R\+E\+G\+EX 
+O\+F\+Condition representing whether or not the value matches the R\+E\+G\+EX 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_a3bce595c09a9e18f84f6b3a79b5c09ed}\label{classMetadataEditor_a3bce595c09a9e18f84f6b3a79b5c09ed}} 
+\mbox{\Hypertarget{classMetadataEditor_aaf990e8ed3006a9e934bcbf762aad5d8}\label{classMetadataEditor_aaf990e8ed3006a9e934bcbf762aad5d8}} 
 \index{MetadataEditor@{MetadataEditor}!match@{match}}
 \index{match@{match}!MetadataEditor@{MetadataEditor}}
 \doxysubsubsection{\texorpdfstring{match()}{match()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily O\+F\+Bool Metadata\+Editor\+::match (\begin{DoxyParamCaption}\item[{O\+F\+String}]{str\+\_\+expr,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{const unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::match (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{str\+\_\+expr,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
 
 Checks if the value at a tag matches a R\+E\+G\+EX 
 \begin{DoxyParams}{Parameters}
@@ -241,17 +698,17 @@ Checks if the value at a tag matches a R\+E\+G\+EX
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-O\+F\+Bool representing whether or not the value matches the R\+E\+G\+EX 
+O\+F\+Condition representing whether or not the value matches the R\+E\+G\+EX 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_a54d30e835fe0007fe132b3b19de00491}\label{classMetadataEditor_a54d30e835fe0007fe132b3b19de00491}} 
+\mbox{\Hypertarget{classMetadataEditor_af554ec118ed3cef1cbd8103f777dbad0}\label{classMetadataEditor_af554ec118ed3cef1cbd8103f777dbad0}} 
 \index{MetadataEditor@{MetadataEditor}!modify@{modify}}
 \index{modify@{modify}!MetadataEditor@{MetadataEditor}}
 \doxysubsubsection{\texorpdfstring{modify()}{modify()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
-{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::modify (\begin{DoxyParamCaption}\item[{O\+F\+String}]{new\+Value,  }\item[{Dcm\+Tag\+Key}]{other\+Tag\+Key,  }\item[{O\+F\+Bool}]{only\+\_\+overwrite }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::modify (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{new\+Value,  }\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{O\+F\+Bool}]{only\+\_\+overwrite }\end{DoxyParamCaption})}
 
 Modifies or inserts a value at a tag 
 \begin{DoxyParams}{Parameters}
-{\em new\+Value} & denotes new value of tag \\
+{\em new\+Value} & denotes new string value of tag \\
 \hline
 {\em other\+Tag\+Key} & holds the desired tag as a Dcm\+Tag\+Key \\
 \hline
@@ -261,31 +718,15 @@ Modifies or inserts a value at a tag
 \begin{DoxyReturn}{Returns}
 O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_a3ac9a6a89e5d68650e1ebaee5a204d4c}\label{classMetadataEditor_a3ac9a6a89e5d68650e1ebaee5a204d4c}} 
+\mbox{\Hypertarget{classMetadataEditor_abc18a129791cc7f29ff50c048abd0b5a}\label{classMetadataEditor_abc18a129791cc7f29ff50c048abd0b5a}} 
 \index{MetadataEditor@{MetadataEditor}!modify@{modify}}
 \index{modify@{modify}!MetadataEditor@{MetadataEditor}}
 \doxysubsubsection{\texorpdfstring{modify()}{modify()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
-{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::modify (\begin{DoxyParamCaption}\item[{O\+F\+String}]{new\+Value,  }\item[{O\+F\+Bool}]{only\+\_\+overwrite }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::modify (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{new\+Value,  }\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{O\+F\+Bool}]{only\+\_\+overwrite }\end{DoxyParamCaption})}
 
 Modifies or inserts a value at a tag 
 \begin{DoxyParams}{Parameters}
-{\em new\+Value} & denotes new value of tag \\
-\hline
-{\em only\+\_\+overwrite} & if true, only existing tags are processed. If false, any not existing tag is inserted \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
-\end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_a5de35d23dd7162a50b8793e6a1cb511c}\label{classMetadataEditor_a5de35d23dd7162a50b8793e6a1cb511c}} 
-\index{MetadataEditor@{MetadataEditor}!modify@{modify}}
-\index{modify@{modify}!MetadataEditor@{MetadataEditor}}
-\doxysubsubsection{\texorpdfstring{modify()}{modify()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::modify (\begin{DoxyParamCaption}\item[{O\+F\+String}]{new\+Value,  }\item[{O\+F\+String}]{other\+Tag\+String,  }\item[{O\+F\+Bool}]{only\+\_\+overwrite }\end{DoxyParamCaption})}
-
-Modifies or inserts a value at a tag 
-\begin{DoxyParams}{Parameters}
-{\em new\+Value} & denotes new value of tag \\
+{\em new\+Value} & denotes new string value of tag \\
 \hline
 {\em other\+Tag\+String} & holds the desired tag in (group, element) string form \\
 \hline
@@ -295,36 +736,129 @@ Modifies or inserts a value at a tag
 \begin{DoxyReturn}{Returns}
 O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_a6494c346121a0d637fec5cca13abd5df}\label{classMetadataEditor_a6494c346121a0d637fec5cca13abd5df}} 
-\index{MetadataEditor@{MetadataEditor}!pathToDataset@{pathToDataset}}
-\index{pathToDataset@{pathToDataset}!MetadataEditor@{MetadataEditor}}
-\doxysubsubsection{\texorpdfstring{pathToDataset()}{pathToDataset()}}
-{\footnotesize\ttfamily Dcm\+Dataset $\ast$ Metadata\+Editor\+::path\+To\+Dataset (\begin{DoxyParamCaption}\item[{O\+F\+String}]{file\+\_\+path }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{classMetadataEditor_ac2e44571f117432d698b793924289279}\label{classMetadataEditor_ac2e44571f117432d698b793924289279}} 
+\index{MetadataEditor@{MetadataEditor}!modify@{modify}}
+\index{modify@{modify}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{modify()}{modify()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::modify (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{new\+Value,  }\item[{O\+F\+Bool}]{only\+\_\+overwrite }\end{DoxyParamCaption})}
 
-Creates a D\+I\+C\+OM dataset using the D\+I\+C\+OM file at the specified path 
+Modifies or inserts a value at a tag 
 \begin{DoxyParams}{Parameters}
-{\em file\+\_\+path} & holds the path to the D\+I\+C\+OM file \\
+{\em new\+Value} & denotes new string value of tag \\
+\hline
+{\em only\+\_\+overwrite} & if true, only existing tags are processed. If false, any not existing tag is inserted \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-a pointer to the created Dcm\+Dataset 
+O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMetadataEditor_ad2c3bc39294c73b93fa259b4e27e6dc2}\label{classMetadataEditor_ad2c3bc39294c73b93fa259b4e27e6dc2}} 
+\mbox{\Hypertarget{classMetadataEditor_aa317a4f6812a4e356c589176a2328717}\label{classMetadataEditor_aa317a4f6812a4e356c589176a2328717}} 
+\index{MetadataEditor@{MetadataEditor}!overwrite@{overwrite}}
+\index{overwrite@{overwrite}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{overwrite()}{overwrite()}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::overwrite (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{str\+\_\+expr,  }\item[{const O\+F\+String \&}]{replace\+String }\end{DoxyParamCaption})}
+
+Replace part of string (specified by regex) with something else
+
+
+\begin{DoxyParams}{Parameters}
+{\em str\+\_\+expr} & \\
+\hline
+{\em replace} & \\
+\hline
+{\em overwrite\+String} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a51e2a2b684c7b626a00731d3b13dc6ce}\label{classMetadataEditor_a51e2a2b684c7b626a00731d3b13dc6ce}} 
+\index{MetadataEditor@{MetadataEditor}!prepend@{prepend}}
+\index{prepend@{prepend}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{prepend()}{prepend()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::prepend (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{prepend\+Value,  }\item[{const Dcm\+Tag\+Key \&}]{other\+Tag\+Key,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Appends a string on to the start of the current value at a tag
+
+
+\begin{DoxyParams}{Parameters}
+{\em prepend\+Value} & is the string to prepend to the current value \\
+\hline
+{\em other\+Tag\+Key} & holds the desired tag as a Dcm\+Tag\+Key \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a4a429cc8fc27c48916c3b5e36efd7a00}\label{classMetadataEditor_a4a429cc8fc27c48916c3b5e36efd7a00}} 
+\index{MetadataEditor@{MetadataEditor}!prepend@{prepend}}
+\index{prepend@{prepend}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{prepend()}{prepend()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::prepend (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{prepend\+Value,  }\item[{const O\+F\+String \&}]{other\+Tag\+String,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Appends a string on to the start of the current value at a tag
+
+
+\begin{DoxyParams}{Parameters}
+{\em prepend\+Value} & is the string to prepend to the current value \\
+\hline
+{\em other\+Tag\+String} & holds the desired tag in (group, element) string form \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a1c65501a85fd9fb9b767e654dcc8658a}\label{classMetadataEditor_a1c65501a85fd9fb9b767e654dcc8658a}} 
+\index{MetadataEditor@{MetadataEditor}!prepend@{prepend}}
+\index{prepend@{prepend}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{prepend()}{prepend()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::prepend (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{prepend\+Value,  }\item[{O\+F\+Condition \&}]{flag,  }\item[{unsigned long}]{pos = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+Appends a string on to the start of the current value at a tag
+
+
+\begin{DoxyParams}{Parameters}
+{\em prepend\+Value} & is the string to prepend to the current value \\
+\hline
+{\em flag} & a reference intended to store the result of the retrieval of the value at the specified tag. It should hold E\+C\+\_\+\+Normal if all goes well \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classMetadataEditor_a1f50dfcb88577272659eb337689f3157}\label{classMetadataEditor_a1f50dfcb88577272659eb337689f3157}} 
+\index{MetadataEditor@{MetadataEditor}!setDset@{setDset}}
+\index{setDset@{setDset}!MetadataEditor@{MetadataEditor}}
+\doxysubsubsection{\texorpdfstring{setDset()}{setDset()}}
+{\footnotesize\ttfamily void Metadata\+Editor\+::set\+Dset (\begin{DoxyParamCaption}\item[{Dcm\+Dataset $\ast$}]{dataset }\end{DoxyParamCaption})}
+
+Constructor to handle the scenario where a path to a D\+I\+C\+OM file is provided 
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+path} & holds the path to the D\+I\+C\+OM file Constructor to hand the scenario where a D\+I\+C\+OM dataset is passed directly to the class \\
+\hline
+{\em dataset} & holds a pointer to a D\+I\+C\+OM dataset \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classMetadataEditor_a8bdc9db69252ca3879d0c9b3183dc348}\label{classMetadataEditor_a8bdc9db69252ca3879d0c9b3183dc348}} 
 \index{MetadataEditor@{MetadataEditor}!setTag@{setTag}}
 \index{setTag@{setTag}!MetadataEditor@{MetadataEditor}}
 \doxysubsubsection{\texorpdfstring{setTag()}{setTag()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void Metadata\+Editor\+::set\+Tag (\begin{DoxyParamCaption}\item[{Dcm\+Tag\+Key}]{key }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Metadata\+Editor\+::set\+Tag (\begin{DoxyParamCaption}\item[{const Dcm\+Tag\+Key \&}]{key }\end{DoxyParamCaption})}
 
 Sets the class\textquotesingle{} tag\+Key data member using a Dcm\+Tag\+Key. 
 \begin{DoxyParams}{Parameters}
 {\em key} & holds the tag in tag ket form i.\+e D\+C\+M\+\_\+\+Tag\+Name \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classMetadataEditor_ae689d670e880df6f92206aca97101f00}\label{classMetadataEditor_ae689d670e880df6f92206aca97101f00}} 
+\mbox{\Hypertarget{classMetadataEditor_a57f6dc56bf43647da68fa02fd8c853bf}\label{classMetadataEditor_a57f6dc56bf43647da68fa02fd8c853bf}} 
 \index{MetadataEditor@{MetadataEditor}!setTag@{setTag}}
 \index{setTag@{setTag}!MetadataEditor@{MetadataEditor}}
 \doxysubsubsection{\texorpdfstring{setTag()}{setTag()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::set\+Tag (\begin{DoxyParamCaption}\item[{O\+F\+String}]{str }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily O\+F\+Condition Metadata\+Editor\+::set\+Tag (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{str }\end{DoxyParamCaption})}
 
 Sets the class\textquotesingle{} tag\+Key data member using a tag string. 
 \begin{DoxyParams}{Parameters}
@@ -354,5 +888,5 @@ O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/Metadata\+Editor.\+hpp\item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/Metadata\+Editor.\+cpp\end{DoxyCompactItemize}
+/home/weiym97/\+E\+C\+I\+Q\+C/src/metadata/Metadata\+Editor.\+hpp\item 
+/home/weiym97/\+E\+C\+I\+Q\+C/src/metadata/Metadata\+Editor.\+cpp\end{DoxyCompactItemize}

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['istagindictionary_17',['isTagInDictionary',['../classMdfDatasetManager.html#af83ddf3c45bd9297421881b276bbb7be',1,'MdfDatasetManager']]]
+  ['handleincomingcommand_22',['handleIncomingCommand',['../classReceiverThread.html#a47aa75a34f0f865f961064f2d06b0a38',1,'ReceiverThread']]],
+  ['how_20to_20write_20json_20configuration_20files_23',['How to write json configuration files',['../Tutorials.html',1,'']]]
 ];

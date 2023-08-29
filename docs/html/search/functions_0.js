@@ -1,7 +1,4 @@
 var searchData=
 [
-  ['checkcallingaetitleaccepted_60',['checkCallingAETitleAccepted',['../classReceiverThread.html#a952fdcbde48f28463103edfc1a480b86',1,'ReceiverThread']]],
-  ['checkcallinghostaccepted_61',['checkCallingHostAccepted',['../classReceiverThread.html#ab22da1f63c2734ab47607f77b03de5e9',1,'ReceiverThread']]],
-  ['conductor_62',['Conductor',['../classConductor.html#a985eb9899da026adc353147d9faf5b94',1,'Conductor']]],
-  ['copy_63',['copy',['../classMetadataEditor.html#a3778f528ec612da85b9ed72069687e6f',1,'MetadataEditor']]]
+  ['append_80',['append',['../classMetadataEditor.html#a450f2597bfcf5a848fb17d244133166f',1,'MetadataEditor::append(const OFString &amp;appendValue, OFCondition &amp;flag, unsigned long pos=0)'],['../classMetadataEditor.html#a463a5d83caac7675d3ecb38f99f6fbbc',1,'MetadataEditor::append(const OFString &amp;appendValue, const OFString &amp;otherTagString, OFCondition &amp;flag, unsigned long pos=0)'],['../classMetadataEditor.html#ae3a968b1a04aa3ce5ebcc454b1e1c99d',1,'MetadataEditor::append(const OFString &amp;appendValue, const DcmTagKey &amp;otherTagKey, OFCondition &amp;flag, unsigned long pos=0)']]]
 ];

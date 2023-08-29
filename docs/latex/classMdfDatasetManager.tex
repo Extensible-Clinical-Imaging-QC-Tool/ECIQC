@@ -6,8 +6,13 @@
 
 
 
-Inheritance diagram for Mdf\+Dataset\+Manager\+:
-% FIG 0
+Inheritance diagram for Mdf\+Dataset\+Manager\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=266pt]{classMdfDatasetManager__inherit__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -15,7 +20,10 @@ Inheritance diagram for Mdf\+Dataset\+Manager\+:
 \item 
 \mbox{\hyperlink{classMdfDatasetManager_a9cf558e8796d2fd570785d9140cf9613}{$\sim$\+Mdf\+Dataset\+Manager}} ()
 \item 
-O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a585b3b2001443ba6be24edeb8a723a7d}{load\+File}} (const char $\ast$file\+\_\+name, const E\+\_\+\+File\+Read\+Mode read\+Mode=E\+R\+M\+\_\+auto\+Detect, const E\+\_\+\+Transfer\+Syntax xfer=E\+X\+S\+\_\+\+Unknown, const O\+F\+Bool create\+If\+Necessary=O\+F\+False)
+O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_aae44c06b861db24365b1485420010a89}{load\+File}} (Dcm\+Dataset $\ast$dataset, const E\+\_\+\+File\+Read\+Mode read\+Mode=E\+R\+M\+\_\+auto\+Detect, const E\+\_\+\+Transfer\+Syntax xfer=E\+X\+S\+\_\+\+Unknown, const O\+F\+Bool create\+If\+Necessary=O\+F\+False)
+\item 
+\mbox{\Hypertarget{classMdfDatasetManager_a585b3b2001443ba6be24edeb8a723a7d}\label{classMdfDatasetManager_a585b3b2001443ba6be24edeb8a723a7d}} 
+O\+F\+Condition {\bfseries load\+File} (const char $\ast$file\+\_\+name, const E\+\_\+\+File\+Read\+Mode read\+Mode=E\+R\+M\+\_\+auto\+Detect, const E\+\_\+\+Transfer\+Syntax xfer=E\+X\+S\+\_\+\+Unknown, const O\+F\+Bool create\+If\+Necessary=O\+F\+False)
 \item 
 O\+F\+Condition \mbox{\hyperlink{classMdfDatasetManager_a48cd22890a793d0c5785ed806fc807b6}{modify\+Or\+Insert\+Path}} (O\+F\+String tag\+\_\+path, const O\+F\+String \&value, const O\+F\+Bool only\+\_\+modify, const O\+F\+Bool update\+\_\+metaheader=O\+F\+True, const O\+F\+Bool ignore\+\_\+missing\+\_\+tags=O\+F\+False, const O\+F\+Bool no\+\_\+reservation\+\_\+checks=O\+F\+False)
 \item 
@@ -182,11 +190,11 @@ Returns true, if given tag key can be found in dictionary
 \begin{DoxyReturn}{Returns}
 O\+F\+True if tag could be found, else O\+F\+False 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classMdfDatasetManager_a585b3b2001443ba6be24edeb8a723a7d}\label{classMdfDatasetManager_a585b3b2001443ba6be24edeb8a723a7d}} 
+\mbox{\Hypertarget{classMdfDatasetManager_aae44c06b861db24365b1485420010a89}\label{classMdfDatasetManager_aae44c06b861db24365b1485420010a89}} 
 \index{MdfDatasetManager@{MdfDatasetManager}!loadFile@{loadFile}}
 \index{loadFile@{loadFile}!MdfDatasetManager@{MdfDatasetManager}}
 \doxysubsubsection{\texorpdfstring{loadFile()}{loadFile()}}
-{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::load\+File (\begin{DoxyParamCaption}\item[{const char $\ast$}]{file\+\_\+name,  }\item[{const E\+\_\+\+File\+Read\+Mode}]{read\+Mode = {\ttfamily ERM\+\_\+autoDetect},  }\item[{const E\+\_\+\+Transfer\+Syntax}]{xfer = {\ttfamily EXS\+\_\+Unknown},  }\item[{const O\+F\+Bool}]{create\+If\+Necessary = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily O\+F\+Condition Mdf\+Dataset\+Manager\+::load\+File (\begin{DoxyParamCaption}\item[{Dcm\+Dataset $\ast$}]{dataset,  }\item[{const E\+\_\+\+File\+Read\+Mode}]{read\+Mode = {\ttfamily ERM\+\_\+autoDetect},  }\item[{const E\+\_\+\+Transfer\+Syntax}]{xfer = {\ttfamily EXS\+\_\+Unknown},  }\item[{const O\+F\+Bool}]{create\+If\+Necessary = {\ttfamily OFFalse} }\end{DoxyParamCaption})}
 
 Loads a file into dataset manager 
 \begin{DoxyParams}{Parameters}
@@ -340,5 +348,5 @@ O\+F\+Condition, which returns an error code if an error occurs
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/mdfdsman.\+h\item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/mdfdsman.\+cc\end{DoxyCompactItemize}
+/home/weiym97/\+E\+C\+I\+Q\+C/src/metadata/mdfdsman.\+h\item 
+/home/weiym97/\+E\+C\+I\+Q\+C/src/metadata/mdfdsman.\+cc\end{DoxyCompactItemize}

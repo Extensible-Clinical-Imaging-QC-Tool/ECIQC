@@ -1,0 +1,167 @@
+\hypertarget{classImageEditor}{}\doxysection{Image\+Editor Class Reference}
+\label{classImageEditor}\index{ImageEditor@{ImageEditor}}
+
+
+Inheritance diagram for Image\+Editor\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classImageEditor__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for Image\+Editor\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classImageEditor__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classImageEditor_a94fb61ac830361cc23e5976b9384d491}{Image\+Editor}} (O\+F\+String file\+\_\+path)
+\item 
+\mbox{\hyperlink{classImageEditor_ab502da028414c55c80474fd707a09633}{Image\+Editor}} (Dcm\+Dataset $\ast$dataset)
+\item 
+Dcm\+Dataset $\ast$ \mbox{\hyperlink{classImageEditor_a31a5d8970d3e7533c9a5dabb2b1d29ef}{path\+To\+Dataset}} (O\+F\+String file\+\_\+path)
+\item 
+O\+F\+Bool \mbox{\hyperlink{classImageEditor_ab18c770ac9b67b71e1a0c347434c3c5d}{letters\+Only}} (std\+::string text)
+\item 
+O\+F\+Bool \mbox{\hyperlink{classImageEditor_a3725097bf8c6aebe5ae146ff4f53e351}{less\+Than\+Four\+Chars}} (std\+::string text)
+\item 
+void \mbox{\hyperlink{classImageEditor_af381dd5e984d2c57fa50c27b5b66a6bf}{cover\+Text}} ()
+\item 
+\mbox{\Hypertarget{classImageEditor_ab5d0a2c963cec6ada8fe3d90f6a48e61}\label{classImageEditor_ab5d0a2c963cec6ada8fe3d90f6a48e61}} 
+void {\bfseries display\+First\+Frame} ()
+\item 
+\mbox{\Hypertarget{classImageEditor_ada22e4594dfbf42f064e4601cc045b2b}\label{classImageEditor_ada22e4594dfbf42f064e4601cc045b2b}} 
+const std\+::vector$<$ cv\+::\+Mat $>$ \& {\bfseries get\+Slices} () const
+\item 
+\mbox{\Hypertarget{classImageEditor_a918da1d96fe44c02f22d6b04ac5c9c13}\label{classImageEditor_a918da1d96fe44c02f22d6b04ac5c9c13}} 
+const std\+::vector$<$ cv\+::\+Mat $>$ \& {\bfseries get\+Image\+Processing\+Slices} () const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static O\+F\+Bool \mbox{\hyperlink{classImageEditor_aeebf264fb85eff53d95bb2cc5f2a15e1}{digits\+Only}} (std\+::string text)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classImageEditor_a6f3e4b3fbc88aa3917fbbd8bd4db41c7}\label{classImageEditor_a6f3e4b3fbc88aa3917fbbd8bd4db41c7}} 
+cv\+::\+Mat {\bfseries representative\+Image}
+\end{DoxyCompactItemize}
+\doxysubsection*{Additional Inherited Members}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classImageEditor_a94fb61ac830361cc23e5976b9384d491}\label{classImageEditor_a94fb61ac830361cc23e5976b9384d491}} 
+\index{ImageEditor@{ImageEditor}!ImageEditor@{ImageEditor}}
+\index{ImageEditor@{ImageEditor}!ImageEditor@{ImageEditor}}
+\doxysubsubsection{\texorpdfstring{ImageEditor()}{ImageEditor()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily Image\+Editor\+::\+Image\+Editor (\begin{DoxyParamCaption}\item[{O\+F\+String}]{file\+\_\+path }\end{DoxyParamCaption})}
+
+Constructor to handle the scenario where a path to a D\+I\+C\+OM file is provided 
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+path} & holds the path to the D\+I\+C\+OM file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classImageEditor_ab502da028414c55c80474fd707a09633}\label{classImageEditor_ab502da028414c55c80474fd707a09633}} 
+\index{ImageEditor@{ImageEditor}!ImageEditor@{ImageEditor}}
+\index{ImageEditor@{ImageEditor}!ImageEditor@{ImageEditor}}
+\doxysubsubsection{\texorpdfstring{ImageEditor()}{ImageEditor()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Image\+Editor\+::\+Image\+Editor (\begin{DoxyParamCaption}\item[{Dcm\+Dataset $\ast$}]{dataset }\end{DoxyParamCaption})}
+
+Constructor to hand the scenario where a D\+I\+C\+OM dataset is passed directly to the class 
+\begin{DoxyParams}{Parameters}
+{\em dataset} & holds a pointer to a D\+I\+C\+OM dataset \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classImageEditor_af381dd5e984d2c57fa50c27b5b66a6bf}\label{classImageEditor_af381dd5e984d2c57fa50c27b5b66a6bf}} 
+\index{ImageEditor@{ImageEditor}!coverText@{coverText}}
+\index{coverText@{coverText}!ImageEditor@{ImageEditor}}
+\doxysubsubsection{\texorpdfstring{coverText()}{coverText()}}
+{\footnotesize\ttfamily void Image\+Editor\+::cover\+Text (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+T\+O\+DO\+: Exclusions -\/ text strings to not block/numeric or short strings to block Uses output of tesseract O\+CR to draw rectangles on the original image \begin{DoxyReturn}{Returns}
+an edited cv\+::\+Mat image with rectangles over text
+\end{DoxyReturn}
+T\+O\+DO\+: Exclusions -\/ text strings to not block/numeric strings to block T\+O\+DO\+: add image back into dicom file here-\/ may have already been written but unsure\mbox{\Hypertarget{classImageEditor_aeebf264fb85eff53d95bb2cc5f2a15e1}\label{classImageEditor_aeebf264fb85eff53d95bb2cc5f2a15e1}} 
+\index{ImageEditor@{ImageEditor}!digitsOnly@{digitsOnly}}
+\index{digitsOnly@{digitsOnly}!ImageEditor@{ImageEditor}}
+\doxysubsubsection{\texorpdfstring{digitsOnly()}{digitsOnly()}}
+{\footnotesize\ttfamily auto Image\+Editor\+::digits\+Only (\begin{DoxyParamCaption}\item[{std\+::string}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+Checks text is all numbers. Combined with letters\+Only, can check for a mixture of letters and numbers
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & text found by tesseract, to be checked for being all numeric \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true -\/ no letters or special characters found 
+
+false -\/ letters or special characters found 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classImageEditor_a3725097bf8c6aebe5ae146ff4f53e351}\label{classImageEditor_a3725097bf8c6aebe5ae146ff4f53e351}} 
+\index{ImageEditor@{ImageEditor}!lessThanFourChars@{lessThanFourChars}}
+\index{lessThanFourChars@{lessThanFourChars}!ImageEditor@{ImageEditor}}
+\doxysubsubsection{\texorpdfstring{lessThanFourChars()}{lessThanFourChars()}}
+{\footnotesize\ttfamily O\+F\+Bool Image\+Editor\+::less\+Than\+Four\+Chars (\begin{DoxyParamCaption}\item[{std\+::string}]{text }\end{DoxyParamCaption})}
+
+Checks if length of text is less than 4 characters -\/ the length to automatically exclude for all-\/letter strings
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & text found by tesseract, length to be checked \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true -\/ length of the text is less than 4 characters 
+
+false -\/ length of text is greater than or equal to 4 characters 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classImageEditor_ab18c770ac9b67b71e1a0c347434c3c5d}\label{classImageEditor_ab18c770ac9b67b71e1a0c347434c3c5d}} 
+\index{ImageEditor@{ImageEditor}!lettersOnly@{lettersOnly}}
+\index{lettersOnly@{lettersOnly}!ImageEditor@{ImageEditor}}
+\doxysubsubsection{\texorpdfstring{lettersOnly()}{lettersOnly()}}
+{\footnotesize\ttfamily O\+F\+Bool Image\+Editor\+::letters\+Only (\begin{DoxyParamCaption}\item[{std\+::string}]{text }\end{DoxyParamCaption})}
+
+Checks text is all letters. Combined with digits\+Only, can check for a mixture of letters and numbers
+
+
+\begin{DoxyParams}{Parameters}
+{\em text} & text found by tesseract, to be checked for being all letters \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true -\/ no numbers or special characters found 
+
+false -\/ numbers or special characters found 
+\end{DoxyReturn}
+\mbox{\Hypertarget{classImageEditor_a31a5d8970d3e7533c9a5dabb2b1d29ef}\label{classImageEditor_a31a5d8970d3e7533c9a5dabb2b1d29ef}} 
+\index{ImageEditor@{ImageEditor}!pathToDataset@{pathToDataset}}
+\index{pathToDataset@{pathToDataset}!ImageEditor@{ImageEditor}}
+\doxysubsubsection{\texorpdfstring{pathToDataset()}{pathToDataset()}}
+{\footnotesize\ttfamily Dcm\+Dataset $\ast$ Image\+Editor\+::path\+To\+Dataset (\begin{DoxyParamCaption}\item[{O\+F\+String}]{file\+\_\+path }\end{DoxyParamCaption})}
+
+Creates a D\+I\+C\+OM dataset using the D\+I\+C\+OM file at the specified path 
+\begin{DoxyParams}{Parameters}
+{\em file\+\_\+path} & holds the path to the D\+I\+C\+OM file \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+a pointer to the created Dcm\+Dataset 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/weiym97/\+E\+C\+I\+Q\+C/src/image/Image\+Editor.\+hpp\item 
+/home/weiym97/\+E\+C\+I\+Q\+C/src/image/Image\+Editor.\+cpp\end{DoxyCompactItemize}

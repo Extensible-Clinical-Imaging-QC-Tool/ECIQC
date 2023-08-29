@@ -81,9 +81,21 @@ OFString&#160;</td><td class="memItemRight" valign="bottom"><b>otherTagString</b
 <tr class="memitem:ae4180f50ce60f1895932757fe2ab8d17"><td class="memItemLeft" align="right" valign="top"><a id="ae4180f50ce60f1895932757fe2ab8d17"></a>
 OFString&#160;</td><td class="memItemRight" valign="bottom"><b>str_expr</b></td></tr>
 <tr class="separator:ae4180f50ce60f1895932757fe2ab8d17"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a66dc129aa9d5e4cde7e822f03bbf03c7"><td class="memItemLeft" align="right" valign="top"><a id="a66dc129aa9d5e4cde7e822f03bbf03c7"></a>
+OFString&#160;</td><td class="memItemRight" valign="bottom"><b>replaceString</b></td></tr>
+<tr class="separator:a66dc129aa9d5e4cde7e822f03bbf03c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bb7c8b31d65432328527886349c8b2f"><td class="memItemLeft" align="right" valign="top"><a id="a3bb7c8b31d65432328527886349c8b2f"></a>
+std::vector&lt; std::string &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>valueVector</b></td></tr>
+<tr class="separator:a3bb7c8b31d65432328527886349c8b2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1e7bdde0bb3c79e4cf21240606aa68e"><td class="memItemLeft" align="right" valign="top"><a id="af1e7bdde0bb3c79e4cf21240606aa68e"></a>
-DcmTagKey&#160;</td><td class="memItemRight" valign="bottom"><b>otherTagKey</b></td></tr>
+DcmTagKey&#160;</td><td class="memItemRight" valign="bottom"><b>otherTagKey</b> = DCM_PatientBreedDescription</td></tr>
 <tr class="separator:af1e7bdde0bb3c79e4cf21240606aa68e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ddec7beeea1e95558976d384c17ba6f"><td class="memItemLeft" align="right" valign="top"><a id="a5ddec7beeea1e95558976d384c17ba6f"></a>
+Float64&#160;</td><td class="memItemRight" valign="bottom"><b>compareValue</b> = 0</td></tr>
+<tr class="separator:a5ddec7beeea1e95558976d384c17ba6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7c8fd65f3eaac68bb92657c51ea851ed"><td class="memItemLeft" align="right" valign="top"><a id="a7c8fd65f3eaac68bb92657c51ea851ed"></a>
+std::vector&lt; Float64 &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>compareValueVector</b></td></tr>
+<tr class="separator:a7c8fd65f3eaac68bb92657c51ea851ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a46fd2b1e07935a00e9a9b04c3113bb45"><td class="memItemLeft" align="right" valign="top"><a id="a46fd2b1e07935a00e9a9b04c3113bb45"></a>
 OFCondition&#160;</td><td class="memItemRight" valign="bottom"><b>flag</b> = OFCondition()</td></tr>
 <tr class="separator:a46fd2b1e07935a00e9a9b04c3113bb45"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -94,11 +106,17 @@ OFBool&#160;</td><td class="memItemRight" valign="bottom"><b>only_overwrite</b><
 OFBool&#160;</td><td class="memItemRight" valign="bottom"><b>searchIntoSub</b> = OFFalse</td></tr>
 <tr class="separator:a5740747bd46cf8c93dbccda10223fd29"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aabe726ffcbc805019c066499de609a7e"><td class="memItemLeft" align="right" valign="top"><a id="aabe726ffcbc805019c066499de609a7e"></a>
-OFBool&#160;</td><td class="memItemRight" valign="bottom"><b>copyToThis</b> = OFFalse</td></tr>
+OFBool&#160;</td><td class="memItemRight" valign="bottom"><b>copyToThis</b> = OFTrue</td></tr>
 <tr class="separator:aabe726ffcbc805019c066499de609a7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aca3aa00204cc44a4ed9f0acb600ed09b"><td class="memItemLeft" align="right" valign="top"><a id="aca3aa00204cc44a4ed9f0acb600ed09b"></a>
 OFBool&#160;</td><td class="memItemRight" valign="bottom"><b>replace</b> = OFTrue</td></tr>
 <tr class="separator:aca3aa00204cc44a4ed9f0acb600ed09b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2b18a4a3e92abf6f61faee3b87934c55"><td class="memItemLeft" align="right" valign="top"><a id="a2b18a4a3e92abf6f61faee3b87934c55"></a>
+OFBool&#160;</td><td class="memItemRight" valign="bottom"><b>concatenate</b> = OFTrue</td></tr>
+<tr class="separator:a2b18a4a3e92abf6f61faee3b87934c55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcd4dcbaf38599858d7aed1c04fd359a"><td class="memItemLeft" align="right" valign="top"><a id="abcd4dcbaf38599858d7aed1c04fd359a"></a>
+OFBool&#160;</td><td class="memItemRight" valign="bottom"><b>prepend</b> = OFTrue</td></tr>
+<tr class="separator:abcd4dcbaf38599858d7aed1c04fd359a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4fd957ff7ed8051ecbd068bcb8d3061d"><td class="memItemLeft" align="right" valign="top"><a id="a4fd957ff7ed8051ecbd068bcb8d3061d"></a>
 unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>pos</b> = 0UL</td></tr>
 <tr class="separator:a4fd957ff7ed8051ecbd068bcb8d3061d"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,7 +128,7 @@ unsigned long&#160;</td><td class="memItemRight" valign="bottom"><b>posTo</b> = 
 <tr class="separator:a36786ea703d8ad5e19f3abf2a157f68f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/mnt/c/Users/spet4299/Documents/Demonstrating/ECIQC/src/<a class="el" href="WorkerParameters_8hpp_source.html">WorkerParameters.hpp</a></li>
+<li>/home/weiym97/ECIQC/src/parsing/<a class="el" href="WorkerParameters_8hpp_source.html">WorkerParameters.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

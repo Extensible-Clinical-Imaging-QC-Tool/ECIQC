@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['receiver_56',['Receiver',['../classReceiver.html',1,'']]],
-  ['receiverthread_57',['ReceiverThread',['../classReceiverThread.html',1,'']]]
+  ['parser_73',['Parser',['../classParser.html',1,'']]]
 ];
