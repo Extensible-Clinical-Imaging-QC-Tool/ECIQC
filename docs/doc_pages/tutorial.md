@@ -69,25 +69,32 @@ The key `metadata` is the main component of the configuration file. You will see
 As said before, `receiver` specifies the proper of the ECIQC receiver; `destination` tells the ECIQC where to send "good" images; `quarantine` provides the place to send "bad" images. You can use the local port for most test cases. However,if you are interested in communicating between different network nodes in real-world application (e.g. GE Healthcare), please ask your colleagues for more information.
 
 ## MetaData
-The key `meta` usually comprises of one or more DICOM tags to work on. For full list of DICOM tags, please refer to the [DICOM library](https://www.dicomlibrary.com/dicom/dicom-tags/).
+The key `metadata` works on the metadata of a DICOM image.It usually comprises of one or more DICOM tags to work on. For full list of DICOM tags, please refer to the [DICOM library](https://www.dicomlibrary.com/dicom/dicom-tags/).
 ### Basic syntax within DICOM tags
 Within each DICOM tag, you need to specify the `tagName`,`vr` and `description`. You can look up the `tagName` and `vr` in the [DICOM library](https://www.dicomlibrary.com/dicom/dicom-tags/). The `description` value is written by the user to enhace readibility. Then it comes to the key `operations`.
 ### Operation types
-There are typicall three types of operations.
-1.. Comparison operations: EQUAL
-#### Comparison Operators ==,<=,>=
+There are typicall four types of operations.
+1. Comparison operations: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operations compare the tag value with the ones provided by the user in the corresponding `value` key. They are usually followed by `IF_TRUE` and `IF_FALSE`.
+2. regular expression operations: EXIST, REGEX. These two operations check whether thare are specific 'patterns' int he tag value, and return
+3.Logical Operations: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.
+4. Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.
+#### Comparison Operators ==,<=,>=,\in
+
+#### Regular expression
 
 #### Logical Operators NOT, AND, ALL
-
 #### Actions
 
 ### Multiple operations
-
+The users bump into multiple operations when multiple actions are needed. For example, you may want to prepend the patient name with a '_', and then copy the '_patient_name' to other tags. Also, users will naturally use multiple operations when logical operators are introduced. A typical instance is telling whether the tag value is in some range (AND, GREATER_THAN lower bound, LESS_THAN upper bound). The implementation of ECIQC naturally supports multiple operations as long as you put your desired order of actions correctly. However, you need to pay attention to the repeated keys issue.
 #### Repeated keys
+A typical scenario for repeated keys is that you need to decide whether the tag value is `EQUAL` to valueA or valueB. One solution is to use the operation `IS_in` and specify the comparison value to be a list. A more general approach is to prepend the `EQUAL` key with an unscore followed by some digits (`EQUAL_1`,`EQUAL_2`,...etc). The ECIQC will recognize them as different keys but behave in the same way as `EQUAL`. 
+
 ### Nested operations
+The implementation of ECIQC also provides some flexibility for nested operations. A typical case would be: compare one tag to some value, and if the condition is true, you compare another tag with some other values and make further decision on your action. In this case, you need to nest the second comparison within `IF_TRUE`/`IF_FALSE` key in the first operation. In the second operation, you need to specify `otherTagString` if you work on a tag different from the first operation.
 
 ### Miscellaneous
-
+There is also some more details to introduce. Typically they involve multiple tags (e.g. copy value from one tag to another; the tag to be acted on are differnt from that in the logical conditions,etc). We recommend to ignore this first, and come back to the following details when you are stuck in some difficulities. Since this project is still in active developement, you can contact the authors for help. 
 #### Operations cheat sheet
 
 ## Presentation context and transfer syntax
