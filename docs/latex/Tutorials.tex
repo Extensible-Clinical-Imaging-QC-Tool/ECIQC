@@ -1,4 +1,23 @@
-\hypertarget{Tutorials_autotoc_md11}{}\doxysubsection{First Example}\label{Tutorials_autotoc_md11}
+E\+C\+I\+QC is a flexible framework for medical imaging quality control. Users can teach it what to do by writing configuration files. In this tutorial, we are going to introduce how to specify proper configuration files at successively increasing levels of details. This tutorial is suitable for both non-\/developers (end-\/users) and developers new to this software. At the end of this tutorial, you will learn
+\begin{DoxyItemize}
+\item General syntaxes of configuration files;
+\item How to modify the example configuration files to cater to users\textquotesingle{} needs;
+\item How to start from strach to write proper configuration files.
+\end{DoxyItemize}
+
+Here are some common scenarios proposed by Chris from GE Healthcare. You can find the corresponding configuration codes in configuration gallery page.
+\begin{DoxyItemize}
+\item Case1\+: check whether the patient name is a 6-\/digit number. If so, insert the patient name to clinical trial subject id; reject otherwise.
+\item Case2\+: check whether the clinical trial protocol id is 3 letters followed by 6 digits. If so, prepend the patient name with \char`\"{}\+\_\+\char`\"{} and clinical trial protocol id, reject otherwise.
+\item Case3\+: check whether the date of birth is a 8-\/digit number. Replace the day with 30 and month with 06 if so.
+\item Case4\+: check whether the modality is \textquotesingle{}MR\textquotesingle{}. If so, check whether the manufacturer is \textquotesingle{}S\+I\+E\+M\+E\+NS\textquotesingle{} or \textquotesingle{}H\+I\+T\+A\+C\+HI\textquotesingle{}. If that\textquotesingle{}s true, check whether the magnetic field strenght equals 1.\+5 or 3.\+0. Set the clinical trial series description to T1 if all these conditions are satisfied; reject otherwise.
+
+We recommend the readers to read through this tutorial and the configuration gallery for a better understanding.\+If you have any questions, please refer to F\+AQ page first. If not solved, please email to Yiming Wei(\href{mailto:yiming.wei@dtc.ox.ac.uk}{\texttt{ yiming.\+wei@dtc.\+ox.\+ac.\+uk}}) or Dr. Martin Robinson (\href{mailto:martin.robinson@dtc.ox.ac.uk}{\texttt{ martin.\+robinson@dtc.\+ox.\+ac.\+uk}}) for help. 
+\end{DoxyItemize}\hypertarget{Tutorials_autotoc_md11}{}\doxysubsection{First Example}\label{Tutorials_autotoc_md11}
+Configuration files are written in json format. Please refer to the mainpage for spinning up the E\+C\+I\+QC. You can specify your own configuration files by 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./build/exe/qctool -\/-\/config-\/file <your\_configuration\_file.json>}
+\end{DoxyCode}
 \hypertarget{Tutorials_autotoc_md12}{}\doxysubsubsection{Example codes}\label{Tutorials_autotoc_md12}
 \hypertarget{Tutorials_autotoc_md13}{}\doxysubsubsection{Explanation}\label{Tutorials_autotoc_md13}
 \hypertarget{Tutorials_autotoc_md14}{}\doxysubsection{Receiver, Destination and Quarantine}\label{Tutorials_autotoc_md14}

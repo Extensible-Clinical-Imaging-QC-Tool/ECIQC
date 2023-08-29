@@ -91,9 +91,23 @@ $(function() {
 </ul>
 </ul>
 </div>
-<div class="textblock"><h2><a class="anchor" id="autotoc_md11"></a>
+<div class="textblock"><p>ECIQC is a flexible framework for medical imaging quality control. Users can teach it what to do by writing configuration files. In this tutorial, we are going to introduce how to specify proper configuration files at successively increasing levels of details. This tutorial is suitable for both non-developers (end-users) and developers new to this software. At the end of this tutorial, you will learn</p><ul>
+<li>General syntaxes of configuration files;</li>
+<li>How to modify the example configuration files to cater to users' needs;</li>
+<li>How to start from strach to write proper configuration files.</li>
+</ul>
+<p>Here are some common scenarios proposed by Chris from GE Healthcare. You can find the corresponding configuration codes in configuration gallery page.</p><ul>
+<li>Case1: check whether the patient name is a 6-digit number. If so, insert the patient name to clinical trial subject id; reject otherwise.</li>
+<li>Case2: check whether the clinical trial protocol id is 3 letters followed by 6 digits. If so, prepend the patient name with "_" and clinical trial protocol id, reject otherwise.</li>
+<li>Case3: check whether the date of birth is a 8-digit number. Replace the day with 30 and month with 06 if so.</li>
+<li><p class="startli">Case4: check whether the modality is 'MR'. If so, check whether the manufacturer is 'SIEMENS' or 'HITACHI'. If that's true, check whether the magnetic field strenght equals 1.5 or 3.0. Set the clinical trial series description to T1 if all these conditions are satisfied; reject otherwise.</p>
+<p class="startli">We recommend the readers to read through this tutorial and the configuration gallery for a better understanding.If you have any questions, please refer to FAQ page first. If not solved, please email to Yiming Wei(<a href="#" onclick="location.href='mai'+'lto:'+'yim'+'in'+'g.w'+'ei'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">yimin<span style="display: none;">.nosp@m.</span>g.we<span style="display: none;">.nosp@m.</span>i@dtc<span style="display: none;">.nosp@m.</span>.ox.<span style="display: none;">.nosp@m.</span>ac.uk</a>) or Dr. Martin Robinson (<a href="#" onclick="location.href='mai'+'lto:'+'mar'+'ti'+'n.r'+'ob'+'ins'+'on'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">marti<span style="display: none;">.nosp@m.</span>n.ro<span style="display: none;">.nosp@m.</span>binso<span style="display: none;">.nosp@m.</span>n@dt<span style="display: none;">.nosp@m.</span>c.ox.<span style="display: none;">.nosp@m.</span>ac.u<span style="display: none;">.nosp@m.</span>k</a>) for help. </p>
+</li>
+</ul>
+<h2><a class="anchor" id="autotoc_md11"></a>
 First Example</h2>
-<h3><a class="anchor" id="autotoc_md12"></a>
+<p>Configuration files are written in json format. Please refer to the mainpage for spinning up the ECIQC. You can specify your own configuration files by </p><div class="fragment"><div class="line">./build/exe/qctool --config-file &lt;your_configuration_file.json&gt;</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md12"></a>
 Example codes</h3>
 <h3><a class="anchor" id="autotoc_md13"></a>
 Explanation</h3>
