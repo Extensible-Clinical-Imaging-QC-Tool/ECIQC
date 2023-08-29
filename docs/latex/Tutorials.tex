@@ -14,17 +14,58 @@ Here are some common scenarios proposed by Chris from GE Healthcare. You can fin
 
 We recommend the readers to read through this tutorial and the configuration gallery for a better understanding.\+If you have any questions, please refer to F\+AQ page first. If not solved, please email to Yiming Wei(\href{mailto:yiming.wei@dtc.ox.ac.uk}{\texttt{ yiming.\+wei@dtc.\+ox.\+ac.\+uk}}) or Dr. Martin Robinson (\href{mailto:martin.robinson@dtc.ox.ac.uk}{\texttt{ martin.\+robinson@dtc.\+ox.\+ac.\+uk}}) for help. 
 \end{DoxyItemize}\hypertarget{Tutorials_autotoc_md11}{}\doxysubsection{First Example}\label{Tutorials_autotoc_md11}
-Configuration files are written in json format. Please refer to the mainpage for spinning up the E\+C\+I\+QC. You can specify your own configuration files by 
+Configuration files are written in json format. Please refer to the mainpage for spinning up the E\+C\+I\+QC. You can specify your own configuration files by typing in the following codes in the command line\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{./build/exe/qctool -\/-\/config-\/file <your\_configuration\_file.json>}
 \end{DoxyCode}
 \hypertarget{Tutorials_autotoc_md12}{}\doxysubsubsection{Example codes}\label{Tutorials_autotoc_md12}
+We illustrate the basic components with a simple configuration file. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "receiver": \{}
+\DoxyCodeLine{      "aetitle": "TestQCTool",}
+\DoxyCodeLine{      "port": 11112}
+\DoxyCodeLine{    \},}
+\DoxyCodeLine{    "destination": \{}
+\DoxyCodeLine{      "aetitle": "TestDestination",}
+\DoxyCodeLine{      "hostname": "localhost",}
+\DoxyCodeLine{      "port": 11113}
+\DoxyCodeLine{    \},}
+\DoxyCodeLine{    "quarentine": \{}
+\DoxyCodeLine{      "aetitle": "TestQuarentine",}
+\DoxyCodeLine{      "hostname": "localhost",}
+\DoxyCodeLine{      "port": 11114}
+\DoxyCodeLine{    \},}
+\DoxyCodeLine{    "metadata": \{}
+\DoxyCodeLine{        "(0010,0010)": \{}
+\DoxyCodeLine{          "tagName": "PatientName",}
+\DoxyCodeLine{          "vr": "CS",}
+\DoxyCodeLine{          "description": "check if patient is called 'bob' and change, if so.",}
+\DoxyCodeLine{          "operations": \{}
+\DoxyCodeLine{            "EQUAL\_1234": \{}
+\DoxyCodeLine{                "otherTagString": "",}
+\DoxyCodeLine{                "value": "John Doe",}
+\DoxyCodeLine{                "IF\_TRUE": \{}
+\DoxyCodeLine{                    "OVERWRITE": \{}
+\DoxyCodeLine{                        "tag": "",}
+\DoxyCodeLine{                        "replaceString": "Robert"}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{          \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{        }
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
 \hypertarget{Tutorials_autotoc_md13}{}\doxysubsubsection{Explanation}\label{Tutorials_autotoc_md13}
-\hypertarget{Tutorials_autotoc_md14}{}\doxysubsection{Receiver, Destination and Quarantine}\label{Tutorials_autotoc_md14}
-\hypertarget{Tutorials_autotoc_md15}{}\doxysubsection{Meta\+Data}\label{Tutorials_autotoc_md15}
-\hypertarget{Tutorials_autotoc_md16}{}\doxysubsubsection{Basic syntax}\label{Tutorials_autotoc_md16}
-\hypertarget{Tutorials_autotoc_md17}{}\doxysubsubsection{Operation types}\label{Tutorials_autotoc_md17}
-\hypertarget{Tutorials_autotoc_md18}{}\doxyparagraph{Comparison Operators ==,$<$=,$>$=}\label{Tutorials_autotoc_md18}
+The E\+C\+I\+QC receives medical images via {\bfseries{receiver}} and sends post-\/processed images via {\bfseries{sender}}.The key {\ttfamily receiver} specifies the port number so that another remote sender can identify it and send proper images. The E\+C\+I\+QC pipeline checks the image and send normal images to the {\bfseries{destination}} and suspicious ones to the {\bfseries{quarantine}}. {\ttfamily Destination} and {\ttfamily quarantine} tell the E\+C\+I\+QC their addresses.
+
+The key {\ttfamily metadata} is the main component of the configuration file. You will see long lines of code within this part. Typically, you will see one or more D\+I\+C\+OM tags to work on(0010,0010), accompanied by the tag name (Patient Name),vr (data type and format) and a short line of description. The key {\ttfamily operations} inform the E\+C\+I\+QC what to do with this tag. You can guess with your gut instinct that this configuration file requires the pipeline to replace the name with Robert if the patient name is John Doe.\hypertarget{Tutorials_autotoc_md14}{}\doxysubsection{Receiver, Destination and Quarantine}\label{Tutorials_autotoc_md14}
+As said before, {\ttfamily receiver} specifies the proper of the E\+C\+I\+QC receiver; {\ttfamily destination} tells the E\+C\+I\+QC where to send \char`\"{}good\char`\"{} images; {\ttfamily quarantine} provides the place to send \char`\"{}bad\char`\"{} images. You can use the local port for most test cases. However,if you are interested in communicating between different network nodes in real-\/world application (e.\+g. GE Healthcare), please ask your colleagues for more information.\hypertarget{Tutorials_autotoc_md15}{}\doxysubsection{Meta\+Data}\label{Tutorials_autotoc_md15}
+The key {\ttfamily meta} usually comprises of one or more D\+I\+C\+OM tags to work on. For full list of D\+I\+C\+OM tags, please refer to the \href{https://www.dicomlibrary.com/dicom/dicom-tags/}{\texttt{ D\+I\+C\+OM library}}. \hypertarget{Tutorials_autotoc_md16}{}\doxysubsubsection{Basic syntax within D\+I\+C\+O\+M tags}\label{Tutorials_autotoc_md16}
+Within each D\+I\+C\+OM tag, you need to specify the {\ttfamily tag\+Name},{\ttfamily vr} and {\ttfamily description}. You can look up the {\ttfamily tag\+Name} and {\ttfamily vr} in the \href{https://www.dicomlibrary.com/dicom/dicom-tags/}{\texttt{ D\+I\+C\+OM library}}. The {\ttfamily description} value is written by the user to enhace readibility. Then it comes to the key {\ttfamily operations}. \hypertarget{Tutorials_autotoc_md17}{}\doxysubsubsection{Operation types}\label{Tutorials_autotoc_md17}
+There are typicall three types of operations. 1.. Comparison operations\+: E\+Q\+U\+AL \hypertarget{Tutorials_autotoc_md18}{}\doxyparagraph{Comparison Operators ==,$<$=,$>$=}\label{Tutorials_autotoc_md18}
 \hypertarget{Tutorials_autotoc_md19}{}\doxyparagraph{Logical Operators N\+O\+T, A\+N\+D, A\+LL}\label{Tutorials_autotoc_md19}
 \hypertarget{Tutorials_autotoc_md20}{}\doxyparagraph{Actions}\label{Tutorials_autotoc_md20}
 \hypertarget{Tutorials_autotoc_md21}{}\doxysubsubsection{Multiple operations}\label{Tutorials_autotoc_md21}

@@ -72,7 +72,7 @@ $(function() {
 </ul>
 </li>
 <li class="level2"><a href="#autotoc_md14">Receiver, Destination and Quarantine</a></li>
-<li class="level2"><a href="#autotoc_md15">MetaData</a><ul><li class="level3"><a href="#autotoc_md16">Basic syntax</a></li>
+<li class="level2"><a href="#autotoc_md15">MetaData</a><ul><li class="level3"><a href="#autotoc_md16">Basic syntax within DICOM tags</a></li>
 <li class="level3"><a href="#autotoc_md17">Operation types</a><ul><li class="level4"><a href="#autotoc_md18">Comparison Operators ==,&lt;=,&gt;=</a></li>
 <li class="level4"><a href="#autotoc_md19">Logical Operators NOT, AND, ALL</a></li>
 <li class="level4"><a href="#autotoc_md20">Actions</a></li>
@@ -106,19 +106,61 @@ $(function() {
 </ul>
 <h2><a class="anchor" id="autotoc_md11"></a>
 First Example</h2>
-<p>Configuration files are written in json format. Please refer to the mainpage for spinning up the ECIQC. You can specify your own configuration files by </p><div class="fragment"><div class="line">./build/exe/qctool --config-file &lt;your_configuration_file.json&gt;</div>
+<p>Configuration files are written in json format. Please refer to the mainpage for spinning up the ECIQC. You can specify your own configuration files by typing in the following codes in the command line: </p><div class="fragment"><div class="line">./build/exe/qctool --config-file &lt;your_configuration_file.json&gt;</div>
 </div><!-- fragment --><h3><a class="anchor" id="autotoc_md12"></a>
 Example codes</h3>
-<h3><a class="anchor" id="autotoc_md13"></a>
+<p>We illustrate the basic components with a simple configuration file. </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;receiver&quot;: {</div>
+<div class="line">      &quot;aetitle&quot;: &quot;TestQCTool&quot;,</div>
+<div class="line">      &quot;port&quot;: 11112</div>
+<div class="line">    },</div>
+<div class="line">    &quot;destination&quot;: {</div>
+<div class="line">      &quot;aetitle&quot;: &quot;TestDestination&quot;,</div>
+<div class="line">      &quot;hostname&quot;: &quot;localhost&quot;,</div>
+<div class="line">      &quot;port&quot;: 11113</div>
+<div class="line">    },</div>
+<div class="line">    &quot;quarentine&quot;: {</div>
+<div class="line">      &quot;aetitle&quot;: &quot;TestQuarentine&quot;,</div>
+<div class="line">      &quot;hostname&quot;: &quot;localhost&quot;,</div>
+<div class="line">      &quot;port&quot;: 11114</div>
+<div class="line">    },</div>
+<div class="line">    &quot;metadata&quot;: {</div>
+<div class="line">        &quot;(0010,0010)&quot;: {</div>
+<div class="line">          &quot;tagName&quot;: &quot;PatientName&quot;,</div>
+<div class="line">          &quot;vr&quot;: &quot;CS&quot;,</div>
+<div class="line">          &quot;description&quot;: &quot;check if patient is called &#39;bob&#39; and change, if so.&quot;,</div>
+<div class="line">          &quot;operations&quot;: {</div>
+<div class="line">            &quot;EQUAL_1234&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                &quot;value&quot;: &quot;John Doe&quot;,</div>
+<div class="line">                &quot;IF_TRUE&quot;: {</div>
+<div class="line">                    &quot;OVERWRITE&quot;: {</div>
+<div class="line">                        &quot;tag&quot;: &quot;&quot;,</div>
+<div class="line">                        &quot;replaceString&quot;: &quot;Robert&quot;</div>
+<div class="line">                    }</div>
+<div class="line">                }</div>
+<div class="line">            }</div>
+<div class="line">          }</div>
+<div class="line">        }</div>
+<div class="line">        </div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md13"></a>
 Explanation</h3>
+<p>The ECIQC receives medical images via <b>receiver</b> and sends post-processed images via <b>sender</b>.The key <code>receiver</code> specifies the port number so that another remote sender can identify it and send proper images. The ECIQC pipeline checks the image and send normal images to the <b>destination</b> and suspicious ones to the <b>quarantine</b>. <code>Destination</code> and <code>quarantine</code> tell the ECIQC their addresses.</p>
+<p>The key <code>metadata</code> is the main component of the configuration file. You will see long lines of code within this part. Typically, you will see one or more DICOM tags to work on(0010,0010), accompanied by the tag name (Patient Name),vr (data type and format) and a short line of description. The key <code>operations</code> inform the ECIQC what to do with this tag. You can guess with your gut instinct that this configuration file requires the pipeline to replace the name with Robert if the patient name is John Doe.</p>
 <h2><a class="anchor" id="autotoc_md14"></a>
 Receiver, Destination and Quarantine</h2>
+<p>As said before, <code>receiver</code> specifies the proper of the ECIQC receiver; <code>destination</code> tells the ECIQC where to send "good" images; <code>quarantine</code> provides the place to send "bad" images. You can use the local port for most test cases. However,if you are interested in communicating between different network nodes in real-world application (e.g. GE Healthcare), please ask your colleagues for more information.</p>
 <h2><a class="anchor" id="autotoc_md15"></a>
 MetaData</h2>
+<p>The key <code>meta</code> usually comprises of one or more DICOM tags to work on. For full list of DICOM tags, please refer to the <a href="https://www.dicomlibrary.com/dicom/dicom-tags/">DICOM library</a>. </p>
 <h3><a class="anchor" id="autotoc_md16"></a>
-Basic syntax</h3>
+Basic syntax within DICOM tags</h3>
+<p>Within each DICOM tag, you need to specify the <code>tagName</code>,<code>vr</code> and <code>description</code>. You can look up the <code>tagName</code> and <code>vr</code> in the <a href="https://www.dicomlibrary.com/dicom/dicom-tags/">DICOM library</a>. The <code>description</code> value is written by the user to enhace readibility. Then it comes to the key <code>operations</code>. </p>
 <h3><a class="anchor" id="autotoc_md17"></a>
 Operation types</h3>
+<p>There are typicall three types of operations. 1.. Comparison operations: EQUAL </p>
 <h4><a class="anchor" id="autotoc_md18"></a>
 Comparison Operators ==,&lt;=,&gt;=</h4>
 <h4><a class="anchor" id="autotoc_md19"></a>

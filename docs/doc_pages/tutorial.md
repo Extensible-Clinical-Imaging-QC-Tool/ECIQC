@@ -15,19 +15,66 @@ Here are some common scenarios proposed by Chris from GE Healthcare. You can fin
 
  We recommend the readers to read through this tutorial and the configuration gallery for a better understanding.If you have any questions, please refer to FAQ page first. If not solved, please email to Yiming Wei(yiming.wei@dtc.ox.ac.uk) or Dr. Martin Robinson (martin.robinson@dtc.ox.ac.uk) for help.
 ## First Example
-Configuration files are written in json format. Please refer to the mainpage for spinning up the ECIQC. You can specify your own configuration files by
+Configuration files are written in json format. Please refer to the mainpage for spinning up the ECIQC. You can specify your own configuration files by typing in the following codes in the command line:
 ```
 ./build/exe/qctool --config-file <your_configuration_file.json>
 ```
 ### Example codes
+We illustrate the basic components with a simple configuration file.
+```
+{
+    "receiver": {
+      "aetitle": "TestQCTool",
+      "port": 11112
+    },
+    "destination": {
+      "aetitle": "TestDestination",
+      "hostname": "localhost",
+      "port": 11113
+    },
+    "quarentine": {
+      "aetitle": "TestQuarentine",
+      "hostname": "localhost",
+      "port": 11114
+    },
+    "metadata": {
+        "(0010,0010)": {
+          "tagName": "PatientName",
+          "vr": "CS",
+          "description": "check if patient is called 'bob' and change, if so.",
+          "operations": {
+            "EQUAL_1234": {
+                "otherTagString": "",
+                "value": "John Doe",
+                "IF_TRUE": {
+                    "OVERWRITE": {
+                        "tag": "",
+                        "replaceString": "Robert"
+                    }
+                }
+            }
+          }
+        }
+        
+    }
+}
+
+```
 ### Explanation
+The ECIQC receives medical images via **receiver** and sends post-processed images via **sender**.The key `receiver` specifies the port number so that another remote sender can identify it and send proper images. The ECIQC pipeline checks the image and send normal images to the **destination** and suspicious ones to the **quarantine**. `Destination` and `quarantine` tell the ECIQC their addresses.
+
+The key `metadata` is the main component of the configuration file. You will see long lines of code within this part. Typically, you will see one or more DICOM tags to work on(0010,0010), accompanied by the tag name (Patient Name),vr (data type and format) and a short line of description. The key `operations` inform the ECIQC what to do with this tag. You can guess with your gut instinct that this configuration file requires the pipeline to replace the name with Robert if the patient name is John Doe. 
 
 ## Receiver, Destination and Quarantine
+As said before, `receiver` specifies the proper of the ECIQC receiver; `destination` tells the ECIQC where to send "good" images; `quarantine` provides the place to send "bad" images. You can use the local port for most test cases. However,if you are interested in communicating between different network nodes in real-world application (e.g. GE Healthcare), please ask your colleagues for more information.
 
 ## MetaData
-### Basic syntax
-
+The key `meta` usually comprises of one or more DICOM tags to work on. For full list of DICOM tags, please refer to the [DICOM library](https://www.dicomlibrary.com/dicom/dicom-tags/).
+### Basic syntax within DICOM tags
+Within each DICOM tag, you need to specify the `tagName`,`vr` and `description`. You can look up the `tagName` and `vr` in the [DICOM library](https://www.dicomlibrary.com/dicom/dicom-tags/). The `description` value is written by the user to enhace readibility. Then it comes to the key `operations`.
 ### Operation types
+There are typicall three types of operations.
+1.. Comparison operations: EQUAL
 #### Comparison Operators ==,<=,>=
 
 #### Logical Operators NOT, AND, ALL
