@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['workerparameters_65',['WorkerParameters',['../structWorkerParameters.html',1,'']]]
+  ['validator_66',['Validator',['../classValidator.html',1,'']]]
 ];

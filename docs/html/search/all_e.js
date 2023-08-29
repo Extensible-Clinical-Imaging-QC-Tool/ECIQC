@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['validator_64',['Validator',['../classValidator.html',1,'']]]
+  ['threadsafequeue_64',['ThreadSafeQueue',['../classThreadSafeQueue.html',1,'']]],
+  ['tutorials_65',['Tutorials',['../Tutorials.html',1,'']]]
 ];

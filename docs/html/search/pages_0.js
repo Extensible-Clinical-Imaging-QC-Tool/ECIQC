@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['extensible_20clinical_20imaging_20quality_20control_20tool_142',['Extensible Clinical Imaging Quality Control Tool',['../index.html',1,'']]]
+  ['configuration_5fgallery_144',['configuration_gallery',['../md_doc_pages_configuration_gallery.html',1,'']]]
 ];

@@ -682,8 +682,18 @@
     <filename>structWorkerParameters.html</filename>
   </compound>
   <compound kind="page">
+    <name>md_doc_pages_configuration_gallery</name>
+    <title>configuration_gallery</title>
+    <filename>md_doc_pages_configuration_gallery</filename>
+  </compound>
+  <compound kind="page">
+    <name>md_doc_pages_FAQ</name>
+    <title>FAQ</title>
+    <filename>md_doc_pages_FAQ</filename>
+  </compound>
+  <compound kind="page">
     <name>Tutorials</name>
-    <title>How to write json configuration files</title>
+    <title>Tutorials</title>
     <filename>Tutorials</filename>
   </compound>
   <compound kind="page">

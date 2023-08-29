@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['how_20to_20write_20json_20configuration_20files_143',['How to write json configuration files',['../Tutorials.html',1,'']]]
+  ['extensible_20clinical_20imaging_20quality_20control_20tool_145',['Extensible Clinical Imaging Quality Control Tool',['../index.html',1,'']]]
 ];
