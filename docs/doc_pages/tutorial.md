@@ -73,31 +73,61 @@ The key `metadata` works on the metadata of a DICOM image.It usually comprises o
 ### Basic syntax within DICOM tags
 Within each DICOM tag, you need to specify the `tagName`,`vr` and `description`. You can look up the `tagName` and `vr` in the [DICOM library](https://www.dicomlibrary.com/dicom/dicom-tags/). The `description` value is written by the user to enhace readibility. Then it comes to the key `operations`.
 ### Operation types
-There are typicall four types of operations.
-1. Comparison operations: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operations compare the tag value with the ones provided by the user in the corresponding `value` key. They are usually followed by `IF_TRUE` and `IF_FALSE`.
-2. regular expression operations: EXIST, REGEX. These two operations check whether thare are specific 'patterns' int he tag value, and return
-3.Logical Operations: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.
+There are typicall four types of operators.
+1. Comparison operators: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operators compare the tag value with the ones provided by the user. They are usually followed by `IF_TRUE` and `IF_FALSE`.
+2. regular expression operators: EXIST, REGEX. These two operations check whether thare are specific 'patterns' int he tag value, and return
+3.Logical Operators: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.
 4. Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.
 
-We introduce the syntaxes of different operations in the following subsections.
-#### Comparison Operations ==,<=,>=,\in
-The basic syntax of comparison operations is
+We introduce the syntaxes of different operators in the following subsections.
+#### Comparison Operators ==,<=,>=,\in
+The basic syntax of comparison operators is
 ```
 "operations":{
-  "<comparison_operations>":{
+  "<comparison_operator>":{
     "otherTagString":"<other_tag_string>",
-    "<value_key>:<compared_value>,
-    "IF_TRUE":{<action_clause"},
+    "<value_key>":<compared_value>,
+    "IF_TRUE":{<action_clause>},
     "IF_FALSE":{<action_clause>}
   }
 }
 ```
 where
-- "&lt comparison_operations&gt": EQUAL, GREATER_THAN, LESS_THAN, IS_IN
-- 
+- "&lt;comparison_operator&gt;": EQUAL, GREATER_THAN, LESS_THAN, IS_IN;
+- "&lt;other_tag_string&gt;": tag for comparison; If specified as an empty string, the system will use the root tag;
+- "&lt;value_key&gt;": There's a correspondence between &lt;comparison_operator&gt; and &lt;value_key&gt;.
+| &lt;comparison_operator&gt; | &lt;value_key&gt; |
+|:----------:|:---------:|
+| EQUAL       | value         |
+| GREATER_THAN| compareValue  |
+| LESS_THAN   | compareValue  |
+| IS_IN       | valueList     |
+- &lt;action_clause&gt;: actions to take (also could be nested operations), please refer to actions section.
+
 #### Regular expression
 
+
 #### Logical Operators NOT, AND, ALL
+Logical operators usually combine different comparison operators or regular expression operators. One typical syntax is:
+```
+"operations":{
+  "<logical_operator>":{
+      "<comparison_operator_1>":{
+        "otherTagString":"<other_tag_string_1>",
+        "<value_key_1>":<compared_value_1>,
+      },
+      "<comparison_operator_2>":{
+        "otherTagString":"<other_tag_string_2>",
+        "<value_key_2>":<compared_value_2>,
+      },
+      "IF_TRUE":{<action_clause>},
+      "IF_FALSE":{<action_clause>}
+  }
+}
+```
+Remark:
+- &lt;logical_operator&gt;: `NOT`, `AND`, `OR`. `NOT` only permits one logical operator while `AND` and `OR` permits two or more.
+- If &lt;comparison_operator_1&gt; and &lt;comparison_operator_2&gt; are the same (e.g. EQUAL), use `EQUAL_1` and `EQUAL_2`,etc.
 #### Actions
 
 ### Multiple operations

@@ -73,7 +73,7 @@ $(function() {
 </li>
 <li class="level2"><a href="#autotoc_md14">Receiver, Destination and Quarantine</a></li>
 <li class="level2"><a href="#autotoc_md15">MetaData</a><ul><li class="level3"><a href="#autotoc_md16">Basic syntax within DICOM tags</a></li>
-<li class="level3"><a href="#autotoc_md17">Operation types</a><ul><li class="level4"><a href="#autotoc_md18">Comparison Operations ==,&lt;=,&gt;=,\in</a></li>
+<li class="level3"><a href="#autotoc_md17">Operation types</a><ul><li class="level4"><a href="#autotoc_md18">Comparison Operators ==,&lt;=,&gt;=,\in</a></li>
 <li class="level4"><a href="#autotoc_md19">Regular expression</a></li>
 <li class="level4"><a href="#autotoc_md20">Logical Operators NOT, AND, ALL</a></li>
 <li class="level4"><a href="#autotoc_md21">Actions</a></li>
@@ -161,30 +161,62 @@ Basic syntax within DICOM tags</h3>
 <p>Within each DICOM tag, you need to specify the <code>tagName</code>,<code>vr</code> and <code>description</code>. You can look up the <code>tagName</code> and <code>vr</code> in the <a href="https://www.dicomlibrary.com/dicom/dicom-tags/">DICOM library</a>. The <code>description</code> value is written by the user to enhace readibility. Then it comes to the key <code>operations</code>. </p>
 <h3><a class="anchor" id="autotoc_md17"></a>
 Operation types</h3>
-<p>There are typicall four types of operations.</p><ol type="1">
-<li>Comparison operations: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operations compare the tag value with the ones provided by the user in the corresponding <code>value</code> key. They are usually followed by <code>IF_TRUE</code> and <code>IF_FALSE</code>.</li>
-<li>regular expression operations: EXIST, REGEX. These two operations check whether thare are specific 'patterns' int he tag value, and return 3.Logical Operations: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.</li>
+<p>There are typicall four types of operators.</p><ol type="1">
+<li>Comparison operators: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operators compare the tag value with the ones provided by the user. They are usually followed by <code>IF_TRUE</code> and <code>IF_FALSE</code>.</li>
+<li>regular expression operators: EXIST, REGEX. These two operations check whether thare are specific 'patterns' int he tag value, and return 3.Logical Operators: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.</li>
 <li>Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.</li>
 </ol>
-<p>We introduce the syntaxes of different operations in the following subsections. </p>
+<p>We introduce the syntaxes of different operators in the following subsections. </p>
 <h4><a class="anchor" id="autotoc_md18"></a>
-Comparison Operations ==,&lt;=,&gt;=,\in</h4>
-<p>The basic syntax of comparison operations is </p><div class="fragment"><div class="line">&quot;operations&quot;:{</div>
-<div class="line">  &quot;&lt;comparison_operations&gt;&quot;:{</div>
+Comparison Operators ==,&lt;=,&gt;=,\in</h4>
+<p>The basic syntax of comparison operators is </p><div class="fragment"><div class="line">&quot;operations&quot;:{</div>
+<div class="line">  &quot;&lt;comparison_operator&gt;&quot;:{</div>
 <div class="line">    &quot;otherTagString&quot;:&quot;&lt;other_tag_string&gt;&quot;,</div>
-<div class="line">    &quot;&lt;value_key&gt;:&lt;compared_value&gt;,</div>
-<div class="line">    &quot;IF_TRUE&quot;:{&lt;action_clause&quot;},</div>
+<div class="line">    &quot;&lt;value_key&gt;&quot;:&lt;compared_value&gt;,</div>
+<div class="line">    &quot;IF_TRUE&quot;:{&lt;action_clause&gt;},</div>
 <div class="line">    &quot;IF_FALSE&quot;:{&lt;action_clause&gt;}</div>
 <div class="line">  }</div>
 <div class="line">}</div>
 </div><!-- fragment --><p>where</p><ul>
-<li>"&amp;lt comparison_operations&amp;gt": EQUAL, GREATER_THAN, LESS_THAN, IS_IN</li>
-<li></li>
+<li>"&amp;lt;comparison_operator&amp;gt;": EQUAL, GREATER_THAN, LESS_THAN, IS_IN;</li>
+<li>"&amp;lt;other_tag_string&amp;gt;": tag for comparison; If specified as an empty string, the system will use the root tag;</li>
+<li>"&amp;lt;value_key&amp;gt;": There's a correspondence between &lt;comparison_operator&gt; and &lt;value_key&gt;. <table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadCenter">&lt;comparison_operator&gt; </th><th class="markdownTableHeadCenter">&lt;value_key&gt;  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter">EQUAL </td><td class="markdownTableBodyCenter">value  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter">GREATER_THAN </td><td class="markdownTableBodyCenter">compareValue  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyCenter">LESS_THAN </td><td class="markdownTableBodyCenter">compareValue  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyCenter">IS_IN </td><td class="markdownTableBodyCenter">valueList  </td></tr>
+</table>
+</li>
+<li>&lt;action_clause&gt;: actions to take (also could be nested operations), please refer to actions section.</li>
 </ul>
 <h4><a class="anchor" id="autotoc_md19"></a>
 Regular expression</h4>
 <h4><a class="anchor" id="autotoc_md20"></a>
 Logical Operators NOT, AND, ALL</h4>
+<p>Logical operators usually combine different comparison operators or regular expression operators. One typical syntax is: </p><div class="fragment"><div class="line">&quot;operations&quot;:{</div>
+<div class="line">  &quot;&lt;logical_operator&gt;&quot;:{</div>
+<div class="line">      &quot;&lt;comparison_operator_1&gt;&quot;:{</div>
+<div class="line">        &quot;otherTagString&quot;:&quot;&lt;other_tag_string_1&gt;&quot;,</div>
+<div class="line">        &quot;&lt;value_key_1&gt;&quot;:&lt;compared_value_1&gt;,</div>
+<div class="line">      },</div>
+<div class="line">      &quot;&lt;comparison_operator_2&gt;&quot;:{</div>
+<div class="line">        &quot;otherTagString&quot;:&quot;&lt;other_tag_string_2&gt;&quot;,</div>
+<div class="line">        &quot;&lt;value_key_2&gt;&quot;:&lt;compared_value_2&gt;,</div>
+<div class="line">      },</div>
+<div class="line">      &quot;IF_TRUE&quot;:{&lt;action_clause&gt;},</div>
+<div class="line">      &quot;IF_FALSE&quot;:{&lt;action_clause&gt;}</div>
+<div class="line">  }</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>Remark:</p><ul>
+<li>&lt;logical_operator&gt;: <code>NOT</code>, <code>AND</code>, <code>OR</code>. <code>NOT</code> only permits one logical operator while <code>AND</code> and <code>OR</code> permits two or more.</li>
+<li>If &lt;comparison_operator_1&gt; and &lt;comparison_operator_2&gt; are the same (e.g. EQUAL), use <code>EQUAL_1</code> and <code>EQUAL_2</code>,etc. </li>
+</ul>
 <h4><a class="anchor" id="autotoc_md21"></a>
 Actions</h4>
 <h3><a class="anchor" id="autotoc_md22"></a>
