@@ -69,9 +69,28 @@ There are typicall four types of operations.
 \begin{DoxyEnumerate}
 \item Comparison operations\+: E\+Q\+U\+AL (==), G\+R\+E\+A\+T\+E\+R\+\_\+\+T\+H\+AN, L\+E\+S\+S\+\_\+\+T\+H\+AN,I\+S\+\_\+\+IN. These operations compare the tag value with the ones provided by the user in the corresponding {\ttfamily value} key. They are usually followed by {\ttfamily I\+F\+\_\+\+T\+R\+UE} and {\ttfamily I\+F\+\_\+\+F\+A\+L\+SE}.
 \item regular expression operations\+: E\+X\+I\+ST, R\+E\+G\+EX. These two operations check whether thare are specific \textquotesingle{}patterns\textquotesingle{} int he tag value, and return 3.\+Logical Operations\+: N\+OT, A\+ND, A\+LL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.
-\item Actions\+: O\+V\+E\+R\+W\+R\+I\+TE,R\+E\+M\+O\+VE,I\+N\+S\+E\+RT,C\+L\+E\+AR,C\+O\+PY,U\+P\+D\+A\+TE,A\+P\+P\+E\+ND,P\+R\+E\+P\+E\+ND,R\+E\+J\+E\+CT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases. 
-\end{DoxyEnumerate}\hypertarget{Tutorials_autotoc_md18}{}\doxyparagraph{Comparison Operators ==,$<$=,$>$=,\textbackslash{}in}\label{Tutorials_autotoc_md18}
-\hypertarget{Tutorials_autotoc_md19}{}\doxyparagraph{Regular expression}\label{Tutorials_autotoc_md19}
+\item Actions\+: O\+V\+E\+R\+W\+R\+I\+TE,R\+E\+M\+O\+VE,I\+N\+S\+E\+RT,C\+L\+E\+AR,C\+O\+PY,U\+P\+D\+A\+TE,A\+P\+P\+E\+ND,P\+R\+E\+P\+E\+ND,R\+E\+J\+E\+CT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.
+\end{DoxyEnumerate}
+
+We introduce the syntaxes of different operations in the following subsections. \hypertarget{Tutorials_autotoc_md18}{}\doxyparagraph{Comparison Operations ==,$<$=,$>$=,\textbackslash{}in}\label{Tutorials_autotoc_md18}
+The basic syntax of comparison operations is 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{"operations":\{}
+\DoxyCodeLine{  "<comparison\_operations>":\{}
+\DoxyCodeLine{    "otherTagString":"<other\_tag\_string>",}
+\DoxyCodeLine{    "<value\_key>:<compared\_value>,}
+\DoxyCodeLine{    "IF\_TRUE":\{<action\_clause"\},}
+\DoxyCodeLine{    "IF\_FALSE":\{<action\_clause>\}}
+\DoxyCodeLine{  \}}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+
+
+where
+\begin{DoxyItemize}
+\item \char`\"{}\&lt comparison\+\_\+operations\&gt\char`\"{}\+: E\+Q\+U\+AL, G\+R\+E\+A\+T\+E\+R\+\_\+\+T\+H\+AN, L\+E\+S\+S\+\_\+\+T\+H\+AN, I\+S\+\_\+\+IN
+\item 
+\end{DoxyItemize}\hypertarget{Tutorials_autotoc_md19}{}\doxyparagraph{Regular expression}\label{Tutorials_autotoc_md19}
 \hypertarget{Tutorials_autotoc_md20}{}\doxyparagraph{Logical Operators N\+O\+T, A\+N\+D, A\+LL}\label{Tutorials_autotoc_md20}
 \hypertarget{Tutorials_autotoc_md21}{}\doxyparagraph{Actions}\label{Tutorials_autotoc_md21}
 \hypertarget{Tutorials_autotoc_md22}{}\doxysubsubsection{Multiple operations}\label{Tutorials_autotoc_md22}

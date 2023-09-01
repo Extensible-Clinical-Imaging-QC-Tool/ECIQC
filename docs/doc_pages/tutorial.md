@@ -78,8 +78,23 @@ There are typicall four types of operations.
 2. regular expression operations: EXIST, REGEX. These two operations check whether thare are specific 'patterns' int he tag value, and return
 3.Logical Operations: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.
 4. Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.
-#### Comparison Operators ==,<=,>=,\in
 
+We introduce the syntaxes of different operations in the following subsections.
+#### Comparison Operations ==,<=,>=,\in
+The basic syntax of comparison operations is
+```
+"operations":{
+  "<comparison_operations>":{
+    "otherTagString":"<other_tag_string>",
+    "<value_key>:<compared_value>,
+    "IF_TRUE":{<action_clause"},
+    "IF_FALSE":{<action_clause>}
+  }
+}
+```
+where
+- "&lt comparison_operations&gt": EQUAL, GREATER_THAN, LESS_THAN, IS_IN
+- 
 #### Regular expression
 
 #### Logical Operators NOT, AND, ALL

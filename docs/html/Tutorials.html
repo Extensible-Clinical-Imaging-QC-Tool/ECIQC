@@ -73,7 +73,7 @@ $(function() {
 </li>
 <li class="level2"><a href="#autotoc_md14">Receiver, Destination and Quarantine</a></li>
 <li class="level2"><a href="#autotoc_md15">MetaData</a><ul><li class="level3"><a href="#autotoc_md16">Basic syntax within DICOM tags</a></li>
-<li class="level3"><a href="#autotoc_md17">Operation types</a><ul><li class="level4"><a href="#autotoc_md18">Comparison Operators ==,&lt;=,&gt;=,\in</a></li>
+<li class="level3"><a href="#autotoc_md17">Operation types</a><ul><li class="level4"><a href="#autotoc_md18">Comparison Operations ==,&lt;=,&gt;=,\in</a></li>
 <li class="level4"><a href="#autotoc_md19">Regular expression</a></li>
 <li class="level4"><a href="#autotoc_md20">Logical Operators NOT, AND, ALL</a></li>
 <li class="level4"><a href="#autotoc_md21">Actions</a></li>
@@ -164,10 +164,23 @@ Operation types</h3>
 <p>There are typicall four types of operations.</p><ol type="1">
 <li>Comparison operations: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operations compare the tag value with the ones provided by the user in the corresponding <code>value</code> key. They are usually followed by <code>IF_TRUE</code> and <code>IF_FALSE</code>.</li>
 <li>regular expression operations: EXIST, REGEX. These two operations check whether thare are specific 'patterns' int he tag value, and return 3.Logical Operations: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.</li>
-<li>Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases. </li>
+<li>Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.</li>
 </ol>
+<p>We introduce the syntaxes of different operations in the following subsections. </p>
 <h4><a class="anchor" id="autotoc_md18"></a>
-Comparison Operators ==,&lt;=,&gt;=,\in</h4>
+Comparison Operations ==,&lt;=,&gt;=,\in</h4>
+<p>The basic syntax of comparison operations is </p><div class="fragment"><div class="line">&quot;operations&quot;:{</div>
+<div class="line">  &quot;&lt;comparison_operations&gt;&quot;:{</div>
+<div class="line">    &quot;otherTagString&quot;:&quot;&lt;other_tag_string&gt;&quot;,</div>
+<div class="line">    &quot;&lt;value_key&gt;:&lt;compared_value&gt;,</div>
+<div class="line">    &quot;IF_TRUE&quot;:{&lt;action_clause&quot;},</div>
+<div class="line">    &quot;IF_FALSE&quot;:{&lt;action_clause&gt;}</div>
+<div class="line">  }</div>
+<div class="line">}</div>
+</div><!-- fragment --><p>where</p><ul>
+<li>"&amp;lt comparison_operations&amp;gt": EQUAL, GREATER_THAN, LESS_THAN, IS_IN</li>
+<li></li>
+</ul>
 <h4><a class="anchor" id="autotoc_md19"></a>
 Regular expression</h4>
 <h4><a class="anchor" id="autotoc_md20"></a>
