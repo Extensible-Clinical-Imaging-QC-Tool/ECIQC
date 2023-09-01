@@ -67,28 +67,28 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><ul><li class="level2"><a href="#autotoc_md11">First Example</a><ul><li class="level3"><a href="#autotoc_md12">Example codes</a></li>
-<li class="level3"><a href="#autotoc_md13">Explanation</a></li>
+<ul><ul><li class="level2"><a href="#autotoc_md13">First Example</a><ul><li class="level3"><a href="#autotoc_md14">Example codes</a></li>
+<li class="level3"><a href="#autotoc_md15">Explanation</a></li>
 </ul>
 </li>
-<li class="level2"><a href="#autotoc_md14">Receiver, Destination and Quarantine</a></li>
-<li class="level2"><a href="#autotoc_md15">MetaData</a><ul><li class="level3"><a href="#autotoc_md16">Basic syntax within DICOM tags</a></li>
-<li class="level3"><a href="#autotoc_md17">Operation types</a><ul><li class="level4"><a href="#autotoc_md18">Comparison Operators ==,&lt;=,&gt;=,\in</a></li>
-<li class="level4"><a href="#autotoc_md19">Regular expression</a></li>
-<li class="level4"><a href="#autotoc_md20">Logical Operators NOT, AND, ALL</a></li>
-<li class="level4"><a href="#autotoc_md21">Actions</a></li>
+<li class="level2"><a href="#autotoc_md16">Receiver, Destination and Quarantine</a></li>
+<li class="level2"><a href="#autotoc_md17">MetaData</a><ul><li class="level3"><a href="#autotoc_md18">Basic syntax within DICOM tags</a></li>
+<li class="level3"><a href="#autotoc_md19">Operation types</a><ul><li class="level4"><a href="#autotoc_md20">Comparison Operators ==,&lt;=,&gt;=,\in</a></li>
+<li class="level4"><a href="#autotoc_md21">Regular expression</a></li>
+<li class="level4"><a href="#autotoc_md22">Logical Operators NOT, AND, ALL</a></li>
+<li class="level4"><a href="#autotoc_md23">Actions</a></li>
 </ul>
 </li>
-<li class="level3"><a href="#autotoc_md22">Multiple operations</a><ul><li class="level4"><a href="#autotoc_md23">Repeated keys</a></li>
+<li class="level3"><a href="#autotoc_md24">Multiple operations</a><ul><li class="level4"><a href="#autotoc_md25">Repeated keys</a></li>
 </ul>
 </li>
-<li class="level3"><a href="#autotoc_md24">Nested operations</a></li>
-<li class="level3"><a href="#autotoc_md25">Miscellaneous</a><ul><li class="level4"><a href="#autotoc_md26">Operations cheat sheet</a></li>
+<li class="level3"><a href="#autotoc_md26">Nested operations</a></li>
+<li class="level3"><a href="#autotoc_md27">Miscellaneous</a><ul><li class="level4"><a href="#autotoc_md28">Operations cheat sheet</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="level2"><a href="#autotoc_md27">Presentation context and transfer syntax</a></li>
+<li class="level2"><a href="#autotoc_md29">Presentation context and transfer syntax</a></li>
 </ul>
 </ul>
 </div>
@@ -105,10 +105,10 @@ $(function() {
 <p class="startli">We recommend the readers to read through this tutorial and the configuration gallery for a better understanding.If you have any questions, please refer to FAQ page first. If not solved, please email to Yiming Wei(<a href="#" onclick="location.href='mai'+'lto:'+'yim'+'in'+'g.w'+'ei'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">yimin<span style="display: none;">.nosp@m.</span>g.we<span style="display: none;">.nosp@m.</span>i@dtc<span style="display: none;">.nosp@m.</span>.ox.<span style="display: none;">.nosp@m.</span>ac.uk</a>) or Dr. Martin Robinson (<a href="#" onclick="location.href='mai'+'lto:'+'mar'+'ti'+'n.r'+'ob'+'ins'+'on'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">marti<span style="display: none;">.nosp@m.</span>n.ro<span style="display: none;">.nosp@m.</span>binso<span style="display: none;">.nosp@m.</span>n@dt<span style="display: none;">.nosp@m.</span>c.ox.<span style="display: none;">.nosp@m.</span>ac.u<span style="display: none;">.nosp@m.</span>k</a>) for help. </p>
 </li>
 </ul>
-<h2><a class="anchor" id="autotoc_md11"></a>
+<h2><a class="anchor" id="autotoc_md13"></a>
 First Example</h2>
 <p>Configuration files are written in json format. Please refer to the mainpage for spinning up the ECIQC. You can specify your own configuration files by typing in the following codes in the command line: </p><div class="fragment"><div class="line">./build/exe/qctool --config-file &lt;your_configuration_file.json&gt;</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md12"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md14"></a>
 Example codes</h3>
 <p>We illustrate the basic components with a simple configuration file. </p><div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;receiver&quot;: {</div>
@@ -146,20 +146,20 @@ Example codes</h3>
 <div class="line">        </div>
 <div class="line">    }</div>
 <div class="line">}</div>
-</div><!-- fragment --><h3><a class="anchor" id="autotoc_md13"></a>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md15"></a>
 Explanation</h3>
 <p>The ECIQC receives medical images via <b>receiver</b> and sends post-processed images via <b>sender</b>.The key <code>receiver</code> specifies the port number so that another remote sender can identify it and send proper images. The ECIQC pipeline checks the image and send normal images to the <b>destination</b> and suspicious ones to the <b>quarantine</b>. <code>Destination</code> and <code>quarantine</code> tell the ECIQC their addresses.</p>
 <p>The key <code>metadata</code> is the main component of the configuration file. You will see long lines of code within this part. Typically, you will see one or more DICOM tags to work on(0010,0010), accompanied by the tag name (Patient Name),vr (data type and format) and a short line of description. The key <code>operations</code> inform the ECIQC what to do with this tag. You can guess with your gut instinct that this configuration file requires the pipeline to replace the name with Robert if the patient name is John Doe.</p>
-<h2><a class="anchor" id="autotoc_md14"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Receiver, Destination and Quarantine</h2>
 <p>As said before, <code>receiver</code> specifies the proper of the ECIQC receiver; <code>destination</code> tells the ECIQC where to send "good" images; <code>quarantine</code> provides the place to send "bad" images. You can use the local port for most test cases. However,if you are interested in communicating between different network nodes in real-world application (e.g. GE Healthcare), please ask your colleagues for more information.</p>
-<h2><a class="anchor" id="autotoc_md15"></a>
+<h2><a class="anchor" id="autotoc_md17"></a>
 MetaData</h2>
 <p>The key <code>metadata</code> works on the metadata of a DICOM image.It usually comprises of one or more DICOM tags to work on. For full list of DICOM tags, please refer to the <a href="https://www.dicomlibrary.com/dicom/dicom-tags/">DICOM library</a>. </p>
-<h3><a class="anchor" id="autotoc_md16"></a>
+<h3><a class="anchor" id="autotoc_md18"></a>
 Basic syntax within DICOM tags</h3>
 <p>Within each DICOM tag, you need to specify the <code>tagName</code>,<code>vr</code> and <code>description</code>. You can look up the <code>tagName</code> and <code>vr</code> in the <a href="https://www.dicomlibrary.com/dicom/dicom-tags/">DICOM library</a>. The <code>description</code> value is written by the user to enhace readibility. Then it comes to the key <code>operations</code>. </p>
-<h3><a class="anchor" id="autotoc_md17"></a>
+<h3><a class="anchor" id="autotoc_md19"></a>
 Operation types</h3>
 <p>There are typicall four types of operators.</p><ol type="1">
 <li>Comparison operators: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operators compare the tag value with the ones provided by the user. They are usually followed by <code>IF_TRUE</code> and <code>IF_FALSE</code>.</li>
@@ -167,7 +167,7 @@ Operation types</h3>
 <li>Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.</li>
 </ol>
 <p>We introduce the syntaxes of different operators in the following subsections. </p>
-<h4><a class="anchor" id="autotoc_md18"></a>
+<h4><a class="anchor" id="autotoc_md20"></a>
 Comparison Operators ==,&lt;=,&gt;=,\in</h4>
 <p>The basic syntax of comparison operators is </p><div class="fragment"><div class="line">&quot;operations&quot;:{</div>
 <div class="line">  &quot;&lt;comparison_operator&gt;&quot;:{</div>
@@ -195,9 +195,9 @@ Comparison Operators ==,&lt;=,&gt;=,\in</h4>
 </li>
 <li>&lt;action_clause&gt;: actions to take (also could be nested operations), please refer to actions section.</li>
 </ul>
-<h4><a class="anchor" id="autotoc_md19"></a>
+<h4><a class="anchor" id="autotoc_md21"></a>
 Regular expression</h4>
-<h4><a class="anchor" id="autotoc_md20"></a>
+<h4><a class="anchor" id="autotoc_md22"></a>
 Logical Operators NOT, AND, ALL</h4>
 <p>Logical operators usually combine different comparison operators or regular expression operators. One typical syntax is: </p><div class="fragment"><div class="line">&quot;operations&quot;:{</div>
 <div class="line">  &quot;&lt;logical_operator&gt;&quot;:{</div>
@@ -217,23 +217,24 @@ Logical Operators NOT, AND, ALL</h4>
 <li>&lt;logical_operator&gt;: <code>NOT</code>, <code>AND</code>, <code>OR</code>. <code>NOT</code> only permits one logical operator while <code>AND</code> and <code>OR</code> permits two or more.</li>
 <li>If &lt;comparison_operator_1&gt; and &lt;comparison_operator_2&gt; are the same (e.g. EQUAL), use <code>EQUAL_1</code> and <code>EQUAL_2</code>,etc. </li>
 </ul>
-<h4><a class="anchor" id="autotoc_md21"></a>
+<h4><a class="anchor" id="autotoc_md23"></a>
 Actions</h4>
-<h3><a class="anchor" id="autotoc_md22"></a>
+<p>Actions might be the most compli</p>
+<h3><a class="anchor" id="autotoc_md24"></a>
 Multiple operations</h3>
 <p>The users bump into multiple operations when multiple actions are needed. For example, you may want to prepend the patient name with a '_', and then copy the '_patient_name' to other tags. Also, users will naturally use multiple operations when logical operators are introduced. A typical instance is telling whether the tag value is in some range (AND, GREATER_THAN lower bound, LESS_THAN upper bound). The implementation of ECIQC naturally supports multiple operations as long as you put your desired order of actions correctly. However, you need to pay attention to the repeated keys issue. </p>
-<h4><a class="anchor" id="autotoc_md23"></a>
+<h4><a class="anchor" id="autotoc_md25"></a>
 Repeated keys</h4>
 <p>A typical scenario for repeated keys is that you need to decide whether the tag value is <code>EQUAL</code> to valueA or valueB. One solution is to use the operation <code>IS_in</code> and specify the comparison value to be a list. A more general approach is to prepend the <code>EQUAL</code> key with an unscore followed by some digits (<code>EQUAL_1</code>,<code>EQUAL_2</code>,...etc). The ECIQC will recognize them as different keys but behave in the same way as <code>EQUAL</code>.</p>
-<h3><a class="anchor" id="autotoc_md24"></a>
+<h3><a class="anchor" id="autotoc_md26"></a>
 Nested operations</h3>
 <p>The implementation of ECIQC also provides some flexibility for nested operations. A typical case would be: compare one tag to some value, and if the condition is true, you compare another tag with some other values and make further decision on your action. In this case, you need to nest the second comparison within <code>IF_TRUE</code>/<code>IF_FALSE</code> key in the first operation. In the second operation, you need to specify <code>otherTagString</code> if you work on a tag different from the first operation.</p>
-<h3><a class="anchor" id="autotoc_md25"></a>
+<h3><a class="anchor" id="autotoc_md27"></a>
 Miscellaneous</h3>
 <p>There is also some more details to introduce. Typically they involve multiple tags (e.g. copy value from one tag to another; the tag to be acted on are differnt from that in the logical conditions,etc). We recommend to ignore this first, and come back to the following details when you are stuck in some difficulities. Since this project is still in active developement, you can contact the authors for help. </p>
-<h4><a class="anchor" id="autotoc_md26"></a>
+<h4><a class="anchor" id="autotoc_md28"></a>
 Operations cheat sheet</h4>
-<h2><a class="anchor" id="autotoc_md27"></a>
+<h2><a class="anchor" id="autotoc_md29"></a>
 Presentation context and transfer syntax</h2>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->

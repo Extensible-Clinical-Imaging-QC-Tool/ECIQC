@@ -682,9 +682,9 @@
     <filename>structWorkerParameters.html</filename>
   </compound>
   <compound kind="page">
-    <name>md_doc_pages_configuration_gallery</name>
-    <title>configuration_gallery</title>
-    <filename>md_doc_pages_configuration_gallery</filename>
+    <name>Configuration_gallery</name>
+    <title>Configuration Gallery</title>
+    <filename>Configuration_gallery</filename>
   </compound>
   <compound kind="page">
     <name>md_doc_pages_FAQ</name>

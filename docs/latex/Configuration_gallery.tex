@@ -1,0 +1,47 @@
+This webpage provides a set of examples to exemplify the configuration syntax. For end-\/users, you can compare your needs with the short descriptions in the following summary table, and adjust the configuration file accordingly.
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Example }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Operators used }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Short description  }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Example }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Operators used }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Short description  }\\\cline{1-3}
+\endhead
+Example 1 &\PBS\centering A\+ND, R\+E\+M\+O\+VE &\PBS\centering Check if Bits\+Allocated between certain numbers, remove if not  \\\cline{1-3}
+Example 2 &\PBS\centering OR, R\+E\+M\+O\+VE &\PBS\centering Check if Bits\+Allocated between certain numbers, remove if not  \\\cline{1-3}
+\end{longtabu}
+$\vert$ Example 3 $\vert$
+
+{\bfseries{A\+T\+T\+E\+N\+T\+I\+ON}}\+: the following examples only contain the \char`\"{}metadata\char`\"{} value in the configuration. For complete json files, please refer to the tutorial to add proper receiver, destination, quarantine and transfer syntax. \hypertarget{Configuration_gallery_autotoc_md0}{}\doxysubsubsection{Example 1\+:}\label{Configuration_gallery_autotoc_md0}
+Description\+: Check if Bits\+Allocated between 10 and 20, remove if not 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "(0028,0100)": \{}
+\DoxyCodeLine{        "tagName": "BitsAllocated",}
+\DoxyCodeLine{        "vr": "CS",}
+\DoxyCodeLine{        "description": "Check if BitsAllocated between certain numbers, remove if not",}
+\DoxyCodeLine{        "operations": \{}
+\DoxyCodeLine{            "AND": \{}
+\DoxyCodeLine{                "GREATER\_THAN": \{}
+\DoxyCodeLine{                    "otherTagString": "",}
+\DoxyCodeLine{                    "compareValue": 10}
+\DoxyCodeLine{                \},}
+\DoxyCodeLine{                "LESS\_THAN": \{}
+\DoxyCodeLine{                    "otherTagString": "",}
+\DoxyCodeLine{                    "compareValue": 20}
+\DoxyCodeLine{                \},}
+\DoxyCodeLine{                "IF\_FALSE": \{}
+\DoxyCodeLine{                    "REMOVE": \{}
+\DoxyCodeLine{                        "otherTagString": ""}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+\end{DoxyCode}
+\hypertarget{Configuration_gallery_autotoc_md1}{}\doxysubsubsection{Example 2\+: O\+R, R\+E\+M\+O\+VE}\label{Configuration_gallery_autotoc_md1}
+Description\+: Check if Bits\+Allocated between 10 and 20, remove if not \{ \char`\"{}(0028,0102)\char`\"{}\+: \{ \char`\"{}tag\+Name\char`\"{}\+: \char`\"{}\+High\+Bit\char`\"{}, \char`\"{}vr\char`\"{}\+: \char`\"{}\+C\+S\char`\"{}, \char`\"{}description\char`\"{}\+: \char`\"{}\+Check if Bits\+Allocated between certain numbers, remove if not\char`\"{}, \char`\"{}operations\char`\"{}\+: \{ \char`\"{}\+O\+R\char`\"{}\+: \{ \char`\"{}\+G\+R\+E\+A\+T\+E\+R\+\_\+\+T\+H\+A\+N\char`\"{}\+: \{ \char`\"{}other\+Tag\+String\char`\"{}\+: \char`\"{}\char`\"{}, \char`\"{}compare\+Value\char`\"{}\+: 20 \}, \char`\"{}\+L\+E\+S\+S\+\_\+\+T\+H\+A\+N\char`\"{}\+: \{ \char`\"{}other\+Tag\+String\char`\"{}\+: \char`\"{}\char`\"{}, \char`\"{}compare\+Value\char`\"{}\+: 10 \}, \char`\"{}\+I\+F\+\_\+\+T\+R\+U\+E\char`\"{}\+: \{ \char`\"{}\+R\+E\+M\+O\+V\+E\char`\"{}\+: \{ \char`\"{}other\+Tag\+String\char`\"{}\+: \char`\"{}\char`\"{} \} \} \} \} \} \} 
