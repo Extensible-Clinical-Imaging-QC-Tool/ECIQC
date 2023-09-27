@@ -17,7 +17,7 @@
         "(0032,1060)": {
           "tagName": "Requested Procedure Description",
           "vr": "LO",
-          "description": "Prepend the patient name with _ ",
+          "description": "copy the patient name to requested procedure description, and prepend it with _ ",
           "operations": {
             "COPY": {
               "otherTagString": "(0010,0010)",

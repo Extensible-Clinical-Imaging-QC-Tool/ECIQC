@@ -67,31 +67,31 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><ul><li class="level2"><a href="#autotoc_md11">Overview</a></li>
-<li class="level2"><a href="#autotoc_md12">Installation</a><ul><li class="level3"><a href="#autotoc_md13">Where does it run?</a></li>
-<li class="level3"><a href="#autotoc_md14">First run</a><ul><li class="level4"><a href="#autotoc_md15">Linux</a></li>
-<li class="level4"><a href="#autotoc_md16">Mac OS</a></li>
+<ul><ul><li class="level2"><a href="#autotoc_md15">Overview</a></li>
+<li class="level2"><a href="#autotoc_md16">Installation</a><ul><li class="level3"><a href="#autotoc_md17">Where does it run?</a></li>
+<li class="level3"><a href="#autotoc_md18">First run</a><ul><li class="level4"><a href="#autotoc_md19">Linux</a></li>
+<li class="level4"><a href="#autotoc_md20">Mac OS</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="level2"><a href="#autotoc_md17">Command Line Interface (CLI) Tool</a></li>
-<li class="level2"><a href="#autotoc_md18">How to test on your own machine (Update 18th May 2023)</a><ul><li class="level3"><a href="#autotoc_md19">Choice1: Using python script to test with the local senders and receivers.</a></li>
-<li class="level3"><a href="#autotoc_md20">Choice2: Using the executable file with more flexibility</a></li>
+<li class="level2"><a href="#autotoc_md21">Command Line Interface (CLI) Tool</a></li>
+<li class="level2"><a href="#autotoc_md22">How to test on your own machine (Update 18th May 2023)</a><ul><li class="level3"><a href="#autotoc_md23">Choice1: Using python script to test with the local senders and receivers.</a></li>
+<li class="level3"><a href="#autotoc_md24">Choice2: Using the executable file with more flexibility</a></li>
 </ul>
 </li>
-<li class="level2"><a href="#autotoc_md21">Feedback and suggestions</a></li>
+<li class="level2"><a href="#autotoc_md25">Feedback and suggestions</a></li>
 </ul>
 </ul>
 </div>
-<div class="textblock"><h2><a class="anchor" id="autotoc_md11"></a>
+<div class="textblock"><h2><a class="anchor" id="autotoc_md15"></a>
 Overview</h2>
 <p>This repository contains the ECIQC tool developed between SABS:R3, University of Oxford and GE Healthcare. The primary purpose of the tool is to automatically vaildate the DICOM images using for medical research.</p>
 <p>The project is under active development.</p>
 <p>This project has made use of the Oxford RSE C++ template.</p>
-<h2><a class="anchor" id="autotoc_md12"></a>
+<h2><a class="anchor" id="autotoc_md16"></a>
 Installation</h2>
-<h3><a class="anchor" id="autotoc_md13"></a>
+<h3><a class="anchor" id="autotoc_md17"></a>
 Where does it run?</h3>
 <p>We expect this project to be usable on all modern systems It is regularly tested on the following operating systems:</p>
 <ul>
@@ -102,9 +102,9 @@ Where does it run?</h3>
 <li>GCC 5.x, 6.x, 7.x</li>
 <li>Clang 4.x, 5.x</li>
 </ul>
-<h3><a class="anchor" id="autotoc_md14"></a>
+<h3><a class="anchor" id="autotoc_md18"></a>
 First run</h3>
-<h4><a class="anchor" id="autotoc_md15"></a>
+<h4><a class="anchor" id="autotoc_md19"></a>
 Linux</h4>
 <ul>
 <li>Download ECIQC github repository</li>
@@ -129,7 +129,7 @@ Linux</h4>
 <li>Run all the tests using CTest (this is bundled with CMake)</li>
 </ul>
 <div class="fragment"><div class="line">ctest --output-on-failure</div>
-</div><!-- fragment --><h4><a class="anchor" id="autotoc_md16"></a>
+</div><!-- fragment --><h4><a class="anchor" id="autotoc_md20"></a>
 Mac OS</h4>
 <ul>
 <li>Download ECIQC github repository</li>
@@ -154,7 +154,7 @@ Mac OS</h4>
 <li>Run all the tests using CTest (this is bundled with CMake)</li>
 </ul>
 <div class="fragment"><div class="line">ctest --output-on-failure</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md17"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md21"></a>
 Command Line Interface (CLI) Tool</h2>
 <ul>
 <li>An interface containing a simple application to receive and send DICOM images. To use the CLI, run the code from the source directory:</li>
@@ -164,10 +164,10 @@ Command Line Interface (CLI) Tool</h2>
 <li>To configure sender and receiver parameters, run the code:</li>
 </ul>
 <div class="fragment"><div class="line">./build/exe/qctool --help</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md18"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md22"></a>
 How to test on your own machine (Update 18th May 2023)</h2>
 <p>After you've cloned the package and installed it properly, we provide two alternatives to test whether it works on your own machine.</p>
-<h3><a class="anchor" id="autotoc_md19"></a>
+<h3><a class="anchor" id="autotoc_md23"></a>
 Choice1: Using python script to test with the local senders and receivers.</h3>
 <p>There's a python script <a href="pipelinetest_main.py">pipelinetest.py</a> as a simple test tool. To run this script properly, you need to install two packages <a href="https://pydicom.github.io">pydicom&gt;=2.3.1</a> and <a href="https://pydicom.github.io/pynetdicom/stable/">pynetdicom&gt;=2.0.2</a>. For example, if you're using a linux system, you can create a virtual environment <b>in the root directory</b> and then install these two packages.</p>
 <div class="fragment"><div class="line">python -m venv venv</div>
@@ -176,13 +176,13 @@ Choice1: Using python script to test with the local senders and receivers.</h3>
 <div class="line">pip install pynetdicom</div>
 </div><!-- fragment --><p> Make sure that <code>python</code> command means <code>python3</code> if you are using a linux system (This is also a prerequisite when running the test script). Otherwise, add <code>python</code> as an alias by typing &lsquo;alias python='python3&rsquo;` in your command line.</p>
 <p>Finally, you will be happy to run the test script by <code>python pipelinetest_main.py</code> in the root directory. Remember to check the postprocessed files and logs in the ./result and ./result_quarantine. Please also note that we've used the <a href="schema/PipelineCase.json">PipelineCase.json</a> as the configuration file.</p>
-<h3><a class="anchor" id="autotoc_md20"></a>
+<h3><a class="anchor" id="autotoc_md24"></a>
 Choice2: Using the executable file with more flexibility</h3>
 <p>If you need more flexible test (for example, use non-local sender and receiver, or use your own datasets), we recommend to use the executable file. Before spinning up the pipeline, you need to create a directory ./result to store the logging file, and set up the configuration file properly. Have a look at the <a href="schema/PipelineCase.json">PipelineCase.json</a> and modify the hostname and port number according to your own system.</p>
 <p>Also, we've noticed that the sender and receiver need to agree on specific abstract syntaxes and transfer syntaxes. The syntaxes we're supporting now are listed as follows. We'll come back to the syntax issue in June and July.</p>
 <p>CTImageStorage (1.2.840.10008.5.1.4.1.1.2): LittleEndianExplicit, LittleEndianImplicit; MRImageStorage (1.2.840.10008.5.1.4.1.1.4): LittleEndianExplicit, LittleEndianImplicit; SecondaryCaptureImageStorage (1.2.840.10008.5.1.4.1.1.7): LittleEndianExplicit, LittleEndianImplicit; DigitalXRayImageStorageForPresentation (1.2.840.10008.5.1.4.1.1.1.1): LittleEndianImplicit; UltrasoundMultiframeImageStorage (1.2.840.10008.5.1.4.1.1.3.1): JPEGProcess1TransferSyntax.</p>
 <p>Once you've done all the preparation work, now type in <code>./build/exe/qctool --config-file YourOwnConfig.json</code> to start the pipeline. Also remember to start your remote/local sender and receiver.</p>
-<h2><a class="anchor" id="autotoc_md21"></a>
+<h2><a class="anchor" id="autotoc_md25"></a>
 Feedback and suggestions</h2>
 <p>If you have any feedback or suggestions about this project, please get in touch or open an issue. </p>
 </div></div><!-- PageDoc -->
