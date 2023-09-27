@@ -24,7 +24,7 @@ Example 11   &\PBS\centering REGEX, PREPEND   &\PBS\centering Check if patient\t
 Example 12   &\PBS\centering EQUAL, REJECT   &\PBS\centering check if patient\textquotesingle{}s name is called \textquotesingle{}James Bond\textquotesingle{} and reject, if not    \\\cline{1-3}
 Example 13   &\PBS\centering COPY, PREPEND   &\PBS\centering Copy the patient name to requested procedure description, and prepend with \+\_\+    \\\cline{1-3}
 Example 14   &\PBS\centering REGEX, OVERWRITE   &\PBS\centering Check if the birth data is 8 digits, if so, change the date to 30th June    \\\cline{1-3}
-Example 15   &\PBS\centering EQUAL, IS\+\_\+\+IN,INSERT   &\PBS\centering Check the modality and parameters for T1-\/weighted image   \\\cline{1-3}
+Example 15   &\PBS\centering EQUAL, IS\+\_\+\+IN,INSERT   &\PBS\centering check if modality is \textquotesingle{}MR\textquotesingle{}, manufacturer is \textquotesingle{}SIEMENS\textquotesingle{} or \textquotesingle{}HITACHI\textquotesingle{}, magnetic Field Strength is 1.\+5 or 3.\+0, assign T1 to Clinical Trial Series Description if so   \\\cline{1-3}
 \end{longtabu}
 
 
@@ -369,14 +369,14 @@ Description\+:
 
 \end{DoxyCode}
  \hypertarget{Configuration_gallery_autotoc_md14}{}\doxysubsubsection{Example 15\+: EQUAL, IS\+\_\+\+IN,\+INSERT}\label{Configuration_gallery_autotoc_md14}
-Description\+: 
+Description\+:check if modality is \textquotesingle{}MR\textquotesingle{}, manufacturer is \textquotesingle{}SIEMENS\textquotesingle{} or \textquotesingle{}HITACHI\textquotesingle{}, magnetic Field Strength is 1.\+5 or 3.\+0, assign T1 to Clinical Trial Series Description if so. 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{\{}
 \DoxyCodeLine{    "{}metadata"{}: \{}
 \DoxyCodeLine{        "{}(0008,0060)"{}: \{}
 \DoxyCodeLine{          "{}tagName"{}: "{}Modality"{},}
 \DoxyCodeLine{          "{}vr"{}: "{}CS"{},}
-\DoxyCodeLine{          "{}description"{}: "{}check if modality is 'MR' and manufacturer is 'SIEMENS' or 'HITACHI'"{},}
+\DoxyCodeLine{          "{}description"{}: "{}check if modality is 'MR', manufacturer is 'SIEMENS' or 'HITACHI',    magnetic Field Strength is 1.5 or 3.0, assign T1 to Clinical Trial Series Description if so"{},}
 \DoxyCodeLine{          "{}operations"{}: \{}
 \DoxyCodeLine{            "{}EQUAL"{}:\{}
 \DoxyCodeLine{              "{}value"{}:"{}MR"{},}

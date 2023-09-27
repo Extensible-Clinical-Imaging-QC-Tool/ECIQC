@@ -119,7 +119,7 @@ $(function() {
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyLeft">Example 14   </td><td class="markdownTableBodyCenter">REGEX, OVERWRITE   </td><td class="markdownTableBodyCenter">Check if the birth data is 8 digits, if so, change the date to 30th June    </td></tr>
 <tr class="markdownTableRowOdd">
-<td class="markdownTableBodyLeft">Example 15   </td><td class="markdownTableBodyCenter">EQUAL, IS_IN,INSERT   </td><td class="markdownTableBodyCenter">Check the modality and parameters for T1-weighted image   </td></tr>
+<td class="markdownTableBodyLeft">Example 15   </td><td class="markdownTableBodyCenter">EQUAL, IS_IN,INSERT   </td><td class="markdownTableBodyCenter">check if modality is 'MR', manufacturer is 'SIEMENS' or 'HITACHI', magnetic Field Strength is 1.5 or 3.0, assign T1 to Clinical Trial Series Description if so   </td></tr>
 </table>
 <p><b>ATTENTION</b>: the following examples only contain the "metadata" value in the configuration. For complete json files, please refer to the tutorial to add proper receiver, destination, quarantine and transfer syntax. </p>
 <h3><a class="anchor" id="autotoc_md0"></a>
@@ -418,12 +418,12 @@ Example 14: REGEX, OVERWRITE</h3>
 <div class="line">}</div>
 </div><!-- fragment --> <h3><a class="anchor" id="autotoc_md14"></a>
 Example 15: EQUAL, IS_IN,INSERT</h3>
-<p>Description: </p><div class="fragment"><div class="line">{</div>
+<p>Description:check if modality is 'MR', manufacturer is 'SIEMENS' or 'HITACHI', magnetic Field Strength is 1.5 or 3.0, assign T1 to Clinical Trial Series Description if so. </p><div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;metadata&quot;: {</div>
 <div class="line">        &quot;(0008,0060)&quot;: {</div>
 <div class="line">          &quot;tagName&quot;: &quot;Modality&quot;,</div>
 <div class="line">          &quot;vr&quot;: &quot;CS&quot;,</div>
-<div class="line">          &quot;description&quot;: &quot;check if modality is &#39;MR&#39; and manufacturer is &#39;SIEMENS&#39; or &#39;HITACHI&#39;&quot;,</div>
+<div class="line">          &quot;description&quot;: &quot;check if modality is &#39;MR&#39;, manufacturer is &#39;SIEMENS&#39; or &#39;HITACHI&#39;,    magnetic Field Strength is 1.5 or 3.0, assign T1 to Clinical Trial Series Description if so&quot;,</div>
 <div class="line">          &quot;operations&quot;: {</div>
 <div class="line">            &quot;EQUAL&quot;:{</div>
 <div class="line">              &quot;value&quot;:&quot;MR&quot;,</div>

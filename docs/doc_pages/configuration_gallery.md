@@ -20,7 +20,7 @@ This webpage provides a set of examples to exemplify the configuration syntax. F
 | Example 12    | EQUAL, REJECT       | check if patient's name is called 'James Bond' and reject, if not           |
 | Example 13    | COPY, PREPEND       | Copy the patient name to requested procedure description, and prepend with _|
 | Example 14    | REGEX, OVERWRITE    | Check if the birth data is 8 digits, if so, change the date to 30th June    |
-| Example 15    | EQUAL, IS_IN,INSERT | Check the modality and parameters for T1-weighted image                     |
+| Example 15    | EQUAL, IS_IN,INSERT | check if modality is 'MR', manufacturer is 'SIEMENS' or 'HITACHI', 	magnetic Field Strength is 1.5 or 3.0, assign T1 to Clinical Trial Series Description if so|
 
 **ATTENTION**: the following examples only contain the "metadata" value in the configuration. For complete json files, please refer to the tutorial to add proper receiver, destination, quarantine and transfer syntax.
 ### Example 1: AND, REMOVE
@@ -351,14 +351,14 @@ Description:
 }
 ```
 ### Example 15: EQUAL, IS_IN,INSERT
-Description:
+Description:check if modality is 'MR', manufacturer is 'SIEMENS' or 'HITACHI', 	magnetic Field Strength is 1.5 or 3.0, assign T1 to Clinical Trial Series Description if so.
 ```
 {
     "metadata": {
         "(0008,0060)": {
           "tagName": "Modality",
           "vr": "CS",
-          "description": "check if modality is 'MR' and manufacturer is 'SIEMENS' or 'HITACHI'",
+          "description": "check if modality is 'MR', manufacturer is 'SIEMENS' or 'HITACHI', 	magnetic Field Strength is 1.5 or 3.0, assign T1 to Clinical Trial Series Description if so",
           "operations": {
             "EQUAL":{
               "value":"MR",
