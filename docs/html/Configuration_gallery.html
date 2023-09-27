@@ -67,8 +67,17 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="toc"><h3>Table of Contents</h3>
-<ul><ul><ul><li class="level3"><a href="#autotoc_md0">Example 1:</a></li>
+<ul><ul><ul><li class="level3"><a href="#autotoc_md0">Example 1: AND, REMOVE</a></li>
 <li class="level3"><a href="#autotoc_md1">Example 2: OR, REMOVE</a></li>
+<li class="level3"><a href="#autotoc_md2">Example 3: COPY</a></li>
+<li class="level3"><a href="#autotoc_md3">Example 4: CLEAR</a></li>
+<li class="level3"><a href="#autotoc_md4">Example 5: INSERT</a></li>
+<li class="level3"><a href="#autotoc_md5">Example 6: UPDATE</a></li>
+<li class="level3"><a href="#autotoc_md6">Example 7: EQUAL, OVERWRITE</a></li>
+<li class="level3"><a href="#autotoc_md7">Example 8: LESS_THAN, OVERWRITE</a></li>
+<li class="level3"><a href="#autotoc_md8">Example 9: EQUAL, OVERWRITE</a></li>
+<li class="level3"><a href="#autotoc_md9">Example 10: EXIST, APPEND</a></li>
+<li class="level3"><a href="#autotoc_md10">Example 11: REGEX, PREPEND</a></li>
 </ul>
 </ul>
 </ul>
@@ -80,16 +89,34 @@ $(function() {
 <tr class="markdownTableRowOdd">
 <td class="markdownTableBodyLeft">Example 1   </td><td class="markdownTableBodyCenter">AND, REMOVE   </td><td class="markdownTableBodyCenter">Check if BitsAllocated between certain numbers, remove if not    </td></tr>
 <tr class="markdownTableRowEven">
-<td class="markdownTableBodyLeft">Example 2   </td><td class="markdownTableBodyCenter">OR, REMOVE   </td><td class="markdownTableBodyCenter">Check if BitsAllocated between certain numbers, remove if not   </td></tr>
+<td class="markdownTableBodyLeft">Example 2   </td><td class="markdownTableBodyCenter">OR, REMOVE   </td><td class="markdownTableBodyCenter">Check if HighBit between 10 and 20, remove if not    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">Example 3   </td><td class="markdownTableBodyCenter">COPY   </td><td class="markdownTableBodyCenter">Copy patient's name to patient's Mother's birth name    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft">Example 4   </td><td class="markdownTableBodyCenter">CLEAR   </td><td class="markdownTableBodyCenter">Clear the value in patient's name tag    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">Example 5   </td><td class="markdownTableBodyCenter">INSERT   </td><td class="markdownTableBodyCenter">Insert the value 100 to the tag HighBit    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft">Example 6   </td><td class="markdownTableBodyCenter">UPDATE   </td><td class="markdownTableBodyCenter">Update the value 101 to the tag HighBit    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">Example 7   </td><td class="markdownTableBodyCenter">EQUAL, OVERWRITE   </td><td class="markdownTableBodyCenter">Check if patient is called 'John Doe' and change, if so.    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft">Example 8   </td><td class="markdownTableBodyCenter">LESS_THAN, OVERWRITE   </td><td class="markdownTableBodyCenter">Check if intercept is less than 2500 and change to 2000.5 if so    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">Example 9   </td><td class="markdownTableBodyCenter">EQUAL, OVERWRITE   </td><td class="markdownTableBodyCenter">Check if high bit is 11 and change to 12 if so    </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyLeft">Example 10   </td><td class="markdownTableBodyCenter">EXIST, APPEND   </td><td class="markdownTableBodyCenter">Check if patient's name tag exists, append with John if so    </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyLeft">Example 11   </td><td class="markdownTableBodyCenter">REGEX, PREPEND   </td><td class="markdownTableBodyCenter">Check if patient's name is in specific pattern, prepend with John if so   </td></tr>
 </table>
-<p>| Example 3 |</p>
+<p>Four more examples to add!</p>
 <p><b>ATTENTION</b>: the following examples only contain the "metadata" value in the configuration. For complete json files, please refer to the tutorial to add proper receiver, destination, quarantine and transfer syntax. </p>
 <h3><a class="anchor" id="autotoc_md0"></a>
-Example 1:</h3>
+Example 1: AND, REMOVE</h3>
 <p>Description: Check if BitsAllocated between 10 and 20, remove if not </p><div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;(0028,0100)&quot;: {</div>
 <div class="line">        &quot;tagName&quot;: &quot;BitsAllocated&quot;,</div>
-<div class="line">        &quot;vr&quot;: &quot;CS&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;US&quot;,</div>
 <div class="line">        &quot;description&quot;: &quot;Check if BitsAllocated between certain numbers, remove if not&quot;,</div>
 <div class="line">        &quot;operations&quot;: {</div>
 <div class="line">            &quot;AND&quot;: {</div>
@@ -112,11 +139,11 @@ Example 1:</h3>
 <div class="line">}</div>
 </div><!-- fragment --> <h3><a class="anchor" id="autotoc_md1"></a>
 Example 2: OR, REMOVE</h3>
-<p>Description: Check if BitsAllocated between 10 and 20, remove if not </p><div class="fragment"><div class="line">{</div>
+<p>Description: Check if HighBit between 10 and 20, remove if not </p><div class="fragment"><div class="line">{</div>
 <div class="line">    &quot;(0028,0102)&quot;: {</div>
 <div class="line">        &quot;tagName&quot;: &quot;HighBit&quot;,</div>
-<div class="line">        &quot;vr&quot;: &quot;CS&quot;,</div>
-<div class="line">        &quot;description&quot;: &quot;Check if BitsAllocated between certain numbers, remove if not&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;US&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Check if HighBit between 10 and 20, remove if not&quot;,</div>
 <div class="line">        &quot;operations&quot;: {</div>
 <div class="line">            &quot;OR&quot;: {</div>
 <div class="line">                &quot;GREATER_THAN&quot;: {</div>
@@ -130,6 +157,182 @@ Example 2: OR, REMOVE</h3>
 <div class="line">                &quot;IF_TRUE&quot;: {</div>
 <div class="line">                    &quot;REMOVE&quot;: {</div>
 <div class="line">                        &quot;otherTagString&quot;: &quot;&quot;</div>
+<div class="line">                    }</div>
+<div class="line">                }</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md2"></a>
+Example 3: COPY</h3>
+<p>Description: Copy patient's name to patient's Mother's birth name </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0010,1060)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;Patient&#39;s Mother&#39;s Birth Name&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;PN&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Copy patient&#39;s name to patient&#39;s Mother&#39;s birth name&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;COPY&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;(0010,0010)&quot;,</div>
+<div class="line">                &quot;copyToThis&quot;: true</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --><p> Alternatively, </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0010,0010)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;Patient&#39;s Name&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;PN&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Copy patient&#39;s name to patient&#39;s Mother&#39;s birth name&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;COPY&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;(0010,1060)&quot;,</div>
+<div class="line">                &quot;copyToThis&quot;: false</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md3"></a>
+Example 4: CLEAR</h3>
+<p>Description: Clear the value in patient's name tag </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0010,0010)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;PatientName&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;PN&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Clear the value in patient&#39;s name tag&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;CLEAR&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;&quot;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md4"></a>
+Example 5: INSERT</h3>
+<p>Description: Insert the value 100 to the tag HighBit </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0028,0102)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;HighBit&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;US&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Insert the value 100 to the tag HighBit&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;INSERT&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                &quot;value&quot;: &quot;100&quot;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md5"></a>
+Example 6: UPDATE</h3>
+<p>Description: Update the value 101 to the tag HighBit </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0028,0102)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;HighBit&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;US&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Update the value 101 to the tag HighBit&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;UPDATE&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                &quot;value&quot;: &quot;101&quot;</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md6"></a>
+Example 7: EQUAL, OVERWRITE</h3>
+<p>Description: check if patient is called 'John Doe' and change, if so. </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0010,0010)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;PatientName&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;PN&quot;,</div>
+<div class="line">        &quot;description&quot;: check if patient is called &#39;John Doe&#39; and change, if so.&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;EQUAL&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                &quot;value&quot;: &quot;John Doe&quot;,</div>
+<div class="line">                &quot;IF_TRUE&quot;: {</div>
+<div class="line">                    &quot;OVERWRITE&quot;: {</div>
+<div class="line">                        &quot;tag&quot;: &quot;&quot;,</div>
+<div class="line">                        &quot;replaceString&quot;: &quot;Robert&quot;</div>
+<div class="line">                    }</div>
+<div class="line">                }</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md7"></a>
+Example 8: LESS_THAN, OVERWRITE</h3>
+<p>Description: Check if intercept is less than 2500 and change to 2000.5 if so </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0040,9224)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;RealWorldValueIntercept&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;FD&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Check if intercept is less than 2500 and change to 2000.5&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;LESS_THAN&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                &quot;compareValue&quot;: 2500,</div>
+<div class="line">                &quot;IF_TRUE&quot;: {</div>
+<div class="line">                    &quot;OVERWRITE&quot;: {</div>
+<div class="line">                        &quot;tag&quot;: &quot;&quot;,</div>
+<div class="line">                        &quot;replaceString&quot;: &quot;2000.5&quot;</div>
+<div class="line">                    }</div>
+<div class="line">                }</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md8"></a>
+Example 9: EQUAL, OVERWRITE</h3>
+<p>Description: Check if high bit is 11 and change to 12 </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0028,0102)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;HighBit&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;US&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Check if high bit is 11 and change to 12&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;EQUAL&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                &quot;value&quot;: &quot;11&quot;,</div>
+<div class="line">                &quot;IF_TRUE&quot;: {</div>
+<div class="line">                    &quot;OVERWRITE&quot;: {</div>
+<div class="line">                        &quot;tag&quot;: &quot;&quot;,</div>
+<div class="line">                        &quot;replaceString&quot;: &quot;12&quot;</div>
+<div class="line">                    }</div>
+<div class="line">                }</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --> <h3><a class="anchor" id="autotoc_md9"></a>
+Example 10: EXIST, APPEND</h3>
+<p>Description: Check if patient's name tag exists, append with John if so </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0010,0010)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;Patient&#39;s Name&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;PN&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Check if patient&#39;s name tag exists, append with John if so&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;EXIST&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                &quot;IF_TRUE&quot;: {</div>
+<div class="line">                    &quot;APPEND&quot;: {</div>
+<div class="line">                        &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                        &quot;value&quot;: &quot;John&quot;</div>
+<div class="line">                    }</div>
+<div class="line">                }</div>
+<div class="line">            }</div>
+<div class="line">        }</div>
+<div class="line">    }</div>
+<div class="line">}</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md10"></a>
+Example 11: REGEX, PREPEND</h3>
+<p>Description: Check if patient's name is in specific pattern, prepend with John if so </p><div class="fragment"><div class="line">{</div>
+<div class="line">    &quot;(0010,0010)&quot;: {</div>
+<div class="line">        &quot;tagName&quot;: &quot;Patient&#39;s Name&quot;,</div>
+<div class="line">        &quot;vr&quot;: &quot;PN&quot;,</div>
+<div class="line">        &quot;description&quot;: &quot;Check if patient&#39;s name is in specific pattern, prepend with John if so&quot;,</div>
+<div class="line">        &quot;operations&quot;: {</div>
+<div class="line">            &quot;REGEX&quot;: {</div>
+<div class="line">                &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                &quot;str_expr&quot;: &quot;^[a-zA-Z].*[\\s\\.]*$&quot;,</div>
+<div class="line">                &quot;IF_TRUE&quot;: {</div>
+<div class="line">                    &quot;PREPEND&quot;: {</div>
+<div class="line">                        &quot;otherTagString&quot;: &quot;&quot;,</div>
+<div class="line">                        &quot;value&quot;: &quot;John&quot;</div>
 <div class="line">                    }</div>
 <div class="line">                }</div>
 <div class="line">            }</div>
