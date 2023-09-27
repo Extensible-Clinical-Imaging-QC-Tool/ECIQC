@@ -87,7 +87,7 @@ brew install dcmtk boost cmake opencv tesseract
 ```bash
 mkdir build
 cd build
-cmake ..
+cmake .. -DUSE_DCMTK_TARGETS=TRUE
 ```
 
 - Compile the project
