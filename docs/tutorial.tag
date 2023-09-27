@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
-<tagfile>
+<tagfile doxygen_version="1.9.1">
   <compound kind="class">
     <name>Conductor</name>
     <filename>classConductor.html</filename>
@@ -684,21 +684,21 @@
   <compound kind="page">
     <name>Configuration_gallery</name>
     <title>Configuration Gallery</title>
-    <filename>Configuration_gallery</filename>
+    <filename>Configuration_gallery.html</filename>
   </compound>
   <compound kind="page">
     <name>md_doc_pages_FAQ</name>
     <title>FAQ</title>
-    <filename>md_doc_pages_FAQ</filename>
+    <filename>md_doc_pages_FAQ.html</filename>
   </compound>
   <compound kind="page">
     <name>Tutorials</name>
     <title>Tutorials</title>
-    <filename>Tutorials</filename>
+    <filename>Tutorials.html</filename>
   </compound>
   <compound kind="page">
     <name>index</name>
     <title>Extensible Clinical Imaging Quality Control Tool</title>
-    <filename>index</filename>
+    <filename>index.html</filename>
   </compound>
 </tagfile>

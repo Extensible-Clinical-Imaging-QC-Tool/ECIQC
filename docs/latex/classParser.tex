@@ -14,19 +14,19 @@ Collaboration diagram for Parser\+:\nopagebreak
 \item 
 \mbox{\hyperlink{classParser_a12234f6cd36b61af4b50c94a179422c1}{Parser}} ()
 \item 
-\mbox{\hyperlink{classParser_a5bc95f1a89c6139217800ea7e02d8264}{Parser}} (const O\+F\+String \&config\+Fpath)
+\mbox{\hyperlink{classParser_a5bc95f1a89c6139217800ea7e02d8264}{Parser}} (const OFString \&config\+Fpath)
 \item 
 void \mbox{\hyperlink{classParser_a14de15f833bbe995965d9c39fb363cce}{set\+Config}} (const json \&config)
 \item 
-void \mbox{\hyperlink{classParser_a438ab8439000402e5ce5bb4f7b515293}{set\+Config\+File}} (const O\+F\+String \&config\+Fpath)
+void \mbox{\hyperlink{classParser_a438ab8439000402e5ce5bb4f7b515293}{set\+Config\+File}} (const OFString \&config\+Fpath)
 \item 
 void \mbox{\hyperlink{classParser_a78652eb1cb5606739116a15db2d702d5}{set\+Dicom\+Dset}} (Dcm\+Dataset $\ast$dset)
 \item 
-void \mbox{\hyperlink{classParser_a04318f63eb79e74f574493d71053dd22}{set\+Dicom\+Dset}} (O\+F\+String path)
+void \mbox{\hyperlink{classParser_a04318f63eb79e74f574493d71053dd22}{set\+Dicom\+Dset}} (OFString path)
 \item 
 Dcm\+Dataset $\ast$ \mbox{\hyperlink{classParser_a57090042befe38fea179224b0b5d448f}{get\+Dicom\+Dset}} ()
 \item 
-Dcm\+Dataset $\ast$ \mbox{\hyperlink{classParser_a2e372de6daa4463dff139df496956e5e}{path\+To\+Dset}} (O\+F\+String path)
+Dcm\+Dataset $\ast$ \mbox{\hyperlink{classParser_a2e372de6daa4463dff139df496956e5e}{path\+To\+Dset}} (OFString path)
 \item 
 Dcm\+Dataset $\ast$ \mbox{\hyperlink{classParser_a7dbfdd09624fdabd4b08ee017eecd1c4}{parse}} ()
 \end{DoxyCompactItemize}
@@ -37,7 +37,7 @@ Dcm\+Dataset $\ast$ \mbox{\hyperlink{classParser_a7dbfdd09624fdabd4b08ee017eecd1
 \mbox{\hyperlink{classMetadataEditor}{Metadata\+Editor}} {\bfseries editor}
 \item 
 \mbox{\Hypertarget{classParser_a30a19bb53c1a81048d861a1d61d23be2}\label{classParser_a30a19bb53c1a81048d861a1d61d23be2}} 
-O\+F\+Condition {\bfseries all\+Results}
+OFCondition {\bfseries all\+Results}
 \end{DoxyCompactItemize}
 
 
@@ -52,7 +52,7 @@ Default constructor for the class. \mbox{\Hypertarget{classParser_a5bc95f1a89c61
 \index{Parser@{Parser}!Parser@{Parser}}
 \index{Parser@{Parser}!Parser@{Parser}}
 \doxysubsubsection{\texorpdfstring{Parser()}{Parser()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily Parser\+::\+Parser (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{config\+Fpath }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+{\footnotesize\ttfamily Parser\+::\+Parser (\begin{DoxyParamCaption}\item[{const OFString \&}]{config\+Fpath }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
 
 Constructor for the class. A path to a configuration file must be provided
 
@@ -70,7 +70,7 @@ Constructor for the class. A path to a configuration file must be provided
 \doxysubsubsection{\texorpdfstring{getDicomDset()}{getDicomDset()}}
 {\footnotesize\ttfamily Dcm\+Dataset $\ast$ Parser\+::get\+Dicom\+Dset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Gets the instance\textquotesingle{}s D\+I\+C\+OM dataset
+Gets the instance\textquotesingle{}s DICOM dataset
 
 \begin{DoxyReturn}{Returns}
 Dcm\+Dataset$\ast$ 
@@ -85,13 +85,13 @@ Main loop that parses config file and calls worker to perform the required actio
 \index{Parser@{Parser}!pathToDset@{pathToDset}}
 \index{pathToDset@{pathToDset}!Parser@{Parser}}
 \doxysubsubsection{\texorpdfstring{pathToDset()}{pathToDset()}}
-{\footnotesize\ttfamily Dcm\+Dataset $\ast$ Parser\+::path\+To\+Dset (\begin{DoxyParamCaption}\item[{O\+F\+String}]{path }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Dcm\+Dataset $\ast$ Parser\+::path\+To\+Dset (\begin{DoxyParamCaption}\item[{OFString}]{path }\end{DoxyParamCaption})}
 
-Creates a Dcm\+Dataset from D\+I\+C\+OM file specified at path
+Creates a Dcm\+Dataset from DICOM file specified at path
 
 
 \begin{DoxyParams}{Parameters}
-{\em path} & holds the path to a D\+I\+C\+OM file \\
+{\em path} & holds the path to a DICOM file \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -114,7 +114,7 @@ Set the json config
 \index{Parser@{Parser}!setConfigFile@{setConfigFile}}
 \index{setConfigFile@{setConfigFile}!Parser@{Parser}}
 \doxysubsubsection{\texorpdfstring{setConfigFile()}{setConfigFile()}}
-{\footnotesize\ttfamily void Parser\+::set\+Config\+File (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{config\+Fpath }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Parser\+::set\+Config\+File (\begin{DoxyParamCaption}\item[{const OFString \&}]{config\+Fpath }\end{DoxyParamCaption})}
 
 Read in the configuration file
 
@@ -140,16 +140,16 @@ Sets the data member dset using a Dcm\+Dataset
 \index{Parser@{Parser}!setDicomDset@{setDicomDset}}
 \index{setDicomDset@{setDicomDset}!Parser@{Parser}}
 \doxysubsubsection{\texorpdfstring{setDicomDset()}{setDicomDset()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Parser\+::set\+Dicom\+Dset (\begin{DoxyParamCaption}\item[{O\+F\+String}]{path }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Parser\+::set\+Dicom\+Dset (\begin{DoxyParamCaption}\item[{OFString}]{path }\end{DoxyParamCaption})}
 
-Sets the data member dset using a path to a D\+I\+C\+OM file 
+Sets the data member dset using a path to a DICOM file 
 \begin{DoxyParams}{Parameters}
-{\em path} & holds the path to the D\+I\+C\+OM File \\
+{\em path} & holds the path to the DICOM File \\
 \hline
 \end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/home/weiym97/\+E\+C\+I\+Q\+C/src/parsing/Parser.\+hpp\item 
-/home/weiym97/\+E\+C\+I\+Q\+C/src/parsing/Parser.\+cpp\end{DoxyCompactItemize}
+/home/weiym97/\+ECIQC/src/parsing/Parser.\+hpp\item 
+/home/weiym97/\+ECIQC/src/parsing/Parser.\+cpp\end{DoxyCompactItemize}
