@@ -339,8 +339,6 @@ class PipelineTests():
         expected_output_to_check = self.create_answer_card(expected_output_json, jsonName)
 
 
-
-
         # iterate over json file
         for index, row in expected_output_to_check.iterrows():
             print(index)
