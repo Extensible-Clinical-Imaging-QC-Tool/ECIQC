@@ -129,7 +129,14 @@ Remark:
 - &lt;logical_operator&gt;: `NOT`, `AND`, `OR`. `NOT` only permits one logical operator while `AND` and `OR` permits two or more.
 - If &lt;comparison_operator_1&gt; and &lt;comparison_operator_2&gt; are the same (e.g. EQUAL), use `EQUAL_1` and `EQUAL_2`,etc.
 #### Actions
-Actions might be the most compli
+Actions might be the most complicated part in the configurations. A wide variety of actions are enabled in the ECIQC, and many requires further specifications. The actions can be divided into several groups as follows.
+ - **Group 1**: UPDATE, INSERT, OVERWRITE
+ - **Group 2**: REMOVE, CLEAR
+    REMOVE means
+ - **Group 3**: APPEND, PREPEND,
+    APPEND means adding string at the end of the original value, while PREPEND means adding string at the start. Differetn from Group actions, the original tag value is presered in APPEND and PREPEND.
+ - **Group 4**: REJECT
+    REJECT means putting the image to the quarantine. 
 
 ### Multiple operations
 The users bump into multiple operations when multiple actions are needed. For example, you may want to prepend the patient name with a '_', and then copy the '_patient_name' to other tags. Also, users will naturally use multiple operations when logical operators are introduced. A typical instance is telling whether the tag value is in some range (AND, GREATER_THAN lower bound, LESS_THAN upper bound). The implementation of ECIQC naturally supports multiple operations as long as you put your desired order of actions correctly. However, you need to pay attention to the repeated keys issue.

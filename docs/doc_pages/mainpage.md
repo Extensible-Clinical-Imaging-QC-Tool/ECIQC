@@ -144,3 +144,13 @@ Once you've done all the preparation work, now type in `./build/exe/qctool --con
 ## Feedback and suggestions
 
 If you have any feedback or suggestions about this project, please get in touch or open an issue.
+
+## Task sheet for the first week
+Step 1: Read through the introduction page and install the ECIQC on your Linux system/macOS system.
+Step 2: Try to run the pipeline with executable files and python file.
+Step 3: Check the output logging file in the ./results directory. Can you understand what's happending
+Step 4: Read through the tutorials and configuration galleries.
+Step 5: Explain the difference between OVERWRITE, INSERT, OVERWRITE. Write down the behaviour of INSERT when tag exists, and 0VERWRITE when the tag does not exists.
+Step 6: Read through MultipleConditionCaseShort.json file (this is a simplified version of Schema 4). Try to write down the full json file for schema 4 provided by Chris. (Bonus) Test with real case.
+Step 7: Download a DICOM file. Understand different components in the DICOM file. Can you visualise the image using Python/ 
+Step 8: Understand how to update the documents by running dOxygen. Update your findings to the tutorial.
