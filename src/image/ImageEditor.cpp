@@ -16,6 +16,11 @@
     #include <tesseract/genericvector.h>
 #endif
 #include <leptonica/allheaders.h>
+#if LIBLEPT_MAJOR_VERSION >= 1
+    #if LIBLEPT_MINOR_VERSION >= 83
+        #include <leptonica/pix_internal.h>
+    #endif
+#endif
 #include <regex>
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include<cmath>
