@@ -16,6 +16,7 @@
     #include <tesseract/genericvector.h>
 #endif
 #include <leptonica/allheaders.h>
+#include <leptonica/pix_internal.h>
 #include <regex>
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include<cmath>
