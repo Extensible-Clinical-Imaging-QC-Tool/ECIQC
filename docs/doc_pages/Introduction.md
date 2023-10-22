@@ -15,7 +15,8 @@ The ECIQC should work for both MacOS and Linux systems. If you're using the Wind
 ### Step 3: Go Through the README File in the Root Directory to Run ECIQC Locally
 This should be quite straightforward. The DICOM images and two log files in the `./result` directory indicate successful running. Read through log files to understand what's happening.
 
-### Step 4: Get Familiar with the Codebase.
+### Step 4: Get Familiar with the Codebase
+It might be helpful to skim through the source code in `./src`. In this directory, you will find the Sender, Receiver, Parser, Conductor classes, which are the main components of ECIQC. You will also find more detailed implementations like Metadata Editor and Image Editor. Even if you do not understand C++ beforehand, it can still provide a general overview.
 
 ### Step 5: Get Familiar with DICOM Format
 Digital Imaging and Communications in Medicine (DICOM) is the standard for the communication and management of medical imaging information and related data. The ECIQC primarily works on DICOM images. You are encouraged to use Google/ChatGPT to learn more about the DICOM format.
