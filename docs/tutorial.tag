@@ -692,6 +692,11 @@
     <filename>md_doc_pages_FAQ.html</filename>
   </compound>
   <compound kind="page">
+    <name>Introduction</name>
+    <title>Introduction</title>
+    <filename>Introduction.html</filename>
+  </compound>
+  <compound kind="page">
     <name>Tutorials</name>
     <title>Tutorials</title>
     <filename>Tutorials.html</filename>

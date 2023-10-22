@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['threadsafequeue_64',['ThreadSafeQueue',['../classThreadSafeQueue.html',1,'']]],
-  ['tutorials_65',['Tutorials',['../Tutorials.html',1,'']]]
+  ['threadsafequeue_65',['ThreadSafeQueue',['../classThreadSafeQueue.html',1,'']]],
+  ['tutorials_66',['Tutorials',['../Tutorials.html',1,'']]]
 ];
