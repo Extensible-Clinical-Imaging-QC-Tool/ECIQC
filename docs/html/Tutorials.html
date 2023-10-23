@@ -88,7 +88,7 @@ $(function() {
 </ul>
 </ul>
 </div>
-<div class="textblock"><p>ECIQC is a flexible framework designed for medical imaging quality control. Users can guides its behaviour by crafting configuration files. In this tutorial, we will guide you through the process of specifying configuration files with increasing levels of detail. This tutorial caters to both non-developers (end-users) and developers who are new to this software. By the end of this tutorial, you will understand:</p><ul>
+<div class="textblock"><p>ECIQC is a flexible framework designed for medical imaging quality control. Users can guide its behaviour by crafting configuration files. In this tutorial, we will guide you through the process of specifying configuration files with increasing levels of detail. This tutorial caters to both non-developers (end-users) and developers who are new to this software. By the end of this tutorial, you will understand:</p><ul>
 <li>General syntaxes of configuration files</li>
 <li>How to modify example configuration files to meet users' requirements</li>
 <li>How to start from strach to write proper configuration files</li>
@@ -97,10 +97,9 @@ $(function() {
 <li>Case 1: Check whether the patient name is a 6-digit number. If so, insert the patient name to clinical trial subject id; reject otherwise.</li>
 <li>Case 2: Check whether the clinical trial protocol id is 3 letters followed by 6 digits. If so, prepend the patient name with "_" and clinical trial protocol id; reject otherwise.</li>
 <li>Case 3: Check whether the date of birth is a 8-digit number. Replace the day with 30 and month with 06 if so.</li>
-<li><p class="startli">Case 4: check whether the modality is 'MR'. If so, check whether the manufacturer is 'SIEMENS' or 'HITACHI'. If true, check whether the magnetic field strength equals 1.5 or 3.0. Set the clinical trial series description to T1 if all these conditions are satisfied; reject otherwise.</p>
-<p class="startli">We recommend readers to go through this tutorial and the configuration gallery for a better understanding.If you have any questions, please refer to the FAQ page first. If the issue persists, feel free to email Yiming Wei(<a href="#" onclick="location.href='mai'+'lto:'+'yim'+'in'+'g.w'+'ei'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">yimin<span style="display: none;">.nosp@m.</span>g.we<span style="display: none;">.nosp@m.</span>i@dtc<span style="display: none;">.nosp@m.</span>.ox.<span style="display: none;">.nosp@m.</span>ac.uk</a>) or Dr. Martin Robinson (<a href="#" onclick="location.href='mai'+'lto:'+'mar'+'ti'+'n.r'+'ob'+'ins'+'on'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">marti<span style="display: none;">.nosp@m.</span>n.ro<span style="display: none;">.nosp@m.</span>binso<span style="display: none;">.nosp@m.</span>n@dt<span style="display: none;">.nosp@m.</span>c.ox.<span style="display: none;">.nosp@m.</span>ac.u<span style="display: none;">.nosp@m.</span>k</a>) for assistance.</p>
-</li>
+<li>Case 4: check whether the modality is 'MR'. If so, check whether the manufacturer is 'SIEMENS' or 'HITACHI'. If true, check whether the magnetic field strength equals 1.5 or 3.0. Set the clinical trial series description to T1 if all these conditions are satisfied; reject otherwise.</li>
 </ul>
+<p>We recommend readers to go through this tutorial and the configuration gallery for a better understanding.If you have any questions, please refer to the FAQ page first. If the issue persists, feel free to email Yiming Wei(<a href="#" onclick="location.href='mai'+'lto:'+'yim'+'in'+'g.w'+'ei'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">yimin<span style="display: none;">.nosp@m.</span>g.we<span style="display: none;">.nosp@m.</span>i@dtc<span style="display: none;">.nosp@m.</span>.ox.<span style="display: none;">.nosp@m.</span>ac.uk</a>) or Dr. Martin Robinson (<a href="#" onclick="location.href='mai'+'lto:'+'mar'+'ti'+'n.r'+'ob'+'ins'+'on'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">marti<span style="display: none;">.nosp@m.</span>n.ro<span style="display: none;">.nosp@m.</span>binso<span style="display: none;">.nosp@m.</span>n@dt<span style="display: none;">.nosp@m.</span>c.ox.<span style="display: none;">.nosp@m.</span>ac.u<span style="display: none;">.nosp@m.</span>k</a>) for assistance.</p>
 <h2><a class="anchor" id="autotoc_md37"></a>
 First Example</h2>
 <p>Configuration files are composed in JSON format. For guidance on initialising ECIQC, please refer to the main page. You can designate your custom configuration files by entering the following commands in the command line: </p><div class="fragment"><div class="line">./build/exe/qctool --config-file &lt;your_configuration_file.json&gt;</div>
@@ -148,10 +147,10 @@ Explanation</h3>
 <p>The key <code>metadata</code> is the main component of the configuration file. You will see long lines of code within this part. Typically, you will see one or more DICOM tags to work on(0010,0010), accompanied by the tag name (Patient Name),vr (data type and format) and a short line of description. The key <code>operations</code> inform the ECIQC what to do with this tag. You can guess with your gut instinct that this configuration file requires the pipeline to replace the name with Robert if the patient name is John Doe.</p>
 <h2><a class="anchor" id="autotoc_md40"></a>
 Receiver, Destination and Quarantine</h2>
-<p>As said before, <code>receiver</code> specifies the proper of the ECIQC receiver; <code>destination</code> tells the ECIQC where to send "good" images; <code>quarantine</code> provides the place to send "bad" images. You can use the local port for most test cases. However,if you are interested in communicating between different network nodes in real-world application (e.g. GE Healthcare), please ask your colleagues for more information.</p>
+<p>As said before, <code>receiver</code> specifies the proper port number of the ECIQC receiver; <code>destination</code> tells the ECIQC where to send "good" images; <code>quarantine</code> provides the place to send "bad" images. You can use the local port for most test cases. However,if you are interested in communicating between different network nodes in real-world application (e.g. GE Healthcare), please ask your colleagues for more information.</p>
 <h2><a class="anchor" id="autotoc_md41"></a>
 MetaData</h2>
-<p>The key <code>metadata</code> works on the metadata of a DICOM image.It usually comprises of one or more DICOM tags to work on. For full list of DICOM tags, please refer to the <a href="https://www.dicomlibrary.com/dicom/dicom-tags/">DICOM library</a>. </p>
+<p>The key <code>metadata</code> works on the metadata of a DICOM image. It usually comprises of one or more DICOM tags to work on. For full list of DICOM tags, please refer to the <a href="https://www.dicomlibrary.com/dicom/dicom-tags/">DICOM library</a>. </p>
 <h3><a class="anchor" id="autotoc_md42"></a>
 Basic syntax within DICOM tags</h3>
 <p>Within each DICOM tag, you need to specify the <code>tagName</code>,<code>vr</code> and <code>description</code>. You can look up the <code>tagName</code> and <code>vr</code> in the <a href="https://www.dicomlibrary.com/dicom/dicom-tags/">DICOM library</a>. The <code>description</code> value is written by the user to enhace readibility. Then it comes to the key <code>operations</code>. </p>
@@ -159,7 +158,8 @@ Basic syntax within DICOM tags</h3>
 Operation types</h3>
 <p>There are typicall four types of operators.</p><ol type="1">
 <li>Comparison operators: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operators compare the tag value with the ones provided by the user. They are usually followed by <code>IF_TRUE</code> and <code>IF_FALSE</code>.</li>
-<li>regular expression operators: EXIST, REGEX. These two operations check whether thare are specific 'patterns' in the tag value 3.Logical Operators: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.</li>
+<li>regular expression operators: EXIST, REGEX. These two operations check whether thare are specific 'patterns' in the tag value.</li>
+<li>Logical Operators: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.</li>
 <li>Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.</li>
 </ol>
 <p>We introduce the syntaxes of different operators in the following subsections. </p>

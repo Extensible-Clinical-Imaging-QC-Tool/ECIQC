@@ -2,7 +2,7 @@
 
 @tableofcontents
 
-ECIQC is a flexible framework designed for medical imaging quality control. Users can guides its behaviour by crafting configuration files. In this tutorial, we will guide you through the process of specifying configuration files with increasing levels of detail. This tutorial caters to both non-developers (end-users) and developers who are new to this software. By the end of this tutorial, you will understand:
+ECIQC is a flexible framework designed for medical imaging quality control. Users can guide its behaviour by crafting configuration files. In this tutorial, we will guide you through the process of specifying configuration files with increasing levels of detail. This tutorial caters to both non-developers (end-users) and developers who are new to this software. By the end of this tutorial, you will understand:
 - General syntaxes of configuration files
 - How to modify example configuration files to meet users' requirements
 - How to start from strach to write proper configuration files
@@ -13,7 +13,7 @@ Here are some common scenarios proposed by Chris from GE Healthcare. Correspondi
 - Case 3: Check whether the date of birth is a 8-digit number. Replace the day with 30 and month with 06 if so.
 - Case 4: check whether the modality is 'MR'. If so, check whether the manufacturer is 'SIEMENS' or 'HITACHI'. If true, check whether the magnetic field strength equals 1.5 or 3.0. Set the clinical trial series description to T1 if all these conditions are satisfied; reject otherwise.
 
- We recommend readers to go through this tutorial and the configuration gallery for a better understanding.If you have any questions, please refer to the FAQ page first. If the issue persists, feel free to email Yiming Wei(yiming.wei@dtc.ox.ac.uk) or Dr. Martin Robinson (martin.robinson@dtc.ox.ac.uk) for assistance.
+We recommend readers to go through this tutorial and the configuration gallery for a better understanding.If you have any questions, please refer to the FAQ page first. If the issue persists, feel free to email Yiming Wei(yiming.wei@dtc.ox.ac.uk) or Dr. Martin Robinson (martin.robinson@dtc.ox.ac.uk) for assistance.
 
 ## First Example
 Configuration files are composed in JSON format. For guidance on initialising ECIQC, please refer to the main page. You can designate your custom configuration files by entering the following commands in the command line:
@@ -67,17 +67,17 @@ The ECIQC receives medical images via **receiver** and sends post-processed imag
 The key `metadata` is the main component of the configuration file. You will see long lines of code within this part. Typically, you will see one or more DICOM tags to work on(0010,0010), accompanied by the tag name (Patient Name),vr (data type and format) and a short line of description. The key `operations` inform the ECIQC what to do with this tag. You can guess with your gut instinct that this configuration file requires the pipeline to replace the name with Robert if the patient name is John Doe. 
 
 ## Receiver, Destination and Quarantine
-As said before, `receiver` specifies the proper of the ECIQC receiver; `destination` tells the ECIQC where to send "good" images; `quarantine` provides the place to send "bad" images. You can use the local port for most test cases. However,if you are interested in communicating between different network nodes in real-world application (e.g. GE Healthcare), please ask your colleagues for more information.
+As said before, `receiver` specifies the proper port number of the ECIQC receiver; `destination` tells the ECIQC where to send "good" images; `quarantine` provides the place to send "bad" images. You can use the local port for most test cases. However,if you are interested in communicating between different network nodes in real-world application (e.g. GE Healthcare), please ask your colleagues for more information.
 
 ## MetaData
-The key `metadata` works on the metadata of a DICOM image.It usually comprises of one or more DICOM tags to work on. For full list of DICOM tags, please refer to the [DICOM library](https://www.dicomlibrary.com/dicom/dicom-tags/).
+The key `metadata` works on the metadata of a DICOM image. It usually comprises of one or more DICOM tags to work on. For full list of DICOM tags, please refer to the [DICOM library](https://www.dicomlibrary.com/dicom/dicom-tags/).
 ### Basic syntax within DICOM tags
 Within each DICOM tag, you need to specify the `tagName`,`vr` and `description`. You can look up the `tagName` and `vr` in the [DICOM library](https://www.dicomlibrary.com/dicom/dicom-tags/). The `description` value is written by the user to enhace readibility. Then it comes to the key `operations`.
 ### Operation types
 There are typicall four types of operators.
 1. Comparison operators: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operators compare the tag value with the ones provided by the user. They are usually followed by `IF_TRUE` and `IF_FALSE`.
-2. regular expression operators: EXIST, REGEX. These two operations check whether thare are specific 'patterns' in the tag value
-3.Logical Operators: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.
+2. regular expression operators: EXIST, REGEX. These two operations check whether thare are specific 'patterns' in the tag value.
+3. Logical Operators: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.
 4. Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.
 
 We introduce the syntaxes of different operators in the following subsections.
