@@ -53,6 +53,15 @@ cd build
 cmake ..
 ```
 
+If you encounter errors regarding missing libraries, particularly on macOS, try pointing Cmake to the location of the library directories, like:
+
+```bash
+mkdir build
+cd build
+cmake -DCMAKE_PREFIX_PATH=/usr/local ..
+cmake -DUSE_DCMTK_TARGETS=ON ..
+```
+
 - Compile the project
 
 ```bash
