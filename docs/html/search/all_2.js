@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['exception_7',['Exception',['../classcpp__template_1_1Exception.html',1,'cpp_template']]],
-  ['exists_8',['exists',['../classMetadataEditor.html#a77e355b4438887937afe23ee4a780c04',1,'MetadataEditor::exists(OFBool searchIntoSub=OFFalse)'],['../classMetadataEditor.html#a86a0fe8f0d965bda2ae0f43274ba61b3',1,'MetadataEditor::exists(OFString otherTagString, OFBool searchIntoSub=OFFalse)'],['../classMetadataEditor.html#abdd3c1848b99afa14e66129db230ca27',1,'MetadataEditor::exists(const DcmTagKey &amp;key, OFBool searchIntoSub=OFFalse)']]]
+  ['deleteprivatedata_7',['deletePrivateData',['../classMdfDatasetManager.html#a7a3d1ac7b01dbc8950702dce02745b3d',1,'MdfDatasetManager']]],
+  ['deleterelatedmetaheadertag_8',['deleteRelatedMetaheaderTag',['../classMdfDatasetManager.html#a155e6e4d6df40460fcc9ec8bdba9972f',1,'MdfDatasetManager']]],
+  ['deletetag_9',['deleteTag',['../classMdfDatasetManager.html#a3bc551c5372ec702bc13d0a2c8aefeaa',1,'MdfDatasetManager']]],
+  ['digitsonly_10',['digitsOnly',['../classImageEditor.html#aeebf264fb85eff53d95bb2cc5f2a15e1',1,'ImageEditor']]]
 ];

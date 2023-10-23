@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['generateandinsertuid_9',['generateAndInsertUID',['../classMdfDatasetManager.html#ae03032fc3e9932d11bd539672c21127b',1,'MdfDatasetManager']]],
-  ['getdataset_10',['getDataset',['../classMdfDatasetManager.html#a17eee1831a6932219d7d4d12deb94d52',1,'MdfDatasetManager']]],
-  ['getdicomdset_11',['getDicomDset',['../classParser.html#a57090042befe38fea179224b0b5d448f',1,'Parser']]],
-  ['getfileformat_12',['getFileFormat',['../classMdfDatasetManager.html#acac3104351961b5884458bbca27fc01f',1,'MdfDatasetManager']]],
-  ['getfilename_13',['getFilename',['../classMdfDatasetManager.html#a2b7b1a550d161ab770098a2bdbca4062',1,'MdfDatasetManager']]],
-  ['gettagkey_14',['getTagKey',['../classMetadataEditor.html#a19a9b2e04243456e77ec256c40f1e4e6',1,'MetadataEditor']]],
-  ['gettagstring_15',['getTagString',['../classMetadataEditor.html#a8d0333309a2e3e27c79182e1b2c9bf12',1,'MetadataEditor']]]
+  ['equals_11',['equals',['../classMetadataEditor.html#a10c34346bc58e03ecf7f4714e42fb02f',1,'MetadataEditor::equals(const OFString &amp;str_expr, OFCondition &amp;flag, unsigned long pos=0)'],['../classMetadataEditor.html#aec60eb6e0d64ec878b8f633c40891dc3',1,'MetadataEditor::equals(const OFString &amp;otherTagString, const OFString &amp;str_expr, OFCondition &amp;flag, unsigned long pos=0)'],['../classMetadataEditor.html#a8b0a02b6e100dc743863057886f9f214',1,'MetadataEditor::equals(const DcmTagKey &amp;otherTagKey, const OFString &amp;str_expr, OFCondition &amp;flag, unsigned long pos=0)'],['../classMetadataEditor.html#a5638cd5014ec1793b2978ba4d90de050',1,'MetadataEditor::equals(Float64 compare_value, OFCondition &amp;flag, unsigned long pos=0)'],['../classMetadataEditor.html#aec4132481394dc4506fe1e3ae76fa66b',1,'MetadataEditor::equals(const OFString &amp;otherTagString, Float64 compare_value, OFCondition &amp;flag, unsigned long pos=0)'],['../classMetadataEditor.html#a22004d20c9c3d29679f76781949c98ac',1,'MetadataEditor::equals(const DcmTagKey &amp;otherTagKey, Float64 compare_value, OFCondition &amp;flag, unsigned long pos=0)']]],
+  ['exception_12',['Exception',['../classcpp__template_1_1Exception.html',1,'cpp_template']]],
+  ['exists_13',['exists',['../classMetadataEditor.html#ad352769ff74ef0cd4285c2e6b23dc370',1,'MetadataEditor::exists(OFBool searchIntoSub=OFFalse)'],['../classMetadataEditor.html#a10353fa82d539fb0f33630ee4bdec0f0',1,'MetadataEditor::exists(const OFString &amp;otherTagString, OFBool searchIntoSub=OFFalse)'],['../classMetadataEditor.html#a20278af977349b2cf0fae334e89f25bb',1,'MetadataEditor::exists(const DcmTagKey &amp;key, OFBool searchIntoSub=OFFalse)']]],
+  ['extensible_20clinical_20imaging_20quality_20control_20tool_14',['Extensible Clinical Imaging Quality Control Tool',['../index.html',1,'']]]
 ];

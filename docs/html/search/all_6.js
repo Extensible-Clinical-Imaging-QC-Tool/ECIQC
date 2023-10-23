@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['loadfile_18',['loadFile',['../classMdfDatasetManager.html#a585b3b2001443ba6be24edeb8a723a7d',1,'MdfDatasetManager']]]
+  ['handleincomingcommand_24',['handleIncomingCommand',['../classReceiverThread.html#a47aa75a34f0f865f961064f2d06b0a38',1,'ReceiverThread']]]
 ];

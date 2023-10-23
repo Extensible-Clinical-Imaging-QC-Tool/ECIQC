@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['parser_26',['Parser',['../classParser.html',1,'Parser'],['../classParser.html#a12234f6cd36b61af4b50c94a179422c1',1,'Parser::Parser()'],['../classParser.html#a38f150e5997165f2a263238b16aaf33c',1,'Parser::Parser(OFString configFpath)']]],
-  ['pathtodataset_27',['pathToDataset',['../classMetadataEditor.html#a6494c346121a0d637fec5cca13abd5df',1,'MetadataEditor']]],
-  ['pathtodset_28',['pathToDset',['../classParser.html#ab7a5aeec61aa6a7d94f44300a5aff1e1',1,'Parser']]]
+  ['lessthanfourchars_29',['lessThanFourChars',['../classImageEditor.html#a3725097bf8c6aebe5ae146ff4f53e351',1,'ImageEditor']]],
+  ['lettersonly_30',['lettersOnly',['../classImageEditor.html#ab18c770ac9b67b71e1a0c347434c3c5d',1,'ImageEditor']]],
+  ['loadfile_31',['loadFile',['../classMdfDatasetManager.html#aae44c06b861db24365b1485420010a89',1,'MdfDatasetManager']]]
 ];

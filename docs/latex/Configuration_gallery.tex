@@ -1,0 +1,408 @@
+This webpage provides a set of examples to exemplify the configuration syntax. For end-\/users, you can compare your needs with the short descriptions in the following summary table, and adjust the configuration file accordingly.
+
+\tabulinesep=1mm
+\begin{longtabu}spread 0pt [c]{*{3}{|X[-1]}|}
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Example   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Operators used   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Short description    }\\\cline{1-3}
+\endfirsthead
+\hline
+\endfoot
+\hline
+\cellcolor{\tableheadbgcolor}\textbf{ Example   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Operators used   }&\PBS\centering \cellcolor{\tableheadbgcolor}\textbf{ Short description    }\\\cline{1-3}
+\endhead
+Example 1   &\PBS\centering AND, REMOVE   &\PBS\centering Check if Bits\+Allocated between certain numbers, remove if not    \\\cline{1-3}
+Example 2   &\PBS\centering OR, REMOVE   &\PBS\centering Check if High\+Bit between 10 and 20, remove if not    \\\cline{1-3}
+Example 3   &\PBS\centering COPY   &\PBS\centering Copy patient\textquotesingle{}s name to patient\textquotesingle{}s Mother\textquotesingle{}s birth name    \\\cline{1-3}
+Example 4   &\PBS\centering CLEAR   &\PBS\centering Clear the value in patient\textquotesingle{}s name tag    \\\cline{1-3}
+Example 5   &\PBS\centering INSERT   &\PBS\centering Insert the value 100 to the tag High\+Bit    \\\cline{1-3}
+Example 6   &\PBS\centering UPDATE   &\PBS\centering Update the value 101 to the tag High\+Bit    \\\cline{1-3}
+Example 7   &\PBS\centering EQUAL, OVERWRITE   &\PBS\centering Check if patient is called \textquotesingle{}John Doe\textquotesingle{} and change, if so.    \\\cline{1-3}
+Example 8   &\PBS\centering LESS\+\_\+\+THAN, OVERWRITE   &\PBS\centering Check if intercept is less than 2500 and change to 2000.\+5 if so    \\\cline{1-3}
+Example 9   &\PBS\centering EQUAL, OVERWRITE   &\PBS\centering Check if high bit is 11 and change to 12 if so    \\\cline{1-3}
+Example 10   &\PBS\centering EXIST, APPEND   &\PBS\centering Check if patient\textquotesingle{}s name tag exists, append with John if so    \\\cline{1-3}
+Example 11   &\PBS\centering REGEX, PREPEND   &\PBS\centering Check if patient\textquotesingle{}s name is in specific pattern, prepend with John if so    \\\cline{1-3}
+Example 12   &\PBS\centering EQUAL, REJECT   &\PBS\centering check if patient\textquotesingle{}s name is called \textquotesingle{}James Bond\textquotesingle{} and reject, if not    \\\cline{1-3}
+Example 13   &\PBS\centering COPY, PREPEND   &\PBS\centering Copy the patient name to requested procedure description, and prepend with \+\_\+    \\\cline{1-3}
+Example 14   &\PBS\centering REGEX, OVERWRITE   &\PBS\centering Check if the birth data is 8 digits, if so, change the date to 30th June    \\\cline{1-3}
+Example 15   &\PBS\centering EQUAL, IS\+\_\+\+IN,INSERT   &\PBS\centering check if modality is \textquotesingle{}MR\textquotesingle{}, manufacturer is \textquotesingle{}SIEMENS\textquotesingle{} or \textquotesingle{}HITACHI\textquotesingle{}, magnetic Field Strength is 1.\+5 or 3.\+0, assign T1 to Clinical Trial Series Description if so   \\\cline{1-3}
+\end{longtabu}
+
+
+{\bfseries{ATTENTION}}\+: the following examples only contain the \char`\"{}metadata\char`\"{} value in the configuration. For complete json files, please refer to the tutorial to add proper receiver, destination, quarantine and transfer syntax. \hypertarget{Configuration_gallery_autotoc_md0}{}\doxysubsubsection{Example 1\+: AND, REMOVE}\label{Configuration_gallery_autotoc_md0}
+Description\+: Check if Bits\+Allocated between 10 and 20, remove if not 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0028,0100)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}BitsAllocated"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}US"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Check if BitsAllocated between certain numbers, remove if not"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}AND"{}: \{}
+\DoxyCodeLine{                "{}GREATER\_THAN"{}: \{}
+\DoxyCodeLine{                    "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                    "{}compareValue"{}: 10}
+\DoxyCodeLine{                \},}
+\DoxyCodeLine{                "{}LESS\_THAN"{}: \{}
+\DoxyCodeLine{                    "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                    "{}compareValue"{}: 20}
+\DoxyCodeLine{                \},}
+\DoxyCodeLine{                "{}IF\_FALSE"{}: \{}
+\DoxyCodeLine{                    "{}REMOVE"{}: \{}
+\DoxyCodeLine{                        "{}otherTagString"{}: "{}"{}}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md1}{}\doxysubsubsection{Example 2\+: OR, REMOVE}\label{Configuration_gallery_autotoc_md1}
+Description\+: Check if High\+Bit between 10 and 20, remove if not 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0028,0102)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}HighBit"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}US"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Check if HighBit between 10 and 20, remove if not"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}OR"{}: \{}
+\DoxyCodeLine{                "{}GREATER\_THAN"{}: \{}
+\DoxyCodeLine{                    "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                    "{}compareValue"{}: 20}
+\DoxyCodeLine{                \},}
+\DoxyCodeLine{                "{}LESS\_THAN"{}: \{}
+\DoxyCodeLine{                    "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                    "{}compareValue"{}: 10}
+\DoxyCodeLine{                \},}
+\DoxyCodeLine{                "{}IF\_TRUE"{}: \{}
+\DoxyCodeLine{                    "{}REMOVE"{}: \{}
+\DoxyCodeLine{                        "{}otherTagString"{}: "{}"{}}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md2}{}\doxysubsubsection{Example 3\+: COPY}\label{Configuration_gallery_autotoc_md2}
+Description\+: Copy patient\textquotesingle{}s name to patient\textquotesingle{}s Mother\textquotesingle{}s birth name 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0010,1060)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}Patient's Mother's Birth Name"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}PN"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Copy patient's name to patient's Mother's birth name"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}COPY"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}(0010,0010)"{},}
+\DoxyCodeLine{                "{}copyToThis"{}: true}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ Alternatively, 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0010,0010)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}Patient's Name"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}PN"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Copy patient's name to patient's Mother's birth name"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}COPY"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}(0010,1060)"{},}
+\DoxyCodeLine{                "{}copyToThis"{}: false}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md3}{}\doxysubsubsection{Example 4\+: CLEAR}\label{Configuration_gallery_autotoc_md3}
+Description\+: Clear the value in patient\textquotesingle{}s name tag 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0010,0010)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}PatientName"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}PN"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Clear the value in patient's name tag"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}CLEAR"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}"{}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md4}{}\doxysubsubsection{Example 5\+: INSERT}\label{Configuration_gallery_autotoc_md4}
+Description\+: Insert the value 100 to the tag High\+Bit 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0028,0102)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}HighBit"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}US"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Insert the value 100 to the tag HighBit"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}INSERT"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                "{}value"{}: "{}100"{}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md5}{}\doxysubsubsection{Example 6\+: UPDATE}\label{Configuration_gallery_autotoc_md5}
+Description\+: Update the value 101 to the tag High\+Bit 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0028,0102)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}HighBit"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}US"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Update the value 101 to the tag HighBit"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}UPDATE"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                "{}value"{}: "{}101"{}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md6}{}\doxysubsubsection{Example 7\+: EQUAL, OVERWRITE}\label{Configuration_gallery_autotoc_md6}
+Description\+: check if patient is called \textquotesingle{}John Doe\textquotesingle{} and change, if so. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0010,0010)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}PatientName"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}PN"{},}
+\DoxyCodeLine{        "{}description"{}: check if patient is called 'John Doe' and change, if so."{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}EQUAL"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                "{}value"{}: "{}John Doe"{},}
+\DoxyCodeLine{                "{}IF\_TRUE"{}: \{}
+\DoxyCodeLine{                    "{}OVERWRITE"{}: \{}
+\DoxyCodeLine{                        "{}tag"{}: "{}"{},}
+\DoxyCodeLine{                        "{}replaceString"{}: "{}Robert"{}}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md7}{}\doxysubsubsection{Example 8\+: LESS\+\_\+\+THAN, OVERWRITE}\label{Configuration_gallery_autotoc_md7}
+Description\+: Check if intercept is less than 2500 and change to 2000.\+5 if so 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0040,9224)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}RealWorldValueIntercept"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}FD"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Check if intercept is less than 2500 and change to 2000.5"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}LESS\_THAN"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                "{}compareValue"{}: 2500,}
+\DoxyCodeLine{                "{}IF\_TRUE"{}: \{}
+\DoxyCodeLine{                    "{}OVERWRITE"{}: \{}
+\DoxyCodeLine{                        "{}tag"{}: "{}"{},}
+\DoxyCodeLine{                        "{}replaceString"{}: "{}2000.5"{}}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md8}{}\doxysubsubsection{Example 9\+: EQUAL, OVERWRITE}\label{Configuration_gallery_autotoc_md8}
+Description\+: Check if high bit is 11 and change to 12 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0028,0102)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}HighBit"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}US"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Check if high bit is 11 and change to 12"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}EQUAL"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                "{}value"{}: "{}11"{},}
+\DoxyCodeLine{                "{}IF\_TRUE"{}: \{}
+\DoxyCodeLine{                    "{}OVERWRITE"{}: \{}
+\DoxyCodeLine{                        "{}tag"{}: "{}"{},}
+\DoxyCodeLine{                        "{}replaceString"{}: "{}12"{}}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md9}{}\doxysubsubsection{Example 10\+: EXIST, APPEND}\label{Configuration_gallery_autotoc_md9}
+Description\+: Check if patient\textquotesingle{}s name tag exists, append with John if so 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0010,0010)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}Patient's Name"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}PN"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Check if patient's name tag exists, append with John if so"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}EXIST"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                "{}IF\_TRUE"{}: \{}
+\DoxyCodeLine{                    "{}APPEND"{}: \{}
+\DoxyCodeLine{                        "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                        "{}value"{}: "{}John"{}}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\hypertarget{Configuration_gallery_autotoc_md10}{}\doxysubsubsection{Example 11\+: REGEX, PREPEND}\label{Configuration_gallery_autotoc_md10}
+Description\+: Check if patient\textquotesingle{}s name is in specific pattern, prepend with John if so 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0010,0010)"{}: \{}
+\DoxyCodeLine{        "{}tagName"{}: "{}Patient's Name"{},}
+\DoxyCodeLine{        "{}vr"{}: "{}PN"{},}
+\DoxyCodeLine{        "{}description"{}: "{}Check if patient's name is in specific pattern, prepend with John if so"{},}
+\DoxyCodeLine{        "{}operations"{}: \{}
+\DoxyCodeLine{            "{}REGEX"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                "{}str\_expr"{}: "{}\string^[a-\/zA-\/Z].*[\(\backslash\)\(\backslash\)s\(\backslash\)\(\backslash\).]*\$"{},}
+\DoxyCodeLine{                "{}IF\_TRUE"{}: \{}
+\DoxyCodeLine{                    "{}PREPEND"{}: \{}
+\DoxyCodeLine{                        "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                        "{}value"{}: "{}John"{}}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md11}{}\doxysubsubsection{Example 12\+: EQUAL, REJECT}\label{Configuration_gallery_autotoc_md11}
+Description\+: check if patient\textquotesingle{}s name is called \textquotesingle{}James Bond\textquotesingle{} and reject, if not. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}(0010,0010)"{}: \{}
+\DoxyCodeLine{          "{}tagName"{}: "{}PatientName"{},}
+\DoxyCodeLine{          "{}vr"{}: "{}PN"{},}
+\DoxyCodeLine{          "{}description"{}: "{}check if patient is called 'James Bond' and reject, if not."{},}
+\DoxyCodeLine{          "{}operations"{}: \{}
+\DoxyCodeLine{            "{}EQUAL"{}: \{}
+\DoxyCodeLine{                "{}otherTagString"{}: "{}"{},}
+\DoxyCodeLine{                "{}value"{}: "{}James Bond"{},}
+\DoxyCodeLine{                "{}IF\_FALSE"{}: \{}
+\DoxyCodeLine{                    "{}REJECT"{}: \{\}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{          \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md12}{}\doxysubsubsection{Example 13\+: COPY, PREPEND}\label{Configuration_gallery_autotoc_md12}
+Description\+: copy the patient name to requested procedure description, and prepend it with \+\_\+ 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}metadata"{}: \{}
+\DoxyCodeLine{        "{}(0032,1060)"{}: \{}
+\DoxyCodeLine{          "{}tagName"{}: "{}Requested Procedure Description"{},}
+\DoxyCodeLine{          "{}vr"{}: "{}LO"{},}
+\DoxyCodeLine{          "{}description"{}: "{}copy the patient name to requested procedure description, and prepend it with \_ "{},}
+\DoxyCodeLine{          "{}operations"{}: \{}
+\DoxyCodeLine{            "{}COPY"{}: \{}
+\DoxyCodeLine{              "{}otherTagString"{}: "{}(0010,0010)"{},}
+\DoxyCodeLine{              "{}copyToThis"{}: true,}
+\DoxyCodeLine{              "{}posFrom"{}:0,}
+\DoxyCodeLine{              "{}replace"{}:false,}
+\DoxyCodeLine{              "{}concatenate"{}:true,}
+\DoxyCodeLine{              "{}prepend"{}:true}
+\DoxyCodeLine{            \},}
+\DoxyCodeLine{            "{}PREPEND"{}:\{}
+\DoxyCodeLine{              "{}value"{}: "{}\_"{}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{          \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{        }
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md13}{}\doxysubsubsection{Example 14\+: REGEX, OVERWRITE}\label{Configuration_gallery_autotoc_md13}
+Description\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}metadata"{}: \{}
+\DoxyCodeLine{        "{}(0010,0030)"{}: \{}
+\DoxyCodeLine{          "{}tagName"{}: "{}Patient's Birth Date"{},}
+\DoxyCodeLine{          "{}vr"{}: "{}DA"{},}
+\DoxyCodeLine{          "{}description"{}: "{}check if the birth data is 8 digits, if so, change the date to 30th June."{},}
+\DoxyCodeLine{          "{}operations"{}: \{}
+\DoxyCodeLine{            "{}REGEX"{}: \{}
+\DoxyCodeLine{                "{}str\_expr"{}: "{}\(\backslash\)\(\backslash\)d\{8\}\$"{},}
+\DoxyCodeLine{                "{}IF\_TRUE"{}: \{}
+\DoxyCodeLine{                    "{}OVERWRITE"{}: \{}
+\DoxyCodeLine{                        "{}str\_expr"{}:"{}\(\backslash\)\(\backslash\)d\{4\}\$"{},}
+\DoxyCodeLine{                        "{}replaceString"{}:"{}0630"{}}
+\DoxyCodeLine{                    \}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{          \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{        }
+\DoxyCodeLine{    \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ \hypertarget{Configuration_gallery_autotoc_md14}{}\doxysubsubsection{Example 15\+: EQUAL, IS\+\_\+\+IN,\+INSERT}\label{Configuration_gallery_autotoc_md14}
+Description\+:check if modality is \textquotesingle{}MR\textquotesingle{}, manufacturer is \textquotesingle{}SIEMENS\textquotesingle{} or \textquotesingle{}HITACHI\textquotesingle{}, magnetic Field Strength is 1.\+5 or 3.\+0, assign T1 to Clinical Trial Series Description if so. 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    "{}metadata"{}: \{}
+\DoxyCodeLine{        "{}(0008,0060)"{}: \{}
+\DoxyCodeLine{          "{}tagName"{}: "{}Modality"{},}
+\DoxyCodeLine{          "{}vr"{}: "{}CS"{},}
+\DoxyCodeLine{          "{}description"{}: "{}check if modality is 'MR', manufacturer is 'SIEMENS' or 'HITACHI',    magnetic Field Strength is 1.5 or 3.0, assign T1 to Clinical Trial Series Description if so"{},}
+\DoxyCodeLine{          "{}operations"{}: \{}
+\DoxyCodeLine{            "{}EQUAL"{}:\{}
+\DoxyCodeLine{              "{}value"{}:"{}MR"{},}
+\DoxyCodeLine{              "{}IF\_FALSE"{}:\{"{}REJECT"{}:\{\}\},}
+\DoxyCodeLine{              "{}IF\_TRUE"{}:\{}
+\DoxyCodeLine{                "{}IS\_IN"{}:\{}
+\DoxyCodeLine{                  "{}otherTagString"{}:"{}(0008,0070)"{},}
+\DoxyCodeLine{                  "{}valueList"{}:["{}SIEMENS"{},"{}HITACHI"{}],}
+\DoxyCodeLine{                  "{}IF\_TRUE"{}:\{}
+\DoxyCodeLine{                    "{}IS\_IN"{}:\{}
+\DoxyCodeLine{                      "{}otherTagString"{}:"{}(0018,0087)"{},}
+\DoxyCodeLine{                      "{}valueList"{}:["{}1.5"{},"{}3.0"{}],}
+\DoxyCodeLine{                      "{}IF\_TRUE"{}:\{}
+\DoxyCodeLine{                        "{}INSERT"{}:\{"{}otherTagString"{}:"{}(0012,0072)"{},"{}value"{}:"{}T1"{}\}}
+\DoxyCodeLine{                      \},}
+\DoxyCodeLine{                      "{}IF\_FALSE"{}:\{"{}REJECT"{}:\{\}\}}
+\DoxyCodeLine{                      \}}
+\DoxyCodeLine{                    \},}
+\DoxyCodeLine{                  "{}IF\_FALSE"{}:\{"{}REJECT"{}:\{\}\}}
+\DoxyCodeLine{                \}}
+\DoxyCodeLine{              \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{            \}}
+\DoxyCodeLine{          \}}
+\DoxyCodeLine{        \}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+ 

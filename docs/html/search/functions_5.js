@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['istagindictionary_76',['isTagInDictionary',['../classMdfDatasetManager.html#af83ddf3c45bd9297421881b276bbb7be',1,'MdfDatasetManager']]]
+  ['handleincomingcommand_103',['handleIncomingCommand',['../classReceiverThread.html#a47aa75a34f0f865f961064f2d06b0a38',1,'ReceiverThread']]]
 ];
