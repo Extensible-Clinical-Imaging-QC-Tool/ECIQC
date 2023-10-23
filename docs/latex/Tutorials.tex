@@ -1,20 +1,20 @@
-ECIQC is a flexible framework for medical imaging quality control. Users can teach it what to do by writing configuration files. In this tutorial, we are going to introduce how to specify proper configuration files at successively increasing levels of details. This tutorial is suitable for both non-\/developers (end-\/users) and developers new to this software. At the end of this tutorial, you will learn
+ECIQC is a flexible framework designed for medical imaging quality control. Users can guides its behaviour by crafting configuration files. In this tutorial, we will guide you through the process of specifying configuration files with increasing levels of detail. This tutorial caters to both non-\/developers (end-\/users) and developers who are new to this software. By the end of this tutorial, you will understand\+:
 \begin{DoxyItemize}
-\item General syntaxes of configuration files;
-\item How to modify the example configuration files to cater to users\textquotesingle{} needs;
-\item How to start from strach to write proper configuration files.
+\item General syntaxes of configuration files
+\item How to modify example configuration files to meet users\textquotesingle{} requirements
+\item How to start from strach to write proper configuration files
 \end{DoxyItemize}
 
-Here are some common scenarios proposed by Chris from GE Healthcare. You can find the corresponding configuration codes in configuration gallery page.
+Here are some common scenarios proposed by Chris from GE Healthcare. Corresponding configuration codes can be found on the configuration gallery page\+:
 \begin{DoxyItemize}
-\item Case1\+: check whether the patient name is a 6-\/digit number. If so, insert the patient name to clinical trial subject id; reject otherwise.
-\item Case2\+: check whether the clinical trial protocol id is 3 letters followed by 6 digits. If so, prepend the patient name with \char`\"{}\+\_\+\char`\"{} and clinical trial protocol id, reject otherwise.
-\item Case3\+: check whether the date of birth is a 8-\/digit number. Replace the day with 30 and month with 06 if so.
-\item Case4\+: check whether the modality is \textquotesingle{}MR\textquotesingle{}. If so, check whether the manufacturer is \textquotesingle{}SIEMENS\textquotesingle{} or \textquotesingle{}HITACHI\textquotesingle{}. If that\textquotesingle{}s true, check whether the magnetic field strenght equals 1.\+5 or 3.\+0. Set the clinical trial series description to T1 if all these conditions are satisfied; reject otherwise.
+\item Case 1\+: Check whether the patient name is a 6-\/digit number. If so, insert the patient name to clinical trial subject id; reject otherwise.
+\item Case 2\+: Check whether the clinical trial protocol id is 3 letters followed by 6 digits. If so, prepend the patient name with \char`\"{}\+\_\+\char`\"{} and clinical trial protocol id; reject otherwise.
+\item Case 3\+: Check whether the date of birth is a 8-\/digit number. Replace the day with 30 and month with 06 if so.
+\item Case 4\+: check whether the modality is \textquotesingle{}MR\textquotesingle{}. If so, check whether the manufacturer is \textquotesingle{}SIEMENS\textquotesingle{} or \textquotesingle{}HITACHI\textquotesingle{}. If true, check whether the magnetic field strength equals 1.\+5 or 3.\+0. Set the clinical trial series description to T1 if all these conditions are satisfied; reject otherwise.
 
-We recommend the readers to read through this tutorial and the configuration gallery for a better understanding.\+If you have any questions, please refer to FAQ page first. If not solved, please email to Yiming Wei(\href{mailto:yiming.wei@dtc.ox.ac.uk}{\texttt{ yiming.\+wei@dtc.\+ox.\+ac.\+uk}}) or Dr. Martin Robinson (\href{mailto:martin.robinson@dtc.ox.ac.uk}{\texttt{ martin.\+robinson@dtc.\+ox.\+ac.\+uk}}) for help. 
+We recommend readers to go through this tutorial and the configuration gallery for a better understanding.\+If you have any questions, please refer to the FAQ page first. If the issue persists, feel free to email Yiming Wei(\href{mailto:yiming.wei@dtc.ox.ac.uk}{\texttt{ yiming.\+wei@dtc.\+ox.\+ac.\+uk}}) or Dr. Martin Robinson (\href{mailto:martin.robinson@dtc.ox.ac.uk}{\texttt{ martin.\+robinson@dtc.\+ox.\+ac.\+uk}}) for assistance.
 \end{DoxyItemize}\hypertarget{Tutorials_autotoc_md37}{}\doxysubsection{First Example}\label{Tutorials_autotoc_md37}
-Configuration files are written in json format. Please refer to the mainpage for spinning up the ECIQC. You can specify your own configuration files by typing in the following codes in the command line\+: 
+Configuration files are composed in JSON format. For guidance on initialising ECIQC, please refer to the main page. You can designate your custom configuration files by entering the following commands in the command line\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{./build/exe/qctool -\/-\/config-\/file <your\_configuration\_file.json>}
 
@@ -70,7 +70,7 @@ Within each DICOM tag, you need to specify the {\ttfamily tag\+Name},{\ttfamily 
 There are typicall four types of operators.
 \begin{DoxyEnumerate}
 \item Comparison operators\+: EQUAL (==), GREATER\+\_\+\+THAN, LESS\+\_\+\+THAN,IS\+\_\+\+IN. These operators compare the tag value with the ones provided by the user. They are usually followed by {\ttfamily IF\+\_\+\+TRUE} and {\ttfamily IF\+\_\+\+FALSE}.
-\item regular expression operators\+: EXIST, REGEX. These two operations check whether thare are specific \textquotesingle{}patterns\textquotesingle{} int he tag value, and return 3.\+Logical Operators\+: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.
+\item regular expression operators\+: EXIST, REGEX. These two operations check whether thare are specific \textquotesingle{}patterns\textquotesingle{} in the tag value 3.\+Logical Operators\+: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.
 \item Actions\+: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.
 \end{DoxyEnumerate}
 
@@ -108,8 +108,8 @@ The basic syntax of comparison operators is
 \end{longtabu}
 
 \item $<$action\+\_\+clause$>$\+: actions to take (also could be nested operations), please refer to actions section.
-\end{DoxyItemize}\hypertarget{Tutorials_autotoc_md45}{}\doxyparagraph{Regular expression}\label{Tutorials_autotoc_md45}
-\hypertarget{Tutorials_autotoc_md46}{}\doxyparagraph{Logical Operators NOT, AND, ALL}\label{Tutorials_autotoc_md46}
+\end{DoxyItemize}\hypertarget{Tutorials_autotoc_md45}{}\doxyparagraph{Regular expression EXIST REGEX}\label{Tutorials_autotoc_md45}
+EXIST checks if the specified tag exists, while REGEX determines whether the tag value satisfies a regular expression pattern.\hypertarget{Tutorials_autotoc_md46}{}\doxyparagraph{Logical Operators NOT, AND, ALL}\label{Tutorials_autotoc_md46}
 Logical operators usually combine different comparison operators or regular expression operators. One typical syntax is\+: 
 \begin{DoxyCode}{0}
 \DoxyCodeLine{"{}operations"{}:\{}
@@ -135,13 +135,11 @@ Logical operators usually combine different comparison operators or regular expr
 \end{DoxyItemize}\hypertarget{Tutorials_autotoc_md47}{}\doxyparagraph{Actions}\label{Tutorials_autotoc_md47}
 Actions might be the most complicated part in the configurations. A wide variety of actions are enabled in the ECIQC, and many requires further specifications. The actions can be divided into several groups as follows.
 \begin{DoxyItemize}
-\item {\bfseries{Group 1}}\+: UPDATE, INSERT, OVERWRITE
-\item {\bfseries{Group 2}}\+: REMOVE, CLEAR REMOVE means
+\item {\bfseries{Group 1}}\+: UPDATE, INSERT, OVERWRITE UPDATE means adding something in the next value channel without removing current ones; INSERT means adding specified value if the tag doesn\textquotesingle{}t exist. OVERWRITE replaces the value if the tag exists.
+\item {\bfseries{Group 2}}\+: REMOVE, CLEAR REMOVE means eliminating both the tag and the value while CLEAR asks to \char`\"{}remove\char`\"{} the value (tag is perserved).
 \item {\bfseries{Group 3}}\+: APPEND, PREPEND, APPEND means adding string at the end of the original value, while PREPEND means adding string at the start. Differetn from Group actions, the original tag value is presered in APPEND and PREPEND.
 \item {\bfseries{Group 4}}\+: REJECT REJECT means putting the image to the quarantine.
 \end{DoxyItemize}\hypertarget{Tutorials_autotoc_md48}{}\doxysubsubsection{Multiple operations}\label{Tutorials_autotoc_md48}
 The users bump into multiple operations when multiple actions are needed. For example, you may want to prepend the patient name with a \textquotesingle{}\+\_\+\textquotesingle{}, and then copy the \textquotesingle{}\+\_\+patient\+\_\+name\textquotesingle{} to other tags. Also, users will naturally use multiple operations when logical operators are introduced. A typical instance is telling whether the tag value is in some range (AND, GREATER\+\_\+\+THAN lower bound, LESS\+\_\+\+THAN upper bound). The implementation of ECIQC naturally supports multiple operations as long as you put your desired order of actions correctly. However, you need to pay attention to the repeated keys issue. \hypertarget{Tutorials_autotoc_md49}{}\doxyparagraph{Repeated keys}\label{Tutorials_autotoc_md49}
 A typical scenario for repeated keys is that you need to decide whether the tag value is {\ttfamily EQUAL} to valueA or valueB. One solution is to use the operation {\ttfamily IS\+\_\+in} and specify the comparison value to be a list. A more general approach is to prepend the {\ttfamily EQUAL} key with an unscore followed by some digits ({\ttfamily EQUAL\+\_\+1},{\ttfamily EQUAL\+\_\+2},...etc). The ECIQC will recognize them as different keys but behave in the same way as {\ttfamily EQUAL}.\hypertarget{Tutorials_autotoc_md50}{}\doxysubsubsection{Nested operations}\label{Tutorials_autotoc_md50}
-The implementation of ECIQC also provides some flexibility for nested operations. A typical case would be\+: compare one tag to some value, and if the condition is true, you compare another tag with some other values and make further decision on your action. In this case, you need to nest the second comparison within {\ttfamily IF\+\_\+\+TRUE}/{\ttfamily IF\+\_\+\+FALSE} key in the first operation. In the second operation, you need to specify {\ttfamily other\+Tag\+String} if you work on a tag different from the first operation.\hypertarget{Tutorials_autotoc_md51}{}\doxysubsubsection{Miscellaneous}\label{Tutorials_autotoc_md51}
-There is also some more details to introduce. Typically they involve multiple tags (e.\+g. copy value from one tag to another; the tag to be acted on are differnt from that in the logical conditions,etc). We recommend to ignore this first, and come back to the following details when you are stuck in some difficulities. Since this project is still in active developement, you can contact the authors for help. \hypertarget{Tutorials_autotoc_md52}{}\doxyparagraph{Operations cheat sheet}\label{Tutorials_autotoc_md52}
-\hypertarget{Tutorials_autotoc_md53}{}\doxysubsection{Presentation context and transfer syntax}\label{Tutorials_autotoc_md53}
+The implementation of ECIQC also provides some flexibility for nested operations. A typical case would be\+: compare one tag to some value, and if the condition is true, you compare another tag with some other values and make further decision on your action. In this case, you need to nest the second comparison within {\ttfamily IF\+\_\+\+TRUE}/{\ttfamily IF\+\_\+\+FALSE} key in the first operation. In the second operation, you need to specify {\ttfamily other\+Tag\+String} if you work on a tag different from the first operation. 

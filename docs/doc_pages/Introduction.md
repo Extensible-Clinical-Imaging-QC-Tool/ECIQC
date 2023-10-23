@@ -21,7 +21,7 @@ It might be helpful to skim through the source code in `./src`. In this director
 ### Step 5: Get Familiar with DICOM Format
 Digital Imaging and Communications in Medicine (DICOM) is the standard for the communication and management of medical imaging information and related data. The ECIQC primarily works on DICOM images. You are encouraged to use Google/ChatGPT to learn more about the DICOM format.
 
-All files in the ./DICOM_Images are in the DICOM format. To play around, use Python/Matlab and relevant packages to read these images, understand how to get access to metadata, and try to visualise them.
+All files in the `./DICOM_Images` are in the DICOM format. To play around, use Python/Matlab and relevant packages to read these images, understand how to get access to metadata, and try to visualise them.
 
 ### Step 6: Understand How Configuration Files Are Written
 Working through this part might seem challenging initially. Review the tutorial and configuration gallery to grasp the general rules. Last year, we invested a significant amount of time understanding these concepts directly from the source code. Hopefully this year you won't face the same "painful" experience.

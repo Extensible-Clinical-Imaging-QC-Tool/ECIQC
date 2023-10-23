@@ -74,7 +74,7 @@ $(function() {
 <li class="level2"><a href="#autotoc_md40">Receiver, Destination and Quarantine</a></li>
 <li class="level2"><a href="#autotoc_md41">MetaData</a><ul><li class="level3"><a href="#autotoc_md42">Basic syntax within DICOM tags</a></li>
 <li class="level3"><a href="#autotoc_md43">Operation types</a><ul><li class="level4"><a href="#autotoc_md44">Comparison Operators ==,&lt;=,&gt;=,\in</a></li>
-<li class="level4"><a href="#autotoc_md45">Regular expression</a></li>
+<li class="level4"><a href="#autotoc_md45">Regular expression EXIST REGEX</a></li>
 <li class="level4"><a href="#autotoc_md46">Logical Operators NOT, AND, ALL</a></li>
 <li class="level4"><a href="#autotoc_md47">Actions</a></li>
 </ul>
@@ -83,31 +83,27 @@ $(function() {
 </ul>
 </li>
 <li class="level3"><a href="#autotoc_md50">Nested operations</a></li>
-<li class="level3"><a href="#autotoc_md51">Miscellaneous</a><ul><li class="level4"><a href="#autotoc_md52">Operations cheat sheet</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="level2"><a href="#autotoc_md53">Presentation context and transfer syntax</a></li>
 </ul>
 </ul>
 </div>
-<div class="textblock"><p>ECIQC is a flexible framework for medical imaging quality control. Users can teach it what to do by writing configuration files. In this tutorial, we are going to introduce how to specify proper configuration files at successively increasing levels of details. This tutorial is suitable for both non-developers (end-users) and developers new to this software. At the end of this tutorial, you will learn</p><ul>
-<li>General syntaxes of configuration files;</li>
-<li>How to modify the example configuration files to cater to users' needs;</li>
-<li>How to start from strach to write proper configuration files.</li>
+<div class="textblock"><p>ECIQC is a flexible framework designed for medical imaging quality control. Users can guides its behaviour by crafting configuration files. In this tutorial, we will guide you through the process of specifying configuration files with increasing levels of detail. This tutorial caters to both non-developers (end-users) and developers who are new to this software. By the end of this tutorial, you will understand:</p><ul>
+<li>General syntaxes of configuration files</li>
+<li>How to modify example configuration files to meet users' requirements</li>
+<li>How to start from strach to write proper configuration files</li>
 </ul>
-<p>Here are some common scenarios proposed by Chris from GE Healthcare. You can find the corresponding configuration codes in configuration gallery page.</p><ul>
-<li>Case1: check whether the patient name is a 6-digit number. If so, insert the patient name to clinical trial subject id; reject otherwise.</li>
-<li>Case2: check whether the clinical trial protocol id is 3 letters followed by 6 digits. If so, prepend the patient name with "_" and clinical trial protocol id, reject otherwise.</li>
-<li>Case3: check whether the date of birth is a 8-digit number. Replace the day with 30 and month with 06 if so.</li>
-<li><p class="startli">Case4: check whether the modality is 'MR'. If so, check whether the manufacturer is 'SIEMENS' or 'HITACHI'. If that's true, check whether the magnetic field strenght equals 1.5 or 3.0. Set the clinical trial series description to T1 if all these conditions are satisfied; reject otherwise.</p>
-<p class="startli">We recommend the readers to read through this tutorial and the configuration gallery for a better understanding.If you have any questions, please refer to FAQ page first. If not solved, please email to Yiming Wei(<a href="#" onclick="location.href='mai'+'lto:'+'yim'+'in'+'g.w'+'ei'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">yimin<span style="display: none;">.nosp@m.</span>g.we<span style="display: none;">.nosp@m.</span>i@dtc<span style="display: none;">.nosp@m.</span>.ox.<span style="display: none;">.nosp@m.</span>ac.uk</a>) or Dr. Martin Robinson (<a href="#" onclick="location.href='mai'+'lto:'+'mar'+'ti'+'n.r'+'ob'+'ins'+'on'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">marti<span style="display: none;">.nosp@m.</span>n.ro<span style="display: none;">.nosp@m.</span>binso<span style="display: none;">.nosp@m.</span>n@dt<span style="display: none;">.nosp@m.</span>c.ox.<span style="display: none;">.nosp@m.</span>ac.u<span style="display: none;">.nosp@m.</span>k</a>) for help. </p>
+<p>Here are some common scenarios proposed by Chris from GE Healthcare. Corresponding configuration codes can be found on the configuration gallery page:</p><ul>
+<li>Case 1: Check whether the patient name is a 6-digit number. If so, insert the patient name to clinical trial subject id; reject otherwise.</li>
+<li>Case 2: Check whether the clinical trial protocol id is 3 letters followed by 6 digits. If so, prepend the patient name with "_" and clinical trial protocol id; reject otherwise.</li>
+<li>Case 3: Check whether the date of birth is a 8-digit number. Replace the day with 30 and month with 06 if so.</li>
+<li><p class="startli">Case 4: check whether the modality is 'MR'. If so, check whether the manufacturer is 'SIEMENS' or 'HITACHI'. If true, check whether the magnetic field strength equals 1.5 or 3.0. Set the clinical trial series description to T1 if all these conditions are satisfied; reject otherwise.</p>
+<p class="startli">We recommend readers to go through this tutorial and the configuration gallery for a better understanding.If you have any questions, please refer to the FAQ page first. If the issue persists, feel free to email Yiming Wei(<a href="#" onclick="location.href='mai'+'lto:'+'yim'+'in'+'g.w'+'ei'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">yimin<span style="display: none;">.nosp@m.</span>g.we<span style="display: none;">.nosp@m.</span>i@dtc<span style="display: none;">.nosp@m.</span>.ox.<span style="display: none;">.nosp@m.</span>ac.uk</a>) or Dr. Martin Robinson (<a href="#" onclick="location.href='mai'+'lto:'+'mar'+'ti'+'n.r'+'ob'+'ins'+'on'+'@dt'+'c.'+'ox.'+'ac'+'.uk'; return false;">marti<span style="display: none;">.nosp@m.</span>n.ro<span style="display: none;">.nosp@m.</span>binso<span style="display: none;">.nosp@m.</span>n@dt<span style="display: none;">.nosp@m.</span>c.ox.<span style="display: none;">.nosp@m.</span>ac.u<span style="display: none;">.nosp@m.</span>k</a>) for assistance.</p>
 </li>
 </ul>
 <h2><a class="anchor" id="autotoc_md37"></a>
 First Example</h2>
-<p>Configuration files are written in json format. Please refer to the mainpage for spinning up the ECIQC. You can specify your own configuration files by typing in the following codes in the command line: </p><div class="fragment"><div class="line">./build/exe/qctool --config-file &lt;your_configuration_file.json&gt;</div>
+<p>Configuration files are composed in JSON format. For guidance on initialising ECIQC, please refer to the main page. You can designate your custom configuration files by entering the following commands in the command line: </p><div class="fragment"><div class="line">./build/exe/qctool --config-file &lt;your_configuration_file.json&gt;</div>
 </div><!-- fragment --> <h3><a class="anchor" id="autotoc_md38"></a>
 Example codes</h3>
 <p>We illustrate the basic components with a simple configuration file. </p><div class="fragment"><div class="line">{</div>
@@ -163,7 +159,7 @@ Basic syntax within DICOM tags</h3>
 Operation types</h3>
 <p>There are typicall four types of operators.</p><ol type="1">
 <li>Comparison operators: EQUAL (==), GREATER_THAN, LESS_THAN,IS_IN. These operators compare the tag value with the ones provided by the user. They are usually followed by <code>IF_TRUE</code> and <code>IF_FALSE</code>.</li>
-<li>regular expression operators: EXIST, REGEX. These two operations check whether thare are specific 'patterns' int he tag value, and return 3.Logical Operators: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.</li>
+<li>regular expression operators: EXIST, REGEX. These two operations check whether thare are specific 'patterns' in the tag value 3.Logical Operators: NOT, AND, ALL. These are similar to those used in programming languages and typically link multiple comparison operations and regular expression operations.</li>
 <li>Actions: OVERWRITE,REMOVE,INSERT,CLEAR,COPY,UPDATE,APPEND,PREPEND,REJECT. Those are the real actions to perform if certain conditions are satisfied. The users can specify unconditional actions, which is not recommended in most cases.</li>
 </ol>
 <p>We introduce the syntaxes of different operators in the following subsections. </p>
@@ -196,7 +192,8 @@ Comparison Operators ==,&lt;=,&gt;=,\in</h4>
 <li>&lt;action_clause&gt;: actions to take (also could be nested operations), please refer to actions section.</li>
 </ul>
 <h4><a class="anchor" id="autotoc_md45"></a>
-Regular expression</h4>
+Regular expression EXIST REGEX</h4>
+<p>EXIST checks if the specified tag exists, while REGEX determines whether the tag value satisfies a regular expression pattern.</p>
 <h4><a class="anchor" id="autotoc_md46"></a>
 Logical Operators NOT, AND, ALL</h4>
 <p>Logical operators usually combine different comparison operators or regular expression operators. One typical syntax is: </p><div class="fragment"><div class="line">&quot;operations&quot;:{</div>
@@ -220,8 +217,8 @@ Logical Operators NOT, AND, ALL</h4>
 <h4><a class="anchor" id="autotoc_md47"></a>
 Actions</h4>
 <p>Actions might be the most complicated part in the configurations. A wide variety of actions are enabled in the ECIQC, and many requires further specifications. The actions can be divided into several groups as follows.</p><ul>
-<li><b>Group 1</b>: UPDATE, INSERT, OVERWRITE</li>
-<li><b>Group 2</b>: REMOVE, CLEAR REMOVE means</li>
+<li><b>Group 1</b>: UPDATE, INSERT, OVERWRITE UPDATE means adding something in the next value channel without removing current ones; INSERT means adding specified value if the tag doesn't exist. OVERWRITE replaces the value if the tag exists.</li>
+<li><b>Group 2</b>: REMOVE, CLEAR REMOVE means eliminating both the tag and the value while CLEAR asks to "remove" the value (tag is perserved).</li>
 <li><b>Group 3</b>: APPEND, PREPEND, APPEND means adding string at the end of the original value, while PREPEND means adding string at the start. Differetn from Group actions, the original tag value is presered in APPEND and PREPEND.</li>
 <li><b>Group 4</b>: REJECT REJECT means putting the image to the quarantine.</li>
 </ul>
@@ -233,14 +230,7 @@ Repeated keys</h4>
 <p>A typical scenario for repeated keys is that you need to decide whether the tag value is <code>EQUAL</code> to valueA or valueB. One solution is to use the operation <code>IS_in</code> and specify the comparison value to be a list. A more general approach is to prepend the <code>EQUAL</code> key with an unscore followed by some digits (<code>EQUAL_1</code>,<code>EQUAL_2</code>,...etc). The ECIQC will recognize them as different keys but behave in the same way as <code>EQUAL</code>.</p>
 <h3><a class="anchor" id="autotoc_md50"></a>
 Nested operations</h3>
-<p>The implementation of ECIQC also provides some flexibility for nested operations. A typical case would be: compare one tag to some value, and if the condition is true, you compare another tag with some other values and make further decision on your action. In this case, you need to nest the second comparison within <code>IF_TRUE</code>/<code>IF_FALSE</code> key in the first operation. In the second operation, you need to specify <code>otherTagString</code> if you work on a tag different from the first operation.</p>
-<h3><a class="anchor" id="autotoc_md51"></a>
-Miscellaneous</h3>
-<p>There is also some more details to introduce. Typically they involve multiple tags (e.g. copy value from one tag to another; the tag to be acted on are differnt from that in the logical conditions,etc). We recommend to ignore this first, and come back to the following details when you are stuck in some difficulities. Since this project is still in active developement, you can contact the authors for help. </p>
-<h4><a class="anchor" id="autotoc_md52"></a>
-Operations cheat sheet</h4>
-<h2><a class="anchor" id="autotoc_md53"></a>
-Presentation context and transfer syntax</h2>
+<p>The implementation of ECIQC also provides some flexibility for nested operations. A typical case would be: compare one tag to some value, and if the condition is true, you compare another tag with some other values and make further decision on your action. In this case, you need to nest the second comparison within <code>IF_TRUE</code>/<code>IF_FALSE</code> key in the first operation. In the second operation, you need to specify <code>otherTagString</code> if you work on a tag different from the first operation. </p>
 </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
