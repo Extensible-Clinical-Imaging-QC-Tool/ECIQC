@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['r_29',['r',['../classConductor.html#ac2457ee92031b8cee6a874ac46215369',1,'Conductor']]],
-  ['receiver_30',['Receiver',['../classReceiver.html',1,'Receiver'],['../classReceiver.html#a019266db1fe932e4c51048cb34c84cbe',1,'Receiver::Receiver()']]],
-  ['receiverthread_31',['ReceiverThread',['../classReceiverThread.html',1,'ReceiverThread'],['../classReceiverThread.html#a1592d074fcde9c46697eccea721b9b3a',1,'ReceiverThread::ReceiverThread()']]],
-  ['request_5fstop_32',['request_stop',['../classReceiver.html#a46afb4a8e68cb4b72b3ce1ce6371f36a',1,'Receiver']]],
-  ['run_33',['run',['../classParser.html#a9e8d06d145f534e73a40b38e3f6711a0',1,'Parser::run()'],['../classReceiver.html#a28dfa33df67c36d77b4b0972c144e243',1,'Receiver::run()']]]
+  ['match_32',['match',['../classMetadataEditor.html#aaf990e8ed3006a9e934bcbf762aad5d8',1,'MetadataEditor::match(const OFString &amp;str_expr, OFCondition &amp;flag, unsigned long pos=0)'],['../classMetadataEditor.html#a613963ffae4f85d82d15f7ca32c230b2',1,'MetadataEditor::match(const OFString &amp;otherTagString, const OFString &amp;str_expr, OFCondition &amp;flag, unsigned long pos=0)'],['../classMetadataEditor.html#a11b104ce10b3c80cd1db2a571e7a9d44',1,'MetadataEditor::match(const DcmTagKey &amp;otherTagKey, const OFString &amp;str_expr, OFCondition &amp;flag, unsigned long pos=0)']]],
+  ['mdfdatasetmanager_33',['MdfDatasetManager',['../classMdfDatasetManager.html',1,'MdfDatasetManager'],['../classMdfDatasetManager.html#a3e5dd9d7be105086b92a56c85529cd6e',1,'MdfDatasetManager::MdfDatasetManager()']]],
+  ['metadataeditor_34',['MetadataEditor',['../classMetadataEditor.html',1,'MetadataEditor'],['../classMetadataEditor.html#aff5ec7ca8861177710a4d491ba59b855',1,'MetadataEditor::MetadataEditor()']]],
+  ['modify_35',['modify',['../classMetadataEditor.html#ac2e44571f117432d698b793924289279',1,'MetadataEditor::modify(const OFString &amp;newValue, OFBool only_overwrite)'],['../classMetadataEditor.html#abc18a129791cc7f29ff50c048abd0b5a',1,'MetadataEditor::modify(const OFString &amp;newValue, const OFString &amp;otherTagString, OFBool only_overwrite)'],['../classMetadataEditor.html#af554ec118ed3cef1cbd8103f777dbad0',1,'MetadataEditor::modify(const OFString &amp;newValue, const DcmTagKey &amp;otherTagKey, OFBool only_overwrite)']]],
+  ['modifyalltags_36',['modifyAllTags',['../classMdfDatasetManager.html#a106bb0c93370fafdbec506100717a2f8',1,'MdfDatasetManager']]],
+  ['modifyorinsertfromfile_37',['modifyOrInsertFromFile',['../classMdfDatasetManager.html#a1397e76cbf6ed39ebb60543bc07f7bb0',1,'MdfDatasetManager']]],
+  ['modifyorinsertpath_38',['modifyOrInsertPath',['../classMdfDatasetManager.html#a48cd22890a793d0c5785ed806fc807b6',1,'MdfDatasetManager']]]
 ];

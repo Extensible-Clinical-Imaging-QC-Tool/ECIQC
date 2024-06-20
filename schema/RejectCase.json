@@ -17,7 +17,7 @@
         "(0010,0010)": {
           "tagName": "PatientName",
           "vr": "CS",
-          "description": "check if patient is called 'James Bond' and reject, if so.",
+          "description": "check if patient is called 'James Bond' and reject, if not.",
           "operations": {
             "EQUAL": {
                 "otherTagString": "",

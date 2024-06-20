@@ -10,25 +10,25 @@
 {\bfseries Validator} (Dcm\+Dataset $\ast$dataset)
 \item 
 \mbox{\Hypertarget{classValidator_a397c0bd0338c49efca27258f2580d3a5}\label{classValidator_a397c0bd0338c49efca27258f2580d3a5}} 
-O\+F\+Bool {\bfseries dicom\+Format\+Validation} ()
+OFBool {\bfseries dicom\+Format\+Validation} ()
 \item 
 \mbox{\Hypertarget{classValidator_a3791bcdcc049f146ce2a1f9357293438}\label{classValidator_a3791bcdcc049f146ce2a1f9357293438}} 
-O\+F\+Bool {\bfseries validate\+Tag} (const Dcm\+Tag\+Key \&key)
+OFBool {\bfseries validate\+Tag} (const Dcm\+Tag\+Key \&key)
 \item 
 \mbox{\Hypertarget{classValidator_a16235345f37ebee9d686f91a76c72ab0}\label{classValidator_a16235345f37ebee9d686f91a76c72ab0}} 
-O\+F\+Bool {\bfseries validate\+Tag} (O\+F\+String tag\+\_\+name)
+OFBool {\bfseries validate\+Tag} (OFString tag\+\_\+name)
 \item 
 \mbox{\Hypertarget{classValidator_aa7bb562456bec9b02ba59485064eafcc}\label{classValidator_aa7bb562456bec9b02ba59485064eafcc}} 
-O\+F\+Bool {\bfseries validate\+Tag\+Value} (const Dcm\+Tag\+Key \&key)
+OFBool {\bfseries validate\+Tag\+Value} (const Dcm\+Tag\+Key \&key)
 \item 
 \mbox{\Hypertarget{classValidator_a30b655068eac2063df9cdb11e6673c27}\label{classValidator_a30b655068eac2063df9cdb11e6673c27}} 
-O\+F\+Bool {\bfseries validate\+Tag\+Value} (O\+F\+String tag\+\_\+name)
+OFBool {\bfseries validate\+Tag\+Value} (OFString tag\+\_\+name)
 \item 
 \mbox{\Hypertarget{classValidator_af003a7d7ea4c65eeb8d0bbe29d3b7e24}\label{classValidator_af003a7d7ea4c65eeb8d0bbe29d3b7e24}} 
-O\+F\+Bool {\bfseries validate\+Tag\+Value\+Range} (const Dcm\+Tag\+Key \&key, const double lower\+\_\+bound, const double upper\+\_\+bound)
+OFBool {\bfseries validate\+Tag\+Value\+Range} (const Dcm\+Tag\+Key \&key, const double lower\+\_\+bound, const double upper\+\_\+bound)
 \item 
 \mbox{\Hypertarget{classValidator_a3a470b4e927ab4c96876b598852877d6}\label{classValidator_a3a470b4e927ab4c96876b598852877d6}} 
-O\+F\+Bool {\bfseries validate\+Tag\+Value\+Range} (O\+F\+String tag\+\_\+name, const double lower\+\_\+bound, const double upper\+\_\+bound)
+OFBool {\bfseries validate\+Tag\+Value\+Range} (OFString tag\+\_\+name, const double lower\+\_\+bound, const double upper\+\_\+bound)
 \item 
 \mbox{\Hypertarget{classValidator_a20e8f188c63be3d921ada344490e5b39}\label{classValidator_a20e8f188c63be3d921ada344490e5b39}} 
 void {\bfseries validation\+File\+Writer} ()
@@ -40,10 +40,10 @@ void {\bfseries validation\+Output\+Tag\+Writer} ()
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classValidator_adbf8e840383668ecacd7ee33552b0310}\label{classValidator_adbf8e840383668ecacd7ee33552b0310}} 
-static Dcm\+Tag\+Key {\bfseries get\+Tag\+Key\+From\+Dictionary} (O\+F\+String tag\+\_\+name)
+static Dcm\+Tag\+Key {\bfseries get\+Tag\+Key\+From\+Dictionary} (OFString tag\+\_\+name)
 \item 
 \mbox{\Hypertarget{classValidator_a8a4cf27ef7658290b118b0b2d2dd1b73}\label{classValidator_a8a4cf27ef7658290b118b0b2d2dd1b73}} 
-static O\+F\+String {\bfseries get\+Tag\+Name\+From\+Dictionary} (const Dcm\+Tag\+Key \&key, const char $\ast$priv\+Creator=N\+U\+LL)
+static OFString {\bfseries get\+Tag\+Name\+From\+Dictionary} (const Dcm\+Tag\+Key \&key, const char $\ast$priv\+Creator=NULL)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
@@ -55,14 +55,14 @@ const char $\ast$ {\bfseries file\+\_\+name}
 Dcm\+Dataset $\ast$ {\bfseries dataset}
 \item 
 \mbox{\Hypertarget{classValidator_af69e8f18cb3c5c91678ffe2c3516ea58}\label{classValidator_af69e8f18cb3c5c91678ffe2c3516ea58}} 
-O\+F\+String {\bfseries validation\+\_\+results}
+OFString {\bfseries validation\+\_\+results}
 \item 
 \mbox{\Hypertarget{classValidator_a58eb4ab5de1c3db88fdf45d3614cb5f9}\label{classValidator_a58eb4ab5de1c3db88fdf45d3614cb5f9}} 
-O\+F\+Bool {\bfseries validation\+\_\+output} = O\+F\+True
+OFBool {\bfseries validation\+\_\+output} = OFTrue
 \end{DoxyCompactItemize}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/validator.\+hpp\item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/validator.\+cpp\end{DoxyCompactItemize}
+/home/weiym97/\+ECIQC/src/metadata/validator.\+hpp\item 
+/home/weiym97/\+ECIQC/src/metadata/validator.\+cpp\end{DoxyCompactItemize}

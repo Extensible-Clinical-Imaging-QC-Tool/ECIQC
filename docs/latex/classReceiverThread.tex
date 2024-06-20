@@ -2,34 +2,44 @@
 \label{classReceiverThread}\index{ReceiverThread@{ReceiverThread}}
 
 
-{\ttfamily \#include $<$receiver.\+hpp$>$}
+{\ttfamily \#include $<$Receiver.\+hpp$>$}
 
 
 
-Inheritance diagram for Receiver\+Thread\+:
-% FIG 0
+Inheritance diagram for Receiver\+Thread\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{classReceiverThread__inherit__graph}
+\end{center}
+\end{figure}
 
 
-Collaboration diagram for Receiver\+Thread\+:
-% FIG 1
+Collaboration diagram for Receiver\+Thread\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=173pt]{classReceiverThread__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classReceiverThread_a1592d074fcde9c46697eccea721b9b3a}{Receiver\+Thread}} ()
 \item 
-virtual \mbox{\hyperlink{classReceiverThread_aad16501256a1810127a18bd0d1127bc0}{$\sim$\+Receiver\+Thread}} ()
+\mbox{\hyperlink{classReceiverThread_a047caeb840bcdfe4aa429c2451ffc25e}{$\sim$\+Receiver\+Thread}} () override
 \item 
-O\+F\+Condition \mbox{\hyperlink{classReceiverThread_aaa82159875e9a69ca89e5f2041d4c390}{handle\+Incoming\+Command}} (T\+\_\+\+D\+I\+M\+S\+E\+\_\+\+Message $\ast$incoming\+Msg, const Dcm\+Presentation\+Context\+Info \&pres\+Info)
+OFCondition \mbox{\hyperlink{classReceiverThread_a47aa75a34f0f865f961064f2d06b0a38}{handle\+Incoming\+Command}} (T\+\_\+\+DIMSE\+\_\+\+Message $\ast$incoming\+Msg, const Dcm\+Presentation\+Context\+Info \&pres\+Info) override
 \item 
-virtual O\+F\+Condition \mbox{\hyperlink{classReceiverThread_a57d8498140c62bd8cad124097e3aa9d1}{set\+I\+Ps}} (const O\+F\+List$<$ O\+F\+String $>$ \&source\+\_\+list)
+virtual OFCondition \mbox{\hyperlink{classReceiverThread_a57d8498140c62bd8cad124097e3aa9d1}{set\+IPs}} (const OFList$<$ OFString $>$ \&source\+\_\+list)
 \item 
-virtual O\+F\+Condition \mbox{\hyperlink{classReceiverThread_a364ce3806699abc0572b8232a0c96aa7}{setpeer\+A\+E\+Titles}} (const O\+F\+List$<$ O\+F\+String $>$ \&peerae\+\_\+list)
+virtual OFCondition \mbox{\hyperlink{classReceiverThread_a364ce3806699abc0572b8232a0c96aa7}{setpeer\+AETitles}} (const OFList$<$ OFString $>$ \&peerae\+\_\+list)
 \item 
-virtual O\+F\+Bool \mbox{\hyperlink{classReceiverThread_ab22da1f63c2734ab47607f77b03de5e9}{check\+Calling\+Host\+Accepted}} (const O\+F\+String \&host\+Or\+IP)
+OFBool \mbox{\hyperlink{classReceiverThread_ada03bc2ff4c66549d19ec2a130bebf89}{check\+Calling\+Host\+Accepted}} (const OFString \&host\+Or\+IP) override
 \item 
-virtual O\+F\+Bool \mbox{\hyperlink{classReceiverThread_a952fdcbde48f28463103edfc1a480b86}{check\+Calling\+A\+E\+Title\+Accepted}} (const O\+F\+String \&calling\+AE)
+OFBool \mbox{\hyperlink{classReceiverThread_a207566653d72635e358ef6410defe89b}{check\+Calling\+AETitle\+Accepted}} (const OFString \&calling\+AE) override
 \item 
-void \mbox{\hyperlink{classReceiverThread_a37fe9b714a72e911d5f8412c9f6fe7f5}{setdatasetaddress}} (O\+Fshared\+\_\+ptr$<$ O\+F\+List$<$ Dcm\+Dataset $>$$>$ dset)
+void \mbox{\hyperlink{classReceiverThread_a9fd53aca740b0afb8dfb6552443c9751}{setdatasetaddress}} (OFshared\+\_\+ptr$<$ \mbox{\hyperlink{classThreadSafeQueue}{Thread\+Safe\+Queue}}$<$ Dcm\+Dataset $>$$>$ dset)
 \end{DoxyCompactItemize}
 
 
@@ -43,56 +53,56 @@ A worker thread in a multithreaded Service Class Provider. Runs an association f
 \doxysubsubsection{\texorpdfstring{ReceiverThread()}{ReceiverThread()}}
 {\footnotesize\ttfamily Receiver\+Thread\+::\+Receiver\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Constructor. \mbox{\Hypertarget{classReceiverThread_aad16501256a1810127a18bd0d1127bc0}\label{classReceiverThread_aad16501256a1810127a18bd0d1127bc0}} 
+Constructor. \mbox{\Hypertarget{classReceiverThread_a047caeb840bcdfe4aa429c2451ffc25e}\label{classReceiverThread_a047caeb840bcdfe4aa429c2451ffc25e}} 
 \index{ReceiverThread@{ReceiverThread}!````~ReceiverThread@{$\sim$ReceiverThread}}
 \index{````~ReceiverThread@{$\sim$ReceiverThread}!ReceiverThread@{ReceiverThread}}
 \doxysubsubsection{\texorpdfstring{$\sim$ReceiverThread()}{~ReceiverThread()}}
-{\footnotesize\ttfamily Receiver\+Thread\+::$\sim$\+Receiver\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily Receiver\+Thread\+::$\sim$\+Receiver\+Thread (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
 
 Destructor. 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classReceiverThread_a952fdcbde48f28463103edfc1a480b86}\label{classReceiverThread_a952fdcbde48f28463103edfc1a480b86}} 
+\mbox{\Hypertarget{classReceiverThread_a207566653d72635e358ef6410defe89b}\label{classReceiverThread_a207566653d72635e358ef6410defe89b}} 
 \index{ReceiverThread@{ReceiverThread}!checkCallingAETitleAccepted@{checkCallingAETitleAccepted}}
 \index{checkCallingAETitleAccepted@{checkCallingAETitleAccepted}!ReceiverThread@{ReceiverThread}}
 \doxysubsubsection{\texorpdfstring{checkCallingAETitleAccepted()}{checkCallingAETitleAccepted()}}
-{\footnotesize\ttfamily O\+F\+Bool Receiver\+Thread\+::check\+Calling\+A\+E\+Title\+Accepted (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{calling\+AE }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily OFBool Receiver\+Thread\+::check\+Calling\+AETitle\+Accepted (\begin{DoxyParamCaption}\item[{const OFString \&}]{calling\+AE }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
 
-Check if calling AE Title is accepted by the S\+CP. 
+Check if calling AE Title is accepted by the SCP. 
 \begin{DoxyParams}{Parameters}
 {\em calling\+AE} & Connected peer\textquotesingle{}s AE Title. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-O\+F\+True if calling AE Title is allowed (or if no acceptable calling AE Titles are specified). O\+F\+False if calling AE is not accepted. 
+OFTrue if calling AE Title is allowed (or if no acceptable calling AE Titles are specified). OFFalse if calling AE is not accepted. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classReceiverThread_ab22da1f63c2734ab47607f77b03de5e9}\label{classReceiverThread_ab22da1f63c2734ab47607f77b03de5e9}} 
+\mbox{\Hypertarget{classReceiverThread_ada03bc2ff4c66549d19ec2a130bebf89}\label{classReceiverThread_ada03bc2ff4c66549d19ec2a130bebf89}} 
 \index{ReceiverThread@{ReceiverThread}!checkCallingHostAccepted@{checkCallingHostAccepted}}
 \index{checkCallingHostAccepted@{checkCallingHostAccepted}!ReceiverThread@{ReceiverThread}}
 \doxysubsubsection{\texorpdfstring{checkCallingHostAccepted()}{checkCallingHostAccepted()}}
-{\footnotesize\ttfamily O\+F\+Bool Receiver\+Thread\+::check\+Calling\+Host\+Accepted (\begin{DoxyParamCaption}\item[{const O\+F\+String \&}]{host\+Or\+IP }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily OFBool Receiver\+Thread\+::check\+Calling\+Host\+Accepted (\begin{DoxyParamCaption}\item[{const OFString \&}]{host\+Or\+IP }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
 
-Check if calling I\+P/hostname is accepted by the S\+CP. 
+Check if calling IP/hostname is accepted by the SCP. 
 \begin{DoxyParams}{Parameters}
 {\em host\+Or\+IP} & Connected peer\textquotesingle{}s hostname or IP. \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-O\+F\+True if hostname/\+IP is allowed (or if no acceptable hostnames/\+I\+Ps are specified). O\+F\+False if hostname/\+IP is not accepted. 
+OFTrue if hostname/\+IP is allowed (or if no acceptable hostnames/\+IPs are specified). OFFalse if hostname/\+IP is not accepted. 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classReceiverThread_aaa82159875e9a69ca89e5f2041d4c390}\label{classReceiverThread_aaa82159875e9a69ca89e5f2041d4c390}} 
+\mbox{\Hypertarget{classReceiverThread_a47aa75a34f0f865f961064f2d06b0a38}\label{classReceiverThread_a47aa75a34f0f865f961064f2d06b0a38}} 
 \index{ReceiverThread@{ReceiverThread}!handleIncomingCommand@{handleIncomingCommand}}
 \index{handleIncomingCommand@{handleIncomingCommand}!ReceiverThread@{ReceiverThread}}
 \doxysubsubsection{\texorpdfstring{handleIncomingCommand()}{handleIncomingCommand()}}
-{\footnotesize\ttfamily O\+F\+Condition Receiver\+Thread\+::handle\+Incoming\+Command (\begin{DoxyParamCaption}\item[{T\+\_\+\+D\+I\+M\+S\+E\+\_\+\+Message $\ast$}]{incoming\+Msg,  }\item[{const Dcm\+Presentation\+Context\+Info \&}]{pres\+Info }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily OFCondition Receiver\+Thread\+::handle\+Incoming\+Command (\begin{DoxyParamCaption}\item[{T\+\_\+\+DIMSE\+\_\+\+Message $\ast$}]{incoming\+Msg,  }\item[{const Dcm\+Presentation\+Context\+Info \&}]{pres\+Info }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}}
 
-Overwrite method of Dcm\+S\+CP to enable handling of C-\/\+S\+T\+O\+RE requests. \mbox{\Hypertarget{classReceiverThread_a37fe9b714a72e911d5f8412c9f6fe7f5}\label{classReceiverThread_a37fe9b714a72e911d5f8412c9f6fe7f5}} 
+Overwrite method of Dcm\+SCP to enable handling of C-\/\+STORE requests. \mbox{\Hypertarget{classReceiverThread_a9fd53aca740b0afb8dfb6552443c9751}\label{classReceiverThread_a9fd53aca740b0afb8dfb6552443c9751}} 
 \index{ReceiverThread@{ReceiverThread}!setdatasetaddress@{setdatasetaddress}}
 \index{setdatasetaddress@{setdatasetaddress}!ReceiverThread@{ReceiverThread}}
 \doxysubsubsection{\texorpdfstring{setdatasetaddress()}{setdatasetaddress()}}
-{\footnotesize\ttfamily void Receiver\+Thread\+::setdatasetaddress (\begin{DoxyParamCaption}\item[{O\+Fshared\+\_\+ptr$<$ O\+F\+List$<$ Dcm\+Dataset $>$$>$}]{dset }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Receiver\+Thread\+::setdatasetaddress (\begin{DoxyParamCaption}\item[{OFshared\+\_\+ptr$<$ \mbox{\hyperlink{classThreadSafeQueue}{Thread\+Safe\+Queue}}$<$ Dcm\+Dataset $>$$>$}]{dset }\end{DoxyParamCaption})}
 
-Set a shared pointer for storing received D\+I\+C\+OM images. 
+Set a shared pointer for storing received DICOM images. 
 \begin{DoxyParams}{Parameters}
 {\em dset} & Shared pointer to be used by the worker. \\
 \hline
@@ -101,9 +111,9 @@ Set a shared pointer for storing received D\+I\+C\+OM images.
 \index{ReceiverThread@{ReceiverThread}!setIPs@{setIPs}}
 \index{setIPs@{setIPs}!ReceiverThread@{ReceiverThread}}
 \doxysubsubsection{\texorpdfstring{setIPs()}{setIPs()}}
-{\footnotesize\ttfamily O\+F\+Condition Receiver\+Thread\+::set\+I\+Ps (\begin{DoxyParamCaption}\item[{const O\+F\+List$<$ O\+F\+String $>$ \&}]{source\+\_\+list }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily OFCondition Receiver\+Thread\+::set\+IPs (\begin{DoxyParamCaption}\item[{const OFList$<$ OFString $>$ \&}]{source\+\_\+list }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
 
-Set I\+P/hostnames accepted by the S\+CP worker. 
+Set IP/hostnames accepted by the SCP worker. 
 \begin{DoxyParams}{Parameters}
 {\em source\+\_\+list} & List of accepted hostname or IP. \\
 \hline
@@ -112,9 +122,9 @@ Set I\+P/hostnames accepted by the S\+CP worker.
 \index{ReceiverThread@{ReceiverThread}!setpeerAETitles@{setpeerAETitles}}
 \index{setpeerAETitles@{setpeerAETitles}!ReceiverThread@{ReceiverThread}}
 \doxysubsubsection{\texorpdfstring{setpeerAETitles()}{setpeerAETitles()}}
-{\footnotesize\ttfamily O\+F\+Condition Receiver\+Thread\+::setpeer\+A\+E\+Titles (\begin{DoxyParamCaption}\item[{const O\+F\+List$<$ O\+F\+String $>$ \&}]{peerae\+\_\+list }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+{\footnotesize\ttfamily OFCondition Receiver\+Thread\+::setpeer\+AETitles (\begin{DoxyParamCaption}\item[{const OFList$<$ OFString $>$ \&}]{peerae\+\_\+list }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
 
-Set called AE titles accepted by the S\+CP worker. 
+Set called AE titles accepted by the SCP worker. 
 \begin{DoxyParams}{Parameters}
 {\em peerae\+\_\+list} & List of accepted called AE Titles. \\
 \hline
@@ -123,5 +133,5 @@ Set called AE titles accepted by the S\+CP worker.
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/receiver.\+hpp\item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/receiver.\+cpp\end{DoxyCompactItemize}
+/home/weiym97/\+ECIQC/src/communication/Receiver.\+hpp\item 
+/home/weiym97/\+ECIQC/src/communication/Receiver.\+cpp\end{DoxyCompactItemize}

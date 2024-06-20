@@ -2,28 +2,53 @@
 \label{classReceiver}\index{Receiver@{Receiver}}
 
 
-{\ttfamily \#include $<$receiver.\+hpp$>$}
+{\ttfamily \#include $<$Receiver.\+hpp$>$}
 
 
 
-Inheritance diagram for Receiver\+:
-% FIG 0
+Inheritance diagram for Receiver\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classReceiver__inherit__graph}
+\end{center}
+\end{figure}
 
 
-Collaboration diagram for Receiver\+:
-% FIG 1
+Collaboration diagram for Receiver\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{classReceiver__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classReceiver_a019266db1fe932e4c51048cb34c84cbe}{Receiver}} (Uint16 port, O\+F\+String aetitle)
+\mbox{\hyperlink{classReceiver_ab05f062ad8bc9105e7708c9567552908}{Receiver}} ()
 \item 
-virtual \mbox{\hyperlink{classReceiver_a4ac4a645965e64591fc9bda1c0866a9f}{$\sim$\+Receiver}} ()
+\mbox{\Hypertarget{classReceiver_ac663eb9660870d626d0e00af07448c95}\label{classReceiver_ac663eb9660870d626d0e00af07448c95}} 
+{\bfseries Receiver} (Uint16 port, std\+::string aetitle)
+\item 
+\mbox{\Hypertarget{classReceiver_a1b2bd089f6f8196c5a8d734bbf0a60f7}\label{classReceiver_a1b2bd089f6f8196c5a8d734bbf0a60f7}} 
+{\bfseries Receiver} (const \mbox{\hyperlink{classReceiver}{Receiver}} \&)=delete
+\item 
+\mbox{\Hypertarget{classReceiver_a68905d8b07b052dc27729ea6513a9eab}\label{classReceiver_a68905d8b07b052dc27729ea6513a9eab}} 
+{\bfseries Receiver} (\mbox{\hyperlink{classReceiver}{Receiver}} \&\&)=delete
+\item 
+\mbox{\Hypertarget{classReceiver_a2e559dec8552c1fd44030e21ddb676a9}\label{classReceiver_a2e559dec8552c1fd44030e21ddb676a9}} 
+\mbox{\hyperlink{classReceiver}{Receiver}} \& {\bfseries operator=} (const \mbox{\hyperlink{classReceiver}{Receiver}} \&)=delete
+\item 
+\mbox{\Hypertarget{classReceiver_a346ae1090cb4db53a51286fff2fad46d}\label{classReceiver_a346ae1090cb4db53a51286fff2fad46d}} 
+\mbox{\hyperlink{classReceiver}{Receiver}} \& {\bfseries operator=} (\mbox{\hyperlink{classReceiver}{Receiver}} \&\&)=delete
 \item 
 virtual void \mbox{\hyperlink{classReceiver_a46afb4a8e68cb4b72b3ce1ce6371f36a}{request\+\_\+stop}} ()
 \item 
-void \mbox{\hyperlink{classReceiver_a1a6cda57e5197eca798c31845018072d}{setaetitle}} (O\+F\+String ae\+\_\+title)
+void \mbox{\hyperlink{classReceiver_a61b2f7be1877a0b6dc0b687e06b81003}{setaetitle}} (std\+::string ae\+\_\+title)
 \item 
 void \mbox{\hyperlink{classReceiver_a06924865984df4c074197d2553855e5a}{setportnumber}} (Uint16 port)
+\item 
+void \mbox{\hyperlink{classReceiver_a8a78486a989bb67895c002b853a43237}{set\+\_\+additional\+\_\+context}} (const json \&context)
 \item 
 \mbox{\Hypertarget{classReceiver_a0937f5a85c02522f3b1a432b521da8dc}\label{classReceiver_a0937f5a85c02522f3b1a432b521da8dc}} 
 Dcm\+Dataset $\ast$ {\bfseries getpooldataset} ()
@@ -32,12 +57,12 @@ Dcm\+Dataset $\ast$ {\bfseries getpooldataset} ()
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\Hypertarget{classReceiver_affd18269d9bfb413b2f2672330ac8cd1}\label{classReceiver_affd18269d9bfb413b2f2672330ac8cd1}} 
-O\+F\+Condition {\bfseries result}
+OFCondition {\bfseries result}
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-void \mbox{\hyperlink{classReceiver_a28dfa33df67c36d77b4b0972c144e243}{run}} ()
+void \mbox{\hyperlink{classReceiver_a392c6befa029b49c2d7a6aa901598c15}{run}} () override
 \end{DoxyCompactItemize}
 
 
@@ -45,19 +70,13 @@ void \mbox{\hyperlink{classReceiver_a28dfa33df67c36d77b4b0972c144e243}{run}} ()
 A multithreaded Service Class Provider. 
 
 \doxysubsection{Constructor \& Destructor Documentation}
-\mbox{\Hypertarget{classReceiver_a019266db1fe932e4c51048cb34c84cbe}\label{classReceiver_a019266db1fe932e4c51048cb34c84cbe}} 
+\mbox{\Hypertarget{classReceiver_ab05f062ad8bc9105e7708c9567552908}\label{classReceiver_ab05f062ad8bc9105e7708c9567552908}} 
 \index{Receiver@{Receiver}!Receiver@{Receiver}}
 \index{Receiver@{Receiver}!Receiver@{Receiver}}
 \doxysubsubsection{\texorpdfstring{Receiver()}{Receiver()}}
-{\footnotesize\ttfamily Receiver\+::\+Receiver (\begin{DoxyParamCaption}\item[{Uint16}]{port,  }\item[{O\+F\+String}]{aetitle }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Receiver\+::\+Receiver (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Constructor. \mbox{\Hypertarget{classReceiver_a4ac4a645965e64591fc9bda1c0866a9f}\label{classReceiver_a4ac4a645965e64591fc9bda1c0866a9f}} 
-\index{Receiver@{Receiver}!````~Receiver@{$\sim$Receiver}}
-\index{````~Receiver@{$\sim$Receiver}!Receiver@{Receiver}}
-\doxysubsubsection{\texorpdfstring{$\sim$Receiver()}{~Receiver()}}
-{\footnotesize\ttfamily Receiver\+::$\sim$\+Receiver (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
-
-Destructor. 
+Constructor. 
 
 \doxysubsection{Member Function Documentation}
 \mbox{\Hypertarget{classReceiver_a46afb4a8e68cb4b72b3ce1ce6371f36a}\label{classReceiver_a46afb4a8e68cb4b72b3ce1ce6371f36a}} 
@@ -66,26 +85,37 @@ Destructor.
 \doxysubsubsection{\texorpdfstring{request\_stop()}{request\_stop()}}
 {\footnotesize\ttfamily void Receiver\+::request\+\_\+stop (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
 
-Stop listening after current association. \mbox{\Hypertarget{classReceiver_a28dfa33df67c36d77b4b0972c144e243}\label{classReceiver_a28dfa33df67c36d77b4b0972c144e243}} 
+Stop listening after current association. \mbox{\Hypertarget{classReceiver_a392c6befa029b49c2d7a6aa901598c15}\label{classReceiver_a392c6befa029b49c2d7a6aa901598c15}} 
 \index{Receiver@{Receiver}!run@{run}}
 \index{run@{run}!Receiver@{Receiver}}
 \doxysubsubsection{\texorpdfstring{run()}{run()}}
-{\footnotesize\ttfamily void Receiver\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+{\footnotesize\ttfamily void Receiver\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [protected]}}
 
-Set hostnames/\+I\+Ps from which S\+CP can accept data. 
+Set hostnames/\+IPs from which SCP can accept data. 
 \begin{DoxyParams}{Parameters}
-{\em source\+\_\+list} & A list of strings of acceptable I\+Ps/hostnames. Overwrite O\+F\+Thread\textquotesingle{}s \mbox{\hyperlink{classReceiver_a28dfa33df67c36d77b4b0972c144e243}{run()}} method. \\
+{\em source\+\_\+list} & A list of strings of acceptable IPs/hostnames. Overwrite OFThread\textquotesingle{}s \mbox{\hyperlink{classReceiver_a392c6befa029b49c2d7a6aa901598c15}{run()}} method. \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classReceiver_a1a6cda57e5197eca798c31845018072d}\label{classReceiver_a1a6cda57e5197eca798c31845018072d}} 
+\mbox{\Hypertarget{classReceiver_a8a78486a989bb67895c002b853a43237}\label{classReceiver_a8a78486a989bb67895c002b853a43237}} 
+\index{Receiver@{Receiver}!set\_additional\_context@{set\_additional\_context}}
+\index{set\_additional\_context@{set\_additional\_context}!Receiver@{Receiver}}
+\doxysubsubsection{\texorpdfstring{set\_additional\_context()}{set\_additional\_context()}}
+{\footnotesize\ttfamily void Receiver\+::set\+\_\+additional\+\_\+context (\begin{DoxyParamCaption}\item[{const json \&}]{context }\end{DoxyParamCaption})}
+
+Set the presentation context and transfer syntax. 
+\begin{DoxyParams}{Parameters}
+{\em context} & The context to be specified. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classReceiver_a61b2f7be1877a0b6dc0b687e06b81003}\label{classReceiver_a61b2f7be1877a0b6dc0b687e06b81003}} 
 \index{Receiver@{Receiver}!setaetitle@{setaetitle}}
 \index{setaetitle@{setaetitle}!Receiver@{Receiver}}
 \doxysubsubsection{\texorpdfstring{setaetitle()}{setaetitle()}}
-{\footnotesize\ttfamily void Receiver\+::setaetitle (\begin{DoxyParamCaption}\item[{O\+F\+String}]{ae\+\_\+title }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Receiver\+::setaetitle (\begin{DoxyParamCaption}\item[{std\+::string}]{ae\+\_\+title }\end{DoxyParamCaption})}
 
 Set AE Title. 
 \begin{DoxyParams}{Parameters}
-{\em ae\+\_\+title} & AE Title to be used by the S\+CP. \\
+{\em ae\+\_\+title} & AE Title to be used by the SCP. \\
 \hline
 \end{DoxyParams}
 \mbox{\Hypertarget{classReceiver_a06924865984df4c074197d2553855e5a}\label{classReceiver_a06924865984df4c074197d2553855e5a}} 
@@ -96,12 +126,12 @@ Set AE Title.
 
 Set Port to listen on. 
 \begin{DoxyParams}{Parameters}
-{\em port} & Port to be used by the S\+CP. Default is \char`\"{}11112\char`\"{}. \\
+{\em port} & Port to be used by the SCP. Default is \char`\"{}11112\char`\"{}. \\
 \hline
 \end{DoxyParams}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/receiver.\+hpp\item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/receiver.\+cpp\end{DoxyCompactItemize}
+/home/weiym97/\+ECIQC/src/communication/Receiver.\+hpp\item 
+/home/weiym97/\+ECIQC/src/communication/Receiver.\+cpp\end{DoxyCompactItemize}

@@ -340,7 +340,9 @@ void ImageEditor::coverText(){
         }
     }
     cv::imwrite("../presentation/otsuText.png", slices[0]);
-    //TODO add image back into dicom file here- may have already been written but unsure
+    /**
+    * TODO:  add image back into dicom file here- may have already been written but unsure
+    */
 
     api->End();
 }

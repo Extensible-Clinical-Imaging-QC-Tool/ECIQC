@@ -2,41 +2,42 @@
 \label{classParser}\index{Parser@{Parser}}
 
 
-Collaboration diagram for Parser\+:
-% FIG 0
+Collaboration diagram for Parser\+:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=196pt]{classParser__coll__graph}
+\end{center}
+\end{figure}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classParser_a12234f6cd36b61af4b50c94a179422c1}{Parser}} ()
 \item 
-\mbox{\hyperlink{classParser_a38f150e5997165f2a263238b16aaf33c}{Parser}} (O\+F\+String config\+Fpath)
+\mbox{\hyperlink{classParser_a5bc95f1a89c6139217800ea7e02d8264}{Parser}} (const OFString \&config\+Fpath)
+\item 
+void \mbox{\hyperlink{classParser_a14de15f833bbe995965d9c39fb363cce}{set\+Config}} (const json \&config)
+\item 
+void \mbox{\hyperlink{classParser_a438ab8439000402e5ce5bb4f7b515293}{set\+Config\+File}} (const OFString \&config\+Fpath)
 \item 
 void \mbox{\hyperlink{classParser_a78652eb1cb5606739116a15db2d702d5}{set\+Dicom\+Dset}} (Dcm\+Dataset $\ast$dset)
 \item 
-void \mbox{\hyperlink{classParser_a04318f63eb79e74f574493d71053dd22}{set\+Dicom\+Dset}} (O\+F\+String path)
+void \mbox{\hyperlink{classParser_a04318f63eb79e74f574493d71053dd22}{set\+Dicom\+Dset}} (OFString path)
 \item 
 Dcm\+Dataset $\ast$ \mbox{\hyperlink{classParser_a57090042befe38fea179224b0b5d448f}{get\+Dicom\+Dset}} ()
 \item 
-Dcm\+Dataset $\ast$ \mbox{\hyperlink{classParser_ab7a5aeec61aa6a7d94f44300a5aff1e1}{path\+To\+Dset}} (O\+F\+String path)
+Dcm\+Dataset $\ast$ \mbox{\hyperlink{classParser_a2e372de6daa4463dff139df496956e5e}{path\+To\+Dset}} (OFString path)
 \item 
-O\+F\+Condition \mbox{\hyperlink{classParser_a6d413ced27f5e046c0f3e8853ad69555}{worker}} (O\+F\+String instruction, \mbox{\hyperlink{structWorkerParameters}{Worker\+Parameters}} params)
-\item 
-void \mbox{\hyperlink{classParser_a9e8d06d145f534e73a40b38e3f6711a0}{run}} ()
-\item 
-\mbox{\Hypertarget{classParser_aba7f2e40b55f19c2187d054fc7386a78}\label{classParser_aba7f2e40b55f19c2187d054fc7386a78}} 
-Dcm\+Dataset $\ast$ {\bfseries temp\+Get\+Dset} ()
+Dcm\+Dataset $\ast$ \mbox{\hyperlink{classParser_a7dbfdd09624fdabd4b08ee017eecd1c4}{parse}} ()
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classParser_a6bc229097a1689ed6da2425cb2e5de45}\label{classParser_a6bc229097a1689ed6da2425cb2e5de45}} 
-json {\bfseries base}
-\item 
-\mbox{\Hypertarget{classParser_a0354de95fc6e1a858fdee592bf466df9}\label{classParser_a0354de95fc6e1a858fdee592bf466df9}} 
-Dcm\+Dataset $\ast$ {\bfseries current\+Dataset}
-\item 
 \mbox{\Hypertarget{classParser_aeca2a60ee021496fa446c5badb9bc9c1}\label{classParser_aeca2a60ee021496fa446c5badb9bc9c1}} 
 \mbox{\hyperlink{classMetadataEditor}{Metadata\+Editor}} {\bfseries editor}
+\item 
+\mbox{\Hypertarget{classParser_a30a19bb53c1a81048d861a1d61d23be2}\label{classParser_a30a19bb53c1a81048d861a1d61d23be2}} 
+OFCondition {\bfseries all\+Results}
 \end{DoxyCompactItemize}
 
 
@@ -47,11 +48,11 @@ Dcm\+Dataset $\ast$ {\bfseries current\+Dataset}
 \doxysubsubsection{\texorpdfstring{Parser()}{Parser()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily Parser\+::\+Parser (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Default constructor for the class. R\+E\+M\+O\+VE ME \mbox{\Hypertarget{classParser_a38f150e5997165f2a263238b16aaf33c}\label{classParser_a38f150e5997165f2a263238b16aaf33c}} 
+Default constructor for the class. \mbox{\Hypertarget{classParser_a5bc95f1a89c6139217800ea7e02d8264}\label{classParser_a5bc95f1a89c6139217800ea7e02d8264}} 
 \index{Parser@{Parser}!Parser@{Parser}}
 \index{Parser@{Parser}!Parser@{Parser}}
 \doxysubsubsection{\texorpdfstring{Parser()}{Parser()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily Parser\+::\+Parser (\begin{DoxyParamCaption}\item[{O\+F\+String}]{config\+Fpath }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Parser\+::\+Parser (\begin{DoxyParamCaption}\item[{const OFString \&}]{config\+Fpath }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
 
 Constructor for the class. A path to a configuration file must be provided
 
@@ -69,34 +70,60 @@ Constructor for the class. A path to a configuration file must be provided
 \doxysubsubsection{\texorpdfstring{getDicomDset()}{getDicomDset()}}
 {\footnotesize\ttfamily Dcm\+Dataset $\ast$ Parser\+::get\+Dicom\+Dset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Gets the instance\textquotesingle{}s D\+I\+C\+OM dataset
+Gets the instance\textquotesingle{}s DICOM dataset
 
 \begin{DoxyReturn}{Returns}
 Dcm\+Dataset$\ast$ 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classParser_ab7a5aeec61aa6a7d94f44300a5aff1e1}\label{classParser_ab7a5aeec61aa6a7d94f44300a5aff1e1}} 
+\mbox{\Hypertarget{classParser_a7dbfdd09624fdabd4b08ee017eecd1c4}\label{classParser_a7dbfdd09624fdabd4b08ee017eecd1c4}} 
+\index{Parser@{Parser}!parse@{parse}}
+\index{parse@{parse}!Parser@{Parser}}
+\doxysubsubsection{\texorpdfstring{parse()}{parse()}}
+{\footnotesize\ttfamily Dcm\+Dataset $\ast$ Parser\+::parse (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Main loop that parses config file and calls worker to perform the required actions. It also stores the results of each action and congregates results in the case of \# boolean operators where the next step is dependent on the result of several actions \# the \mbox{\Hypertarget{classParser_a2e372de6daa4463dff139df496956e5e}\label{classParser_a2e372de6daa4463dff139df496956e5e}} 
 \index{Parser@{Parser}!pathToDset@{pathToDset}}
 \index{pathToDset@{pathToDset}!Parser@{Parser}}
 \doxysubsubsection{\texorpdfstring{pathToDset()}{pathToDset()}}
-{\footnotesize\ttfamily Dcm\+Dataset$\ast$ Parser\+::path\+To\+Dset (\begin{DoxyParamCaption}\item[{O\+F\+String}]{path }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Dcm\+Dataset $\ast$ Parser\+::path\+To\+Dset (\begin{DoxyParamCaption}\item[{OFString}]{path }\end{DoxyParamCaption})}
 
-Creates a Dcm\+Dataset from D\+I\+C\+OM file specified at path
+Creates a Dcm\+Dataset from DICOM file specified at path
 
 
 \begin{DoxyParams}{Parameters}
-{\em path} & holds the path to a D\+I\+C\+OM file \\
+{\em path} & holds the path to a DICOM file \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Dcm\+Dataset$\ast$ 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classParser_a9e8d06d145f534e73a40b38e3f6711a0}\label{classParser_a9e8d06d145f534e73a40b38e3f6711a0}} 
-\index{Parser@{Parser}!run@{run}}
-\index{run@{run}!Parser@{Parser}}
-\doxysubsubsection{\texorpdfstring{run()}{run()}}
-{\footnotesize\ttfamily void Parser\+::run (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+\mbox{\Hypertarget{classParser_a14de15f833bbe995965d9c39fb363cce}\label{classParser_a14de15f833bbe995965d9c39fb363cce}} 
+\index{Parser@{Parser}!setConfig@{setConfig}}
+\index{setConfig@{setConfig}!Parser@{Parser}}
+\doxysubsubsection{\texorpdfstring{setConfig()}{setConfig()}}
+{\footnotesize\ttfamily void Parser\+::set\+Config (\begin{DoxyParamCaption}\item[{const json \&}]{config }\end{DoxyParamCaption})}
 
-Main loop that parses config file and calls worker to perform the required actions. It also stores the results of each action and congregates results in the case of \# boolean operators where the next step is dependent on the result of several actions \# the \mbox{\Hypertarget{classParser_a78652eb1cb5606739116a15db2d702d5}\label{classParser_a78652eb1cb5606739116a15db2d702d5}} 
+Set the json config
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\+File} & filename for configuration file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classParser_a438ab8439000402e5ce5bb4f7b515293}\label{classParser_a438ab8439000402e5ce5bb4f7b515293}} 
+\index{Parser@{Parser}!setConfigFile@{setConfigFile}}
+\index{setConfigFile@{setConfigFile}!Parser@{Parser}}
+\doxysubsubsection{\texorpdfstring{setConfigFile()}{setConfigFile()}}
+{\footnotesize\ttfamily void Parser\+::set\+Config\+File (\begin{DoxyParamCaption}\item[{const OFString \&}]{config\+Fpath }\end{DoxyParamCaption})}
+
+Read in the configuration file
+
+
+\begin{DoxyParams}{Parameters}
+{\em config\+File} & filename for configuration file \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classParser_a78652eb1cb5606739116a15db2d702d5}\label{classParser_a78652eb1cb5606739116a15db2d702d5}} 
 \index{Parser@{Parser}!setDicomDset@{setDicomDset}}
 \index{setDicomDset@{setDicomDset}!Parser@{Parser}}
 \doxysubsubsection{\texorpdfstring{setDicomDset()}{setDicomDset()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
@@ -113,32 +140,16 @@ Sets the data member dset using a Dcm\+Dataset
 \index{Parser@{Parser}!setDicomDset@{setDicomDset}}
 \index{setDicomDset@{setDicomDset}!Parser@{Parser}}
 \doxysubsubsection{\texorpdfstring{setDicomDset()}{setDicomDset()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Parser\+::set\+Dicom\+Dset (\begin{DoxyParamCaption}\item[{O\+F\+String}]{path }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void Parser\+::set\+Dicom\+Dset (\begin{DoxyParamCaption}\item[{OFString}]{path }\end{DoxyParamCaption})}
 
-Sets the data member dset using a path to a D\+I\+C\+OM file 
+Sets the data member dset using a path to a DICOM file 
 \begin{DoxyParams}{Parameters}
-{\em path} & holds the path to the D\+I\+C\+OM File \\
+{\em path} & holds the path to the DICOM File \\
 \hline
 \end{DoxyParams}
-\mbox{\Hypertarget{classParser_a6d413ced27f5e046c0f3e8853ad69555}\label{classParser_a6d413ced27f5e046c0f3e8853ad69555}} 
-\index{Parser@{Parser}!worker@{worker}}
-\index{worker@{worker}!Parser@{Parser}}
-\doxysubsubsection{\texorpdfstring{worker()}{worker()}}
-{\footnotesize\ttfamily O\+F\+Condition Parser\+::worker (\begin{DoxyParamCaption}\item[{O\+F\+String}]{instruction,  }\item[{\mbox{\hyperlink{structWorkerParameters}{Worker\+Parameters}}}]{params }\end{DoxyParamCaption})}
-
-Performs the action specified by instruction using the parameters stored in \textquotesingle{}parameters\textquotesingle{} 
-\begin{DoxyParams}{Parameters}
-{\em instruction} & holds the name of the desired action \\
-\hline
-{\em params} & a struct containing the arguments specified in the config file \\
-\hline
-\end{DoxyParams}
-\begin{DoxyReturn}{Returns}
-O\+F\+Condition which has status E\+C\+\_\+\+Normal if everything is OK, else an error 
-\end{DoxyReturn}
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/Parser.\+hpp\item 
-/mnt/c/\+Users/spet4299/\+Documents/\+Demonstrating/\+E\+C\+I\+Q\+C/src/Parser.\+cpp\end{DoxyCompactItemize}
+/home/weiym97/\+ECIQC/src/parsing/Parser.\+hpp\item 
+/home/weiym97/\+ECIQC/src/parsing/Parser.\+cpp\end{DoxyCompactItemize}
